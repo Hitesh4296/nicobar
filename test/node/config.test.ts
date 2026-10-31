@@ -27,8 +27,29 @@ describe('test 3: a landing key fails the build', () => {
 });
 
 describe('test 5: any DEV_* fails the pre-deploy check', () => {
-  const cfg = () => JSON.parse(readFileSync('wrangler.jsonc', 'utf8'));
-  it('passes the real config', () => expect(predeployErrors(cfg())).toEqual([]));
+  /** The real config with the two values only the owner can give. */
+  const cfg = () => {
+    const c = JSON.parse(readFileSync('wrangler.jsonc', 'utf8'));
+    c.env.demo.vars.TEAM_DOMAIN = 'https://t.cloudflareaccess.com';
+    c.env.demo.d1_databases[0].database_id = 'demo-db';
+    return c;
+  };
+  it('passes a filled config', () => expect(predeployErrors(cfg())).toEqual([]));
+  it('refuses an empty TEAM_DOMAIN and an empty database_id', () => {
+    const c = cfg();
+    c.env.demo.vars.TEAM_DOMAIN = '';
+    c.env.demo.d1_databases[0].database_id = '';
+    expect(predeployErrors(c)).toEqual(['env.demo must set TEAM_DOMAIN', 'env.demo must set a D1 database_id']);
+  });
+  it('refuses env.demo with no D1 binding', () => {
+    const c = cfg();
+    delete c.env.demo.d1_databases;
+    expect(predeployErrors(c)).toEqual(['env.demo must set a D1 database_id']);
+  });
+  it('deploy:demo runs the guard before wrangler deploy', () => {
+    const s = JSON.parse(readFileSync('package.json', 'utf8')).scripts['deploy:demo'] as string;
+    expect(s).toBe('npm run predeploy:check && wrangler deploy --env demo');
+  });
   for (const v of ['DEV_MODE', 'DEV_ACTOR', 'DEV_FAULT']) {
     it(`refuses ${v} in env.demo`, () => {
       const c = cfg();

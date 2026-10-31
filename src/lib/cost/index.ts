@@ -74,7 +74,7 @@ export async function retryGate(db: D1Database, run_id: string, key: string, est
   const stored = async () => (await db.prepare(`SELECT action FROM cost_events WHERE ${COST_KEY}`).bind(run_id, key, 2).first<{ action: string }>())?.action;
   const seen = await stored();
   if (seen) return seen === 'retry';
-  const run = await db.prepare('SELECT setting, format FROM runs WHERE id = ?').bind(run_id).first<{ setting: string; format: RunFormat }>();
+  const run = await db.prepare('SELECT setting, format, spent_usd, cap_run_usd FROM runs WHERE id = ?').bind(run_id).first<{ setting: string; format: RunFormat; spent_usd: number; cap_run_usd: number }>();
   const first = await db.prepare(`SELECT charged_usd FROM cost_events WHERE ${COST_KEY}`).bind(run_id, key, 1).first<{ charged_usd: number | null }>();
   if (!run) throw new Error(`run not found: ${run_id}`);
   const at = new Date().toISOString();
@@ -84,6 +84,7 @@ export async function retryGate(db: D1Database, run_id: string, key: string, est
     return false;
   };
   if ((first?.charged_usd ?? 0) + est_retry_usd > capCustomer(run.format, rungOf(run.setting), CAP, PRICES)) return block('customer_cap');
+  if (run.spent_usd + est_retry_usd > run.cap_run_usd) return block('run_cap');
   await db.batch([
     db.prepare('UPDATE runs SET pool_usd = pool_usd - ?1 WHERE id = ?2 AND pool_usd >= ?1').bind(est_retry_usd, run_id),
     db.prepare(`INSERT OR IGNORE INTO cost_events (run_id, customer_id, attempt, setting, est_usd, commit_usd, action, call_state, at)

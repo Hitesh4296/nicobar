@@ -131,6 +131,19 @@ describe('retryGate', () => {
     expect((await runRow(r))?.pool_usd).toBeCloseTo(0.01, 9);
     expect(await retryGate(db, r, 'k', 0.02)).toBe(false);
   });
+  it('blocks when spent + est is over the run cap, however full the pool', async () => {
+    const r = uid(); await seedRun(r, { pool: 5, cap: 1 }); await seedAttempt(r, 'k', 'answered', { charged: 0.01 });
+    await db.prepare('UPDATE runs SET spent_usd = 0.99 WHERE id = ?').bind(r).run();
+    expect(await retryGate(db, r, 'k', 0.02)).toBe(false);
+    expect(await cost(r, 'k', 2)).toMatchObject({ action: 'retry_blocked', call_state: 'blocked', reason: 'run_cap' });
+    expect((await runRow(r))?.pool_usd).toBe(5);
+    expect(await retryGate(db, r, 'k', 0.02)).toBe(false);
+  });
+  it('allows a retry that lands exactly on the run cap', async () => {
+    const r = uid(); await seedRun(r, { pool: 5, cap: 1 }); await seedAttempt(r, 'k', 'answered', { charged: 0.01 });
+    await db.prepare('UPDATE runs SET spent_usd = 0.98 WHERE id = ?').bind(r).run();
+    expect(await retryGate(db, r, 'k', 0.02)).toBe(true);
+  });
   it('blocks on the customer cap', async () => {
     const r = uid(); await seedRun(r, { pool: 5 }); await seedAttempt(r, 'k', 'answered', { charged: 1 });
     expect(await retryGate(db, r, 'k', 0.02)).toBe(false);

@@ -23,7 +23,7 @@ export async function preview(o: Common, d: Deps & { put: (key: string, text: st
   }))).flat();
   const adm = d.lib.admitAll(estimates, d.cap, d.rungs, rung.id, null, d.prices);
   const body: PlanPreview = { customers_sha256: pinned.customers_sha256, recs_sha256: pinned.recs_sha256, snapshot_id: pinned.snapshot_id, prompt_version: o.promptId,
-    prompt_sha256: sha256Hex(canonicalContent(o.prompt)), format: o.format, start_rung: rung.id, cap_sha256: d.cap.sha256,
+    prompt_sha256: sha256Hex(canonicalContent(o.prompt)), format: o.format, start_rung: rung.id, cap_sha256: sha256Hex(JSON.stringify(d.cap)),
     // J3 only since J2 went: at most 2 requests a customer.
     jev_reserve_usd: adm.admitted.length * 2 * jev.basis_usd, sum_commit_usd: adm.committed_usd,
     plans: plans.map((p) => (p.outcome.kind === 'ready' ? { ...p, admission: adm.per[p.customer_id] ?? NO_ESTIMATE(rung.id) } : p)) };

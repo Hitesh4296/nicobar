@@ -164,6 +164,8 @@ describe('freshness', () => {
   const without = (patch: Partial<Product>) => { const c = fxCatalog(); const p = c.rows.get(p1.product_id) as Product; c.rows.set(p1.product_id, { ...p, ...patch }); return c; };
   it('passes', () => expect(fresh()).toMatchObject({ ok: true, snapshot_id: cat.snapshot_id, age_s: 1 }));
   it('too old', () => expect(fresh(cat, {}, now + 25 * 3600e3)).toMatchObject({ ok: false, code: 'SNAPSHOT_TOO_OLD' }));
+  it('a window that is not a number fails closed', () => expect(fresh(cat, {}, now, Number(undefined))).toMatchObject({ ok: false, code: 'SNAPSHOT_TOO_OLD' }));
+  it('a fetched_at that does not parse fails closed', () => expect(freshness(env1, {}, cat, 'garbage', now, 24)).toMatchObject({ ok: false, code: 'SNAPSHOT_TOO_OLD' }));
   it('gone', () => { const c = fxCatalog(); c.rows.delete(p1.product_id); expect(fresh(c)).toMatchObject({ code: 'STALE_PICK', reason: 'gone' }); });
   it('unavailable', () => expect(fresh(without({ variants: [] }))).toMatchObject({ code: 'STALE_PICK', reason: 'unavailable' }));
   it('image gone', () => expect(fresh(cat, { p1: '/nope.jpg' })).toMatchObject({ code: 'STALE_PICK', reason: 'image_gone' }));

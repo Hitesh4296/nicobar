@@ -61,6 +61,9 @@ describe('auth matrix', () => {
   it('DEV_MODE plus Access config → 503', async () => expect(await authenticate(req(), dev({ DEV_ACTOR: 'a@b', ACCESS_AUD: 'x' }))).toMatchObject({ http: 503 }));
   it('DEV_MODE gives a dev actor with dev: sub', async () => expect(await authenticate(req(), dev({ DEV_ACTOR: 'a@b' })))
     .toEqual({ actor: { kind: 'dev', email: 'a@b', sub: 'dev:a@b' } }));
+  it('DEV_MODE on a deployed Worker → 503, even with no Access config', async () => {
+    expect(await authenticate(req(), dev({ DEV_ACTOR: 'a@b', DEPLOYED: '1' }))).toMatchObject({ http: 503, code: 'MISSING_CONFIG' });
+  });
   it('no Access config → 503', async () => expect(await authenticate(req(), {} as AppEnv)).toMatchObject({ http: 503 }));
 
   it('JWT: good, wrong audience, wrong issuer, no email', async () => {

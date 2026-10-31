@@ -15,7 +15,7 @@ const post = (path: string, body: unknown, params: Record<string, string> = {}, 
 async function preview(over: object = {}) {
   await seedRun(uid('seed'));          // the snapshot row
   const p = { customers_sha256: await sha256Hex(TSV), recs_sha256: await sha256Hex(RECS), snapshot_id: SNAP, prompt_version: 'v1', prompt_sha256: 'fx',
-    format: 'both', start_rung: 'sonnet-between_tools', cap_sha256: capJson.sha256, jev_reserve_usd: 0.1, sum_commit_usd: 1, plans: [], ...over };
+    format: 'both', start_rung: 'sonnet-between_tools', cap_sha256: await sha256Hex(JSON.stringify(capJson)), jev_reserve_usd: 0.1, sum_commit_usd: 1, plans: [], ...over };
   const text = JSON.stringify(p); const sha = await sha256Hex(text);
   await env.BUCKET.put(`previews/${sha}.json`, text);
   return sha;
@@ -55,6 +55,16 @@ describe('POST /api/runs', () => {
       expect(await res.json()).toMatchObject({ code: 'PREVIEW_STALE' });
     });
   }
+  it('editing cap.json after the preview → 409 PREVIEW_STALE, the label unchanged', async () => {
+    const b = await body();
+    const S = capJson.S.both;
+    capJson.S.both = S + 1;
+    try {
+      const res = await post('/api/runs', b);
+      expect(res.status).toBe(409);
+      expect(await res.json()).toMatchObject({ code: 'PREVIEW_STALE', detail: 'cap' });
+    } finally { capJson.S.both = S; }
+  });
   it('a missing preview → 409 PREVIEW_STALE', async () => {
     expect((await post('/api/runs', await body({ preview_sha256: 'nope' }))).status).toBe(409);
   });

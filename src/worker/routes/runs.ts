@@ -59,7 +59,7 @@ async function create(c: Ctx): Promise<Response> {
   const p = JSON.parse(await obj.text()) as PlanPreview;
   const customers_sha256 = await sha256Hex(customers_tsv); const recs_sha256 = await sha256Hex(recs_json);
   const same: [string, unknown, unknown][] = [['customers', p.customers_sha256, customers_sha256], ['recs', p.recs_sha256, recs_sha256], ['snapshot', p.snapshot_id, snapshot_id],
-    ['prompt_version', p.prompt_version, active.prompt.id], ['prompt_sha256', p.prompt_sha256, active.prompt.sha256], ['cap', p.cap_sha256, capJson.sha256]];
+    ['prompt_version', p.prompt_version, active.prompt.id], ['prompt_sha256', p.prompt_sha256, active.prompt.sha256], ['cap', p.cap_sha256, await sha256Hex(JSON.stringify(capJson))]];
   const off = same.find(([, a, b2]) => a !== b2);
   if (off) return stale(off[0]);
   if (!RUNGS.some((r) => r.id === p.start_rung)) return stale('rung');

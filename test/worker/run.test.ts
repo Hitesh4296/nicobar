@@ -71,6 +71,22 @@ describe('test 1, line 3: isolation on a real Workflow instance', () => {
   });
 });
 
+describe('close: run cap breach', () => {
+  const closed = async (spent: number) => {
+    const r = uid(); await seedRun(r, { status: 'generating', cap: 1 }); allFx();
+    await db.prepare('UPDATE runs SET spent_usd = ? WHERE id = ?').bind(spent, r).run();
+    const spy = vi.spyOn(console, 'log');
+    await close(env, r);
+    const lines = spy.mock.calls.map(([l]) => JSON.parse(String(l)));
+    spy.mockRestore();
+    return lines.filter((l) => l.status === 'cap_breach').map((l) => ({ ...l, run_id: r === l.run_id }));
+  };
+  it('logs spent over cap_run_usd', async () => {
+    expect(await closed(1.2)).toEqual([{ run_id: true, step: 'close', status: 'cap_breach', code: 'RUN_CAP', spent_usd: 1.2, cap_run_usd: 1 }]);
+  });
+  it('logs nothing at the cap', async () => expect(await closed(1)).toEqual([]));
+});
+
 describe('test 3: kill after the answer', () => {
   it('possibly_billed at the estimate, no second call for attempt 1, then attempt 2 runs', async () => {
     const r = await admitted();
@@ -259,6 +275,34 @@ describe('gen outcomes, the finish table', () => {
     await genFailed(env, r, KEY, 2);
     expect(await finish(env, r, KEY, 2)).toEqual({ retry: false });
     expect(await unit(r, KEY)).toMatchObject({ status: 'failed', code: 'UPSTREAM_UNAVAILABLE', billed_attempts: 0 });
+  });
+  it('last try answered, then the write failed: genFailed charges the estimate, never $0', async () => {
+    const r = await admitted(KEY);
+    await db.prepare('UPDATE runs SET pool_usd = 1 WHERE id = ?').bind(r).run();
+    const calls = fakeLlm();
+    const flaky = new Proxy(db, { get: (t, p) => (p === 'batch' ? () => Promise.reject(new Error('D1 down')) : (t as any)[p]?.bind?.(t) ?? (t as any)[p]) });
+    await expect(gen(patched({ DB: flaky }), r, KEY, 1)).rejects.toThrow('D1 down');
+    expect(calls).toHaveLength(1);
+    expect((await cost(r, KEY, 1))?.call_state).toBe('calling');
+    const est = (await cost(r, KEY, 1))!.est_usd;
+    await genFailed(env, r, KEY, 1);
+    expect(await cost(r, KEY, 1)).toMatchObject({ call_state: 'possibly_billed', charged_usd: est });
+    expect((await generation(r, KEY, 1))?.result_type).toBe('possibly_billed');
+    expect((await runRow(r))?.spent_usd).toBeCloseTo(est, 9);
+    expect((await unit(r, KEY))?.billed_attempts).toBe(1);
+  });
+  it('a stopped run makes no call: unbilled, the commit returns, the unit is not lost', async () => {
+    const r = await admitted(KEY);
+    const before = (await runRow(r))!.pool_usd;
+    const commit = (await cost(r, KEY, 1))!.commit_usd;
+    await db.prepare(`UPDATE runs SET status = 'stopped', stop_reason = 'operator' WHERE id = ?`).bind(r).run();
+    const calls = fakeLlm();
+    await gen(env, r, KEY, 1);
+    expect(calls).toHaveLength(0);
+    expect((await cost(r, KEY, 1))?.call_state).toBe('unbilled');
+    expect(await generation(r, KEY, 1)).toMatchObject({ result_type: 'no_completion', stop_detail: 'run_stopped' });
+    expect(await runRow(r)).toMatchObject({ spent_usd: 0, status: 'stopped' });
+    expect((await runRow(r))!.pool_usd).toBeCloseTo(before + commit, 9);
   });
   it('failUnit is idempotent and leaves a terminal unit alone', async () => {
     const r = await admitted(KEY);

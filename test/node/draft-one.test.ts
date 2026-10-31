@@ -54,7 +54,9 @@ describe('6c preview writes prompt_sha256', () => {
     const r = await preview({ prompt, promptId: 'v1', format: 'both' }, { ...d, put: async (_k, v) => { puts.push(v); } });
     expect(r.body.prompt_sha256).toBe(sha256Hex(canonicalContent(prompt)));
     expect(r.body.prompt_version).toBe('v1');
-    expect(r.body.cap_sha256).toBe(cap.sha256);
+    expect(r.body.cap_sha256).toBe(sha256Hex(JSON.stringify(cap)));
+    const edited = await preview({ prompt, promptId: 'v1', format: 'both' }, { ...deps({ cap: { ...cap, S: { ...cap.S, both: cap.S.both + 1 } } as unknown as CapConfig }).d, put: async () => {} });
+    expect(edited.body.cap_sha256).not.toBe(r.body.cap_sha256);
     expect(r.body.start_rung).toBe(rungs[0].id);
     expect(JSON.parse(puts[0]).prompt_sha256).toBe(r.body.prompt_sha256);
     expect(sha256Hex(puts[0])).toBe(r.sha256);
