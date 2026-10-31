@@ -11,7 +11,7 @@ export function renderAll(m: ModelJson, plan: Plan, envelope: Envelope, cat: Cat
   return {
     email: wantsEmail && m.email ? renderEmail(expand(m.email, 'email', envelope, cat), cat, envelope) : null,
     landing_page: wantsLanding && m.landing_page
-      ? renderLanding(expand(m.landing_page, 'landing_page', envelope, cat), cat, envelope) : null,
+      ? renderLanding(expand(m.landing_page, 'landing_page', envelope, cat), cat, envelope, plan) : null,
     catalog: renderCatalog(plan, cat),
   };
 }

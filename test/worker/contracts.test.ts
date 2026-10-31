@@ -32,9 +32,6 @@ describe('contract helpers', () => {
       landing_page: '<img data-slot="p1" src="https://cdn.shopify.com/s/b.jpg"><img data-slot="p2" src="https://cdn.shopify.com/s/c.jpg">', catalog: '' }))
       .toEqual({ p1: '/s/a.jpg', p2: '/s/c.jpg' });
   });
-  it('renderAll reaches the stubs', () => {
-    expect(() => renderAll(fxModelJson('fx-email'), fxPlan('fx-email'), fxEnvelope('fx-email'), fxCatalog())).toThrow(NotBuilt);
-  });
   it('lists compile', () => expect(Object.keys(LISTS)).toContain('c4'));
 });
 
