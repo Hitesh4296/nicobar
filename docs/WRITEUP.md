@@ -33,6 +33,12 @@ The checks run in one function at three points: offline, before review, and agai
 
 `check-v2` was then fixed against those 40, so they are regression now, not recall. It catches 32 of 40 on them: discount 8/8, echo 4/8, the rest unchanged. Do not read 32 as a score. `reports/eval.json` keeps both under `heldout_v1`, and `npm run eval` reproduces them from a committed slice of 79 rows and the rules, so a clean clone needs no snapshot. A second blind set, written by a session that has seen neither the lists nor these misses, is what scores `check-v2`. [[SLOT held-out v2: not scored yet]]
 
+**Held-out v2, a second blind set scored once on `check-v2`: 33 of 40 caught.** Image 8/8, length 8/8, product 6/8, echo 6/8, discount 5/8. Three of five classes still miss their target. All 7 misses would reach the reviewer.
+
+These are different sets, so 22 to 33 is not a like-for-like rise. This set was easier: every echo caught contains an exact span from the note, and no long body sits near the 121-word boundary. Estimated from the patterns, `check-v1` would score 31 of 40 here, so the new checks added 2 catches. On true paraphrase, echo caught 0 of 2. To score it, drafts were converted from rendered strings, with pick names read as tokens and short bodies padded to pass the schema, so a real run would refuse some of them earlier.
+
+**What this shows.** Each list matches the wording it has seen and misses the next wording over. A third round of list-widening would chase words, so it stopped here. Paraphrased echoes, scarcity in plain words, and wrong variants of a real pick are named known gaps, left to Jev and the human reviewer. A lowercase product-noun check was built and dropped, because it rejected 49 of 73 good drafts.
+
 ### Known gaps
 
 Code does not catch these 20. Each is listed by id in `reports/eval.json`, and none can place a wrong image, link, title or price on a page. They reach the advisory judge and the reviewer.
