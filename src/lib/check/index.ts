@@ -7,6 +7,7 @@ import landingSchema from '../../../config/schemas/draft-landing.v3.json' with {
 import occasionMap from '../../../config/occasion_map.json' with { type: 'json' };
 import quotesFile from '../../../config/quotes.json' with { type: 'json' };
 import { LISTS } from '../../contracts/lists.ts';
+import { stem } from '../catalog/strip.ts';
 import type { Catalog, CheckResult, Envelope, Format, Part, Plan, Product, RenderedJson, Rules, Slot } from '../../contracts/types.ts';
 
 export const VALIDATOR_VERSION = 'check-v1';
@@ -114,7 +115,7 @@ function namesProduct(text: string, ix: RuleIndex): string | null {
     if (exact && (exact.has(toks.slice(i, i + L).join(' ')) || ix.distinct.has(key))) return toks.slice(i, i + L).join(' ');
   }
   for (const m of clean.matchAll(/(?:[A-Z][a-z']+\s+){1,4}[A-Z][a-z']+/g)) {
-    if (ix.nouns.has(m[0].split(/\s+/).at(-1)!.toLowerCase())) return m[0];
+    if (ix.nouns.has(stem(m[0].split(/\s+/).at(-1)!.toLowerCase()))) return m[0];
   }
   return ix.handles.find((h) => text.includes(h)) ?? null;
 }

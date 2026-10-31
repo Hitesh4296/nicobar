@@ -15,6 +15,7 @@ function run(id: string, edit?: (c: any) => void) {
   const { plan, envelope } = planFor(c, cat);
   return validate(JSON.stringify(c.draft), envelope, cat, plan);
 }
+const failedDetail = (rs: CheckResult[], id: string) => rs.filter((r) => r.id === id && !r.pass).map((r) => r.detail);
 const good = 'G1';
 const addBody = (t: string) => (c: any) => { c.draft.email.body += ` ${t}`; };
 
@@ -103,6 +104,14 @@ describe('test 7: X1 to X4 on the rendered page', () => {
       const selected = k.selected.map((h: string) => cat.rows.get(picks[h].id)!);
       expect(imageGate(k.url, selected), k.id).toBe(k.reference_reason);
     }
+  });
+});
+
+describe('C8 against the rules data builds', () => {
+  it('a Title-Case phrase ending in a plural class noun fails, nouns being stems', () => {
+    expect(cat.rules.nouns).toContain('bangl');
+    const c8 = failedDetail(run(good, addBody('It sits with the Quiet Bangles.')), 'C8');
+    expect(c8).toContain('Quiet Bangles');
   });
 });
 
