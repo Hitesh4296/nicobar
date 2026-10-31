@@ -1,0 +1,21 @@
+{
+ "version": "warn-v1",
+ "flags": "i",
+ "patterns": [
+  {
+   "id": "OUR",
+   "re": "\\bour\\b",
+   "note": "feeds the voice judge; blocks nothing"
+  },
+  {
+   "id": "SOFT",
+   "re": "\\bperfect(ly)?\\b|\\btreat\\b|\\bgreat to gift\\b"
+  },
+  {
+   "id": "SPACED_DASH",
+   "re": "\\s[\\u2013\\u2014-]\\s",
+   "note": "a standalone dash; the C3 counter treats it as a word"
+  }
+ ],
+ "long_sentence_words": 30
+}

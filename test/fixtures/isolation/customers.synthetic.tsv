@@ -1,0 +1,9 @@
+customer_id	first_name	last_name	occasion	past_purchase_note
+c-ok-1	Asha	Synthetic	Mother's birthday	Bought a test item.
+c-ok-2	Ben	Synthetic	Work trip to Singapore	Bought a test item.
+c-ok-3			Diwali at home	Bought a test item.
+c-ok-4	Dia	Synthetic	Sister's wedding	Bought a test item.
+c20-x				
+c-short	Gita	Synthetic
+c-badpick	Esha	Synthetic	Diwali at home	Bought a test item.
+c-throw	Farah	Synthetic	Mother's birthday	Bought a test item.

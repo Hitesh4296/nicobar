@@ -1,0 +1,13 @@
+{
+ "version": "shapes-v1",
+ "source": "quill 41 section 2",
+ "applies_to": "the raw occasion string. First match wins. No match, or no occasion: open",
+ "default": "open",
+ "shapes": [
+  {"id": "wedding", "re": "wedding|mehendi|engagement", "flags": "i", "job": "what is worn together"},
+  {"id": "gift", "re": "gifts?\\b|mother's|father's", "flags": "i", "job": "one thing for one person"},
+  {"id": "trip", "re": "\\b[Ww]eekend|\\b[Tt]rip\\b|\\b[Pp]acking|\\b[Hh]oneymoon|\\bin [A-Z]", "flags": "", "job": "what goes in the bag, in order"},
+  {"id": "home", "re": "housewarming|at home", "flags": "i", "job": "things on one table"},
+  {"id": "scene", "re": "dinner|anniversary|lunch|opening", "flags": "i", "job": "one scene, then the pieces"}
+ ]
+}

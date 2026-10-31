@@ -1,0 +1,11 @@
+{
+ "version": "c5-v1",
+ "flags": "i",
+ "url_or_domain": "https?|www\\.|\\b[a-z0-9-]+\\.(com|in|net|org|co|io|shop|store|ly|me|app|xyz)\\b|@|/|\\\\|<|>|=",
+ "digit_run": "\\b\\d{9,}\\b",
+ "applies_to": "raw model text and raw source text",
+ "notes": [
+  "price words, the rupee sign and \"rs <digits>\" are in c4.json",
+  "c5 is applied to the apostrophe-folded text"
+ ]
+}

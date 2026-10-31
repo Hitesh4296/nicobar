@@ -1,0 +1,13 @@
+{
+ "note": "readiness asserts this. stage isolation, stub LLM, DEV_FAULT=throw:c-throw, $0. row:<n> asserted by prefix: 46 does not say whether n counts the header",
+ "expected": {
+  "c-ok-1": "drafted",
+  "c-ok-2": "drafted",
+  "c-ok-3": "drafted",
+  "c-ok-4": "drafted",
+  "c20-x": "failed:COLD_START_NO_HISTORY",
+  "c-badpick": "failed:INVALID_PICK",
+  "row:*": "failed:INVALID_CUSTOMER",
+  "c-throw": "failed:INTERNAL_ERROR"
+ }
+}

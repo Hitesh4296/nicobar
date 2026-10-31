@@ -1,0 +1,10 @@
+{ "$id": "nicobar/draft-landing/v1", "type": "object", "additionalProperties": false,
+  "required": ["occasion_key","title","intro","sections"],
+  "properties": {
+    "occasion_key": {"type":"string"},
+    "title": {"type":"string","minLength":8,"maxLength":60},
+    "intro": {"type":"string","minLength":80,"maxLength":500},
+    "sections": {"type":"array","minItems":4,"maxItems":6,
+      "items": {"type":"object","additionalProperties":false,"required":["slot","caption"],
+        "properties": {"slot":{"type":"string","pattern":"^p[1-6]$"},
+                       "caption":{"type":"string","minLength":20,"maxLength":160}}}} } }

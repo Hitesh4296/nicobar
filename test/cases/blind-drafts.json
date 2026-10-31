@@ -1,0 +1,1216 @@
+{
+ "source": "drafts are hand-written; picks are real products (picks.json)",
+ "fetched": "2026-10-29",
+ "expect_semantics": {
+  "pass": "no hard check fires",
+  "fail": "at least one of fails_any fires (hard)",
+  "any": "none of fails_none_of fires",
+  "warn_includes": "these WARN ids are present",
+  "known_gap": "the case PASSES today although the draft is bad; it documents a residual. If a rule change closes the gap, flip the expectation and remove known_gap"
+ },
+ "check_ids": "C0 C1 C2 C3 C4 C5 C6 C7 C8 C8d C8d-x (hard); C8c OUR SOFT SPACED_DASH (warn)",
+ "count": 33,
+ "note": "ten drafts written independently against the rules (BL-D1..BL-D10), plus single-attack variants. BL-D1 reaches review by design (residual); BL-D5w and BL-D9.5 are variants that also reach review. Ids carry the BL- prefix because D1..D27 are also C4 phrase cases in checks.json.",
+ "cases": [
+  {
+   "id": "BL-D1",
+   "family": "blind-draft",
+   "title": "independent blind draft D1 (verbatim)",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the lamps, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls, deep at the centre and open at the rim. Beside it goes the moonlit brass lamp from the same line, small enough for the corner where you light a diya.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "pass"
+   },
+   "known_gap": "the draft reaches review: an invented product name in lower case is the residual named for rule N (only the advisory judge and the human reviewer see it)",
+   "reference_fired": [],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D2",
+   "family": "blind-draft",
+   "title": "independent blind draft D2 (verbatim)",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nNext to it, the {p2} Mini holds what is left of the evening, deep at the centre and open at the rim.\n\nFor the morning after, {p3} now comes as a set of six cups, so the whole family sits down together when the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C7",
+     "C8d-x"
+    ]
+   },
+   "reference_fired": [
+    "C7",
+    "C8d-x"
+   ],
+   "reference_warn": [
+    "C8c"
+   ],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D3",
+   "family": "blind-draft",
+   "title": "independent blind draft D3 (verbatim)",
+   "format": "landing_page",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set",
+    "tarang-bar-gift-set-glass-decanter-set-of-3"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "landing_page": {
+     "occasion_key": "diwali",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "A table set for the festive evening",
+       "line": "A glass lid over steel compartments, for cardamom and cloves."
+      },
+      {
+       "type": "story",
+       "text": "Sweets first, then the light, then the people. Pair the pieces below with the Moonlit Brass Lamp, small enough for the corner where you light a diya, and every day after."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p2",
+         "caption": "Deep at the centre and open at the rim, so fruit stays in view."
+        },
+        {
+         "slot": "p3",
+         "caption": "For the quiet hour after the guests, when the tea gets poured."
+        },
+        {
+         "slot": "p4",
+         "caption": "Fine flutes that catch the light as each glass is lifted."
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C8d"
+    ]
+   },
+   "reference_fired": [
+    "C8d"
+   ],
+   "reference_warn": [
+    "C8c"
+   ],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "v3_reauthored": true
+  },
+  {
+   "id": "BL-D4",
+   "family": "blind-draft",
+   "title": "independent blind draft D4 (verbatim)",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls, and keep the Moonlit Sеt close by for the guests who stay late.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C0",
+     "C8d"
+    ]
+   },
+   "reference_fired": [
+    "C0",
+    "C8d"
+   ],
+   "reference_warn": [
+    "C8c"
+   ],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D5",
+   "family": "blind-draft",
+   "title": "independent blind draft D5 (verbatim)",
+   "format": "email",
+   "picks": [
+    "saanjh-shawl-chartreuse",
+    "marpeta-dupatta-cotton-silk",
+    "meher-potli-violet"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Colour for the Diwali evenings",
+     "preheader": "A shawl, a dupatta and a potli for the season of lights.",
+     "body": "Saanjh means dusk, and {p1} is meant to glow like it. Wear it over the ibex trousers in sand, or over plain white, for the first cold evening of the season.\n\n{p2} goes over teal, purple or pink, for wedding lunches and Diwali evenings.\n\nFor the evening itself, {p3} carries what you need and nothing more, made for the season from haldi and mehendi to the cocktail hour."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C7"
+    ]
+   },
+   "reference_fired": [
+    "C7"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  },
+  {
+   "id": "BL-D6",
+   "family": "blind-draft",
+   "title": "independent blind draft D6 (verbatim)",
+   "format": "landing_page",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set",
+    "tarang-bar-gift-set-glass-decanter-set-of-3"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "landing_page": {
+     "occasion_key": "diwali",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "A table set for the festive evening",
+       "line": "A glass lid over steel compartments. See it lit: //i.ibb.co/Vt9kLm2/moonlit-lamp.jpg"
+      },
+      {
+       "type": "story",
+       "text": "Sweets first, then the light, then the people. Four pieces for the festive table, and every day after."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p2",
+         "caption": "Deep at the centre and open at the rim, so fruit stays in view."
+        },
+        {
+         "slot": "p3",
+         "caption": "For the quiet hour after the guests, when the tea gets poured."
+        },
+        {
+         "slot": "p4",
+         "caption": "Fine flutes that catch the light as each glass is lifted."
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C0",
+     "C5"
+    ]
+   },
+   "reference_fired": [
+    "C0",
+    "C5"
+   ],
+   "reference_warn": [
+    "C8c"
+   ],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "v3_reauthored": true
+  },
+  {
+   "id": "BL-D7",
+   "family": "blind-draft",
+   "title": "independent blind draft D7 (verbatim)",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments.\n\n<img src=\"//i.ibb.co/Vt9kLm2/moonlit-lamp.jpg\" alt=\"\">\n\nSet {p2} where the light falls. data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\n\n{p3} is for the evening after, when the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C0",
+     "C5",
+     "C8d"
+    ]
+   },
+   "reference_fired": [
+    "C0",
+    "C5",
+    "C8d"
+   ],
+   "reference_warn": [
+    "C8c"
+   ],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D8",
+   "family": "blind-draft",
+   "title": "independent blind draft D8 (verbatim)",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, at a kinder price",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. Until Sunday, every piece here is twenty percent less, and gift wrap is complimentary.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "reference_fired": [
+    "C4"
+   ],
+   "reference_warn": [
+    "C8c"
+   ],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D9",
+   "family": "blind-draft",
+   "title": "independent blind draft D9 (verbatim)",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "The festive ѕаle, for the table",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. This week only, it is part of the sa­le.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C0",
+     "C4"
+    ]
+   },
+   "reference_fired": [
+    "C0",
+    "C4"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D10",
+   "family": "blind-draft",
+   "title": "independent blind draft D10 (verbatim)",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly. Sweets come first, then the lamps, then the people, and at last the long talk that runs past midnight. {p1} sits at the centre of it all, a glass lid over steel compartments, ready for cardamom, cloves and the foil that nobody eats but everybody keeps.\n\nSet {p2} at the edge, where the light falls, deep at the centre and open at the rim, so the fruit stays in view and the children can reach it.\n\n{p3} waits for the evening after, when the house is quiet again, the guests are home, the plates are washed—and the tea gets poured, unhurried, for whoever is still awake—and still talking."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C3",
+     "C7"
+    ]
+   },
+   "reference_fired": [
+    "C3",
+    "C7"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D2a",
+   "family": "blind-draft",
+   "title": "D2 with only the \"{p2} Mini\" attack",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nNext to it, the {p2} Mini holds what is left of the evening, deep at the centre and open at the rim.\n\nFor the morning after, {p3} is for the morning after, when the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C8d-x"
+    ]
+   },
+   "reference_fired": [
+    "C8d-x"
+   ],
+   "reference_warn": [
+    "C8c"
+   ],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D2b",
+   "family": "blind-draft",
+   "title": "D2 with only the \"set of six cups\" attack",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nNext to it, {p2} holds what is left of the evening, deep at the centre and open at the rim.\n\nFor the morning after, {p3} now comes as a set of six cups, so the whole family sits down together when the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C7"
+    ]
+   },
+   "reference_fired": [
+    "C7"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D5v",
+   "family": "blind-draft",
+   "title": "D5 with the incidental colour word removed",
+   "format": "email",
+   "picks": [
+    "saanjh-shawl-chartreuse",
+    "marpeta-dupatta-cotton-silk",
+    "meher-potli-violet"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Colour for the Diwali evenings",
+     "preheader": "A shawl, a dupatta and a potli for the season of lights.",
+     "body": "Saanjh means dusk, and {p1} is meant to glow like it. Wear it over the ibex trousers, or over plain linen, for the first cold evening of the season.\n\n{p2} goes over teal, purple or pink, for wedding lunches and Diwali evenings.\n\nFor the evening itself, {p3} carries what you need and nothing more, made for the season from haldi and mehendi to the cocktail hour."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C7"
+    ]
+   },
+   "reference_fired": [
+    "C7"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  },
+  {
+   "id": "BL-D5w",
+   "family": "blind-draft",
+   "title": "D5 reduced to a lowercase real unselected product with a common-word core",
+   "format": "email",
+   "picks": [
+    "saanjh-shawl-chartreuse",
+    "marpeta-dupatta-cotton-silk",
+    "meher-potli-violet"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Colour for the Diwali evenings",
+     "preheader": "A shawl, a dupatta and a potli for the season of lights.",
+     "body": "Saanjh means dusk, and {p1} is meant to glow like it. Wear it over the ibex trousers, for the first cold evening of the season.\n\n{p2} goes over teal, purple or pink, for wedding lunches and Diwali evenings.\n\nFor the evening itself, {p3} carries what you need and nothing more, made for the season from haldi and mehendi to the cocktail hour."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "pass"
+   },
+   "known_gap": "lowercase real unselected product (\"ibex trousers\"): not caught by code; the judge question names_unselected_product is the backstop",
+   "reference_fired": [],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  },
+  {
+   "id": "BL-D3v",
+   "family": "blind-draft",
+   "title": "D3 with the invented name \"Moonlit Pocket Square\"",
+   "format": "landing_page",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set",
+    "tarang-bar-gift-set-glass-decanter-set-of-3"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "landing_page": {
+     "occasion_key": "diwali",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "A table set for the festive evening",
+       "line": "A glass lid over steel compartments, for cardamom and cloves."
+      },
+      {
+       "type": "story",
+       "text": "Sweets first, then the light, then the people. Pair the pieces below with the Moonlit Pocket Square, small enough for the corner where you light a diya, and every day after."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p2",
+         "caption": "Deep at the centre and open at the rim, so fruit stays in view."
+        },
+        {
+         "slot": "p3",
+         "caption": "For the quiet hour after the guests, when the tea gets poured."
+        },
+        {
+         "slot": "p4",
+         "caption": "Fine flutes that catch the light as each glass is lifted."
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C8d"
+    ]
+   },
+   "reference_fired": [
+    "C8d"
+   ],
+   "reference_warn": [
+    "C8c"
+   ],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "v3_reauthored": true
+  },
+  {
+   "id": "BL-D8.1",
+   "family": "blind-draft",
+   "title": "D8 carrier sentence: \"twenty percent less\"",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. Twenty percent less.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "reference_fired": [
+    "C4"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D8.2",
+   "family": "blind-draft",
+   "title": "D8 carrier sentence: \"20 per cent off\"",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. 20 per cent off.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "reference_fired": [
+    "C4"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D8.3",
+   "family": "blind-draft",
+   "title": "D8 carrier sentence: \"two for the price of one\"",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. Two for the price of one.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "reference_fired": [
+    "C4"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D8.4",
+   "family": "blind-draft",
+   "title": "D8 carrier sentence: \"with code NICO20 at checkout\"",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. With code NICO20 at checkout.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "reference_fired": [
+    "C4"
+   ],
+   "reference_warn": [
+    "C8c"
+   ],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D8.5",
+   "family": "blind-draft",
+   "title": "D8 carrier sentence: \"end-of-season\"",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. End-of-season.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "reference_fired": [
+    "C4"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D8.6",
+   "family": "blind-draft",
+   "title": "D8 carrier sentence: \"members pay less\"",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. Members pay less.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "reference_fired": [
+    "C4"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D8.7",
+   "family": "blind-draft",
+   "title": "D8 carrier sentence: \"now reduced\"",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. Now reduced.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "reference_fired": [
+    "C4"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D8.8",
+   "family": "blind-draft",
+   "title": "D8 carrier sentence: \"half the usual\"",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. Half the usual.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "reference_fired": [
+    "C4"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D9.1",
+   "family": "blind-draft",
+   "title": "D9 carrier sentence: 's a l e'",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. It is part of the s a l e.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C0"
+    ]
+   },
+   "reference_fired": [
+    "C0"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D9.2",
+   "family": "blind-draft",
+   "title": "D9 carrier sentence: 'dis-count'",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. It is part of the dis-count.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "reference_fired": [
+    "C4"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D9.3",
+   "family": "blind-draft",
+   "title": "D9 carrier sentence: 'e.o.s.s.'",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. It is part of the e.o.s.s..\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "reference_fired": [
+    "C4"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D9.4",
+   "family": "blind-draft",
+   "title": "D9 carrier sentence: '２０％ off'",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. It is part of the ２０％ off.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C0"
+    ]
+   },
+   "reference_fired": [
+    "C0"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D9.5",
+   "family": "blind-draft",
+   "title": "D9 carrier sentence: 'aadhe daam'",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. It is part of the aadhe daam.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "pass"
+   },
+   "known_gap": "romanised Hindi discount phrase in plain Latin letters: no character rule or English phrase list sees it",
+   "reference_fired": [],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D9.6",
+   "family": "blind-draft",
+   "title": "D9 carrier sentence: 'ＳＡＬＥ'",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. It is part of the ＳＡＬＥ.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C0"
+    ]
+   },
+   "reference_fired": [
+    "C0"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D9.7",
+   "family": "blind-draft",
+   "title": "D9 carrier sentence: 'saǀe'",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. It is part of the saǀe.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C0"
+    ]
+   },
+   "reference_fired": [
+    "C0"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D9.s",
+   "family": "blind-draft",
+   "title": "D9 body only (soft hyphen)",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "The festive table, for you",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. This week only, it is part of the sa­le.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C0",
+     "C4"
+    ]
+   },
+   "reference_fired": [
+    "C0",
+    "C4"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D9.t",
+   "family": "blind-draft",
+   "title": "D9 subject only (Cyrillic look-alike)",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "The festive ѕаle, for the table",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls. It is quiet.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "intended": "fail",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C0"
+    ]
+   },
+   "reference_fired": [
+    "C0"
+   ],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "BL-D7-render",
+   "family": "blind-draft",
+   "title": "D7 through the renderer with the validator bypassed: model text is escaped, the page has exactly the 3 pick cards",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments.\n\n<img src=\"//i.ibb.co/Vt9kLm2/moonlit-lamp.jpg\" alt=\"\">\n\nSet {p2} where the light falls. data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==\n\n{p3} is for the evening after, when the tea gets poured."
+    }
+   },
+   "layer": "rendered",
+   "expect": {
+    "verdict": "pass",
+    "img_count": 3,
+    "foreign_img": 0,
+    "bad_hrefs": 0,
+    "raw_markup_present_unescaped": false
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  }
+ ]
+}

@@ -1,0 +1,165 @@
+{
+  "version": "jev-v1",
+  "model": "jev-1.14.0",
+  "deadline_ms": 20000,
+  "flag_gate": 0.5,
+  "act_gate": 0.9,
+  "score_flag_confidence": 0.6,
+  "basis_usd": 0.000554,
+  "act": {
+    "names_unselected_product": false,
+    "discount": false,
+    "pressure": false
+  },
+  "j3": {
+    "names_unselected_product": {
+      "type": "noul",
+      "instructions": "Do `email` or `landing_page` name, describe or imply a product for sale that is not one of the products in `picks`, including a variant of one of them such as another size, colour, set count, edition or version? A null part is absent: judge the parts present.",
+      "criteria": {
+        "true": {
+          "what": "The text refers to a piece that is not in `picks`: an invented piece, a variant of a pick, or another real product.",
+          "examples": [
+            "a moonlit brass lamp",
+            "the matching set of six",
+            "also in a larger size"
+          ]
+        },
+        "false": {
+          "what": "Every object the text describes is one of the products in `picks`.",
+          "examples": [
+            "the quilted throw over the back of the sofa"
+          ]
+        }
+      },
+      "bad": true
+    },
+    "discount": {
+      "type": "noul",
+      "instructions": "Do `email` or `landing_page` offer or suggest a discount, a reduced price or a saving, in any language or romanised spelling? A null part is absent: judge the parts present.",
+      "criteria": {
+        "true": {
+          "what": "Any wording that says the price is lower than usual or that money is saved, in English, Hindi or romanised Hindi.",
+          "examples": [
+            "a little gentler on the pocket",
+            "aadhe daam mein",
+            "now for less"
+          ]
+        },
+        "false": {
+          "what": "The text says nothing about price or value for money.",
+          "examples": [
+            "for the table on Sunday"
+          ]
+        }
+      },
+      "bad": true
+    },
+    "pressure": {
+      "type": "noul",
+      "instructions": "Do `email` or `landing_page` pressure the reader to act by a time or a quantity? A null part is absent: judge the parts present.",
+      "criteria": {
+        "true": {
+          "what": "Urgency or scarcity, even without the usual sales words.",
+          "examples": [
+            "before they are gone",
+            "only a few left",
+            "this week only"
+          ]
+        },
+        "false": {
+          "what": "No pressure about when to act or how many are left. A time of day or a festival named as a scene is not pressure.",
+          "examples": [
+            "for the evening the guests arrive"
+          ]
+        }
+      },
+      "bad": true
+    },
+    "claims_company": {
+      "type": "noul",
+      "instructions": "Do `email` or `landing_page` make a statement about Nicobar as a company, other than that it is rooted in India and inspired by journeys across the Indian Ocean? A null part is absent: judge the parts present.",
+      "criteria": {
+        "true": {
+          "what": "Any claim about the company's history, founders, makers, values, sustainability or size.",
+          "examples": [
+            "our artisans have worked in brass for generations",
+            "made sustainably from day one"
+          ]
+        },
+        "false": {
+          "what": "The text describes only the products and the occasion, or uses only the one allowed line.",
+          "examples": [
+            "Rooted in India, and inspired by journeys across the Indian Ocean."
+          ]
+        }
+      },
+      "bad": true
+    },
+    "claims_customer": {
+      "type": "noul",
+      "instructions": "Do `email` or `landing_page` say anything about this customer, or about the place, date or weather of `occasion`, beyond the words of `occasion` itself? `occasion` is all that is known about the customer; `picks` are products, not facts about the customer. When `occasion` is null, nothing is known. A null part is absent: judge the parts present.",
+      "criteria": {
+        "true": {
+          "what": "A claim about the customer's past purchases, tastes, habits, home, family or life, or a fact about a place, date or weather, that the words of `occasion` do not state.",
+          "examples": [
+            "since you loved the blue kurta",
+            "as someone who travels often",
+            "she has always worn brass",
+            "the rains are at their best in Kochi this month"
+          ]
+        },
+        "false": {
+          "what": "The text repeats the words of `occasion`, or speaks only of the pieces and their ordinary use.",
+          "examples": [
+            "for the anniversary dinner",
+            "a throw for the back of the sofa"
+          ]
+        }
+      },
+      "bad": true
+    },
+    "scene": {
+      "type": "noul",
+      "instructions": "Do `email` and `landing_page` place `occasion` in a concrete scene: a place, a moment or an act of use? When `occasion` is null, do they place the pieces in a concrete act of ordinary use? A null part is absent: judge the parts present.",
+      "criteria": {
+        "true": {
+          "what": "The reader can see where or when the piece is used.",
+          "examples": [
+            "for the festive table",
+            "the corner where you light a diya"
+          ]
+        },
+        "false": {
+          "what": "The occasion appears only as a label or a date, or with a null `occasion` the pieces are only described.",
+          "examples": [
+            "a gift for the season",
+            "just in time for Diwali"
+          ]
+        }
+      },
+      "bad": false
+    },
+    "specific": {
+      "type": "score",
+      "instructions": "How concrete is the description of the products in `email` and `landing_page`? Score the weaker part; a null part is absent.",
+      "criteria": [
+        "Only general praise or adjectives, with no material, technique or construction named",
+        "Names a material or a colour, but nothing about how the piece is made or used",
+        "Names a material and a technique or construction, with no detail about use",
+        "Names a material and a construction, and says what the piece does or where it goes"
+      ],
+      "bad": "lowest"
+    },
+    "quiet": {
+      "type": "score",
+      "instructions": "How restrained is the tone of `email` and `landing_page`? Score the weaker part; a null part is absent.",
+      "criteria": [
+        "Exclamatory or salesy",
+        "Friendly, but with intensifiers",
+        "Plain and measured",
+        "Plain, measured and understated"
+      ],
+      "bad": "lowest"
+    }
+  }
+}

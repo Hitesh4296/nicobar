@@ -1,0 +1,460 @@
+{
+ "note": "validate() must pass every draft here. picks are handles in picks.json.",
+ "count": 17,
+ "drafts": [
+  {
+   "id": "G1",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand."
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  },
+  {
+   "id": "G2",
+   "format": "landing_page",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand",
+    "chand-madhu-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "landing_page": {
+     "occasion_key": "diwali",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "A short edit for the festive week",
+       "line": "Free-size and light enough to layer over any festive kurta."
+      },
+      {
+       "type": "story",
+       "text": "Four pieces for wedding lunches and Diwali evenings, starting with {p1} and ending with a spice box for the table."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p2",
+         "caption": "Woven in 100% wool, with small sequin accents and tassels at the ends."
+        },
+        {
+         "slot": "p3",
+         "caption": "100% linen in a bottom weight, piece dyed in a natural beige called sand."
+        },
+        {
+         "slot": "p4",
+         "caption": "A glass lid over steel compartments, on a wooden base, with two spoons."
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "v3_reauthored": true,
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  },
+  {
+   "id": "G3",
+   "format": "email",
+   "picks": [
+    "decade-tote-limited-edition-charcoal-silver",
+    "ibex-trousers-sand",
+    "saanjh-shawl-chartreuse"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "{p1} is a tote with a quiet lining. {p2} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. {p3} is woven in 100% wool, with gota flowers and leaves worked into the corners. Wear them for wedding lunches and Diwali evenings, and every day after."
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  },
+  {
+   "id": "N0",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls, deep at the centre and open at the rim.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "R24-5",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls, deep at the centre and open at the rim.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured. A quiet café table."
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "R24-6",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls, deep at the centre and open at the rim.\n\n{p3} is for the evening after, when the house is quiet and the tea gets poured. It’s a quiet piece."
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "R28-2",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls, deep at the centre and open at the rim.\n\n{p3} brings sixteen pieces to the table, for the evening after, when the house is quiet and the tea gets poured."
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "R28-4",
+   "format": "landing_page",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set",
+    "tarang-bar-gift-set-glass-decanter-set-of-3"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "landing_page": {
+     "occasion_key": "diwali",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "A table set for the festive evening",
+       "line": "A glass lid over steel compartments, for cardamom and cloves."
+      },
+      {
+       "type": "story",
+       "text": "Sweets first, then the light, then the people. {p4} is a set of three, and every day after."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p2",
+         "caption": "Deep at the centre and open at the rim, so fruit stays in view."
+        },
+        {
+         "slot": "p3",
+         "caption": "For the quiet hour after the guests, when the tea gets poured."
+        },
+        {
+         "slot": "p4",
+         "caption": "Fine flutes that catch the light as each glass is lifted."
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "v3_reauthored": true
+  },
+  {
+   "id": "R28-5",
+   "format": "landing_page",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set",
+    "tarang-bar-gift-set-glass-decanter-set-of-3"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "landing_page": {
+     "occasion_key": "diwali",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "A table set for the festive evening",
+       "line": "A glass lid over steel compartments, for cardamom and cloves."
+      },
+      {
+       "type": "story",
+       "text": "Sweets first, then the light, then the people. Four pieces for the festive table, and every day after."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p2",
+         "caption": "Deep at the centre and open at the rim, so fruit stays in view."
+        },
+        {
+         "slot": "p3",
+         "caption": "For the quiet hour after the guests, when the tea gets poured."
+        },
+        {
+         "slot": "p4",
+         "caption": "Fine flutes that catch the light as each glass is lifted."
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "v3_reauthored": true
+  },
+  {
+   "id": "N7-3",
+   "format": "email",
+   "picks": [
+    "chand-madhu-set",
+    "dhaara-fruit-bowl",
+    "veranda-tea-set"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "For the festive table, and every day after",
+     "preheader": "Three pieces for sweets, light and the evening pour.",
+     "body": "The festive table fills slowly: sweets first, then the people, slowly. {p1} sits at the centre, a glass lid over steel compartments, ready for cardamom and cloves.\n\nSet {p2} where the light falls, deep at the centre and open at the rim, always.\n\n{p3} is for the evening after, when the house is quiet and the quietly slowly again late always quietly slowly again late always quietly slowly again late always quietly slowly again late always quietly slowly again late always quietly slowly again late always quietly slowly again late always quietly slowly again late always quietly slowly again late always quietly slowly again late always quietly slowly again late tea gets poured."
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home"
+  },
+  {
+   "id": "NM9",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. It comes in a Gift Box."
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  },
+  {
+   "id": "NM10",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Wear it like a classic shirt."
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  },
+  {
+   "id": "NM11",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. A quiet piece for the festive season."
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  },
+  {
+   "id": "NM12",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Pair it with a gold plated snake chain."
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  },
+  {
+   "id": "NM13",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Saanjh means dusk."
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  },
+  {
+   "id": "N1",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Mirrors are worn to ward off the evil eye."
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  },
+  {
+   "id": "N5",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Its thousand-paper-fold tradition."
+    }
+   },
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,115 @@
+{
+ "version": "c8allow-v2",
+ "allow_title_case": [
+  "Gift Box",
+  "Indian Ocean"
+ ],
+ "c8d_allow": {
+  "days_and_months": [
+   "april",
+   "august",
+   "december",
+   "february",
+   "friday",
+   "january",
+   "july",
+   "june",
+   "march",
+   "may",
+   "monday",
+   "november",
+   "october",
+   "saturday",
+   "september",
+   "sunday",
+   "thursday",
+   "tuesday",
+   "wednesday"
+  ],
+  "note": "C8d also allows occasion names from c8o.json, this row's per_row tokens, and any capitalised run found contiguously in the picks' own text"
+ },
+ "notes": [
+  "\"Gift Box\" is allowlisted in both the title-core match (i) and the class-noun match (ii).",
+  "\"Indian Ocean\" is in the one brand claim the model may state (\"Rooted in India, and inspired by journeys across the Indian Ocean.\"); without it the claim fails C8d. Cases F1-1..F1-3."
+ ],
+ "per_row": {
+  "c01": [
+   "sister's",
+   "wedding"
+  ],
+  "c02": [
+   "monsoon",
+   "kochi"
+  ],
+  "c03": [
+   "anniversary",
+   "dinner"
+  ],
+  "c04": [
+   "father's",
+   "sixtieth"
+  ],
+  "c05": [
+   "housewarming"
+  ],
+  "c06": [
+   "goa",
+   "weekend"
+  ],
+  "c07": [
+   "diwali",
+   "home"
+  ],
+  "c08": [
+   "farewell",
+   "dinner"
+  ],
+  "c09": [
+   "cousin's",
+   "mehendi"
+  ],
+  "c10": [
+   "jaipur",
+   "weekend"
+  ],
+  "c11": [
+   "wedding",
+   "guest",
+   "udaipur"
+  ],
+  "c12": [
+   "first",
+   "anniversary"
+  ],
+  "c13": [
+   "monsoon",
+   "lunch"
+  ],
+  "c14": [
+   "diwali",
+   "gifts"
+  ],
+  "c15": [
+   "honeymoon",
+   "packing"
+  ],
+  "c16": [
+   "mother's",
+   "birthday"
+  ],
+  "c17": [
+   "gallery",
+   "opening"
+  ],
+  "c18": [
+   "work",
+   "trip",
+   "singapore"
+  ],
+  "c19": [
+   "sister's",
+   "engagement"
+  ],
+  "c20": []
+ }
+}

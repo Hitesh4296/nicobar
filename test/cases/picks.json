@@ -1,0 +1,773 @@
+{
+ "source": "https://www.nicobar.com/products.json",
+ "fetched": "2026-10-29",
+ "note": "The products these cases pick or name. ground_text is what C7 reads: title + cleaned body + colour option values, lower-cased (the strip has already dropped units that fail C0, C4 or C5). images are canonical URLs (query removed). Rebuild from the snapshot fixture when it exists; the handles are the keys. group: House & Home category is home, all else wear [assume, the data lane computes it]",
+ "picks": {
+  "chand-madhu-set": {
+   "id": "15402020569222",
+   "handle": "chand-madhu-set",
+   "title": "Chand Madhu Set",
+   "url": "https://www.nicobar.com/products/chand-madhu-set",
+   "ground_text": "chand madhu set chand means moon, and the round spice box at the heart of this set takes its name from the shape: a glass lid over steel compartments, on a wooden base. the spice box comes with two spoons. a brass ghee pot with a ladle sits alongside it, in a matte gold finish. the steel and brass are finished in matte, silver against gold, with the warm brown of the wood between them. dimensions: spice box - l15 x w15 x h4 cm & ghee pot - l6 x w6 cm gold",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052493_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052493_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052493_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052493_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052493_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052493_6.jpg"
+   ],
+   "group": "home"
+  },
+  "decade-tote-limited-edition-charcoal-silver": {
+   "id": "7454487543942",
+   "handle": "decade-tote-limited-edition-charcoal-silver",
+   "title": "Decade Tote (Limited Edition)- Charcoal & Silver",
+   "url": "https://www.nicobar.com/products/decade-tote-limited-edition-charcoal-silver",
+   "ground_text": "decade tote (limited edition)- charcoal & silver crafted in 100% cotton. fnished in silver foil on charcoal for a touch of festive shine. charcoal & silver",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI046589_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI046589_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI046589_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI046589_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI046589_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI046589_6.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI046589_7.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI046589_8.jpg"
+   ],
+   "group": "wear"
+  },
+  "dhaara-fruit-bowl": {
+   "id": "7728574070918",
+   "handle": "dhaara-fruit-bowl",
+   "title": "Dhaara Fruit Bowl",
+   "url": "https://www.nicobar.com/products/dhaara-fruit-bowl",
+   "ground_text": "dhaara fruit bowl a wide bowl with a fluted edge that folds like a flower, with the dhaara ripple pressed into the base. ceramic in a matte gold finish. deep at the centre and open at the rim, keeping fruit visible rather than buried. gold",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/1_2368429a-d8c1-494b-bd5a-b9ad6a123d0a.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/2_aa46b251-b135-4f66-aa66-9276b130d10e.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/3_a333d3cb-8b8b-42b0-aa12-747a37dde918.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/4_56e9f809-244d-4ed1-a36e-156f76e9b12a.jpg"
+   ],
+   "group": "home"
+  },
+  "fable-top-black-charcoal": {
+   "id": "7500116820102",
+   "handle": "fable-top-black-charcoal",
+   "title": "Fable Top - Black & Charcoal",
+   "url": "https://www.nicobar.com/products/fable-top-black-charcoal",
+   "ground_text": "fable top - black & charcoal the fable top leans into an easy winter mood, white and black coming together in a palette that feels calm, clean, and quietly expressive. crafted in recycled poly-wool, it’s designed in a loose, effortless silhouette with a puff flower appliqué placed at the centre back. at its core sits an embroidered circle, a small but thoughtful detail that gives this simple piece a memorable finish. black & charcoal",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/1_d8f10269-5a0d-48c0-a511-c448b53af53d.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI047572_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI047572_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI047572_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI047572_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI047572_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI047572_6.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI047572_7.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI047572_7_28d00c4b-1ddf-4d11-ab37-797828fdd0df.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI047572_8.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI047572_9.jpg"
+   ],
+   "group": "wear"
+  },
+  "hornbill-shirt-indigo": {
+   "id": "7590537199750",
+   "handle": "hornbill-shirt-indigo",
+   "title": "Hornbill Shirt - Indigo",
+   "url": "https://www.nicobar.com/products/hornbill-shirt-indigo",
+   "ground_text": "hornbill shirt - indigo rajesh pratap singh set out to make a shirt that carries as much craft as it does ease. the hornbill is what that looks like. crafted in 100% cotton denim. the kind of fabric that gets better with every wash. structure on day one. character by year three. the details are the point. graded pin tucks run down the front panels. a signature of the rajesh pratap singh studio. precise and quietly laborious. fagotting at the seams. kantha stitch worked through the cloth. three techniques that each take time. worn together without announcement. the collaboration mnemonic logo is embroidered at the front side panel. part of the pratap x nicobar ss26 collection. named for the nilgiri hornbill. unhurried. deliberate. entirely at home in the canopy. style it with: the linen or denim pyjama pants for a head-to-toe ease. the tahr or gaur bandhgala over it when the day asks for more. a piece built for daylight. comfortable staying out past it. indigo",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI050553_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI050553_10.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI050553_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI050553_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI050553_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI050553_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI050553_6.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI050553_7.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI050553_8.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI050553_9.jpg"
+   ],
+   "group": "wear"
+  },
+  "ibex-trousers-sand": {
+   "id": "15401643737222",
+   "handle": "ibex-trousers-sand",
+   "title": "Ibex Trousers - Sand",
+   "url": "https://www.nicobar.com/products/ibex-trousers-sand",
+   "ground_text": "ibex trousers - sand the ibex trousers, from the rajesh pratap singh x nicobar collection, are day trousers in sand linen, named for the ibex, the goat that climbs where others do not. 100% linen in a bottom weight, heavier than shirting linen, piece dyed in a natural beige called sand. solid, long, and cut for the office as much as the weekend. sand",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053663_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053663_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053663_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053663_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053663_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053663_6.jpg"
+   ],
+   "group": "wear"
+  },
+  "marpeta-dupatta-cotton-silk": {
+   "id": "7741537517702",
+   "handle": "marpeta-dupatta-cotton-silk",
+   "title": "Marpeta Dupatta - Cotton Silk",
+   "url": "https://www.nicobar.com/products/marpeta-dupatta-cotton-silk",
+   "ground_text": "marpeta dupatta - cotton silk the marpeta dupatta brings that feeling to sheer gold metallic tissue with a fine woven stripe. made in metallic tissue, it is free-size and light enough to layer over any festive kurta. wear it over teal, purple or pink for wedding lunches and diwali evenings. gold",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI054189_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI054189_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI054189_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI054189_4.jpg"
+   ],
+   "group": "wear"
+  },
+  "meher-potli-violet": {
+   "id": "15401645310086",
+   "handle": "meher-potli-violet",
+   "title": "Meher Potli - Violet",
+   "url": "https://www.nicobar.com/products/meher-potli-violet",
+   "ground_text": "meher potli - violet a violet potli scattered with heart-shaped mirrors, each held in place by jali thread work in a different colour. a black-and-white check drawstring gathers the top into a ruffled edge, finished with berry-toned beaded tassels. made for the wedding season, from haldi and mehendi to the cocktail evening. violet",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053669_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053669_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053669_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053669_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053669_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053669_6.jpg"
+   ],
+   "group": "wear"
+  },
+  "saanjh-shawl-chartreuse": {
+   "id": "15401645441158",
+   "handle": "saanjh-shawl-chartreuse",
+   "title": "Saanjh Shawl - Chartreuse",
+   "url": "https://www.nicobar.com/products/saanjh-shawl-chartreuse",
+   "ground_text": "saanjh shawl - chartreuse a chartreuse shawl with gota flowers and leaves worked into the corners, and a fine gota border along the edges. woven in 100% wool, with small sequin accents and tassels at the ends. saanjh means dusk, and the colour is meant to glow like it. chartreuse",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053672_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053672_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053672_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053672_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053672_5.jpg"
+   ],
+   "group": "wear"
+  },
+  "tarang-bar-gift-set-glass-decanter-set-of-3": {
+   "id": "7728575185030",
+   "handle": "tarang-bar-gift-set-glass-decanter-set-of-3",
+   "title": "Tarang Bar Gift Set - Glass & Decanter - Set of 3",
+   "url": "https://www.nicobar.com/products/tarang-bar-gift-set-glass-decanter-set-of-3",
+   "ground_text": "tarang bar gift set - glass & decanter - set of 3 tarang, for a wave, inspires the fine vertical flutes cut into the height of each piece. a decanter and two whisky glasses, all with a blush tint settling at the base. the flutes catch and throw light down the sides as each glass is lifted. dimensions: whiskey glass - 8.5 x 8.5 x 8 cm, decanter - 8.5 x 8.5 x 18 cm clear",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/1_c65e9199-afd3-4d6f-a690-6378619d7ca0.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/2_d8e24c02-fa05-48c0-9ae9-ac47df39e326.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/3_f3ed4f90-1b91-41d5-95b3-acd6978a1cb9.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/4_ff2cb75f-c267-472c-b388-3046a7188a49.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/5_c3e94b07-2b16-4b35-978a-bf044b2ddebf.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/6_012453c9-46d8-418c-aa30-68c1f3e59ae7.jpg"
+   ],
+   "group": "home"
+  },
+  "veranda-tea-set": {
+   "id": "15402020667526",
+   "handle": "veranda-tea-set",
+   "title": "Veranda Tea Set",
+   "url": "https://www.nicobar.com/products/veranda-tea-set",
+   "ground_text": "veranda tea set veranda is where the house meets the garden, and where tea gets poured. this set brings sixteen pieces to that table: two sets of four cups and saucers, one with glass cups and one in bone china. a palm is printed in green on the cups and saucers, with a green border on the saucers. the glass cups have a glossy finish, and the bone china cups a matte one. the cup and saucer are a new shape for the brand. dimensions : cup - d6.2xh9.6 cm, plate - d12.1xh2.2 cm, cup - d6.1x8 cm & plate - d13xh2cm multi",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052511_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052511_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052511_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052511_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052511_5.jpg"
+   ],
+   "group": "home"
+  },
+  "weekend-trousers-black-charcoal": {
+   "id": "7500119736454",
+   "handle": "weekend-trousers-black-charcoal",
+   "title": "Weekend Trousers - Black & Charcoal",
+   "url": "https://www.nicobar.com/products/weekend-trousers-black-charcoal",
+   "ground_text": "weekend trousers - black & charcoal the weekend trousers channel an easy winter mood, their black-and-charcoal checks bringing a grounded, comforting feel to cooler days. crafted in recycled poly-wool, they’re cut in a relaxed silhouette with an all-over check that adds quiet texture. a small red star embroidery at the pocket corner gives this versatile pair a subtle, distinctive touch. black & charcoal",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/1_d8f10269-5a0d-48c0-a511-c448b53af53d.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI047589_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI047589_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI047589_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI047589_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI047589_5.jpg"
+   ],
+   "group": "wear"
+  },
+  "akshar-coaster-g": {
+   "id": "6861826162822",
+   "handle": "akshar-coaster-g",
+   "title": "Akshar Coaster - G",
+   "url": "https://www.nicobar.com/products/akshar-coaster-g",
+   "ground_text": "akshar coaster - g settle down, put down your glass, and unwind with these alphabet coasters. these are guaranteed to be your most favourite addition to your home. pairs well with our glasses, or our alphabet mugs. this versatile coaster can also become a great trinket dish. comes in a gift box",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/1_2c01e356-d274-428f-95e5-132b9cf53a44.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/2_cf501fab-e3ef-4c77-8442-e38cf9d94fba.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_5ae31fae-22fb-4156-b3bf-8ef82b5b464a.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/P1833815_2b99f86f-69df-4afc-beb4-bda56f7c8909.jpg"
+   ],
+   "group": "home"
+  },
+  "alam-cookie-tray-with-tong": {
+   "id": "6892869877894",
+   "handle": "alam-cookie-tray-with-tong",
+   "title": "Alam Cookie Tray with Tong",
+   "url": "https://www.nicobar.com/products/alam-cookie-tray-with-tong",
+   "ground_text": "alam cookie tray with tong nicobar’s alam cookie tray is inspired by the flora and fauna of the jungles of bali. made in stoneware, the tray has a pleasing weight and heft to it. the plate is a great show stealer on the dining table. the alam cookie tray comes with a tong. comes in a gift box",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI029859_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI029859_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI029859_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI029859_4.jpg"
+   ],
+   "group": "home"
+  },
+  "alphabet-glass-v": {
+   "id": "6897629429894",
+   "handle": "alphabet-glass-v",
+   "title": "Alphabet Glass - V",
+   "url": "https://www.nicobar.com/products/alphabet-glass-v",
+   "ground_text": "alphabet glass - v our alphabet glass series offers your initial in a beautiful design. a nicobar design classic, it comes in a series of alphabets. a personalised and thoughtful gifting option. crafted in borosilicate, making it lightweight and practical. comes in a gift box capacity: 275 ml",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI028592_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI028592_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI028592_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI028592_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/P1433753_3f85250c-1bc8-4fc8-9309-afc9ee328dcc.jpg"
+   ],
+   "group": "home"
+  },
+  "alphabet-s-charm-black-gold-1": {
+   "id": "6959138406534",
+   "handle": "alphabet-s-charm-black-gold-1",
+   "title": "Alphabet S Charm- Black & Gold",
+   "url": "https://www.nicobar.com/products/alphabet-s-charm-black-gold-1",
+   "ground_text": "alphabet s charm- black & gold with handwritten devanagari akshar on one side and roman letter on the other, this gold-plated charm with black enameling is the ideal gift for when you want to make it personal. pair it with our boondi chain or gold plated snake chain. comes in a gift box",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/APHABET-CHARMS-min.gif",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI020247_7.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI020247_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI020247_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI020247_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI020247_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI020247_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI020247_6.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/P1466388_1c01b3a0-7729-4989-9635-cfd0e08a9b27.jpg"
+   ],
+   "group": "wear"
+  },
+  "ananas-mug": {
+   "id": "6538751115398",
+   "handle": "ananas-mug",
+   "title": "Ananas mug",
+   "url": "https://www.nicobar.com/products/ananas-mug",
+   "ground_text": "ananas mug our much-loved alphabet mugs return; that familiar form in smooth stoneware, but with fresh designs that are a real love letter to india's regional dialect and scripts part of our core collection, you'll always find them in stores and in stock they make the perfect gifts, souvenirs, and keepsakes, packaged neatly in a gift box capacity (each): 280 ml",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/ALPHABET-MUG_GIF-1-min.gif",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/4_feee4029-8a2d-4499-a6ee-64b3bd8ed188.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/5_3fb851e6-0e34-4efe-beb5-a9fa51e85efa.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/6_3035ce68-3140-4fbd-9c93-27bcc80bb143.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/IMG_6615_a5f32fc3-6753-4786-bf86-2aa5114defdd.jpg"
+   ],
+   "group": "home"
+  },
+  "anar-incense-set-anglesey": {
+   "id": "5196418809990",
+   "handle": "anar-incense-set-anglesey",
+   "title": "Anar Incense Set - Anglesey",
+   "url": "https://www.nicobar.com/products/anar-incense-set-anglesey",
+   "ground_text": "anar incense set - anglesey a set of two: incense holder and 12 incense sticks (each 4.5” long) the incense holder is cast in aluminium and plated in brass the incense sticks fill the air with a juicy tang of blackcurrant and have a burn time of approximately 25-30 minutes they come wrapped together in a gift box that makes for a great housewarming present",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI016479_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI016479_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/1.webp",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/2.webp",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_29478f1d-7f84-4853-aafd-c1c3dda4cd32.jpg"
+   ],
+   "group": "home"
+  },
+  "bouquet-scarf-green": {
+   "id": "7741540040838",
+   "handle": "bouquet-scarf-green",
+   "title": "Bouquet Scarf - Pure Silk",
+   "url": "https://www.nicobar.com/products/bouquet-scarf-green",
+   "ground_text": "bouquet scarf - pure silk a pure silk scarf named for the guldasta, or bouquet, printed all over in garden florals. finished with a baby roll hemline, tassels at opposite corners, and mother-of-pearl buttons. woven in 100% silk.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053184_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053184_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053184_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053184_4.jpg"
+   ],
+   "group": "wear"
+  },
+  "bug-bracelet-gold-1": {
+   "id": "7697174200454",
+   "handle": "bug-bracelet-gold-1",
+   "title": "Bug Bracelet - Gold",
+   "url": "https://www.nicobar.com/products/bug-bracelet-gold-1",
+   "ground_text": "bug bracelet - gold nicosera takes its name from the italian word for evening, that golden hour when the day loosens its collar and the night begins. the bug bracelet brings a playful, jewel-like detail to after-dark dressing. cast in brass and finished with 18k gold plating, the bracelet is accented with a polished onyx stone at its centre. a sculptural bug motif sits across the band, with intricate detailing and colourful accents that give the piece its character. wear it as a statement piece with evening separates, or let it add an unexpected detail to a more pared-back look.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053206_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053206_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053206_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053206_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053206_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053206_6.jpg"
+   ],
+   "group": "wear"
+  },
+  "buransh-straight-mug": {
+   "id": "7728573251718",
+   "handle": "buransh-straight-mug",
+   "title": "Buransh Straight Mug",
+   "url": "https://www.nicobar.com/products/buransh-straight-mug",
+   "ground_text": "buransh straight mug the buransh in full flower across a deep green base: pink rhododendron, white blossom and grey-green leaves wrapped around a straight-sided mug. stoneware, with straight walls and a rounded handle, weighted enough to stay put on a desk. the dark base is forgiving of tea stains in a way a white mug rarely is.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/1_cff683b7-724d-4666-aafe-390f816d9293.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/2_f8826275-b849-43d6-ad40-371e543b003c.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/3_666e8846-12d2-4a97-9a73-ab50d5218ea1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/4_253c9b9c-f6a9-42a9-b5f1-e832905cd688.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/5_6f2a253d-b18f-4d32-8b8d-91fe5c0f1711.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/6_928d2bd0-4281-454b-b957-8ed736938853.jpg"
+   ],
+   "group": "home"
+  },
+  "chandni-necklace-large-gold": {
+   "id": "7492613406854",
+   "handle": "chandni-necklace-large-gold",
+   "title": "Chandni Necklace Large - Gold",
+   "url": "https://www.nicobar.com/products/chandni-necklace-large-gold",
+   "ground_text": "chandni necklace large - gold there is a special kind of confidence that comes with pearls. a little old-world charm, a little modern ease, and that feeling of being exactly where you are meant to be. the chandni necklace large holds that mood beautifully. wear it when the morning turns into a ceremony and the ceremony turns into a dance floor. on its own or layered, it always finds the light. a classic string of pearls with a single garnet wink at the centre, crafted in brass and dipped in gold. quiet, elegant, and just the right touch of playful. comes in a gift box.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048033_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048033_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048033_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048033_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048033_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048033_6.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/Nicobaraat_-_Product_Card_fb47b33e-7ab5-4396-bc37-82f154ae5807.png"
+   ],
+   "group": "wear"
+  },
+  "darbaar-balis-gold": {
+   "id": "7492613275782",
+   "handle": "darbaar-balis-gold",
+   "title": "Darbaar Balis - Gold",
+   "url": "https://www.nicobar.com/products/darbaar-balis-gold",
+   "ground_text": "darbaar balis - gold some pieces feel like they’ve travelled through time to meet you at the wedding. the darbaar balis carry that grandeur. a little palace sparkle, a little portrait-painting romance, and all the beauty of women who have been adorning celebrations for centuries. perfect for pheras in sunlight, silk evenings, and every moment you want to feel a touch royal without trying too hard. crafted in brass and plated in antique gold, studded with glass on both sides, a reversible heirloom-style hoop inspired by jewels seen in paintings across the subcontinent. comes in a gift box.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/Nicobaraat_-_Product_Card_9e158975-7bdc-4e4d-8f08-6e549e28eead.png"
+   ],
+   "group": "wear"
+  },
+  "donburi-shallow-bowl-set-of-5-1": {
+   "id": "6821058183302",
+   "handle": "donburi-shallow-bowl-set-of-5-1",
+   "title": "Donburi Shallow Bowl (Set of  5) - TSSxNB",
+   "url": "https://www.nicobar.com/products/donburi-shallow-bowl-set-of-5-1",
+   "ground_text": "donburi shallow bowl (set of  5) - tssxnb perfect for any and all occasions, this bowl is adorned with a beautiful mix of blossoms, trellis prints, graphic lines, and floral vines. fill it up with rice, noodles, or hearty one-pot meals. for the epicureans, the ones who care about flavour, delicious details and provenance.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI026546_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI026546_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI026546_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI026546_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI026546_5.jpg"
+   ],
+   "group": "home"
+  },
+  "dupki-studs-gold": {
+   "id": "7492613243014",
+   "handle": "dupki-studs-gold",
+   "title": "Dupki Studs - Gold",
+   "url": "https://www.nicobar.com/products/dupki-studs-gold",
+   "ground_text": "dupki studs - gold some wedding moments feel like a secret smile. the kind you share across the room, the kind that makes your heart swim a little. the dupki studs are made for that feeling. perfect for poolside mehendis, sun-soaked lunches, and every celebration where you want a touch of whimsy with your silk and sparkle. crafted in brass and dipped in gold, these swimming fish curve around the ear and end in amethyst beads, a playful little treasure you’ll wear long past the wedding. comes in a gift box.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048028_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048028_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048028_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048028_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048028_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048028_6.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/Nicobaraat_-_Product_Card_40be82f7-136b-43a9-a664-faf3bfb2c442.png"
+   ],
+   "group": "wear"
+  },
+  "elephant-origami": {
+   "id": "5196329812102",
+   "handle": "elephant-origami",
+   "title": "Elephant Origami",
+   "url": "https://www.nicobar.com/products/elephant-origami",
+   "ground_text": "elephant origami inspired by the motifs on the clothing of the banjara community, this is an origami-inspired elephant that is cast in brass note: this piece may tarnish over time so take a slice of lemon to it to make it shine again.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_f90cc3e0-40ab-408b-8173-0dc5f7facb3a.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/2_c1784bfa-ac96-410a-9586-e02c4355d3e3.jpg"
+   ],
+   "group": "home"
+  },
+  "everyday-stripes-scarf-dark-blue": {
+   "id": "7576166793350",
+   "handle": "everyday-stripes-scarf-dark-blue",
+   "title": "Everyday Stripes Scarf - Dark Blue",
+   "url": "https://www.nicobar.com/products/everyday-stripes-scarf-dark-blue",
+   "ground_text": "everyday stripes scarf - dark blue stripes that do more. the everyday stripes scarf in dark blue is finished with a hint of red that catches the eye. crafted in 100% cotton, it feels light and easy, made for all-day wear. a unisex handloom piece, it carries a sense of craft while staying easy to style. a running stitch detail at the ends and a red star embroidery bring in a graphic contrast. wear it your way, around the neck, over the shoulders, or tied to a bag for a quick update.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049945_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049945_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049945_3.jpg"
+   ],
+   "group": "wear"
+  },
+  "gingham-glow-socks-ice-blue-purple": {
+   "id": "7652883103878",
+   "handle": "gingham-glow-socks-ice-blue-purple",
+   "title": "Gingham Glow Socks - Ice Blue & Purple",
+   "url": "https://www.nicobar.com/products/gingham-glow-socks-ice-blue-purple",
+   "ground_text": "gingham glow socks - ice blue & purple classic checks meet everyday comfort in the gingham glow socks, designed for days on the move. crafted in a soft cotton-rich blend with added stretch, they offer a comfortable fit that lasts throughout the day. the gingham-inspired pattern brings a timeless touch while remaining easy to pair with everyday favourites. comfortable, versatile, and made for everyday wear.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051702_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051702_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051702_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051702_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051702_5.jpg"
+   ],
+   "group": "wear"
+  },
+  "hana-spec-case-charcoal": {
+   "id": "7652882940038",
+   "handle": "hana-spec-case-charcoal",
+   "title": "Hana Spec Case - Charcoal",
+   "url": "https://www.nicobar.com/products/hana-spec-case-charcoal",
+   "ground_text": "hana spec case - charcoal a thoughtful home for your everyday eyewear, the hana spec case keeps your essentials protected in style. crafted in printed mashru with a floral print, it's finished with a brushed nickel metal frame for a secure closure. compact and easy to carry, it slips neatly into your handbag or travel tote while keeping your glasses close at hand. practical, lightweight, and designed for everyday use, it's a small companion you'll reach for often.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051697_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051697_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051697_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051697_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051697_5.jpg"
+   ],
+   "group": "wear"
+  },
+  "hibiscus-candle-holder": {
+   "id": "6914331869318",
+   "handle": "hibiscus-candle-holder",
+   "title": "Hibiscus Candle Holder",
+   "url": "https://www.nicobar.com/products/hibiscus-candle-holder",
+   "ground_text": "hibiscus candle holder add details to your home with nicobar’s hibiscus candle holder. this one instantly lights up any space. the shape of the candle holder is inspired by the beautiful hibiscus flower. great for festive home decor. ideal gift for special occasions. crafted in iron with a gold finish. comes in a gift box",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI030426_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI030426_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI030426_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI030426_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI030426_5.jpg"
+   ],
+   "group": "home"
+  },
+  "indus-straight-mug": {
+   "id": "7426321678470",
+   "handle": "indus-straight-mug",
+   "title": "Indus Straight Mug",
+   "url": "https://www.nicobar.com/products/indus-straight-mug",
+   "ground_text": "indus straight mug the indus straight mug draws from ancient iconography—palm motifs and vases brought to life in a vibrant palette of green, yellow, and pink. set against a striped ivory and charcoal backdrop, it’s a layered visual treat in every sip. crafted in stoneware with a clean, modern form—this one’s made for everyday moments that deserve a little colour. capacity: 250ml",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045545_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045545_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045545_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045545_4.jpg"
+   ],
+   "group": "home"
+  },
+  "kachnar-napkin-rings-set-of-4": {
+   "id": "6595613360262",
+   "handle": "kachnar-napkin-rings-set-of-4",
+   "title": "Kachnar Napkin Rings (Set of 4)",
+   "url": "https://www.nicobar.com/products/kachnar-napkin-rings-set-of-4",
+   "ground_text": "kachnar napkin rings (set of 4) crafted in iron with a matte gold finish, this is a set of four napkin rings that'll elevate every table setting comes in a gift box",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/4_7b6411a8-b5aa-4ef6-9233-d64d46eb9976.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_00d8d736-b4c5-46bb-8e6f-b69fbe0023d7.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/5_0ed1e3e2-3f7b-41bc-be3b-168d2d59b062.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/6_3e58c70d-d03b-43db-b3a7-4d22dbb779fe.jpg"
+   ],
+   "group": "home"
+  },
+  "kesar-scarf-yellow": {
+   "id": "7426319777926",
+   "handle": "kesar-scarf-yellow",
+   "title": "Kesar Scarf - Yellow",
+   "url": "https://www.nicobar.com/products/kesar-scarf-yellow",
+   "ground_text": "kesar scarf - yellow bright tumeric yellow sets the stage for blooming roses in watermelon hues on this scarf—bold, floral, and just a little nostalgic. crafted in a modal-cupro blend and edged with a charcoal border for contrast. tassels with button accents finish the look—drape it, knot it, or carry it like sunshine in your bag.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045735_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045735_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045735_3.jpg"
+   ],
+   "group": "wear"
+  },
+  "madurai-jar-candle-1": {
+   "id": "5196412977286",
+   "handle": "madurai-jar-candle-1",
+   "title": "Madurai Jar Candle",
+   "url": "https://www.nicobar.com/products/madurai-jar-candle-1",
+   "ground_text": "madurai jar candle our warm, scented candles add a touch of dreaminess to an ordinary day. soy wax candles last longer and burn cleaner than petroleum-based paraffin candles, and are less likely to trigger allergies. this candle scents the air with the sweet, intoxicating aroma of mogra (jasmine). nico tip: when the candle burns all the way down, pop a tealight in and continue to use the jar",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/1600718093IMG_1076_bf961c57-f9ef-4502-abbc-1ed88165bf04.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/1600718094IMG_9614_309d062d-46e1-42f4-a3e2-b6d3e5bf8268.jpg"
+   ],
+   "group": "home"
+  },
+  "matchbox-laptop-sleeve-multicolor": {
+   "id": "7576167350406",
+   "handle": "matchbox-laptop-sleeve-multicolor",
+   "title": "Matchbox Laptop Sleeve - Multicolor",
+   "url": "https://www.nicobar.com/products/matchbox-laptop-sleeve-multicolor",
+   "ground_text": "matchbox laptop sleeve - multicolor a graphic take on an everyday essential. the matchbox laptop sleeve brings together bold prints inspired by traditional indian matchbox art. crafted in cotton canvas with a soft lining, it offers structure on the outside and ease within. reimagined with nicobar’s signature motifs, the multicolour print feels playful yet considered. finished with magnetic snap closures, it slips easily into your bag or carries just as well on its own through the workday.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049961_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049961_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049961_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049961_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049961_5.jpg"
+   ],
+   "group": "wear"
+  },
+  "meher-earrings-gold": {
+   "id": "7492613177478",
+   "handle": "meher-earrings-gold",
+   "title": "Meher Earrings - Gold",
+   "url": "https://www.nicobar.com/products/meher-earrings-gold",
+   "ground_text": "meher earrings - gold there is a grace to wedding days that feels timeless. the tilt of a head, the flicker of kajal, the kind of beauty that could be from today or a century ago. the meher earrings hold that feeling. perfect for pheras drenched in sunshine, classic sangeet silks, and every moment you want to feel like you walked out of a miniature painting. strung with pearls and glass, crafted in brass and dipped in gold, they sway softly and shine gently, an heirloom-tinged keepsake for now and forever. comes in a gift box.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/Nicobaraat_-_Product_Card_21305585-b47a-4f27-8ac0-01a2e5604402.png"
+   ],
+   "group": "wear"
+  },
+  "memoir-photo-frame-set-of-2": {
+   "id": "15402020765830",
+   "handle": "memoir-photo-frame-set-of-2",
+   "title": "Memoir Photo Frame - Set of 2",
+   "url": "https://www.nicobar.com/products/memoir-photo-frame-set-of-2",
+   "ground_text": "memoir photo frame - set of 2 two resin frames in a pair of colours, a sea green and a blush, with small gold flowers set around the edges. a matte finish lets the gold flowers do the shining. sold as a pair.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052485_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052485_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052485_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052485_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052485_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052485_6.jpg"
+   ],
+   "group": "home"
+  },
+  "mogra-pasta-plate": {
+   "id": "7652880351366",
+   "handle": "mogra-pasta-plate",
+   "title": "Mogra Pasta Plate",
+   "url": "https://www.nicobar.com/products/mogra-pasta-plate",
+   "ground_text": "mogra pasta plate the mogra pasta plate was made for conversation over meals. crafted in stoneware, and a raised rim, create the right conditions for pasta, noodles, or a shallow curry- anything that needs a little wall to keep it in place. the multi-toned mogra motif circles the rim with the restraint of a pattern that knows its job: to frame the meal, not compete with it.. a plate built for the table's slower moments, it moves from breakfast to dinner without announcing a change.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051387_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051387_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051387_3.jpg"
+   ],
+   "group": "home"
+  },
+  "mukayu-city-tote-red-pink": {
+   "id": "7652882579590",
+   "handle": "mukayu-city-tote-red-pink",
+   "title": "Mukayu City Tote - Red & Pink",
+   "url": "https://www.nicobar.com/products/mukayu-city-tote-red-pink",
+   "ground_text": "mukayu city tote - red & pink designed for days that move from one place to the next, the mukayu city tote brings together generous space and thoughtful organisation for everyday carry. crafted in printed cotton canvas with leather trims and antique brass hardware, it's finished with sturdy handles and whimsy details throughout. designed with spacious compartments and practical pockets, it keeps work essentials, daily finds, and weekend favourites close at hand. easy to carry and made for everyday adventures, it's a dependable companion you'll reach for time and again.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_6.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_7.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_8.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_9.jpg"
+   ],
+   "group": "wear"
+  },
+  "nico-belt-olive-red": {
+   "id": "7454488395910",
+   "handle": "nico-belt-olive-red",
+   "title": "Nico Belt - Olive & Red",
+   "url": "https://www.nicobar.com/products/nico-belt-olive-red",
+   "ground_text": "nico belt - olive & red the nico belt is a versatile essential, woven in sturdy cotton webbing with an olive base framed by a red edge. finished with leather trims and an antique brass buckle, it blends durability with understated style. designed as part of nico core, this piece is made to last — a perennial you’ll reach for season after season. an easy addition to any wardrobe, pairing seamlessly with both casual and polished looks.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI040348_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI040348_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI040348_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI040348_4.jpg"
+   ],
+   "group": "wear"
+  },
+  "nova-charm-black-red": {
+   "id": "7652883333254",
+   "handle": "nova-charm-black-red",
+   "title": "Nova Charm - Black & Red",
+   "url": "https://www.nicobar.com/products/nova-charm-black-red",
+   "ground_text": "nova charm - black & red a small detail that brings a little personality wherever it goes, the nova bag charm is designed to brighten everyday carry. crafted in eucalyptus leather with thoughtful finishing details, it's easy to clip onto your favourite tote, backpack, or keyring. the trapunto star on front and heart on back and metal zipper with red leather puller add a playful accent without overwhelming. an easy way to make an everyday favourite feel uniquely yours.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051738_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051738_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051738_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051738_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051738_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051738_6.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051738_7.jpg"
+   ],
+   "group": "wear"
+  },
+  "palm-bloom-bowl": {
+   "id": "7652880384134",
+   "handle": "palm-bloom-bowl",
+   "title": "Palm Bloom Bowl",
+   "url": "https://www.nicobar.com/products/palm-bloom-bowl",
+   "ground_text": "palm bloom bowl the palm bloom bowl is the kind of piece that enjoys your company. made in stoneware, it is the right size for a vegetable serving, a dal, or a generous portion at a smaller meal. the multi-toned palm bloom motif brings colour and pattern to the surface without overwhelming what's in the bowl.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051388_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051388_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051388_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051388_4.jpg"
+   ],
+   "group": "home"
+  },
+  "patang-mug": {
+   "id": "6538751443078",
+   "handle": "patang-mug",
+   "title": "Patang mug",
+   "url": "https://www.nicobar.com/products/patang-mug",
+   "ground_text": "patang mug our much-loved alphabet mugs return; that familiar form in smooth stoneware, but with fresh designs that are a real love letter to india's regional dialect and scripts part of our core collection, you'll always find them in stores and in stock they make the perfect gifts, souvenirs, and keepsakes, packaged neatly in a gift box capacity (each): 280 ml",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_cde54efa-f87c-4beb-9972-83a6d57d463f.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/4_2126275e-3f6c-4ae7-911a-5e78e4b6b2ae.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/5_0b60b306-44fb-436b-83f7-976a1342d296.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/6_6371f522-da83-488f-bebd-57e4c0396e3b.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/IMG_6615_83e46d65-e975-44fe-a98e-98f7fdf7e601.jpg"
+   ],
+   "group": "home"
+  },
+  "phool-cake-stand": {
+   "id": "7426322104454",
+   "handle": "phool-cake-stand",
+   "title": "Phool Cake Stand",
+   "url": "https://www.nicobar.com/products/phool-cake-stand",
+   "ground_text": "phool cake stand make room for a little drama. the phool cake stand is tiered, gleaming, and ready to take centre stage. each level is crafted in green glass with a polished gold rim—equal parts bold and beautiful. finished with a sculptural gold-toned stem, it's made for high teas, festive feasts, and everything in between.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045554_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045554_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045554_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045554_4.jpg"
+   ],
+   "group": "home"
+  },
+  "pink-jade-drops-gold": {
+   "id": "7741538730118",
+   "handle": "pink-jade-drops-gold",
+   "title": "Pink Jade Drops - Gold",
+   "url": "https://www.nicobar.com/products/pink-jade-drops-gold",
+   "ground_text": "pink jade drops - gold a drop earring built around a single cabochon, pink jade held by three small gold beads. handcrafted in brass and 18k gold-plated, finished with a plain gold hook. small and rounded, it merges at a single point of colour.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053600_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053600_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053600_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053600_4.jpg"
+   ],
+   "group": "wear"
+  },
+  "pixel-cap-olive": {
+   "id": "7652883038342",
+   "handle": "pixel-cap-olive",
+   "title": "Pixel Cap - Olive",
+   "url": "https://www.nicobar.com/products/pixel-cap-olive",
+   "ground_text": "pixel cap - olive crafted in printed cotton twill with an all-over pixel heart print, it's finished with embroidered eyelets and an adjustable metal buckle for a personalised fit. designed to feel light and comfortable throughout the day, it pairs effortlessly with both casual and travel-ready looks. thoughtfully made for everyday adventures, it's a cap that's easy to wear wherever you're headed.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051700_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051700_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051700_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051700_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051700_5.jpg"
+   ],
+   "group": "wear"
+  },
+  "rimjhim-pouch-ivory": {
+   "id": "7652882841734",
+   "handle": "rimjhim-pouch-ivory",
+   "title": "Rimjhim Pouch - Ivory",
+   "url": "https://www.nicobar.com/products/rimjhim-pouch-ivory",
+   "ground_text": "rimjhim pouch - ivory an ode to the rain, the rimjhim pouch binds together playful print and everyday practicality. crafted in printed cotton twill with a taffeta lining, it's finished with a brushed nickel metal zipper and a leather puller. thoughtfully sized for cosmetics, stationery, travel essentials, or the little things you like to keep close. easy to carry and made for everyday use, it slips effortlessly into your tote or handbag",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051695_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051695_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051695_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051695_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051695_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051695_6.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051695_7.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051695_8.jpg"
+   ],
+   "group": "wear"
+  },
+  "starfly-socks-black-white": {
+   "id": "7652883136646",
+   "handle": "starfly-socks-black-white",
+   "title": "Starfly Socks - Black & White",
+   "url": "https://www.nicobar.com/products/starfly-socks-black-white",
+   "ground_text": "starfly socks - black & white inspired by star-filled skies, the starfly socks bring together playful pattern and everyday ease. crafted in a soft cotton-rich blend with a comfortable stretch, they're designed to feel light and breathable from morning to night. finished with a star motif in different colours on each sock, they add a cheerful touch without feeling loud. an easy everyday essential you'll keep reaching for.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051703_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051703_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051703_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051703_4.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051703_5.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051703_6.jpg"
+   ],
+   "group": "wear"
+  },
+  "tusk-bloom-cushion-cover": {
+   "id": "7652881498246",
+   "handle": "tusk-bloom-cushion-cover",
+   "title": "Tusk Bloom Cushion Cover",
+   "url": "https://www.nicobar.com/products/tusk-bloom-cushion-cover",
+   "ground_text": "tusk bloom cushion cover inspired by playful elephant motifs and blooms in full flourish, the tusk bloom cushion cover brings together familiar nicobar icons in a composition full of colour and movement. crafted in cotton slub on both sides, it features a detailed digital print with highlighted dragonflies, triangle gota lace edges, and a concealed zipper for a neat finish. easy to layer, it brings a cheerful note to your favourite corner.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051346_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051346_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051346_3.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051346_4.jpg"
+   ],
+   "group": "home"
+  },
+  "windowpane-checks-scarf-dark-blue": {
+   "id": "7576166760582",
+   "handle": "windowpane-checks-scarf-dark-blue",
+   "title": "Windowpane Checks Scarf - Dark Blue",
+   "url": "https://www.nicobar.com/products/windowpane-checks-scarf-dark-blue",
+   "ground_text": "windowpane checks scarf - dark blue checks, sharpened. the windowpane checks scarf in deep blue keeps things clean with a subtle twist. crafted in 100% cotton, it offers a soft, breathable feel that works across seasons. a unisex handloom piece, it brings a sense of craft while staying easy to style. finished with gingham binding and a single yellow star at the corner, a small detail that stands out. an easy add-on to elevate everyday outfits, from casual to slightly dressed up.",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049944_1.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049944_2.jpg",
+    "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049944_3.jpg"
+   ],
+   "group": "wear"
+  }
+ }
+}

@@ -1,0 +1,9 @@
+{
+  "as_of": "2026-11-01",
+  "billed_refusal_categories": ["bio", "frontier_llm", "reasoning_extraction"],
+  "models": {
+    "claude-opus-5-5":   { "in": 4.00, "out": 20.00, "write_5m": 5.00,  "read": 0.20 },
+    "claude-sonnet-5-5": { "in": 2.00, "out": 10.00, "write_5m": 2.50,  "read": 0.10 },
+    "claude-haiku-5-5":  { "in": 0.10, "out": 0.50,  "write_5m": 0.125, "read": 0.01 }
+  }
+}

@@ -1,0 +1,159 @@
+{
+ "version": "recommendations/v1",
+ "synthetic": true,
+ "as_of": "2026-10-29",
+ "snapshot_id": "f88b7db52538870d",
+ "rule": "isolation fixture: picks copied from real rows; c-badpick p4 is a real product with no available variant",
+ "rows": [
+  {
+   "customer_id": "c-ok-1",
+   "picks": [
+    {
+     "product_id": "7741540040838",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652882579590",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "5196329812102",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "6538751115398",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7741538730118",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7697174200454",
+     "reason_code": "HAND_SET"
+    }
+   ]
+  },
+  {
+   "customer_id": "c-ok-2",
+   "picks": [
+    {
+     "product_id": "7576167350406",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652882940038",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652883136646",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652883333254",
+     "reason_code": "HAND_SET"
+    }
+   ]
+  },
+  {
+   "customer_id": "c-ok-3",
+   "picks": [
+    {
+     "product_id": "6595613360262",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "6914331869318",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7728573251718",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "6892869877894",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "5196418809990",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7426322104454",
+     "reason_code": "HAND_SET"
+    }
+   ]
+  },
+  {
+   "customer_id": "c-ok-4",
+   "picks": [
+    {
+     "product_id": "7492613243014",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7492613406854",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7492613275782",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7492613177478",
+     "reason_code": "HAND_SET"
+    }
+   ]
+  },
+  {
+   "customer_id": "c-throw",
+   "picks": [
+    {
+     "product_id": "7741540040838",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652882579590",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "5196329812102",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "6538751115398",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7741538730118",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7697174200454",
+     "reason_code": "HAND_SET"
+    }
+   ]
+  },
+  {
+   "customer_id": "c-badpick",
+   "picks": [
+    {
+     "product_id": "6595613360262",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "6914331869318",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7728573251718",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "15401644228742",
+     "reason_code": "HAND_SET"
+    }
+   ]
+  }
+ ]
+}

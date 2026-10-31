@@ -1,0 +1,306 @@
+{
+ "count": 22,
+ "rule": "a mutant is a deliberately broken rule set. Run the whole case suite under each; a mutant is killed when at least one case changes verdict from its baseline. A survivor fails the build.",
+ "baseline": "all cases in checks.json, blind-drafts.json, image-gate-and-links.json, injection.json, layout.json",
+ "retired": [
+  {
+   "id": "NFKC off",
+   "why": "NFKC normalisation was dropped (the exact character set already rejects everything it would fold); running with it ON changes no verdict in the suite",
+   "nfkc_on_flips": []
+  }
+ ],
+ "mutants": [
+  {
+   "id": "M01",
+   "rule_change": "C0 as a Unicode range (U+00C0 to U+024F) instead of the exact character set",
+   "why_it_matters": "a range admits look-alike letters such as U+01C0 and U+01C3",
+   "killed_by": [
+    "BL-D9.7",
+    "R24-1",
+    "R24-2",
+    "R24-8"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M02",
+   "rule_change": "slot tokens are not masked before C0",
+   "why_it_matters": "braces would fail every legitimate draft",
+   "killed_by": [
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "BL-D1",
+    "BL-D5w",
+    "BL-D9.5",
+    "C6-3",
+    "F1-1",
+    "F1-3",
+    "G1",
+    "G2",
+    "G3",
+    "GR6",
+    "GR7",
+    "GR8",
+    "L2",
+    "L4",
+    "L8",
+    "N0",
+    "N1",
+    "N2",
+    "N3",
+    "N4",
+    "N5",
+    "N6",
+    "N7-3",
+    "N7-4",
+    "NEG-H1",
+    "NM10",
+    "NM11",
+    "NM12",
+    "NM13",
+    "NM4",
+    "NM5",
+    "NM7",
+    "NM8",
+    "NM9",
+    "OUR",
+    "R18-3",
+    "R18-6",
+    "R24-12",
+    "R24-5",
+    "R24-6",
+    "R28-2",
+    "R28-4",
+    "SEA1"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M03",
+   "rule_change": "C8d reads the raw text, title spans are not masked",
+   "why_it_matters": "\"the {p2} Mini\" would slip under the 2-token threshold",
+   "killed_by": [
+    "BL-D2a",
+    "R18-1",
+    "R18-2",
+    "R18-4"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M04",
+   "rule_change": "C8d = consecutive ungrounded capitalised tokens (the first form)",
+   "why_it_matters": "one grounded word inside an invented name defeats it",
+   "killed_by": [
+    "BL-D3",
+    "R18-4",
+    "R18-5",
+    "R18-7"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M05",
+   "rule_change": "the count rule (set of N, N pieces) is switched off",
+   "why_it_matters": "an invented set size reaches review",
+   "killed_by": [
+    "BL-D2b",
+    "R28-1",
+    "R28-3",
+    "R28-6",
+    "R28-7"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M06",
+   "rule_change": "a count is grounded by any occurrence of the number",
+   "why_it_matters": "a number inside a dimension string would ground \"set of six\"",
+   "killed_by": [
+    "BL-D2b",
+    "R28-1",
+    "R28-7"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M07",
+   "rule_change": "the count rule without the \"N pieces = number of picks\" exemption",
+   "why_it_matters": "a draft that counts its own picks would fail",
+   "killed_by": [
+    "BL-D1",
+    "BL-D9.5",
+    "G2",
+    "L8",
+    "N0",
+    "N7-3",
+    "N7-4",
+    "NEG-H1",
+    "R18-3",
+    "R24-12",
+    "R24-5",
+    "R24-6",
+    "R28-2",
+    "R28-5"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M08",
+   "rule_change": "C3 uses the whitespace count only",
+   "why_it_matters": "dashes with no spaces would hide words",
+   "killed_by": [
+    "N7-2"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M09",
+   "rule_change": "C3 uses the token count only",
+   "why_it_matters": "standalone dashes in titles would hide words from a split() counter",
+   "killed_by": [
+    "L1",
+    "L3",
+    "N7-1"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M10",
+   "rule_change": "C3 counts the raw text with tokens removed instead of the expanded text",
+   "why_it_matters": "pick titles add 5 to 13 words per draft",
+   "killed_by": [
+    "L1",
+    "L3",
+    "N7-1",
+    "N7-2"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M11",
+   "rule_change": "the apostrophe fold is switched off",
+   "why_it_matters": "a curly apostrophe would defeat \"don't miss\"",
+   "killed_by": [
+    "D6"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M12",
+   "rule_change": "C4 without the paraphrase patterns",
+   "why_it_matters": "\"twenty percent less\" and \"with code\" would pass",
+   "killed_by": [
+    "BL-D8.1",
+    "BL-D8.4",
+    "BL-D8.5",
+    "BL-D8.6",
+    "BL-D8.7",
+    "BL-D8.8",
+    "BL-D9.2",
+    "BL-D9.3"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M13",
+   "rule_change": "C4 keeps the bare \\bhurry\\b",
+   "why_it_matters": "\"in no hurry at all\" would fail",
+   "killed_by": [
+    "NEG-H1"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M14",
+   "rule_change": "the spaced-letters rule is switched off",
+   "why_it_matters": "\"s a l e\" would pass",
+   "killed_by": [
+    "BL-D9.1",
+    "D25"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M15",
+   "rule_change": "the renderer does not escape model text",
+   "why_it_matters": "model markup would reach the reviewer console",
+   "killed_by": [
+    "BL-D7-render"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M16",
+   "rule_change": "the image lookup runs over the whole snapshot instead of the picks",
+   "why_it_matters": "a real image of another product would pass",
+   "killed_by": [
+    "X2-03",
+    "X2-17c"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M17",
+   "rule_change": "C2 is relaxed from set equality to subset",
+   "why_it_matters": "a missing or repeated slot would pass",
+   "killed_by": [
+    "SLT1",
+    "SLT2",
+    "SLT8"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M18",
+   "rule_change": "C3 uses a letter-bearing whitespace counter (the option declined for the 120-word gate)",
+   "why_it_matters": "the gate would disagree with a plain split()",
+   "killed_by": [
+    "L1",
+    "L3",
+    "N7-1"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M19",
+   "rule_change": "C3 also counts code-rendered landing section titles",
+   "why_it_matters": "landing pages would fail for words the model did not write",
+   "killed_by": [
+    "L8"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M20",
+   "rule_change": "\"Indian Ocean\" is not allowlisted",
+   "why_it_matters": "the one permitted brand claim would fail C8d on every draft that uses it",
+   "killed_by": [
+    "F1-1",
+    "F1-3"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M21",
+   "rule_change": "packing_list note dropped from the scan list",
+   "why_it_matters": "a field the model writes goes unscanned",
+   "killed_by": [
+    "L-05"
+   ],
+   "status": "VOID until the port"
+  },
+  {
+   "id": "M22",
+   "rule_change": "renderer gives p1 the image of p2, on the landing page and on the catalog",
+   "why_it_matters": "a real image of a real product, on the right host, on the wrong card",
+   "killed_by": [
+    "L-12a",
+    "L-12b"
+   ],
+   "status": "VOID until the port"
+  }
+ ]
+}

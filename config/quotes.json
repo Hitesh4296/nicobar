@@ -1,0 +1,26 @@
+{
+ "version": "v0",
+ "quotes": [
+  {
+   "id": "E4",
+   "text": "Light the diya, set a flower down, and begin.",
+   "slug": "the-brass-story",
+   "source": "nicobar.com/pages/the-brass-story",
+   "fetched_at": "2026-10-29",
+   "labels": [
+    "festive"
+   ]
+  },
+  {
+   "id": "E6",
+   "text": "For your table, or someone else's",
+   "slug": "the-brass-story",
+   "source": "nicobar.com/pages/the-brass-story",
+   "fetched_at": "2026-10-29",
+   "labels": [
+    "gifting",
+    "hosting"
+   ]
+  }
+ ]
+}

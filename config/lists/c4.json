@@ -1,0 +1,446 @@
+{
+ "version": "c4-v3",
+ "flags": "i",
+ "applies_to": "raw model text and raw source text, after the apostrophe fold (U+2019 and U+2018 become U+0027). Never run on expanded or rendered text, so a pick title such as \"(Limited Edition)\" renders verbatim.",
+ "also": {
+  "subject_mostly_capitals": "a subject where upper-case letters are more than half of all letters fails C4"
+ },
+ "patterns": [
+  {
+   "id": "c4.001",
+   "group": "percent-off",
+   "re": "\\b\\d{1,3}\\s?(%|percent|per cent)\\s?(off|discount|less|cheaper|lower|savings?)\\b"
+  },
+  {
+   "id": "c4.002",
+   "group": "percent-off",
+   "re": "\\b(ten|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|half|a third|a quarter)( percent| per cent)? off\\b"
+  },
+  {
+   "id": "c4.003",
+   "group": "percent-off",
+   "re": "\\bhalf[- ]price\\b"
+  },
+  {
+   "id": "c4.004",
+   "group": "percent-off",
+   "re": "\\bflat\\s+\\d+"
+  },
+  {
+   "id": "c4.005",
+   "group": "percent-off",
+   "re": "\\bup\\s?to\\s+\\d+\\s?%"
+  },
+  {
+   "id": "c4.006",
+   "group": "discount-words",
+   "re": "\\bsale\\b"
+  },
+  {
+   "id": "c4.007",
+   "group": "discount-words",
+   "re": "\\bdiscount(s|ed)?\\b"
+  },
+  {
+   "id": "c4.008",
+   "group": "discount-words",
+   "re": "\\bclearance\\b"
+  },
+  {
+   "id": "c4.009",
+   "group": "discount-words",
+   "re": "\\bend of season\\b"
+  },
+  {
+   "id": "c4.010",
+   "group": "discount-words",
+   "re": "\\beoss\\b"
+  },
+  {
+   "id": "c4.011",
+   "group": "discount-words",
+   "re": "\\b(coupon|promo|voucher|discount)\\s+code\\b"
+  },
+  {
+   "id": "c4.012",
+   "group": "discount-words",
+   "re": "\\buse code\\b"
+  },
+  {
+   "id": "c4.013",
+   "group": "discount-words",
+   "re": "\\bcashback\\b"
+  },
+  {
+   "id": "c4.014",
+   "group": "discount-words",
+   "re": "\\bfree (shipping|delivery|gift|gift wrap)\\b"
+  },
+  {
+   "id": "c4.015",
+   "group": "discount-words",
+   "re": "\\bcomplimentary\\b"
+  },
+  {
+   "id": "c4.016",
+   "group": "discount-words",
+   "re": "\\bbogo\\b"
+  },
+  {
+   "id": "c4.017",
+   "group": "discount-words",
+   "re": "\\bbuy (one|\\d+|two) get\\b"
+  },
+  {
+   "id": "c4.018",
+   "group": "discount-words",
+   "re": "\\b(special|introductory|festive|exclusive|limited|diwali|wedding|season(al)?)\\s+(offers?|deals?|prices?|pricing)\\b"
+  },
+  {
+   "id": "c4.019",
+   "group": "discount-words",
+   "re": "\\bdeals?\\b"
+  },
+  {
+   "id": "c4.020",
+   "group": "price",
+   "re": "\\bsave (₹|rs\\.?|inr|\\d|up)\\b"
+  },
+  {
+   "id": "c4.021",
+   "group": "price",
+   "re": "\\b(lowest|best) price\\b"
+  },
+  {
+   "id": "c4.022",
+   "group": "price",
+   "re": "\\bprice drop\\b"
+  },
+  {
+   "id": "c4.023",
+   "group": "price",
+   "re": "\\bvoyager price\\b"
+  },
+  {
+   "id": "c4.024",
+   "group": "price",
+   "re": "\\bspecial pric(e|es|ing)\\b"
+  },
+  {
+   "id": "c4.025",
+   "group": "price",
+   "re": "\\bpric(e|es|ed|ing)\\b"
+  },
+  {
+   "id": "c4.026",
+   "group": "price",
+   "re": "\\brupees?\\b"
+  },
+  {
+   "id": "c4.027",
+   "group": "price",
+   "re": "\\brs\\.?\\s?\\d"
+  },
+  {
+   "id": "c4.028",
+   "group": "price",
+   "re": "\\binr\\b"
+  },
+  {
+   "id": "c4.029",
+   "group": "price",
+   "re": "₹"
+  },
+  {
+   "id": "c4.030",
+   "group": "price",
+   "re": "\\b(hundred|thousand|lakh|lac|crore)s?\\b(?!-)"
+  },
+  {
+   "id": "c4.031",
+   "group": "price",
+   "re": "\\b(?!\\d+k\\s*-?\\s*gold)\\d+\\s?k\\b(?!\\s*-?\\s*gold)"
+  },
+  {
+   "id": "c4.032",
+   "group": "urgency-scarcity",
+   "re": "(?<!no )\\bhurry\\b"
+  },
+  {
+   "id": "c4.033",
+   "group": "urgency-scarcity",
+   "re": "\\blast chance\\b"
+  },
+  {
+   "id": "c4.034",
+   "group": "urgency-scarcity",
+   "re": "\\b(act|order|shop|buy) now\\b"
+  },
+  {
+   "id": "c4.035",
+   "group": "urgency-scarcity",
+   "re": "\\bends? (today|tonight|soon|midnight|sunday)\\b"
+  },
+  {
+   "id": "c4.036",
+   "group": "urgency-scarcity",
+   "re": "\\btoday only\\b"
+  },
+  {
+   "id": "c4.037",
+   "group": "urgency-scarcity",
+   "re": "\\bwhile stocks? last\\b"
+  },
+  {
+   "id": "c4.038",
+   "group": "urgency-scarcity",
+   "re": "\\bonly \\d+ (left|pieces?)\\b"
+  },
+  {
+   "id": "c4.039",
+   "group": "urgency-scarcity",
+   "re": "\\bselling fast\\b"
+  },
+  {
+   "id": "c4.040",
+   "group": "urgency-scarcity",
+   "re": "\\bgoing fast\\b"
+  },
+  {
+   "id": "c4.041",
+   "group": "urgency-scarcity",
+   "re": "\\bbefore it'?s gone\\b"
+  },
+  {
+   "id": "c4.042",
+   "group": "urgency-scarcity",
+   "re": "\\blimited (time|period|stock|edition)\\b"
+  },
+  {
+   "id": "c4.043",
+   "group": "urgency-scarcity",
+   "re": "\\blast[- ]minute\\b"
+  },
+  {
+   "id": "c4.044",
+   "group": "urgency-scarcity",
+   "re": "\\bdon'?t miss\\b"
+  },
+  {
+   "id": "c4.045",
+   "group": "hype",
+   "re": "!"
+  },
+  {
+   "id": "c4.046",
+   "group": "hype",
+   "re": "\\bbest[- ]?(?:gift|price|seller|selling|buy)s?\\b"
+  },
+  {
+   "id": "c4.047",
+   "group": "hype",
+   "re": "\\bbestsellers?\\b"
+  },
+  {
+   "id": "c4.048",
+   "group": "hype",
+   "re": "\\bmust[- ]have\\b"
+  },
+  {
+   "id": "c4.049",
+   "group": "hype",
+   "re": "\\bstunning\\b"
+  },
+  {
+   "id": "c4.050",
+   "group": "hype",
+   "re": "\\bamazing\\b"
+  },
+  {
+   "id": "c4.051",
+   "group": "hype",
+   "re": "\\bexclusive\\b"
+  },
+  {
+   "id": "c4.052",
+   "group": "hype",
+   "re": "\\biconic\\b"
+  },
+  {
+   "id": "c4.053",
+   "group": "hype",
+   "re": "\\bultimate\\b"
+  },
+  {
+   "id": "c4.054",
+   "group": "hype",
+   "re": "\\bluxur(y|ious)\\b"
+  },
+  {
+   "id": "c4.055",
+   "group": "hype",
+   "re": "\\bluxe\\b"
+  },
+  {
+   "id": "c4.056",
+   "group": "hype",
+   "re": "\\bgame[- ]changer\\b"
+  },
+  {
+   "id": "c4.057",
+   "group": "hype",
+   "re": "\\bonce in a lifetime\\b"
+  },
+  {
+   "id": "c4.058",
+   "group": "pronoun",
+   "re": "\\b(we|us)\\b"
+  },
+  {
+   "id": "c4.059",
+   "group": "meta",
+   "re": "\\b(my|the|your) (instructions|system prompt|prompt)\\b"
+  },
+  {
+   "id": "c4.060",
+   "group": "meta",
+   "re": "\\bas an? (ai|assistant|language model)\\b"
+  },
+  {
+   "id": "c4.061",
+   "group": "solicitation",
+   "re": "\\b(card number|cvv|otp|password|upi|account number|reply with|click (here|below)|tap (here|below)|log ?in)\\b"
+  },
+  {
+   "id": "c4.062",
+   "group": "paraphrase",
+   "re": "\\b(\\d{1,3}|one|two|three|four|five|six|seven|eight|nine|ten|fifteen|twenty|twenty[- ]five|thirty|forty|fifty|sixty|seventy|eighty|ninety)\\s?(%|percent|per cent)\\s+(less|lower|cheaper|off|discount|savings?)\\b"
+  },
+  {
+   "id": "c4.063",
+   "group": "paraphrase",
+   "re": "\\b(a|one) (third|quarter|half|fifth) (off|less)\\b"
+  },
+  {
+   "id": "c4.064",
+   "group": "paraphrase",
+   "re": "\\bhalf (the )?(usual|price|cost)\\b"
+  },
+  {
+   "id": "c4.065",
+   "group": "paraphrase",
+   "re": "\\b(two|2) for (the price of )?(one|1)\\b"
+  },
+  {
+   "id": "c4.066",
+   "group": "paraphrase",
+   "re": "\\bbuy (one|1),? get (one|1)\\b"
+  },
+  {
+   "id": "c4.067",
+   "group": "paraphrase",
+   "re": "\\bwith code\\b"
+  },
+  {
+   "id": "c4.068",
+   "group": "paraphrase",
+   "re": "\\bcode [A-Z]{2,}[0-9]{1,}\\b"
+  },
+  {
+   "id": "c4.069",
+   "group": "paraphrase",
+   "re": "\\bat checkout\\b"
+  },
+  {
+   "id": "c4.070",
+   "group": "paraphrase",
+   "re": "\\bend[- ]of[- ]season\\b"
+  },
+  {
+   "id": "c4.071",
+   "group": "paraphrase",
+   "re": "\\be\\.?o\\.?s\\.?s\\b"
+  },
+  {
+   "id": "c4.072",
+   "group": "paraphrase",
+   "re": "\\bdis-?count\\b"
+  },
+  {
+   "id": "c4.073",
+   "group": "paraphrase",
+   "re": "\\b(pay|cost|costs|priced) (less|lower|fewer)\\b"
+  },
+  {
+   "id": "c4.074",
+   "group": "paraphrase",
+   "re": "\\bnow reduced\\b"
+  },
+  {
+   "id": "c4.075",
+   "group": "paraphrase",
+   "re": "\\breduced (from|to|by)\\b"
+  },
+  {
+   "id": "c4.076",
+   "group": "paraphrase",
+   "re": "\\bmarked down\\b"
+  },
+  {
+   "id": "c4.077",
+   "group": "paraphrase",
+   "re": "\\bmarkdown\\b"
+  },
+  {
+   "id": "c4.078",
+   "group": "paraphrase",
+   "re": "\\buntil (monday|tuesday|wednesday|thursday|friday|saturday|sunday|midnight|tonight|stocks|then)\\b"
+  },
+  {
+   "id": "c4.079",
+   "group": "paraphrase",
+   "re": "\\bthis (week|weekend|month) only\\b"
+  },
+  {
+   "id": "c4.080",
+   "group": "paraphrase",
+   "re": "\\bonly (this|until)\\b"
+  },
+  {
+   "id": "c4.081",
+   "group": "familiarity",
+   "re": "\\bwelcome\\s+back\\b"
+  },
+  {
+   "id": "c4.082",
+   "group": "familiarity",
+   "re": "\\byour\\s+last\\b"
+  },
+  {
+   "id": "c4.083",
+   "group": "familiarity",
+   "re": "\\blast\\s+time\\b"
+  },
+  {
+   "id": "c4.084",
+   "group": "familiarity",
+   "re": "\\byou\\s+loved\\b"
+  },
+  {
+   "id": "c4.085",
+   "group": "familiarity",
+   "re": "\\bjust\\s+for\\s+you\\b"
+  },
+  {
+   "id": "c4.086",
+   "group": "familiarity",
+   "re": "\\bchosen\\s+for\\s+you\\b"
+  }
+ ],
+ "notes": [
+  "\\bdeals?\\b has no exception.",
+  "\"hurry\" is narrowed with (?<!no ) so \"in no hurry at all\" passes.",
+  "\"our\" is not here: it is a WARN (warn.json).",
+  "Patterns use only syntax shared by Python re and ECMAScript (lookahead and fixed-width lookbehind)."
+ ]
+}

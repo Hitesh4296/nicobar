@@ -1,0 +1,3589 @@
+{
+ "source": "hand-written drafts; picks are real products from the 2026-10-29 snapshot, listed in picks.json",
+ "status": "VOID until the TypeScript checker runs them",
+ "expect_semantics": {
+  "draft": "validate() on ModelJson; fails_any fires hard; pass means no hard check fires",
+  "render": "applied after renderAll; tamper replaces the named attribute",
+  "request": "buildRequest test in gen",
+  "data": "build output",
+  "spec": "a stated property",
+  "live": "stage F"
+ },
+ "count": 63,
+ "cases": [
+  {
+   "id": "GOOD-c18",
+   "name": "known-good landing v3, shape trip",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "customer_id": "c18",
+   "format": "landing_page",
+   "picks": [
+    "matchbox-laptop-sleeve-multicolor",
+    "hana-spec-case-charcoal",
+    "starfly-socks-black-white",
+    "nova-charm-black-red"
+   ],
+   "plan_occasion": "Work trip to Singapore",
+   "plan_occasion_key": "smart",
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "smart",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "For the flight out",
+       "line": "Bold matchbox prints in cotton canvas, with a soft lining around the laptop."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "Goes in first, glasses inside"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and breathable from morning to night"
+        },
+        {
+         "slot": "p4",
+         "note": "Clips onto the tote last"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Packed in order, small things first, so the day in Singapore starts without a search through the bag."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GOOD-c16",
+   "name": "known-good landing v3, shape gift",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "customer_id": "c16",
+   "format": "landing_page",
+   "picks": [
+    "bouquet-scarf-green",
+    "mukayu-city-tote-red-pink",
+    "elephant-origami",
+    "ananas-mug",
+    "pink-jade-drops-gold",
+    "bug-bracelet-gold-1"
+   ],
+   "plan_occasion": "Mother's birthday",
+   "plan_occasion_key": "birthday",
+   "plan_shape": "gift",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "birthday",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "A birthday in garden colours",
+       "line": "Printed all over in garden florals, with tassels at opposite corners and mother-of-pearl buttons."
+      },
+      {
+       "type": "story",
+       "text": "A long lunch, a table of people, and one small thing kept for years. Start with what she will wear first, and leave the rest for later in the day."
+      },
+      {
+       "type": "feature",
+       "slot": "p6",
+       "line": "Cast in brass and finished with 18k gold plating, with a polished onyx stone at its centre for after-dark dressing."
+      },
+      {
+       "type": "pairing",
+       "slots": [
+        "p3",
+        "p4"
+       ],
+       "line": "One for the shelf and one for the morning, both quiet enough to live on the same table."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p2",
+         "caption": "Generous space for days that move from one place to the next."
+        },
+        {
+         "slot": "p5",
+         "caption": "A single cabochon of pink jade held by three small gold beads."
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GOOD-c01",
+   "name": "known-good landing v3, shape wedding",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "customer_id": "c01",
+   "format": "landing_page",
+   "picks": [
+    "dupki-studs-gold",
+    "chandni-necklace-large-gold",
+    "darbaar-balis-gold",
+    "meher-earrings-gold"
+   ],
+   "plan_occasion": "Sister's wedding",
+   "plan_occasion_key": "wedding",
+   "plan_shape": "wedding",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "wedding",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "For a sister's wedding",
+       "line": "Small studs for poolside mehendis and sun-soaked lunches, crafted in brass."
+      },
+      {
+       "type": "pairing",
+       "slots": [
+        "p2",
+        "p3"
+       ],
+       "line": "Pearls for the morning ceremony, and balis for the hour the ceremony turns into a dance floor."
+      },
+      {
+       "type": "feature",
+       "slot": "p4",
+       "line": "Made for pheras drenched in sunshine and classic sangeet silks, when the whole day runs from one room to the next."
+      },
+      {
+       "type": "story",
+       "text": "Four small pieces for one long day, worn in the order the day asks for them, from the first photograph to the last song."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GOOD-c07",
+   "name": "known-good landing v3, shape home",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "customer_id": "c07",
+   "format": "landing_page",
+   "picks": [
+    "kachnar-napkin-rings-set-of-4",
+    "hibiscus-candle-holder",
+    "buransh-straight-mug",
+    "alam-cookie-tray-with-tong",
+    "anar-incense-set-anglesey",
+    "phool-cake-stand"
+   ],
+   "plan_occasion": "Diwali at home",
+   "plan_occasion_key": "festive",
+   "plan_shape": "home",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "festive",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p6",
+       "heading": "A table for Diwali at home",
+       "line": "Tiered in green glass with a polished gold rim, made for festive feasts."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p1",
+         "caption": "Crafted in iron with a matte gold finish."
+        },
+        {
+         "slot": "p2",
+         "caption": "Shaped like the hibiscus flower, in iron with a gold finish."
+        },
+        {
+         "slot": "p3",
+         "caption": "Pink rhododendron across a deep green base, in stoneware."
+        },
+        {
+         "slot": "p4",
+         "caption": "Stoneware with a pleasing weight, and a tong alongside."
+        }
+       ]
+      },
+      {
+       "type": "quote",
+       "quote_id": "E4"
+      },
+      {
+       "type": "feature",
+       "slot": "p5",
+       "line": "Cast in aluminium and plated in brass, with sticks that fill the air with a juicy tang of blackcurrant."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GOOD-c02",
+   "name": "known-good landing v3, shape trip",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "customer_id": "c02",
+   "format": "landing_page",
+   "picks": [
+    "rimjhim-pouch-ivory",
+    "pixel-cap-olive",
+    "everyday-stripes-scarf-dark-blue",
+    "gingham-glow-socks-ice-blue-purple"
+   ],
+   "plan_occasion": "Monsoon in Kochi",
+   "plan_occasion_key": null,
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": null,
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "Monsoon in Kochi",
+       "line": "An ode to the rain, in printed cotton twill with a taffeta lining."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "On first, with the buckle set"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and easy for all-day wear"
+        },
+        {
+         "slot": "p4",
+         "note": "For days on the move"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Pack small, and keep the bag light. The rest of the trip is yours to decide on the way there."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GOOD-c10",
+   "name": "known-good landing v3, shape trip",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "customer_id": "c10",
+   "format": "landing_page",
+   "picks": [
+    "meher-earrings-gold",
+    "windowpane-checks-scarf-dark-blue",
+    "alphabet-s-charm-black-gold-1",
+    "darbaar-balis-gold",
+    "mukayu-city-tote-red-pink"
+   ],
+   "plan_occasion": "Jaipur weekend",
+   "plan_occasion_key": "resort",
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "resort",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p5",
+       "heading": "For a Jaipur weekend",
+       "line": "Printed cotton canvas with leather trims, for days that move from one place to the next."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "Soft and breathable, folded in first"
+        },
+        {
+         "slot": "p1",
+         "note": "For the evening, kept in the side pocket"
+        },
+        {
+         "slot": "p3",
+         "note": "Goes on last, with the keys"
+        },
+        {
+         "slot": "p4",
+         "note": "For the one long dinner"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Two days, one bag, and everything in the order it comes out. Nothing here asks to be planned around."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GOOD-c20",
+   "name": "known-good landing v3, shape open",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "customer_id": "c20",
+   "format": "landing_page",
+   "picks": [
+    "indus-straight-mug",
+    "tusk-bloom-cushion-cover",
+    "memoir-photo-frame-set-of-2",
+    "mogra-pasta-plate",
+    "palm-bloom-bowl",
+    "donburi-shallow-bowl-set-of-5-1"
+   ],
+   "plan_occasion": null,
+   "plan_occasion_key": null,
+   "plan_shape": "open",
+   "new_user": true,
+   "draft": {
+    "landing_page": {
+     "occasion_key": null,
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "For an ordinary morning",
+       "line": "Crafted in stoneware, with palm motifs and vases in a vibrant palette."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p2",
+         "caption": "Cotton slub on both sides, with triangle gota lace edges."
+        },
+        {
+         "slot": "p3",
+         "caption": "Two resin frames with small gold flowers around the edges."
+        },
+        {
+         "slot": "p4",
+         "caption": "A raised rim, for pasta, noodles or a shallow curry."
+        },
+        {
+         "slot": "p5",
+         "caption": "The right size for a dal or a vegetable serving."
+        }
+       ]
+      },
+      {
+       "type": "feature",
+       "slot": "p6",
+       "line": "A beautiful mix of blossoms and trellis prints, filled with rice, noodles or hearty one-pot meals at the end of the day."
+      },
+      {
+       "type": "story",
+       "text": "A few things for the table and the shelf, chosen for the way they fit an ordinary week at home."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GOOD-c02-both",
+   "name": "known-good both parts, null key",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "customer_id": "c02",
+   "format": "both",
+   "picks": [
+    "rimjhim-pouch-ivory",
+    "pixel-cap-olive",
+    "everyday-stripes-scarf-dark-blue",
+    "gingham-glow-socks-ice-blue-purple"
+   ],
+   "plan_occasion": "Monsoon in Kochi",
+   "plan_occasion_key": null,
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "Small things for a wet walk",
+     "preheader": "A pouch, a cap and a scarf that keep to the bag until the rain does.",
+     "body": "Monsoon in Kochi, and a bag that stays light.\n\n{p1} is an ode to the rain, printed cotton twill with a taffeta lining, sized for the little things you like to keep close.\n\n{p2} is cotton twill too, with a pixel heart print and an adjustable metal buckle.\n\n{p3} is 100% cotton, light and easy, with a running stitch at the ends."
+    },
+    "landing_page": {
+     "occasion_key": null,
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "Monsoon in Kochi",
+       "line": "An ode to the rain, in printed cotton twill with a taffeta lining."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "On first, with the buckle set"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and easy for all-day wear"
+        },
+        {
+         "slot": "p4",
+         "note": "For days on the move"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Pack small, and keep the bag light. The rest of the trip is yours to decide on the way there."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GOOD-c20-both",
+   "name": "known-good new user, occasion none, both parts",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "customer_id": "c20",
+   "format": "both",
+   "picks": [
+    "indus-straight-mug",
+    "tusk-bloom-cushion-cover",
+    "memoir-photo-frame-set-of-2",
+    "mogra-pasta-plate",
+    "palm-bloom-bowl",
+    "donburi-shallow-bowl-set-of-5-1"
+   ],
+   "plan_occasion": null,
+   "plan_occasion_key": null,
+   "plan_shape": "open",
+   "new_user": true,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "For the table, and the morning after",
+     "preheader": "A mug, a cover and a frame for the small hours of an ordinary week.",
+     "body": "Most of a house is made of ordinary mornings.\n\n{p1} is crafted in stoneware, with palm motifs and vases in green, yellow and pink.\n\n{p2} is cotton slub on both sides, printed with elephant motifs and blooms in full flourish.\n\n{p3} is a pair of resin frames, a sea green and a blush, with small gold flowers set around the edges."
+    },
+    "landing_page": {
+     "occasion_key": null,
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "For an ordinary morning",
+       "line": "Crafted in stoneware, with palm motifs and vases in a vibrant palette."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p2",
+         "caption": "Cotton slub on both sides, with triangle gota lace edges."
+        },
+        {
+         "slot": "p3",
+         "caption": "Two resin frames with small gold flowers around the edges."
+        },
+        {
+         "slot": "p4",
+         "caption": "A raised rim, for pasta, noodles or a shallow curry."
+        },
+        {
+         "slot": "p5",
+         "caption": "The right size for a dal or a vegetable serving."
+        }
+       ]
+      },
+      {
+       "type": "feature",
+       "slot": "p6",
+       "line": "A beautiful mix of blossoms and trellis prints, filled with rice, noodles or hearty one-pot meals at the end of the day."
+      },
+      {
+       "type": "story",
+       "text": "A few things for the table and the shelf, chosen for the way they fit an ordinary week at home."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "GOOD-c12-email",
+   "name": "known-good email N=6, only p1 to p3, null key",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "customer_id": "c12",
+   "format": "email",
+   "picks": [
+    "madurai-jar-candle-1",
+    "alphabet-glass-v",
+    "patang-mug",
+    "akshar-coaster-g",
+    "nico-belt-olive-red",
+    "kesar-scarf-yellow"
+   ],
+   "plan_occasion": "First anniversary",
+   "plan_occasion_key": null,
+   "plan_shape": "scene",
+   "new_user": false,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "A first year, and the table it made",
+     "preheader": "A candle, a glass and a mug for an evening with nowhere else to be.",
+     "body": "A first anniversary is mostly a quiet evening.\n\n{p1} scents the air with the sweet aroma of mogra, and burns slowly while dinner goes cold.\n\n{p2} is crafted in borosilicate, light and practical, with an initial in a beautiful design.\n\n{p3} is smooth stoneware, for the coffee the next morning, when the day is still slow."
+    }
+   }
+  },
+  {
+   "id": "L-01",
+   "name": "image_prop: hero carries a real-looking image_url",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C1"
+    ]
+   },
+   "source": "quill 41",
+   "customer_id": "c18",
+   "format": "landing_page",
+   "picks": [
+    "matchbox-laptop-sleeve-multicolor",
+    "hana-spec-case-charcoal",
+    "starfly-socks-black-white",
+    "nova-charm-black-red"
+   ],
+   "plan_occasion": "Work trip to Singapore",
+   "plan_occasion_key": "smart",
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "smart",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "For the flight out",
+       "line": "Bold matchbox prints in cotton canvas, with a soft lining around the laptop.",
+       "image_url": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052493_1.jpg"
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "Goes in first, glasses inside"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and breathable from morning to night"
+        },
+        {
+         "slot": "p4",
+         "note": "Clips onto the tote last"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Packed in order, small things first, so the day in Singapore starts without a search through the bag."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "L-02",
+   "name": "ghost_slot: p5 in packing_list at N=4",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C2.L2"
+    ]
+   },
+   "source": "quill 41",
+   "customer_id": "c18",
+   "format": "landing_page",
+   "picks": [
+    "matchbox-laptop-sleeve-multicolor",
+    "hana-spec-case-charcoal",
+    "starfly-socks-black-white",
+    "nova-charm-black-red"
+   ],
+   "plan_occasion": "Work trip to Singapore",
+   "plan_occasion_key": "smart",
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "smart",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "For the flight out",
+       "line": "Bold matchbox prints in cotton canvas, with a soft lining around the laptop."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "Goes in first, glasses inside"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and breathable from morning to night"
+        },
+        {
+         "slot": "p5",
+         "note": "Clips onto the tote last"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Packed in order, small things first, so the day in Singapore starts without a search through the bag."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "L-03",
+   "name": "unselected_real: feature line on c16 names Veranda Tea Set, a real product (15402020667526) not in the picks",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C8"
+    ]
+   },
+   "needs_full_catalogue": true,
+   "source": "quill 41",
+   "customer_id": "c16",
+   "format": "landing_page",
+   "picks": [
+    "bouquet-scarf-green",
+    "mukayu-city-tote-red-pink",
+    "elephant-origami",
+    "ananas-mug",
+    "pink-jade-drops-gold",
+    "bug-bracelet-gold-1"
+   ],
+   "plan_occasion": "Mother's birthday",
+   "plan_occasion_key": "birthday",
+   "plan_shape": "gift",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "birthday",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "A birthday in garden colours",
+       "line": "Printed all over in garden florals, with tassels at opposite corners and mother-of-pearl buttons."
+      },
+      {
+       "type": "story",
+       "text": "A long lunch, a table of people, and one small thing kept for years. Start with what she will wear first, and leave the rest for later in the day."
+      },
+      {
+       "type": "feature",
+       "slot": "p6",
+       "line": "Set it down beside the Veranda Tea Set, a bracelet cast in brass for after-dark dressing."
+      },
+      {
+       "type": "pairing",
+       "slots": [
+        "p3",
+        "p4"
+       ],
+       "line": "One for the shelf and one for the morning, both quiet enough to live on the same table."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p2",
+         "caption": "Generous space for days that move from one place to the next."
+        },
+        {
+         "slot": "p5",
+         "caption": "A single cabochon of pink jade held by three small gold beads."
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "L-04",
+   "name": "past_item: c10 story says \"your woven weekender\"",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C8n"
+    ]
+   },
+   "depends_on": [
+    "config/lists/c8n.json"
+   ],
+   "source": "quill 41",
+   "customer_id": "c10",
+   "format": "landing_page",
+   "picks": [
+    "meher-earrings-gold",
+    "windowpane-checks-scarf-dark-blue",
+    "alphabet-s-charm-black-gold-1",
+    "darbaar-balis-gold",
+    "mukayu-city-tote-red-pink"
+   ],
+   "plan_occasion": "Jaipur weekend",
+   "plan_occasion_key": "resort",
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "resort",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p5",
+       "heading": "For a Jaipur weekend",
+       "line": "Printed cotton canvas with leather trims, for days that move from one place to the next."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "Soft and breathable, folded in first"
+        },
+        {
+         "slot": "p1",
+         "note": "For the evening, kept in the side pocket"
+        },
+        {
+         "slot": "p3",
+         "note": "Goes on last, with the keys"
+        },
+        {
+         "slot": "p4",
+         "note": "For the one long dinner"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Two days, and your woven weekender again. Everything goes in the order it comes out, with nothing to plan around."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "L-05",
+   "name": "hidden_discount: \"20% off\" in packing_list.note. Also kills M21",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "source": "quill 41",
+   "customer_id": "c18",
+   "format": "landing_page",
+   "picks": [
+    "matchbox-laptop-sleeve-multicolor",
+    "hana-spec-case-charcoal",
+    "starfly-socks-black-white",
+    "nova-charm-black-red"
+   ],
+   "plan_occasion": "Work trip to Singapore",
+   "plan_occasion_key": "smart",
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "smart",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "For the flight out",
+       "line": "Bold matchbox prints in cotton canvas, with a soft lining around the laptop."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "Goes in first, glasses inside"
+        },
+        {
+         "slot": "p3",
+         "note": "20% off when bought together"
+        },
+        {
+         "slot": "p4",
+         "note": "Clips onto the tote last"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Packed in order, small things first, so the day in Singapore starts without a search through the bag."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "L-05b",
+   "name": "hidden domain in packing_list.note",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C5"
+    ]
+   },
+   "source": "probe 52, C5 half of L-05",
+   "customer_id": "c18",
+   "format": "landing_page",
+   "picks": [
+    "matchbox-laptop-sleeve-multicolor",
+    "hana-spec-case-charcoal",
+    "starfly-socks-black-white",
+    "nova-charm-black-red"
+   ],
+   "plan_occasion": "Work trip to Singapore",
+   "plan_occasion_key": "smart",
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "smart",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "For the flight out",
+       "line": "Bold matchbox prints in cotton canvas, with a soft lining around the laptop."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "Goes in first, glasses inside"
+        },
+        {
+         "slot": "p3",
+         "note": "More like this at nicobar.com"
+        },
+        {
+         "slot": "p4",
+         "note": "Clips onto the tote last"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Packed in order, small things first, so the day in Singapore starts without a search through the bag."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "L-06",
+   "name": "split_121: 121 words across 5 fields, each within its cap",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C3.L"
+    ]
+   },
+   "source": "quill 41",
+   "customer_id": "c01",
+   "format": "landing_page",
+   "picks": [
+    "dupki-studs-gold",
+    "chandni-necklace-large-gold",
+    "darbaar-balis-gold",
+    "meher-earrings-gold"
+   ],
+   "plan_occasion": "Sister's wedding",
+   "plan_occasion_key": "wedding",
+   "plan_shape": "wedding",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "wedding",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "For a sister's wedding, the whole day",
+       "line": "Small studs for poolside mehendis and sun-soaked lunches, crafted in brass and made for every celebration with silk and sparkle in it."
+      },
+      {
+       "type": "pairing",
+       "slots": [
+        "p2",
+        "p3"
+       ],
+       "line": "Pearls for the morning ceremony, and balis for the hour the ceremony turns into a dance floor and nobody remembers to sit down for long."
+      },
+      {
+       "type": "feature",
+       "slot": "p4",
+       "line": "Made for pheras drenched in sunshine and classic sangeet silks, when the whole day runs from one room to the next."
+      },
+      {
+       "type": "story",
+       "text": "The road out is short and the morning stays cool and the bag sits light on one shoulder while the city wakes slowly around the first cup of tea and nobody is in any rush to be anywhere before lunch and the evening has room for."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "L-07",
+   "name": "shape_miss: c18 trip with no packing_list",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C2.L6"
+    ]
+   },
+   "source": "quill 41",
+   "customer_id": "c18",
+   "format": "landing_page",
+   "picks": [
+    "matchbox-laptop-sleeve-multicolor",
+    "hana-spec-case-charcoal",
+    "starfly-socks-black-white",
+    "nova-charm-black-red"
+   ],
+   "plan_occasion": "Work trip to Singapore",
+   "plan_occasion_key": "smart",
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "smart",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "For the flight out",
+       "line": "Bold matchbox prints in cotton canvas, with a soft lining around the laptop."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p2",
+         "caption": "Goes in first, glasses inside the case."
+        },
+        {
+         "slot": "p3",
+         "caption": "Light and breathable from morning to night."
+        },
+        {
+         "slot": "p4",
+         "caption": "Clips onto the tote, last of all."
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Packed in order, small things first, so the day in Singapore starts without a search through the bag."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "L-08",
+   "name": "pair_cross: c16 pairing Ananas mug (home) with Bug Bracelet (wear)",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C2.L7"
+    ]
+   },
+   "source": "quill 41",
+   "customer_id": "c16",
+   "format": "landing_page",
+   "picks": [
+    "bouquet-scarf-green",
+    "mukayu-city-tote-red-pink",
+    "elephant-origami",
+    "ananas-mug",
+    "pink-jade-drops-gold",
+    "bug-bracelet-gold-1"
+   ],
+   "plan_occasion": "Mother's birthday",
+   "plan_occasion_key": "birthday",
+   "plan_shape": "gift",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "birthday",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p5",
+       "heading": "A birthday in garden colours",
+       "line": "A single cabochon of pink jade, held by three small gold beads in brass."
+      },
+      {
+       "type": "story",
+       "text": "A long lunch, a table of people, and one small thing kept for years. Start with what she will wear first, and leave the rest for later in the day."
+      },
+      {
+       "type": "feature",
+       "slot": "p2",
+       "line": "Printed cotton canvas with leather trims and antique brass hardware, for days that move from one place to the next."
+      },
+      {
+       "type": "pairing",
+       "slots": [
+        "p4",
+        "p6"
+       ],
+       "line": "One for the shelf and one for the morning, both quiet enough to live on the same table."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p1",
+         "caption": "Pure silk, printed in garden florals."
+        },
+        {
+         "slot": "p3",
+         "caption": "Cast in brass, an elephant folded like paper."
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "L-09a",
+   "name": "quote_wrong: c01, key wedding, with E4",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C2.L5"
+    ]
+   },
+   "source": "quill 41",
+   "customer_id": "c01",
+   "format": "landing_page",
+   "picks": [
+    "dupki-studs-gold",
+    "chandni-necklace-large-gold",
+    "darbaar-balis-gold",
+    "meher-earrings-gold"
+   ],
+   "plan_occasion": "Sister's wedding",
+   "plan_occasion_key": "wedding",
+   "plan_shape": "wedding",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "wedding",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "For a sister's wedding",
+       "line": "Small studs for poolside mehendis and sun-soaked lunches, crafted in brass."
+      },
+      {
+       "type": "pairing",
+       "slots": [
+        "p2",
+        "p3"
+       ],
+       "line": "Pearls for the morning ceremony, and balis for the hour the ceremony turns into a dance floor."
+      },
+      {
+       "type": "quote",
+       "quote_id": "E4"
+      },
+      {
+       "type": "feature",
+       "slot": "p4",
+       "line": "Made for pheras drenched in sunshine and classic sangeet silks, when the whole day runs from one room to the next."
+      },
+      {
+       "type": "story",
+       "text": "Four small pieces for one long day, worn in the order the day asks for them, from the first photograph to the last song."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "L-09b",
+   "name": "quote right: c07, key festive, with E4",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "source": "quill 41",
+   "customer_id": "c07",
+   "format": "landing_page",
+   "picks": [
+    "kachnar-napkin-rings-set-of-4",
+    "hibiscus-candle-holder",
+    "buransh-straight-mug",
+    "alam-cookie-tray-with-tong",
+    "anar-incense-set-anglesey",
+    "phool-cake-stand"
+   ],
+   "plan_occasion": "Diwali at home",
+   "plan_occasion_key": "festive",
+   "plan_shape": "home",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "festive",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p6",
+       "heading": "A table for Diwali at home",
+       "line": "Tiered in green glass with a polished gold rim, made for festive feasts."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p1",
+         "caption": "Crafted in iron with a matte gold finish."
+        },
+        {
+         "slot": "p2",
+         "caption": "Shaped like the hibiscus flower, in iron with a gold finish."
+        },
+        {
+         "slot": "p3",
+         "caption": "Pink rhododendron across a deep green base, in stoneware."
+        },
+        {
+         "slot": "p4",
+         "caption": "Stoneware with a pleasing weight, and a tong alongside."
+        }
+       ]
+      },
+      {
+       "type": "quote",
+       "quote_id": "E4"
+      },
+      {
+       "type": "feature",
+       "slot": "p5",
+       "line": "Cast in aluminium and plated in brass, with sticks that fill the air with a juicy tang of blackcurrant."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "L-09c",
+   "name": "quote wrong: E6 on a birthday key with no home pick (c16 cut to its four wear picks)",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C2.L5"
+    ]
+   },
+   "source": "quill 41",
+   "customer_id": "c16",
+   "format": "landing_page",
+   "picks": [
+    "bouquet-scarf-green",
+    "mukayu-city-tote-red-pink",
+    "pink-jade-drops-gold",
+    "bug-bracelet-gold-1"
+   ],
+   "plan_occasion": "Mother's birthday",
+   "plan_occasion_key": "birthday",
+   "plan_shape": "gift",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "birthday",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "A birthday in garden colours",
+       "line": "Printed all over in garden florals, with tassels at opposite corners and mother-of-pearl buttons."
+      },
+      {
+       "type": "pairing",
+       "slots": [
+        "p2",
+        "p3"
+       ],
+       "line": "One carries the day and one sits close to the ear, for a lunch that runs long."
+      },
+      {
+       "type": "quote",
+       "quote_id": "E6"
+      },
+      {
+       "type": "feature",
+       "slot": "p4",
+       "line": "Cast in brass and finished with 18k gold plating, with a polished onyx stone at its centre for after-dark dressing."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "L-09d",
+   "name": "control: E6 with a home pick (c16) passes",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "source": "probe 52",
+   "customer_id": "c16",
+   "format": "landing_page",
+   "picks": [
+    "bouquet-scarf-green",
+    "mukayu-city-tote-red-pink",
+    "elephant-origami",
+    "ananas-mug",
+    "pink-jade-drops-gold",
+    "bug-bracelet-gold-1"
+   ],
+   "plan_occasion": "Mother's birthday",
+   "plan_occasion_key": "birthday",
+   "plan_shape": "gift",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "birthday",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "A birthday in garden colours",
+       "line": "Printed all over in garden florals, with tassels at opposite corners and mother-of-pearl buttons."
+      },
+      {
+       "type": "story",
+       "text": "A long lunch, a table of people, and one small thing kept for years. Start with what she will wear first, and leave the rest for later in the day."
+      },
+      {
+       "type": "feature",
+       "slot": "p6",
+       "line": "Cast in brass and finished with 18k gold plating, with a polished onyx stone at its centre for after-dark dressing."
+      },
+      {
+       "type": "quote",
+       "quote_id": "E6"
+      },
+      {
+       "type": "pairing",
+       "slots": [
+        "p3",
+        "p4"
+       ],
+       "line": "One for the shelf and one for the morning, both quiet enough to live on the same table."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p2",
+         "caption": "Generous space for days that move from one place to the next."
+        },
+        {
+         "slot": "p5",
+         "caption": "A single cabochon of pink jade held by three small gold beads."
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "L-10",
+   "name": "feed_inject: occasion is an HTML payload",
+   "kind": "render",
+   "source": "quill 41",
+   "customer_id": "c-inject",
+   "format": "landing_page",
+   "picks": [
+    "matchbox-laptop-sleeve-multicolor",
+    "hana-spec-case-charcoal",
+    "starfly-socks-black-white",
+    "nova-charm-black-red"
+   ],
+   "plan_occasion": "<img src=x onerror=alert(1)>",
+   "plan_occasion_key": null,
+   "plan_shape": "open",
+   "expect": {
+    "rendered_contains": [
+     "&lt;img src=x onerror=alert(1)&gt;"
+    ],
+    "rendered_not_contains": [
+     "<img src=x"
+    ],
+    "img_elements_equal_picks": true,
+    "prompt_occasion_has_no_angle_brackets": true,
+    "verdict": "pass"
+   }
+  },
+  {
+   "id": "L-11",
+   "name": "field_walk: every string leaf the model writes as prose is in the scan list; an unregistered field fails the build",
+   "kind": "spec",
+   "source": "quill 41",
+   "expect": {
+    "prose_leaves": {
+     "email": [
+      "subject",
+      "preheader",
+      "body"
+     ],
+     "landing_page": [
+      "sections[hero].heading",
+      "sections[hero].line",
+      "sections[story].text",
+      "sections[product_grid].items[].caption",
+      "sections[pairing].line",
+      "sections[packing_list].items[].note",
+      "sections[feature].line"
+     ]
+    },
+    "non_prose_leaves": [
+     "occasion_key",
+     "type",
+     "slot",
+     "slots[]",
+     "quote_id"
+    ],
+    "on_unregistered": "build fails",
+    "mutant": "M21"
+   }
+  },
+  {
+   "id": "L-12a",
+   "name": "crossed_image, M22: p1 card shows p2's real image, same CDN",
+   "kind": "render",
+   "part": "landing_page",
+   "slot": "p1",
+   "customer_id": "c18",
+   "format": "landing_page",
+   "picks": [
+    "matchbox-laptop-sleeve-multicolor",
+    "hana-spec-case-charcoal",
+    "starfly-socks-black-white",
+    "nova-charm-black-red"
+   ],
+   "tamper": {
+    "src": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051697_1.jpg"
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "X2",
+     "X1"
+    ]
+   },
+   "source": "quill 41"
+  },
+  {
+   "id": "L-12b",
+   "name": "crossed_image, M22, on the catalog part",
+   "kind": "render",
+   "part": "catalog",
+   "slot": "p1",
+   "customer_id": "c18",
+   "format": "landing_page",
+   "picks": [
+    "matchbox-laptop-sleeve-multicolor",
+    "hana-spec-case-charcoal",
+    "starfly-socks-black-white",
+    "nova-charm-black-red"
+   ],
+   "tamper": {
+    "src": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051697_1.jpg"
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "X2",
+     "X1"
+    ]
+   },
+   "source": "atlas 42 catalog"
+  },
+  {
+   "id": "L-12c",
+   "name": "empty alt on a pick image",
+   "kind": "render",
+   "part": "landing_page",
+   "slot": "p1",
+   "customer_id": "c18",
+   "format": "landing_page",
+   "picks": [
+    "matchbox-laptop-sleeve-multicolor",
+    "hana-spec-case-charcoal",
+    "starfly-socks-black-white",
+    "nova-charm-black-red"
+   ],
+   "tamper": {
+    "alt": ""
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "X4"
+    ]
+   },
+   "source": "quill 41"
+  },
+  {
+   "id": "L-12d",
+   "name": "control: p1 card shows its own image with ?v= and width",
+   "kind": "render",
+   "part": "landing_page",
+   "slot": "p1",
+   "customer_id": "c18",
+   "format": "landing_page",
+   "picks": [
+    "matchbox-laptop-sleeve-multicolor",
+    "hana-spec-case-charcoal",
+    "starfly-socks-black-white",
+    "nova-charm-black-red"
+   ],
+   "tamper": {
+    "src": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049961_1.jpg?v=1&width=800"
+   },
+   "expect": {
+    "verdict": "pass"
+   },
+   "source": "probe 52"
+  },
+  {
+   "id": "L-13",
+   "name": "degeneracy, live: distinct section outlines over the landing pages of a run",
+   "kind": "live",
+   "source": "quill 41, probe 50 row 16",
+   "expect": {
+    "distinct_outlines_of_20_min": 12,
+    "max_pages_per_outline": 4,
+    "shapes_with_3_rows_min_outlines": 2,
+    "gate": false
+   }
+  },
+  {
+   "id": "N-01a",
+   "name": "place word kept: \"Monsoon in Kochi\" as written",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "source": "quill 45",
+   "depends_on": [
+    "config/lists/c8_allow.json"
+   ],
+   "customer_id": "c02",
+   "format": "landing_page",
+   "picks": [
+    "rimjhim-pouch-ivory",
+    "pixel-cap-olive",
+    "everyday-stripes-scarf-dark-blue",
+    "gingham-glow-socks-ice-blue-purple"
+   ],
+   "plan_occasion": "Monsoon in Kochi",
+   "plan_occasion_key": null,
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": null,
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "Monsoon in Kochi",
+       "line": "An ode to the rain, in printed cotton twill with a taffeta lining."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "On first, with the buckle set"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and easy for all-day wear"
+        },
+        {
+         "slot": "p4",
+         "note": "For days on the move"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Pack small, and keep the bag light. The rest of the trip is yours to decide on the way there."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "N-01b",
+   "name": "claim about the place: no code check; J3 claims_customer and the reviewer only",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass",
+    "j3_should_flag": "claims_customer"
+   },
+   "known_gap": "a plain-word claim about a place uses no list term",
+   "source": "quill 45",
+   "customer_id": "c02",
+   "format": "landing_page",
+   "picks": [
+    "rimjhim-pouch-ivory",
+    "pixel-cap-olive",
+    "everyday-stripes-scarf-dark-blue",
+    "gingham-glow-socks-ice-blue-purple"
+   ],
+   "plan_occasion": "Monsoon in Kochi",
+   "plan_occasion_key": null,
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": null,
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "Monsoon in Kochi",
+       "line": "An ode to the rain, in printed cotton twill with a taffeta lining."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "On first, with the buckle set"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and easy for all-day wear"
+        },
+        {
+         "slot": "p4",
+         "note": "For days on the move"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "The rain in Kochi stops by four each afternoon, so pack small and keep the bag light for the walk."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "N-02a",
+   "name": "null key echoed by both parts: passes C6",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "source": "quill 45",
+   "customer_id": "c02",
+   "format": "both",
+   "picks": [
+    "rimjhim-pouch-ivory",
+    "pixel-cap-olive",
+    "everyday-stripes-scarf-dark-blue",
+    "gingham-glow-socks-ice-blue-purple"
+   ],
+   "plan_occasion": "Monsoon in Kochi",
+   "plan_occasion_key": null,
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "Small things for a wet walk",
+     "preheader": "A pouch, a cap and a scarf that keep to the bag until the rain does.",
+     "body": "Monsoon in Kochi, and a bag that stays light.\n\n{p1} is an ode to the rain, printed cotton twill with a taffeta lining, sized for the little things you like to keep close.\n\n{p2} is cotton twill too, with a pixel heart print and an adjustable metal buckle.\n\n{p3} is 100% cotton, light and easy, with a running stitch at the ends."
+    },
+    "landing_page": {
+     "occasion_key": null,
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "Monsoon in Kochi",
+       "line": "An ode to the rain, in printed cotton twill with a taffeta lining."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "On first, with the buckle set"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and easy for all-day wear"
+        },
+        {
+         "slot": "p4",
+         "note": "For days on the move"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Pack small, and keep the bag light. The rest of the trip is yours to decide on the way there."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "N-02b",
+   "name": "null key, c12 email: passes C6",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "source": "quill 45",
+   "customer_id": "c12",
+   "format": "email",
+   "picks": [
+    "madurai-jar-candle-1",
+    "alphabet-glass-v",
+    "patang-mug",
+    "akshar-coaster-g",
+    "nico-belt-olive-red",
+    "kesar-scarf-yellow"
+   ],
+   "plan_occasion": "First anniversary",
+   "plan_occasion_key": null,
+   "plan_shape": "scene",
+   "new_user": false,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "A first year, and the table it made",
+     "preheader": "A candle, a glass and a mug for an evening with nowhere else to be.",
+     "body": "A first anniversary is mostly a quiet evening.\n\n{p1} scents the air with the sweet aroma of mogra, and burns slowly while dinner goes cold.\n\n{p2} is crafted in borosilicate, light and practical, with an initial in a beautiful design.\n\n{p3} is smooth stoneware, for the coffee the next morning, when the day is still slow."
+    }
+   }
+  },
+  {
+   "id": "N-02c",
+   "name": "string key against a null plan key fails C6",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C6"
+    ]
+   },
+   "source": "quill 45",
+   "customer_id": "c02",
+   "format": "landing_page",
+   "picks": [
+    "rimjhim-pouch-ivory",
+    "pixel-cap-olive",
+    "everyday-stripes-scarf-dark-blue",
+    "gingham-glow-socks-ice-blue-purple"
+   ],
+   "plan_occasion": "Monsoon in Kochi",
+   "plan_occasion_key": null,
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "resort",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "Monsoon in Kochi",
+       "line": "An ode to the rain, in printed cotton twill with a taffeta lining."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "On first, with the buckle set"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and easy for all-day wear"
+        },
+        {
+         "slot": "p4",
+         "note": "For days on the move"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Pack small, and keep the bag light. The rest of the trip is yours to decide on the way there."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "N-02d",
+   "name": "null key against a string plan key fails C6",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C6"
+    ]
+   },
+   "source": "probe 52",
+   "customer_id": "c07",
+   "format": "landing_page",
+   "picks": [
+    "kachnar-napkin-rings-set-of-4",
+    "hibiscus-candle-holder",
+    "buransh-straight-mug",
+    "alam-cookie-tray-with-tong",
+    "anar-incense-set-anglesey",
+    "phool-cake-stand"
+   ],
+   "plan_occasion": "Diwali at home",
+   "plan_occasion_key": "festive",
+   "plan_shape": "home",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": null,
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p6",
+       "heading": "A table for Diwali at home",
+       "line": "Tiered in green glass with a polished gold rim, made for festive feasts."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p1",
+         "caption": "Crafted in iron with a matte gold finish."
+        },
+        {
+         "slot": "p2",
+         "caption": "Shaped like the hibiscus flower, in iron with a gold finish."
+        },
+        {
+         "slot": "p3",
+         "caption": "Pink rhododendron across a deep green base, in stoneware."
+        },
+        {
+         "slot": "p4",
+         "caption": "Stoneware with a pleasing weight, and a tong alongside."
+        }
+       ]
+      },
+      {
+       "type": "feature",
+       "slot": "p5",
+       "line": "Cast in aluminium and plated in brass, with sticks that fill the air with a juicy tang of blackcurrant."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "N-03a",
+   "name": "note on p1 names p2's material (mashru): slot scope",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C7"
+    ]
+   },
+   "source": "quill 45",
+   "customer_id": "c18",
+   "format": "landing_page",
+   "picks": [
+    "matchbox-laptop-sleeve-multicolor",
+    "hana-spec-case-charcoal",
+    "starfly-socks-black-white",
+    "nova-charm-black-red"
+   ],
+   "plan_occasion": "Work trip to Singapore",
+   "plan_occasion_key": "smart",
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "smart",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p4",
+       "heading": "For the flight out",
+       "line": "Crafted in eucalyptus leather, small enough to clip onto a tote or a keyring."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "Goes in first, glasses inside"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and breathable from morning to night"
+        },
+        {
+         "slot": "p1",
+         "note": "Printed mashru, flat in the side pocket"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Packed in order, small things first, so the day in Singapore starts without a search through the bag."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "N-03b",
+   "name": "control: same words on p2 itself",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "source": "probe 52",
+   "customer_id": "c18",
+   "format": "landing_page",
+   "picks": [
+    "matchbox-laptop-sleeve-multicolor",
+    "hana-spec-case-charcoal",
+    "starfly-socks-black-white",
+    "nova-charm-black-red"
+   ],
+   "plan_occasion": "Work trip to Singapore",
+   "plan_occasion_key": "smart",
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "smart",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p4",
+       "heading": "For the flight out",
+       "line": "Crafted in eucalyptus leather, small enough to clip onto a tote or a keyring."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "Printed mashru, flat in the side pocket"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and breathable from morning to night"
+        },
+        {
+         "slot": "p1",
+         "note": "Flat in the side pocket"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Packed in order, small things first, so the day in Singapore starts without a search through the bag."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "N-04-1",
+   "name": "familiarity in a c20 email: \"welcome back\"",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "source": "quill 45, R97",
+   "depends_on": [
+    "config/lists/c4.json"
+   ],
+   "customer_id": "c20",
+   "format": "email",
+   "picks": [
+    "indus-straight-mug",
+    "tusk-bloom-cushion-cover",
+    "memoir-photo-frame-set-of-2",
+    "mogra-pasta-plate",
+    "palm-bloom-bowl",
+    "donburi-shallow-bowl-set-of-5-1"
+   ],
+   "plan_occasion": null,
+   "plan_occasion_key": null,
+   "plan_shape": "open",
+   "new_user": true,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "For the table, and the morning after",
+     "preheader": "A mug, a cover and a frame for the small hours of an ordinary week.",
+     "body": "Most of a house is made of ordinary mornings.\n\n{p1} is crafted in stoneware, with palm motifs and vases in green, yellow and pink.\n\n{p2} is cotton slub on both sides, printed with elephant motifs and blooms in full flourish.\n\n{p3} is a pair of resin frames, a sea green and a blush, with small gold flowers set around the edges.\n\nIt is, welcome back, the one thing on the table."
+    }
+   }
+  },
+  {
+   "id": "N-04-2",
+   "name": "familiarity in a c20 email: \"your last\"",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "source": "quill 45, R97",
+   "depends_on": [
+    "config/lists/c4.json"
+   ],
+   "customer_id": "c20",
+   "format": "email",
+   "picks": [
+    "indus-straight-mug",
+    "tusk-bloom-cushion-cover",
+    "memoir-photo-frame-set-of-2",
+    "mogra-pasta-plate",
+    "palm-bloom-bowl",
+    "donburi-shallow-bowl-set-of-5-1"
+   ],
+   "plan_occasion": null,
+   "plan_occasion_key": null,
+   "plan_shape": "open",
+   "new_user": true,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "For the table, and the morning after",
+     "preheader": "A mug, a cover and a frame for the small hours of an ordinary week.",
+     "body": "Most of a house is made of ordinary mornings.\n\n{p1} is crafted in stoneware, with palm motifs and vases in green, yellow and pink.\n\n{p2} is cotton slub on both sides, printed with elephant motifs and blooms in full flourish.\n\n{p3} is a pair of resin frames, a sea green and a blush, with small gold flowers set around the edges.\n\nIt is, your last, the one thing on the table."
+    }
+   }
+  },
+  {
+   "id": "N-04-3",
+   "name": "familiarity in a c20 email: \"last time\"",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "source": "quill 45, R97",
+   "depends_on": [
+    "config/lists/c4.json"
+   ],
+   "customer_id": "c20",
+   "format": "email",
+   "picks": [
+    "indus-straight-mug",
+    "tusk-bloom-cushion-cover",
+    "memoir-photo-frame-set-of-2",
+    "mogra-pasta-plate",
+    "palm-bloom-bowl",
+    "donburi-shallow-bowl-set-of-5-1"
+   ],
+   "plan_occasion": null,
+   "plan_occasion_key": null,
+   "plan_shape": "open",
+   "new_user": true,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "For the table, and the morning after",
+     "preheader": "A mug, a cover and a frame for the small hours of an ordinary week.",
+     "body": "Most of a house is made of ordinary mornings.\n\n{p1} is crafted in stoneware, with palm motifs and vases in green, yellow and pink.\n\n{p2} is cotton slub on both sides, printed with elephant motifs and blooms in full flourish.\n\n{p3} is a pair of resin frames, a sea green and a blush, with small gold flowers set around the edges.\n\nIt is, last time, the one thing on the table."
+    }
+   }
+  },
+  {
+   "id": "N-04-4",
+   "name": "familiarity in a c20 email: \"you loved\"",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "source": "quill 45, R97",
+   "depends_on": [
+    "config/lists/c4.json"
+   ],
+   "customer_id": "c20",
+   "format": "email",
+   "picks": [
+    "indus-straight-mug",
+    "tusk-bloom-cushion-cover",
+    "memoir-photo-frame-set-of-2",
+    "mogra-pasta-plate",
+    "palm-bloom-bowl",
+    "donburi-shallow-bowl-set-of-5-1"
+   ],
+   "plan_occasion": null,
+   "plan_occasion_key": null,
+   "plan_shape": "open",
+   "new_user": true,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "For the table, and the morning after",
+     "preheader": "A mug, a cover and a frame for the small hours of an ordinary week.",
+     "body": "Most of a house is made of ordinary mornings.\n\n{p1} is crafted in stoneware, with palm motifs and vases in green, yellow and pink.\n\n{p2} is cotton slub on both sides, printed with elephant motifs and blooms in full flourish.\n\n{p3} is a pair of resin frames, a sea green and a blush, with small gold flowers set around the edges.\n\nIt is, you loved, the one thing on the table."
+    }
+   }
+  },
+  {
+   "id": "N-04-5",
+   "name": "familiarity in a c20 email: \"just for you\"",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "source": "quill 45, R97",
+   "depends_on": [
+    "config/lists/c4.json"
+   ],
+   "customer_id": "c20",
+   "format": "email",
+   "picks": [
+    "indus-straight-mug",
+    "tusk-bloom-cushion-cover",
+    "memoir-photo-frame-set-of-2",
+    "mogra-pasta-plate",
+    "palm-bloom-bowl",
+    "donburi-shallow-bowl-set-of-5-1"
+   ],
+   "plan_occasion": null,
+   "plan_occasion_key": null,
+   "plan_shape": "open",
+   "new_user": true,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "For the table, and the morning after",
+     "preheader": "A mug, a cover and a frame for the small hours of an ordinary week.",
+     "body": "Most of a house is made of ordinary mornings.\n\n{p1} is crafted in stoneware, with palm motifs and vases in green, yellow and pink.\n\n{p2} is cotton slub on both sides, printed with elephant motifs and blooms in full flourish.\n\n{p3} is a pair of resin frames, a sea green and a blush, with small gold flowers set around the edges.\n\nIt is, just for you, the one thing on the table."
+    }
+   }
+  },
+  {
+   "id": "N-04-6",
+   "name": "familiarity in a c20 email: \"chosen for you\"",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   },
+   "source": "quill 45, R97",
+   "depends_on": [
+    "config/lists/c4.json"
+   ],
+   "customer_id": "c20",
+   "format": "email",
+   "picks": [
+    "indus-straight-mug",
+    "tusk-bloom-cushion-cover",
+    "memoir-photo-frame-set-of-2",
+    "mogra-pasta-plate",
+    "palm-bloom-bowl",
+    "donburi-shallow-bowl-set-of-5-1"
+   ],
+   "plan_occasion": null,
+   "plan_occasion_key": null,
+   "plan_shape": "open",
+   "new_user": true,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "For the table, and the morning after",
+     "preheader": "A mug, a cover and a frame for the small hours of an ordinary week.",
+     "body": "Most of a house is made of ordinary mornings.\n\n{p1} is crafted in stoneware, with palm motifs and vases in green, yellow and pink.\n\n{p2} is cotton slub on both sides, printed with elephant motifs and blooms in full flourish.\n\n{p3} is a pair of resin frames, a sea green and a blush, with small gold flowers set around the edges.\n\nIt is, chosen for you, the one thing on the table."
+    }
+   }
+  },
+  {
+   "id": "N-04-7",
+   "name": "control: bare \"again\" is not familiarity (R97)",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "source": "R97",
+   "customer_id": "c20",
+   "format": "email",
+   "picks": [
+    "indus-straight-mug",
+    "tusk-bloom-cushion-cover",
+    "memoir-photo-frame-set-of-2",
+    "mogra-pasta-plate",
+    "palm-bloom-bowl",
+    "donburi-shallow-bowl-set-of-5-1"
+   ],
+   "plan_occasion": null,
+   "plan_occasion_key": null,
+   "plan_shape": "open",
+   "new_user": true,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "For the table, and the morning after",
+     "preheader": "A mug, a cover and a frame for the small hours of an ordinary week.",
+     "body": "Most of a house is made of ordinary mornings.\n\n{p1} is crafted in stoneware, with palm motifs and vases in green, yellow and pink.\n\n{p2} is cotton slub on both sides, printed with elephant motifs and blooms in full flourish.\n\n{p3} is a pair of resin frames, a sea green and a blush, with small gold flowers set around the edges.\n\nUse them again tomorrow."
+    }
+   }
+  },
+  {
+   "id": "N-05a",
+   "name": "{p4} in email of a both unit, N=4 (ward F10)",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C2"
+    ]
+   },
+   "source": "quill 45",
+   "customer_id": "c02",
+   "format": "both",
+   "picks": [
+    "rimjhim-pouch-ivory",
+    "pixel-cap-olive",
+    "everyday-stripes-scarf-dark-blue",
+    "gingham-glow-socks-ice-blue-purple"
+   ],
+   "plan_occasion": "Monsoon in Kochi",
+   "plan_occasion_key": null,
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "Small things for a wet walk",
+     "preheader": "A pouch, a cap and a scarf that keep to the bag until the rain does.",
+     "body": "Monsoon in Kochi, and a bag that stays light.\n\n{p1} is an ode to the rain, printed cotton twill with a taffeta lining, sized for the little things you like to keep close.\n\n{p2} is cotton twill too, with a pixel heart print and an adjustable metal buckle.\n\n{p3} is 100% cotton, light and easy, with a running stitch at the ends.\n\n{p4} is for days on the move."
+    },
+    "landing_page": {
+     "occasion_key": null,
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "Monsoon in Kochi",
+       "line": "An ode to the rain, in printed cotton twill with a taffeta lining."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "On first, with the buckle set"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and easy for all-day wear"
+        },
+        {
+         "slot": "p4",
+         "note": "For days on the move"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Pack small, and keep the bag light. The rest of the trip is yours to decide on the way there."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "N-05b",
+   "name": "email uses p1, p2, p4 and drops p3",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C2"
+    ]
+   },
+   "source": "probe 52",
+   "customer_id": "c02",
+   "format": "both",
+   "picks": [
+    "rimjhim-pouch-ivory",
+    "pixel-cap-olive",
+    "everyday-stripes-scarf-dark-blue",
+    "gingham-glow-socks-ice-blue-purple"
+   ],
+   "plan_occasion": "Monsoon in Kochi",
+   "plan_occasion_key": null,
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "Small things for a wet walk",
+     "preheader": "A pouch, a cap and a scarf that keep to the bag until the rain does.",
+     "body": "Monsoon in Kochi, and a bag that stays light.\n\n{p1} is an ode to the rain, printed cotton twill with a taffeta lining, sized for the little things you like to keep close.\n\n{p2} is cotton twill too, with a pixel heart print and an adjustable metal buckle.\n\n{p4} is 100% cotton, light and easy, with a running stitch at the ends."
+    },
+    "landing_page": {
+     "occasion_key": null,
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "Monsoon in Kochi",
+       "line": "An ode to the rain, in printed cotton twill with a taffeta lining."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "On first, with the buckle set"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and easy for all-day wear"
+        },
+        {
+         "slot": "p4",
+         "note": "For days on the move"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Pack small, and keep the bag light. The rest of the trip is yours to decide on the way there."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "N-06",
+   "name": "\"Dear\" greeting in email body: no hard check; J3 and the reviewer only",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass",
+    "j3_should_flag": "quiet"
+   },
+   "known_gap": "a greeting is not in c4.json",
+   "source": "quill 45",
+   "customer_id": "c12",
+   "format": "email",
+   "picks": [
+    "madurai-jar-candle-1",
+    "alphabet-glass-v",
+    "patang-mug",
+    "akshar-coaster-g",
+    "nico-belt-olive-red",
+    "kesar-scarf-yellow"
+   ],
+   "plan_occasion": "First anniversary",
+   "plan_occasion_key": null,
+   "plan_shape": "scene",
+   "new_user": false,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "A first year, and the table it made",
+     "preheader": "A candle, a glass and a mug for an evening with nowhere else to be.",
+     "body": "Dear Rohan, a first anniversary is mostly a quiet evening.\n\n{p1} scents the air with the sweet aroma of mogra, and burns slowly while dinner goes cold.\n\n{p2} is crafted in borosilicate, light and practical, with an initial in a beautiful design.\n\n{p3} is smooth stoneware, for the coffee the next morning, when the day is still slow."
+    }
+   }
+  },
+  {
+   "id": "N-07a",
+   "name": "both: landing_page missing",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C1"
+    ]
+   },
+   "source": "quill 45",
+   "customer_id": "c02",
+   "format": "both",
+   "picks": [
+    "rimjhim-pouch-ivory",
+    "pixel-cap-olive",
+    "everyday-stripes-scarf-dark-blue",
+    "gingham-glow-socks-ice-blue-purple"
+   ],
+   "plan_occasion": "Monsoon in Kochi",
+   "plan_occasion_key": null,
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "Small things for a wet walk",
+     "preheader": "A pouch, a cap and a scarf that keep to the bag until the rain does.",
+     "body": "Monsoon in Kochi, and a bag that stays light.\n\n{p1} is an ode to the rain, printed cotton twill with a taffeta lining, sized for the little things you like to keep close.\n\n{p2} is cotton twill too, with a pixel heart print and an adjustable metal buckle.\n\n{p3} is 100% cotton, light and easy, with a running stitch at the ends."
+    }
+   }
+  },
+  {
+   "id": "N-07b",
+   "name": "both: email missing",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C1"
+    ]
+   },
+   "source": "quill 45",
+   "customer_id": "c02",
+   "format": "both",
+   "picks": [
+    "rimjhim-pouch-ivory",
+    "pixel-cap-olive",
+    "everyday-stripes-scarf-dark-blue",
+    "gingham-glow-socks-ice-blue-purple"
+   ],
+   "plan_occasion": "Monsoon in Kochi",
+   "plan_occasion_key": null,
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": null,
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "Monsoon in Kochi",
+       "line": "An ode to the rain, in printed cotton twill with a taffeta lining."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "On first, with the buckle set"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and easy for all-day wear"
+        },
+        {
+         "slot": "p4",
+         "note": "For days on the move"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Pack small, and keep the bag light. The rest of the trip is yours to decide on the way there."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "N-07c",
+   "name": "stray top-level key catalog",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C1"
+    ]
+   },
+   "source": "quill 45",
+   "customer_id": "c02",
+   "format": "both",
+   "picks": [
+    "rimjhim-pouch-ivory",
+    "pixel-cap-olive",
+    "everyday-stripes-scarf-dark-blue",
+    "gingham-glow-socks-ice-blue-purple"
+   ],
+   "plan_occasion": "Monsoon in Kochi",
+   "plan_occasion_key": null,
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "Small things for a wet walk",
+     "preheader": "A pouch, a cap and a scarf that keep to the bag until the rain does.",
+     "body": "Monsoon in Kochi, and a bag that stays light.\n\n{p1} is an ode to the rain, printed cotton twill with a taffeta lining, sized for the little things you like to keep close.\n\n{p2} is cotton twill too, with a pixel heart print and an adjustable metal buckle.\n\n{p3} is 100% cotton, light and easy, with a running stitch at the ends."
+    },
+    "landing_page": {
+     "occasion_key": null,
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "Monsoon in Kochi",
+       "line": "An ode to the rain, in printed cotton twill with a taffeta lining."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "On first, with the buckle set"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and easy for all-day wear"
+        },
+        {
+         "slot": "p4",
+         "note": "For days on the move"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Pack small, and keep the bag light. The rest of the trip is yours to decide on the way there."
+      }
+     ]
+    },
+    "catalog": {}
+   }
+  },
+  {
+   "id": "N-07d",
+   "name": "unparsed text present",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C1"
+    ]
+   },
+   "source": "46 s4",
+   "customer_id": "c02",
+   "format": "both",
+   "picks": [
+    "rimjhim-pouch-ivory",
+    "pixel-cap-olive",
+    "everyday-stripes-scarf-dark-blue",
+    "gingham-glow-socks-ice-blue-purple"
+   ],
+   "plan_occasion": "Monsoon in Kochi",
+   "plan_occasion_key": null,
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "Small things for a wet walk",
+     "preheader": "A pouch, a cap and a scarf that keep to the bag until the rain does.",
+     "body": "Monsoon in Kochi, and a bag that stays light.\n\n{p1} is an ode to the rain, printed cotton twill with a taffeta lining, sized for the little things you like to keep close.\n\n{p2} is cotton twill too, with a pixel heart print and an adjustable metal buckle.\n\n{p3} is 100% cotton, light and easy, with a running stitch at the ends."
+    },
+    "landing_page": {
+     "occasion_key": null,
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "Monsoon in Kochi",
+       "line": "An ode to the rain, in printed cotton twill with a taffeta lining."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "On first, with the buckle set"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and easy for all-day wear"
+        },
+        {
+         "slot": "p4",
+         "note": "For days on the move"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Pack small, and keep the bag light. The rest of the trip is yours to decide on the way there."
+      }
+     ]
+    },
+    "unparsed": "not json"
+   }
+  },
+  {
+   "id": "N-07e",
+   "name": "stray prop inside a part",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C1"
+    ]
+   },
+   "source": "quill 45",
+   "customer_id": "c02",
+   "format": "both",
+   "picks": [
+    "rimjhim-pouch-ivory",
+    "pixel-cap-olive",
+    "everyday-stripes-scarf-dark-blue",
+    "gingham-glow-socks-ice-blue-purple"
+   ],
+   "plan_occasion": "Monsoon in Kochi",
+   "plan_occasion_key": null,
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "Small things for a wet walk",
+     "preheader": "A pouch, a cap and a scarf that keep to the bag until the rain does.",
+     "body": "Monsoon in Kochi, and a bag that stays light.\n\n{p1} is an ode to the rain, printed cotton twill with a taffeta lining, sized for the little things you like to keep close.\n\n{p2} is cotton twill too, with a pixel heart print and an adjustable metal buckle.\n\n{p3} is 100% cotton, light and easy, with a running stitch at the ends.",
+     "price": "4,500"
+    },
+    "landing_page": {
+     "occasion_key": null,
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "Monsoon in Kochi",
+       "line": "An ode to the rain, in printed cotton twill with a taffeta lining."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "On first, with the buckle set"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and easy for all-day wear"
+        },
+        {
+         "slot": "p4",
+         "note": "For days on the move"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Pack small, and keep the bag light. The rest of the trip is yours to decide on the way there."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "N-07f",
+   "name": "email run carries a landing_page key",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C1"
+    ]
+   },
+   "source": "46 s4",
+   "customer_id": "c02",
+   "format": "email",
+   "picks": [
+    "rimjhim-pouch-ivory",
+    "pixel-cap-olive",
+    "everyday-stripes-scarf-dark-blue",
+    "gingham-glow-socks-ice-blue-purple"
+   ],
+   "plan_occasion": "Monsoon in Kochi",
+   "plan_occasion_key": null,
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "Small things for a wet walk",
+     "preheader": "A pouch, a cap and a scarf that keep to the bag until the rain does.",
+     "body": "Monsoon in Kochi, and a bag that stays light.\n\n{p1} is an ode to the rain, printed cotton twill with a taffeta lining, sized for the little things you like to keep close.\n\n{p2} is cotton twill too, with a pixel heart print and an adjustable metal buckle.\n\n{p3} is 100% cotton, light and easy, with a running stitch at the ends."
+    },
+    "landing_page": {
+     "occasion_key": null,
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "Monsoon in Kochi",
+       "line": "An ode to the rain, in printed cotton twill with a taffeta lining."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "On first, with the buckle set"
+        },
+        {
+         "slot": "p3",
+         "note": "Light and easy for all-day wear"
+        },
+        {
+         "slot": "p4",
+         "note": "For days on the move"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "Pack small, and keep the bag light. The rest of the trip is yours to decide on the way there."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "N-08",
+   "name": "part-scoped retry request (ward B2)",
+   "kind": "request",
+   "source": "quill 45",
+   "lane": "gen",
+   "given": {
+    "format": "both",
+    "failed": [
+     "email"
+    ],
+    "checks": [
+     {
+      "id": "C4",
+      "part": "email",
+      "severity": "hard",
+      "pass_": false,
+      "detail": "banned phrase"
+     },
+     {
+      "id": "C7",
+      "part": "landing_page",
+      "severity": "hard",
+      "pass_": true
+     }
+    ]
+   },
+   "expect": {
+    "output_schema": "draft-email.v2",
+    "checks_block_parts": [
+     "email"
+    ],
+    "prefix_identical_to_attempt_1": true,
+    "model_json_landing_page_byte_identical": true,
+    "validate_runs_over": [
+     "email",
+     "landing_page"
+    ],
+    "carried_part": "landing_page",
+    "on_C1_or_max_tokens": "both parts regenerate"
+   }
+  },
+  {
+   "id": "N-09a",
+   "name": "occasion none, \"Diwali\" in copy (c20)",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C8o"
+    ]
+   },
+   "source": "quill 45, R97",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ],
+   "customer_id": "c20",
+   "format": "email",
+   "picks": [
+    "indus-straight-mug",
+    "tusk-bloom-cushion-cover",
+    "memoir-photo-frame-set-of-2",
+    "mogra-pasta-plate",
+    "palm-bloom-bowl",
+    "donburi-shallow-bowl-set-of-5-1"
+   ],
+   "plan_occasion": null,
+   "plan_occasion_key": null,
+   "plan_shape": "open",
+   "new_user": true,
+   "draft": {
+    "email": {
+     "occasion_key": null,
+     "subject": "For the table, and the morning after",
+     "preheader": "A mug, a cover and a frame for the small hours of an ordinary week.",
+     "body": "Most of a house is made of ordinary mornings.\n\n{p1} is crafted in stoneware, with palm motifs and vases in green, yellow and pink.\n\n{p2} is cotton slub on both sides, printed with elephant motifs and blooms in full flourish.\n\n{p3} is a pair of resin frames, a sea green and a blush, with small gold flowers set around the edges.\n\nGood for Diwali evenings at the table."
+    }
+   }
+  },
+  {
+   "id": "N-09b",
+   "name": "occasion none, lower-case \"festive\" in a landing story",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C8o"
+    ]
+   },
+   "source": "probe 52",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ],
+   "customer_id": "c20",
+   "format": "landing_page",
+   "picks": [
+    "indus-straight-mug",
+    "tusk-bloom-cushion-cover",
+    "memoir-photo-frame-set-of-2",
+    "mogra-pasta-plate",
+    "palm-bloom-bowl",
+    "donburi-shallow-bowl-set-of-5-1"
+   ],
+   "plan_occasion": null,
+   "plan_occasion_key": null,
+   "plan_shape": "open",
+   "new_user": true,
+   "draft": {
+    "landing_page": {
+     "occasion_key": null,
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p1",
+       "heading": "For an ordinary morning",
+       "line": "Crafted in stoneware, with palm motifs and vases in a vibrant palette."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p2",
+         "caption": "Cotton slub on both sides, with triangle gota lace edges."
+        },
+        {
+         "slot": "p3",
+         "caption": "Two resin frames with small gold flowers around the edges."
+        },
+        {
+         "slot": "p4",
+         "caption": "A raised rim, for pasta, noodles or a shallow curry."
+        },
+        {
+         "slot": "p5",
+         "caption": "The right size for a dal or a vegetable serving."
+        }
+       ]
+      },
+      {
+       "type": "feature",
+       "slot": "p6",
+       "line": "A beautiful mix of blossoms and trellis prints, filled with rice, noodles or hearty one-pot meals at the end of the day."
+      },
+      {
+       "type": "story",
+       "text": "A few things for the table and the shelf, chosen for the festive weeks and the ordinary ones after."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "N-09c",
+   "name": "control: the same word on a row with an occasion does not fire C8o",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "source": "probe 52",
+   "customer_id": "c07",
+   "format": "email",
+   "picks": [
+    "kachnar-napkin-rings-set-of-4",
+    "hibiscus-candle-holder",
+    "buransh-straight-mug",
+    "alam-cookie-tray-with-tong",
+    "anar-incense-set-anglesey",
+    "phool-cake-stand"
+   ],
+   "plan_occasion": "Diwali at home",
+   "plan_occasion_key": "festive",
+   "plan_shape": "home",
+   "new_user": false,
+   "draft": {
+    "email": {
+     "occasion_key": "festive",
+     "subject": "For the table at Diwali",
+     "preheader": "Napkin rings, a candle holder and a mug for the evening at home.",
+     "body": "Diwali at home starts with the table.\n\n{p1} is crafted in iron with a matte gold finish, a set of four for every setting.\n\n{p2} is shaped like the hibiscus flower, in iron with a gold finish, and lights up any space.\n\n{p3} is stoneware with straight walls, for the tea after the guests have gone home."
+    }
+   }
+  },
+  {
+   "id": "N-10",
+   "name": "prefix byte-identical over format, attempt and new user",
+   "kind": "request",
+   "source": "quill 45",
+   "lane": "gen",
+   "given": {
+    "vary": {
+     "format": [
+      "both",
+      "email",
+      "landing_page"
+     ],
+     "attempt": [
+      1,
+      2
+     ],
+     "new_user": [
+      false,
+      true
+     ],
+     "customer": [
+      "c01",
+      "c20"
+     ]
+    }
+   },
+   "expect": {
+    "system_blocks_sha256_all_equal": true,
+    "only_changes": [
+     "messages",
+     "output_config.format",
+     "max_tokens"
+    ],
+    "no_placeholder_left": "{{"
+   }
+  },
+  {
+   "id": "N-11",
+   "name": "121 words with 25 in packing_list notes: note must count in C3.L (LLD:2406 omits it)",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C3.L"
+    ]
+   },
+   "source": "probe 50",
+   "customer_id": "c10",
+   "format": "landing_page",
+   "picks": [
+    "meher-earrings-gold",
+    "windowpane-checks-scarf-dark-blue",
+    "alphabet-s-charm-black-gold-1",
+    "darbaar-balis-gold",
+    "mukayu-city-tote-red-pink"
+   ],
+   "plan_occasion": "Jaipur weekend",
+   "plan_occasion_key": "resort",
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "resort",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p5",
+       "heading": "For a Jaipur weekend",
+       "line": "Printed cotton canvas with leather trims, for days that move from one place to the next."
+      },
+      {
+       "type": "story",
+       "text": "Two days away from the desk, with one bag on the shoulder and a short list that gets shorter once the train leaves the city behind and the windows open."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "Soft and breathable, folded in first"
+        },
+        {
+         "slot": "p1",
+         "note": "For the evening, kept in the side pocket"
+        },
+        {
+         "slot": "p3",
+         "note": "Goes on last, with the keys"
+        },
+        {
+         "slot": "p4",
+         "note": "For the one long dinner"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "The road out is short and the morning stays cool and the bag sits light on one shoulder while the city wakes slowly around the first cup of tea and nobody is in any rush to be anywhere before lunch and the evening has room for."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "N-12",
+   "name": "exactly 120 words, all fields counted, passes",
+   "kind": "draft",
+   "expect": {
+    "verdict": "pass"
+   },
+   "source": "probe 50",
+   "customer_id": "c10",
+   "format": "landing_page",
+   "picks": [
+    "meher-earrings-gold",
+    "windowpane-checks-scarf-dark-blue",
+    "alphabet-s-charm-black-gold-1",
+    "darbaar-balis-gold",
+    "mukayu-city-tote-red-pink"
+   ],
+   "plan_occasion": "Jaipur weekend",
+   "plan_occasion_key": "resort",
+   "plan_shape": "trip",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "resort",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p5",
+       "heading": "For a Jaipur weekend",
+       "line": "Printed cotton canvas with leather trims, for days that move from one place to the next."
+      },
+      {
+       "type": "story",
+       "text": "Two days away from the desk, with one bag on the shoulder and a short list that gets shorter once the train leaves the city behind and the windows open."
+      },
+      {
+       "type": "packing_list",
+       "items": [
+        {
+         "slot": "p2",
+         "note": "Soft and breathable, folded in first"
+        },
+        {
+         "slot": "p1",
+         "note": "For the evening, kept in the side pocket"
+        },
+        {
+         "slot": "p3",
+         "note": "Goes on last, with the keys"
+        },
+        {
+         "slot": "p4",
+         "note": "For the one long dinner"
+        }
+       ]
+      },
+      {
+       "type": "story",
+       "text": "The road out is short and the morning stays cool and the bag sits light on one shoulder while the city wakes slowly around the first cup of tea and nobody is in any rush to be anywhere before lunch and the evening has room."
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "N-13",
+   "name": "picks text for these products has C4 hits before strip and 0 after, so {{picks}} does not teach a banned phrase",
+   "kind": "data",
+   "source": "probe 50 finding 4",
+   "lane": "data",
+   "expect": {
+    "after_strip_c4_hits": 0
+   },
+   "products": [
+    {
+     "product_id": "7652883038342",
+     "handle": "pixel-cap-olive",
+     "c4_ids": [
+      "c4.058"
+     ],
+     "rows": [
+      "c02"
+     ]
+    },
+    {
+     "product_id": "7551224545414",
+     "handle": "drop-armhole-shirt-ink-blue",
+     "c4_ids": [
+      "c4.045",
+      "c4.048"
+     ],
+     "rows": [
+      "c08",
+      "c17"
+     ]
+    },
+    {
+     "product_id": "7265600635014",
+     "handle": "qurbat-dress-with-slip-ivory-hand-embroidered",
+     "c4_ids": [
+      "c4.042",
+      "c4.055"
+     ],
+     "rows": [
+      "c09"
+     ]
+    },
+    {
+     "product_id": "7492613636230",
+     "handle": "inaaz-blouse-red-embroidered",
+     "c4_ids": [
+      "c4.045"
+     ],
+     "rows": [
+      "c09"
+     ]
+    },
+    {
+     "product_id": "6897629429894",
+     "handle": "alphabet-glass-v",
+     "c4_ids": [
+      "c4.045",
+      "c4.058"
+     ],
+     "rows": [
+      "c12"
+     ]
+    },
+    {
+     "product_id": "7426320466054",
+     "handle": "noor-earrings-gold",
+     "c4_ids": [
+      "c4.052"
+     ],
+     "rows": [
+      "c14"
+     ]
+    },
+    {
+     "product_id": "7537234182278",
+     "handle": "sindhu-choker-gold",
+     "c4_ids": [
+      "c4.058"
+     ],
+     "rows": [
+      "c14"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "R1",
+   "name": "readiness: kill and restart",
+   "kind": "spec",
+   "source": "atlas 42",
+   "lane": "proof",
+   "expect": {
+    "finished_units_repeat_calls": 0,
+    "in_flight_attempt_2_calls_max": "GEN_CONCURRENCY"
+   }
+  }
+ ],
+ "c8n_rows": {
+  "count": 32,
+  "note": "text-level: run C8n only",
+  "rows": [
+   {
+    "id": "C8n-bad-c01",
+    "customer_id": "c01",
+    "text": "It sits well next to the indigo travel shirt.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-bad-c02",
+    "customer_id": "c02",
+    "text": "It sits well next to the cotton drape kurta.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-bad-c03",
+    "customer_id": "c03",
+    "text": "It sits well next to the silk evening stole.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-bad-c04",
+    "customer_id": "c04",
+    "text": "It sits well next to the block-print scarf.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-bad-c05",
+    "customer_id": "c05",
+    "text": "It sits well next to the woven weekender.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-bad-c06",
+    "customer_id": "c06",
+    "text": "It sits well next to the printed resort shirt.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-bad-c07",
+    "customer_id": "c07",
+    "text": "It sits well next to the silver stack.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-bad-c08",
+    "customer_id": "c08",
+    "text": "It sits well next to the linen column dress.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-bad-c09",
+    "customer_id": "c09",
+    "text": "It sits well next to the embroidered slip.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-bad-c11",
+    "customer_id": "c11",
+    "text": "It sits well next to the cashmere wrap.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-bad-c12",
+    "customer_id": "c12",
+    "text": "It sits well next to the brass ear cuffs.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-bad-c14",
+    "customer_id": "c14",
+    "text": "It sits well next to the handloom throw.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c01",
+    "customer_id": "c01",
+    "text": "The gold holds up well through a long day.",
+    "word_shared_with_note": false,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c02",
+    "customer_id": "c02",
+    "text": "The cotton holds up well through a long day.",
+    "word_shared_with_note": true,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c03",
+    "customer_id": "c03",
+    "text": "The gold holds up well through a long day.",
+    "word_shared_with_note": false,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c04",
+    "customer_id": "c04",
+    "text": "The stoneware holds up well through a long day.",
+    "word_shared_with_note": false,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c05",
+    "customer_id": "c05",
+    "text": "The stoneware holds up well through a long day.",
+    "word_shared_with_note": false,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c06",
+    "customer_id": "c06",
+    "text": "The red holds up well through a long day.",
+    "word_shared_with_note": false,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c07",
+    "customer_id": "c07",
+    "text": "The iron holds up well through a long day.",
+    "word_shared_with_note": false,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c08",
+    "customer_id": "c08",
+    "text": "The linen holds up well through a long day.",
+    "word_shared_with_note": true,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c09",
+    "customer_id": "c09",
+    "text": "The ivory holds up well through a long day.",
+    "word_shared_with_note": false,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c10",
+    "customer_id": "c10",
+    "text": "The gold holds up well through a long day.",
+    "word_shared_with_note": false,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c11",
+    "customer_id": "c11",
+    "text": "The gold holds up well through a long day.",
+    "word_shared_with_note": false,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c12",
+    "customer_id": "c12",
+    "text": "The brass holds up well through a long day.",
+    "word_shared_with_note": true,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c13",
+    "customer_id": "c13",
+    "text": "The ivory holds up well through a long day.",
+    "word_shared_with_note": false,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c14",
+    "customer_id": "c14",
+    "text": "The gold holds up well through a long day.",
+    "word_shared_with_note": false,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c15",
+    "customer_id": "c15",
+    "text": "The brown holds up well through a long day.",
+    "word_shared_with_note": false,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c16",
+    "customer_id": "c16",
+    "text": "The silk holds up well through a long day.",
+    "word_shared_with_note": true,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c17",
+    "customer_id": "c17",
+    "text": "The linen holds up well through a long day.",
+    "word_shared_with_note": true,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c18",
+    "customer_id": "c18",
+    "text": "The cotton holds up well through a long day.",
+    "word_shared_with_note": true,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-good-c19",
+    "customer_id": "c19",
+    "text": "The gold holds up well through a long day.",
+    "word_shared_with_note": false,
+    "expect": {
+     "verdict": "pass",
+     "fails_none_of": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-fp-c03",
+    "customer_id": "c03",
+    "text": "A silk evening scarf for the dinner.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    },
+    "by_design_false_positive": "honest adjacent words hit the span \"silk evening\"; quill 52 Open 5"
+   }
+  ]
+ }
+}

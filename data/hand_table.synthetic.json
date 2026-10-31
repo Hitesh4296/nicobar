@@ -1,0 +1,70 @@
+{
+ "_label": "Hand-set picks by sift, labelled synthetic: an assumed upstream, no behaviour data. Merged offline into recommendations.synthetic.json with reason HAND_SET. c20 is not here: it is rule-built, reason NEW_USER_PRIOR, by merge.py. No gender guessed. Travel is sift's judgement and never a claim in copy.",
+ "rows": {
+  "c02": {
+   "pool": "trip",
+   "picks": [
+    "rimjhim-pouch-ivory",
+    "pixel-cap-olive",
+    "everyday-stripes-scarf-dark-blue",
+    "gingham-glow-socks-ice-blue-purple"
+   ]
+  },
+  "c03": {
+   "pool": "scene",
+   "picks": [
+    "noorani-necklace-gold",
+    "moonlit-scarf-navy",
+    "celestial-bali-gold",
+    "taro-bracelet-silver"
+   ]
+  },
+  "c06": {
+   "pool": "trip",
+   "picks": [
+    "mukayu-city-tote-red-pink",
+    "starry-cap-navy-brown",
+    "machli-pouch-ivory",
+    "fleur-scarf-red-black"
+   ]
+  },
+  "c13": {
+   "pool": "scene",
+   "picks": [
+    "floral-bloom-scarf-ivory",
+    "ribbon-hoop-small-gold",
+    "taro-chain-silver",
+    "flight-bracelet-silver"
+   ]
+  },
+  "c15": {
+   "pool": "trip",
+   "picks": [
+    "heera-scarf-brown",
+    "cupid-pouch-brown-mulberry",
+    "aero-cap-brown-beige",
+    "pixel-heart-socks-fuschia-brown"
+   ]
+  },
+  "c18": {
+   "pool": "trip",
+   "picks": [
+    "matchbox-laptop-sleeve-multicolor",
+    "hana-spec-case-charcoal",
+    "starfly-socks-black-white",
+    "nova-charm-black-red"
+   ]
+  },
+  "c20": {
+   "pool": "new_user",
+   "picks": [
+    "indus-straight-mug",
+    "tusk-bloom-cushion-cover",
+    "memoir-photo-frame-set-of-2",
+    "mogra-pasta-plate",
+    "palm-bloom-bowl",
+    "donburi-shallow-bowl-set-of-5-1"
+   ]
+  }
+ }
+}

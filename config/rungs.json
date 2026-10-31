@@ -1,0 +1,90 @@
+[
+  {
+    "id": "sonnet-between_tools",
+    "model": "claude-sonnet-5-5",
+    "thinking": {
+      "type": "between_tools"
+    },
+    "effort": null,
+    "max_tokens": {
+      "both": 2250,
+      "email": 750,
+      "landing_page": 1500
+    },
+    "passed": {}
+  },
+  {
+    "id": "sonnet-low",
+    "model": "claude-sonnet-5-5",
+    "thinking": null,
+    "effort": "low",
+    "max_tokens": {
+      "both": 3750,
+      "email": 2250,
+      "landing_page": 3000
+    },
+    "passed": {}
+  },
+  {
+    "id": "sonnet-medium",
+    "model": "claude-sonnet-5-5",
+    "thinking": null,
+    "effort": "medium",
+    "max_tokens": {
+      "both": 5250,
+      "email": 3750,
+      "landing_page": 4500
+    },
+    "passed": {}
+  },
+  {
+    "id": "sonnet-default",
+    "model": "claude-sonnet-5-5",
+    "thinking": null,
+    "effort": null,
+    "max_tokens": {
+      "both": 8250,
+      "email": 6750,
+      "landing_page": 7500
+    },
+    "passed": {}
+  },
+  {
+    "id": "haiku-disabled",
+    "model": "claude-haiku-5-5",
+    "thinking": {
+      "type": "disabled"
+    },
+    "effort": null,
+    "max_tokens": {
+      "both": 2250,
+      "email": 750,
+      "landing_page": 1500
+    },
+    "passed": {}
+  },
+  {
+    "id": "haiku-medium",
+    "model": "claude-haiku-5-5",
+    "thinking": null,
+    "effort": "medium",
+    "max_tokens": {
+      "both": 3750,
+      "email": 2250,
+      "landing_page": 3000
+    },
+    "passed": {}
+  },
+  {
+    "id": "opus-default",
+    "model": "claude-opus-5-5",
+    "thinking": null,
+    "effort": null,
+    "max_tokens": {
+      "both": 3750,
+      "email": 2250,
+      "landing_page": 3000
+    },
+    "passed": {}
+  }
+]

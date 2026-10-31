@@ -1,0 +1,366 @@
+{
+ "source": "drafts are hand-written; picks are real products (picks.json)",
+ "fetched": "2026-10-29",
+ "expect_semantics": {
+  "pass": "no hard check fires",
+  "fail": "at least one of fails_any fires (hard)",
+  "any": "none of fails_none_of fires",
+  "warn_includes": "these WARN ids are present",
+  "known_gap": "the case PASSES today although the draft is bad; it documents a residual. If a rule change closes the gap, flip the expectation and remove known_gap"
+ },
+ "check_ids": "C0 C1 C2 C3 C4 C5 C6 C7 C8 C8d C8d-x (hard); C8c OUR SOFT SPACED_DASH (warn)",
+ "count": 23,
+ "note": "X2 is a unit test of the gate on URLs; X1 and X3 tamper with a rendered page. A foreign image can only reach the page through a renderer or snapshot bug, so these are tripwires.",
+ "cases": [
+  {
+   "id": "X2-01",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "the pick's own image URL with a different ?v=",
+   "selected": [
+    "ibex-trousers-sand"
+   ],
+   "url": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053663_1.jpg?v=9",
+   "expect": "pass",
+   "reference_reason": null,
+   "note": "an exact string match would wrongly fail it"
+  },
+  {
+   "id": "X2-02",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "same URL with ?v= and width=400",
+   "selected": [
+    "ibex-trousers-sand"
+   ],
+   "url": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053663_1.jpg?v=9&width=400",
+   "expect": "pass",
+   "reference_reason": null
+  },
+  {
+   "id": "X2-03",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "a real image of another product (not a pick of this draft)",
+   "selected": [
+    "ibex-trousers-sand"
+   ],
+   "url": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053672_1.jpg?v=1",
+   "expect": "fail",
+   "reference_reason": "IMG_NOT_OF_SELECTED",
+   "note": "passes the host, prefix and snapshot tests; only the per-pick lookup catches it"
+  },
+  {
+   "id": "X2-04",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "same filename under another store prefix",
+   "selected": [
+    "ibex-trousers-sand"
+   ],
+   "url": "https://cdn.shopify.com/s/files/1/0999/1234/5678/files/NBI053663_1.jpg",
+   "expect": "fail",
+   "reference_reason": "IMG_OTHER_STORE"
+  },
+  {
+   "id": "X2-05",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "another host",
+   "selected": [
+    "ibex-trousers-sand"
+   ],
+   "url": "https://images.example.com/s/files/1/0270/5129/4854/files/NBI053663_1.jpg",
+   "expect": "fail",
+   "reference_reason": "IMG_HOST"
+  },
+  {
+   "id": "X2-06",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "suffix trick: cdn.shopify.com.evil.io",
+   "selected": [
+    "ibex-trousers-sand"
+   ],
+   "url": "https://cdn.shopify.com.evil.io/s/files/1/0270/5129/4854/files/NBI053663_1.jpg",
+   "expect": "fail",
+   "reference_reason": "IMG_HOST"
+  },
+  {
+   "id": "X2-07",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "userinfo trick: cdn.shopify.com@evil.io",
+   "selected": [
+    "ibex-trousers-sand"
+   ],
+   "url": "https://cdn.shopify.com@evil.io/s/files/1/0270/5129/4854/files/NBI053663_1.jpg",
+   "expect": "fail",
+   "reference_reason": "IMG_AUTHORITY",
+   "note": "a string startswith check passes it"
+  },
+  {
+   "id": "X2-08",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "http scheme",
+   "selected": [
+    "ibex-trousers-sand"
+   ],
+   "url": "http://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053663_1.jpg",
+   "expect": "fail",
+   "reference_reason": "IMG_SCHEME"
+  },
+  {
+   "id": "X2-09",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "a redirect parameter in the query",
+   "selected": [
+    "ibex-trousers-sand"
+   ],
+   "url": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053663_1.jpg?v=1&redirect=https://evil.io",
+   "expect": "fail",
+   "reference_reason": "IMG_QUERY",
+   "note": "stripping the query before the check would pass it"
+  },
+  {
+   "id": "X2-10",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "path traversal",
+   "selected": [
+    "ibex-trousers-sand"
+   ],
+   "url": "https://cdn.shopify.com/s/files/1/0270/5129/4854/../4854/files/NBI053663_1.jpg",
+   "expect": "fail",
+   "reference_reason": "IMG_PATH",
+   "note": "normalising before the check can launder it"
+  },
+  {
+   "id": "X2-11",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "trailing dot in the host",
+   "selected": [
+    "ibex-trousers-sand"
+   ],
+   "url": "https://cdn.shopify.com./s/files/1/0270/5129/4854/files/NBI053663_1.jpg",
+   "expect": "fail",
+   "reference_reason": "IMG_HOST"
+  },
+  {
+   "id": "X2-12",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "Cyrillic o in shopify",
+   "selected": [
+    "ibex-trousers-sand"
+   ],
+   "url": "https://cdn.shоpify.com/s/files/1/0270/5129/4854/files/NBI053663_1.jpg",
+   "expect": "fail",
+   "reference_reason": "IMG_HOST"
+  },
+  {
+   "id": "X2-13",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "a plausible www.nicobar.com/cdn/shop/files path",
+   "selected": [
+    "ibex-trousers-sand"
+   ],
+   "url": "https://www.nicobar.com/cdn/shop/files/NBI053663_1.jpg",
+   "expect": "fail",
+   "reference_reason": "IMG_HOST",
+   "note": "the only \"on nicobar.com\" form that is not in the snapshot"
+  },
+  {
+   "id": "X2-14",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "data: URI",
+   "selected": [
+    "ibex-trousers-sand"
+   ],
+   "url": "data:image/png;base64,iVBORw0KGgo=",
+   "expect": "fail",
+   "reference_reason": "IMG_SCHEME"
+  },
+  {
+   "id": "X2-15",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "file name in lower case",
+   "selected": [
+    "ibex-trousers-sand"
+   ],
+   "url": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/nbi053663_1.jpg?v=1",
+   "expect": "fail",
+   "reference_reason": "IMG_NOT_OF_SELECTED",
+   "note": "path is case-sensitive; whether Shopify is case-insensitive is unknown"
+  },
+  {
+   "id": "X2-16",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "host in upper case",
+   "selected": [
+    "ibex-trousers-sand"
+   ],
+   "url": "https://CDN.SHOPIFY.COM/s/files/1/0270/5129/4854/files/NBI053663_1.jpg?v=1",
+   "expect": "pass",
+   "reference_reason": null,
+   "note": "a URL parser lower-cases the host"
+  },
+  {
+   "id": "X2-17a",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "an image shared by two products, draft selects the first owner",
+   "selected": [
+    "fable-top-black-charcoal"
+   ],
+   "url": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/1_d8f10269-5a0d-48c0-a511-c448b53af53d.jpg?v=1",
+   "expect": "pass",
+   "reference_reason": null,
+   "note": "the lookup is set-valued"
+  },
+  {
+   "id": "X2-17b",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "the same shared image, draft selects the second owner",
+   "selected": [
+    "weekend-trousers-black-charcoal"
+   ],
+   "url": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/1_d8f10269-5a0d-48c0-a511-c448b53af53d.jpg?v=1",
+   "expect": "pass",
+   "reference_reason": null
+  },
+  {
+   "id": "X2-17c",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "the same shared image, draft selects neither owner",
+   "selected": [
+    "saanjh-shawl-chartreuse"
+   ],
+   "url": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/1_d8f10269-5a0d-48c0-a511-c448b53af53d.jpg?v=1",
+   "expect": "fail",
+   "reference_reason": "IMG_NOT_OF_SELECTED"
+  },
+  {
+   "id": "X1-00",
+   "family": "expansion-integrity",
+   "layer": "rendered",
+   "title": "a correct render of the known-good email passes X1, X2 and X3",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand."
+    }
+   },
+   "expect": "pass",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  },
+  {
+   "id": "X1-01",
+   "family": "expansion-integrity",
+   "layer": "rendered",
+   "title": "renderer swap: card 2 shows pick 1's image (X2 alone passes it, because both images belong to picks)",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand."
+    }
+   },
+   "tamper": "replace the image URL in card 2 with the image URL of card 1",
+   "expect": "fail",
+   "expect_check": "X1",
+   "reference_reason": "IMAGE_MISMATCH",
+   "x2_alone_passes": true,
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  },
+  {
+   "id": "X3-01",
+   "family": "links",
+   "layer": "rendered",
+   "title": "a card link points to a real product that is not a pick",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand."
+    }
+   },
+   "tamper": "replace the href in card 1 with the product URL of an unselected real product (hornbill-shirt-indigo)",
+   "expect": "fail",
+   "expect_check": "X3",
+   "reference_reason": "HREF_NOT_OF_PICKS",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  },
+  {
+   "id": "X3-02",
+   "family": "links",
+   "layer": "rendered",
+   "title": "a card link on a look-alike host",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand."
+    }
+   },
+   "tamper": "replace the host with www.nicobar.com.evil.io",
+   "expect": "fail",
+   "expect_check": "X3",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  }
+ ]
+}

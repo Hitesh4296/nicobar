@@ -1,0 +1,7 @@
+customer_id	first_name	last_name	occasion	past_purchase_note
+fx-both	Fixture	One	Sister's wedding	Synthetic note.
+fx-email	Fixture	Two	Monsoon in Kochi	Synthetic note.
+bad row
+fx-newuser	Fixture	Three	Diwali at home	-
+fx-retry	Fixture	Five	Anniversary dinner	Synthetic note.
+fx-throw	Fixture	Six	Housewarming	Synthetic note.

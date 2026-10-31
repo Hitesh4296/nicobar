@@ -1,0 +1,7 @@
+{ "$id": "nicobar/draft-email/v1", "type": "object", "additionalProperties": false,
+  "required": ["occasion_key","subject","preheader","body"],
+  "properties": {
+    "occasion_key": {"type":"string"},
+    "subject":   {"type":"string","minLength":8,"maxLength":70},
+    "preheader": {"type":"string","minLength":20,"maxLength":110},
+    "body":      {"type":"string","minLength":200,"maxLength":1000} } }

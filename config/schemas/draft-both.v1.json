@@ -1,0 +1,5 @@
+{ "$id": "nicobar/draft-both/v1", "type": "object", "additionalProperties": false,
+  "required": ["email","landing_page"],
+  "properties": {
+    "email":        {"$ref":"nicobar/draft-email/v2"},
+    "landing_page": {"$ref":"nicobar/draft-landing/v3"} } }

@@ -1,0 +1,12 @@
+{
+ "version": "charset-v1",
+ "count": 84,
+ "chars": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 \n.,;:'\"()-%&?’‘“”…–—é",
+ "applies_to": "every model text field, with validated slot tokens masked first, and every source unit in the strip",
+ "token_mask": "x",
+ "spaced_letter_re": "(?:\\b\\w\\b\\s+){2}\\b\\w\\b",
+ "notes": [
+  "a character is allowed only if it is in chars; there are no ranges",
+  "NFKC is not applied"
+ ]
+}

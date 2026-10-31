@@ -1,0 +1,7 @@
+{
+  "voice":     { "expected_usd": 1.11, "runs": 2 },
+  "F":         { "expected_usd": 0.79, "runs": 1 },
+  "rehearsal": { "expected_usd": 0.12, "runs": 1 },
+  "Haiku":     { "expected_usd": 0.01, "runs": 1 },
+  "isolation": { "expected_usd": 0,    "runs": 1 }
+}

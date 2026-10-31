@@ -1,0 +1,525 @@
+{
+ "version": "recommendations/v1",
+ "synthetic": true,
+ "as_of": "2026-10-29",
+ "snapshot_id": "f88b7db52538870d",
+ "rule": "sift 52: sift 40 picks.py variant A for 13 rows, hand table for c02 c03 c06 c13 c15 c18 (HAND_SET), new-user rule for c20 (NEW_USER_PRIOR). Assumed upstream, no behaviour data.",
+ "rows": [
+  {
+   "customer_id": "c01",
+   "picks": [
+    {
+     "product_id": "7492613243014",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7492613406854",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7492613275782",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7492613177478",
+     "reason_code": "OCCASION_MATCH"
+    }
+   ]
+  },
+  {
+   "customer_id": "c02",
+   "picks": [
+    {
+     "product_id": "7652882841734",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652883038342",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7576166793350",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652883103878",
+     "reason_code": "HAND_SET"
+    }
+   ]
+  },
+  {
+   "customer_id": "c03",
+   "picks": [
+    {
+     "product_id": "7492613210246",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652882481286",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652882382982",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652882350214",
+     "reason_code": "HAND_SET"
+    }
+   ]
+  },
+  {
+   "customer_id": "c04",
+   "picks": [
+    {
+     "product_id": "7576163352710",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7741540008070",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7741539582086",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7664341024902",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "5196329812102",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7664340533382",
+     "reason_code": "OCCASION_MATCH"
+    }
+   ]
+  },
+  {
+   "customer_id": "c05",
+   "picks": [
+    {
+     "product_id": "5215840239750",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "6538749378694",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7728573481094",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "6581928263814",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7551228543110",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "6601425911942",
+     "reason_code": "OCCASION_MATCH"
+    }
+   ]
+  },
+  {
+   "customer_id": "c06",
+   "picks": [
+    {
+     "product_id": "7652882579590",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652882907270",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652882710662",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652882415750",
+     "reason_code": "HAND_SET"
+    }
+   ]
+  },
+  {
+   "customer_id": "c07",
+   "picks": [
+    {
+     "product_id": "6595613360262",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "6914331869318",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7728573251718",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "6892869877894",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "5196418809990",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7426322104454",
+     "reason_code": "OCCASION_MATCH"
+    }
+   ]
+  },
+  {
+   "customer_id": "c08",
+   "picks": [
+    {
+     "product_id": "6858665001094",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7537228775558",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7551224545414",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "15401643540614",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7741535322246",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7741536665734",
+     "reason_code": "OCCASION_MATCH"
+    }
+   ]
+  },
+  {
+   "customer_id": "c09",
+   "picks": [
+    {
+     "product_id": "7265600635014",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7492613374086",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7664336502918",
+     "reason_code": "SAME_CLASS_NEW"
+    },
+    {
+     "product_id": "15401644687494",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7576168169606",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7492613636230",
+     "reason_code": "OCCASION_MATCH"
+    }
+   ]
+  },
+  {
+   "customer_id": "c10",
+   "picks": [
+    {
+     "product_id": "7492613177478",
+     "reason_code": "TRIP_TAG"
+    },
+    {
+     "product_id": "7576166760582",
+     "reason_code": "TRIP_TAG"
+    },
+    {
+     "product_id": "6959138406534",
+     "reason_code": "TRIP_TAG"
+    },
+    {
+     "product_id": "7492613275782",
+     "reason_code": "TRIP_TAG"
+    },
+    {
+     "product_id": "7652882579590",
+     "reason_code": "SAME_CLASS_NEW"
+    }
+   ]
+  },
+  {
+   "customer_id": "c11",
+   "picks": [
+    {
+     "product_id": "7492613177478",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7576166760582",
+     "reason_code": "SAME_CLASS_NEW"
+    },
+    {
+     "product_id": "7492613275782",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7492613308550",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7492613374086",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "6959138406534",
+     "reason_code": "TRIP_TAG"
+    }
+   ]
+  },
+  {
+   "customer_id": "c12",
+   "picks": [
+    {
+     "product_id": "5196412977286",
+     "reason_code": "FALLBACK_NON_OCCASION"
+    },
+    {
+     "product_id": "6897629429894",
+     "reason_code": "FALLBACK_NON_OCCASION"
+    },
+    {
+     "product_id": "6538751443078",
+     "reason_code": "FALLBACK_NON_OCCASION"
+    },
+    {
+     "product_id": "6861826162822",
+     "reason_code": "FALLBACK_NON_OCCASION"
+    },
+    {
+     "product_id": "7454488395910",
+     "reason_code": "FALLBACK_NON_OCCASION"
+    },
+    {
+     "product_id": "7426319777926",
+     "reason_code": "FALLBACK_NON_OCCASION"
+    }
+   ]
+  },
+  {
+   "customer_id": "c13",
+   "picks": [
+    {
+     "product_id": "7652882448518",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "6959137587334",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652882284678",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652882317446",
+     "reason_code": "HAND_SET"
+    }
+   ]
+  },
+  {
+   "customer_id": "c14",
+   "picks": [
+    {
+     "product_id": "7741538959494",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7426320466054",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "6776774131846",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "5196418613382",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7537234182278",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7728573481094",
+     "reason_code": "OCCASION_MATCH"
+    }
+   ]
+  },
+  {
+   "customer_id": "c15",
+   "picks": [
+    {
+     "product_id": "7652882514054",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652883267718",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652882972806",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652883071110",
+     "reason_code": "HAND_SET"
+    }
+   ]
+  },
+  {
+   "customer_id": "c16",
+   "picks": [
+    {
+     "product_id": "7741540040838",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7652882579590",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "5196329812102",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "6538751115398",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7741538730118",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7697174200454",
+     "reason_code": "OCCASION_MATCH"
+    }
+   ]
+  },
+  {
+   "customer_id": "c17",
+   "picks": [
+    {
+     "product_id": "6858665001094",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7537228775558",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7551224545414",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "15401643540614",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7741535355014",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7741537878150",
+     "reason_code": "OCCASION_MATCH"
+    }
+   ]
+  },
+  {
+   "customer_id": "c18",
+   "picks": [
+    {
+     "product_id": "7576167350406",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652882940038",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652883136646",
+     "reason_code": "HAND_SET"
+    },
+    {
+     "product_id": "7652883333254",
+     "reason_code": "HAND_SET"
+    }
+   ]
+  },
+  {
+   "customer_id": "c19",
+   "picks": [
+    {
+     "product_id": "7492613177478",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7492613308550",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7492613144710",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7492613275782",
+     "reason_code": "OCCASION_MATCH"
+    },
+    {
+     "product_id": "7652882514054",
+     "reason_code": "SAME_CLASS_NEW"
+    }
+   ]
+  },
+  {
+   "customer_id": "c20",
+   "picks": [
+    {
+     "product_id": "7426321678470",
+     "reason_code": "NEW_USER_PRIOR"
+    },
+    {
+     "product_id": "7652881498246",
+     "reason_code": "NEW_USER_PRIOR"
+    },
+    {
+     "product_id": "15402020765830",
+     "reason_code": "NEW_USER_PRIOR"
+    },
+    {
+     "product_id": "7652880351366",
+     "reason_code": "NEW_USER_PRIOR"
+    },
+    {
+     "product_id": "7652880384134",
+     "reason_code": "NEW_USER_PRIOR"
+    },
+    {
+     "product_id": "6821058183302",
+     "reason_code": "NEW_USER_PRIOR"
+    }
+   ]
+  }
+ ]
+}

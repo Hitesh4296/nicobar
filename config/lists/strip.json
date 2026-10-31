@@ -1,0 +1,105 @@
+{
+ "version": "strip-v1",
+ "input": "body_html",
+ "split": {
+  "block_re": "<\\s*(li|p|br|div|h\\d)[^>]*>|</\\s*(li|p|div|h\\d)\\s*>",
+  "block_flags": "i",
+  "block_replacement": "\n",
+  "tag_re": "<[^>]+>",
+  "tag_replacement": " ",
+  "then": "decode HTML entities after tags are removed, split on newline, apply cp1252 to each block, replace whitespace_re with one space, trim, drop empty blocks, then split each block on sentence_re",
+  "whitespace_re": "[ \\t\\r\\f\\v\\u00a0]+",
+  "sentence_re": "(?<=[.!?])\\s+"
+ },
+ "cp1252": {
+  "0080": "€",
+  "0082": "‚",
+  "0083": "ƒ",
+  "0084": "„",
+  "0085": "…",
+  "0086": "†",
+  "0087": "‡",
+  "0088": "ˆ",
+  "0089": "‰",
+  "008a": "Š",
+  "008b": "‹",
+  "008c": "Œ",
+  "008e": "Ž",
+  "0091": "‘",
+  "0092": "’",
+  "0093": "“",
+  "0094": "”",
+  "0095": "•",
+  "0096": "–",
+  "0097": "—",
+  "0098": "˜",
+  "0099": "™",
+  "009a": "š",
+  "009b": "›",
+  "009c": "œ",
+  "009e": "ž",
+  "009f": "Ÿ"
+ },
+ "fold": {
+  "map": {
+   "’": "'",
+   "‘": "'"
+  },
+  "use": "on the copy each regex reads; the kept unit is stored unfolded"
+ },
+ "drop_steps": [
+  {
+   "step": 1,
+   "id": "X1",
+   "re": "NicoBaraat has arrived!|Timeless pieces reimagined for the people who make weddings the joyful chaos that they are\\.",
+   "flags": "i"
+  },
+  {
+   "step": 2,
+   "id": "DIM",
+   "re": "^\\s*(dimensions?|sizes?|size chart|care)\\s*[:\\-]",
+   "flags": "i"
+  },
+  {
+   "step": 3,
+   "id": "C4",
+   "list": "c4.json"
+  },
+  {
+   "step": 4,
+   "id": "C5",
+   "list": "c5.json"
+  },
+  {
+   "step": 5,
+   "id": "C0",
+   "list": "charset.json"
+  },
+  {
+   "step": 6,
+   "id": "COUNT",
+   "re": "\\bset of (\\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\\b|(?<!no )\\b(\\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)[- ](?:pieces?|pcs)\\b",
+   "flags": "i",
+   "number_words": {
+    "one": 1,
+    "two": 2,
+    "three": 3,
+    "four": 4,
+    "five": 5,
+    "six": 6,
+    "seven": 7,
+    "eight": 8,
+    "nine": 9,
+    "ten": 10,
+    "eleven": 11,
+    "twelve": 12
+   },
+   "rule": "if the product title states a count by this pattern, drop a unit that states a different count"
+  }
+ ],
+ "output": "the kept units joined with one space, in order, as body_text_clean",
+ "notes": [
+  "the first matching step drops the unit",
+  "a pack count is not a set count and is not matched"
+ ]
+}

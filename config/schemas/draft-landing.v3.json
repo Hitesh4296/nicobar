@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "nicobar/draft-landing/v3",
+  "type": "object", "additionalProperties": false,
+  "required": ["occasion_key", "sections"],
+  "properties": {
+    "occasion_key": { "anyOf": [ {"type":"string"}, {"type":"null"} ] },
+    "sections": { "type": "array", "minItems": 3, "maxItems": 6, "items": { "oneOf": [
+      { "type": "object", "additionalProperties": false, "required": ["type","slot","heading","line"],
+        "properties": { "type": {"const":"hero"}, "slot": {"$ref":"#/$defs/slot"},
+                        "heading": {"type":"string","maxLength":60}, "line": {"type":"string","maxLength":200} } },
+      { "type": "object", "additionalProperties": false, "required": ["type","text"],
+        "properties": { "type": {"const":"story"}, "text": {"type":"string","maxLength":380} } },
+      { "type": "object", "additionalProperties": false, "required": ["type","items"],
+        "properties": { "type": {"const":"product_grid"}, "items": { "type":"array","minItems":2,"maxItems":4,
+          "items": { "type":"object","additionalProperties":false,"required":["slot","caption"],
+                     "properties": { "slot":{"$ref":"#/$defs/slot"}, "caption":{"type":"string","maxLength":140} } } } } },
+      { "type": "object", "additionalProperties": false, "required": ["type","slots","line"],
+        "properties": { "type": {"const":"pairing"}, "slots": {"type":"array","minItems":2,"maxItems":2,"items":{"$ref":"#/$defs/slot"}},
+                        "line": {"type":"string","maxLength":230} } },
+      { "type": "object", "additionalProperties": false, "required": ["type","quote_id"],
+        "properties": { "type": {"const":"quote"}, "quote_id": {"enum":["E4","E6"]} } },
+      { "type": "object", "additionalProperties": false, "required": ["type","items"],
+        "properties": { "type": {"const":"packing_list"}, "items": { "type":"array","minItems":3,"maxItems":5,
+          "items": { "type":"object","additionalProperties":false,"required":["slot","note"],
+                     "properties": { "slot":{"$ref":"#/$defs/slot"}, "note":{"type":"string","maxLength":80} } } } } },
+      { "type": "object", "additionalProperties": false, "required": ["type","slot","line"],
+        "properties": { "type": {"const":"feature"}, "slot": {"$ref":"#/$defs/slot"}, "line": {"type":"string","maxLength":230} } }
+    ] } }
+  },
+  "$defs": { "slot": { "type": "string", "pattern": "^p[1-6]$" } }
+}

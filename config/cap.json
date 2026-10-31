@@ -1,0 +1,56 @@
+{
+  "sha256": "PLACEHOLDER-stage-0-sets-this",
+  "S": {
+    "both": 3000,
+    "email": 3000,
+    "landing_page": 3000
+  },
+  "U_design_max": {
+    "both": 1338,
+    "email": 1338,
+    "landing_page": 1338
+  },
+  "U_hard": {
+    "both": 26760,
+    "email": 26760,
+    "landing_page": 26760
+  },
+  "E_out": {
+    "sonnet-between_tools": {
+      "both": 750,
+      "email": 250,
+      "landing_page": 500
+    },
+    "sonnet-low": {
+      "both": 1250,
+      "email": 750,
+      "landing_page": 1000
+    },
+    "sonnet-medium": {
+      "both": 1750,
+      "email": 1250,
+      "landing_page": 1500
+    },
+    "sonnet-default": {
+      "both": 2750,
+      "email": 2250,
+      "landing_page": 2500
+    },
+    "haiku-disabled": {
+      "both": 750,
+      "email": 250,
+      "landing_page": 500
+    },
+    "haiku-medium": {
+      "both": 1250,
+      "email": 750,
+      "landing_page": 1000
+    },
+    "opus-default": {
+      "both": 1250,
+      "email": 750,
+      "landing_page": 1000
+    }
+  },
+  "measured": false
+}

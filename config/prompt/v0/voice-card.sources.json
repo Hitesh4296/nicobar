@@ -1,0 +1,118 @@
+{
+ "prompt_version": "v0",
+ "voice_guide_version": "v0",
+ "anchors": [
+  {
+   "id": "Q1",
+   "text": "100% linen in a bottom weight, heavier than shirting linen, piece dyed in a natural beige called sand. Solid, long, and cut for the office as much as the weekend.",
+   "found_in": "snapshot_body",
+   "handle": "ibex-trousers-sand",
+   "url": "https://www.nicobar.com/products/ibex-trousers-sand",
+   "fetched_at": "2026-10-29"
+  },
+  {
+   "id": "Q2",
+   "text": "Woven in 100% wool, with small sequin accents and tassels at the ends. Saanjh means dusk, and the colour is meant to glow like it.",
+   "found_in": "snapshot_body",
+   "handle": "saanjh-shawl-chartreuse",
+   "url": "https://www.nicobar.com/products/saanjh-shawl-chartreuse",
+   "fetched_at": "2026-10-29"
+  },
+  {
+   "id": "Q8",
+   "text": "Ceramic with a matte finish, so the metallic reads as colour rather than polish.",
+   "found_in": "snapshot_body",
+   "handle": "dhaara-quarter-plate-set-of-2",
+   "url": "https://www.nicobar.com/products/dhaara-quarter-plate-set-of-2",
+   "fetched_at": "2026-10-29"
+  },
+  {
+   "id": "Q13",
+   "text": "Mirrors are traditionally worn to ward off the evil eye, so the maangtika is as much a talisman as an ornament.",
+   "found_in": "snapshot_body",
+   "handle": "chand-maangtika-gold",
+   "url": "https://www.nicobar.com/products/chand-maangtika-gold",
+   "fetched_at": "2026-10-29"
+  },
+  {
+   "id": "Q18",
+   "text": "A boat under sail is a fair emblem for a wedding: two people, one direction.",
+   "found_in": "snapshot_body",
+   "handle": "sail-boat-home-accent-large",
+   "url": "https://www.nicobar.com/products/sail-boat-home-accent-large",
+   "fetched_at": "2026-10-29"
+  },
+  {
+   "id": "Q19",
+   "text": "Made for the wedding season, from haldi and mehendi to the cocktail evening.",
+   "found_in": "snapshot_body",
+   "handle": "meher-potli-violet",
+   "url": "https://www.nicobar.com/products/meher-potli-violet",
+   "fetched_at": "2026-10-29"
+  },
+  {
+   "id": "Q21",
+   "text": "Wear it over teal, purple or pink for wedding lunches and Diwali evenings.",
+   "found_in": "snapshot_body",
+   "handle": "marpeta-dupatta-cotton-silk",
+   "url": "https://www.nicobar.com/products/marpeta-dupatta-cotton-silk",
+   "fetched_at": "2026-10-29"
+  },
+  {
+   "id": "Q24",
+   "text": "For the host who serves something sweet alongside the pour.",
+   "found_in": "snapshot_body",
+   "handle": "aurelia-gift-set-tssxnb",
+   "url": "https://www.nicobar.com/products/aurelia-gift-set-tssxnb",
+   "fetched_at": "2026-10-29"
+  },
+  {
+   "id": "E1",
+   "text": "The thali, the katori, the pooja tray and the incense holder, in brass with modern lines. For the festive table, the corner where you light a diya, and every day after.",
+   "found_in": "voice_page",
+   "slug": "the-brass-story",
+   "url": "https://www.nicobar.com/pages/the-brass-story",
+   "fetched_at": "2026-10-29"
+  },
+  {
+   "id": "E2",
+   "text": "Bring them out for festive sweets, then for Sunday dal.",
+   "found_in": "voice_page",
+   "slug": "the-brass-story",
+   "url": "https://www.nicobar.com/pages/the-brass-story",
+   "fetched_at": "2026-10-29"
+  }
+ ],
+ "counter_examples": [
+  {
+   "id": "X2",
+   "text": "The Peru Jumpsuit in blue is the one-piece that does everything.",
+   "url": "https://www.nicobar.com/products/peru-jumpsuit-blue",
+   "fetched_at": "2026-10-29"
+  },
+  {
+   "id": "X3",
+   "text": "A treat for the eyes: this pretty mug features",
+   "url": "https://www.nicobar.com/products/khasi-mug-set-of-2",
+   "fetched_at": "2026-10-29"
+  },
+  {
+   "id": "J1",
+   "text": "as many names as it has varieties of banana (many) or sambol (god, so many).",
+   "url": "https://www.nicobar.com/blogs/travel/landing-in-serendip",
+   "fetched_at": "2026-10-29"
+  }
+ ],
+ "brand_claim": {
+  "id": "F1",
+  "text": "Rooted in India, and inspired by journeys across the Indian Ocean.",
+  "found_in": "voice_page",
+  "slugs": [
+   "the-brass-story",
+   "the-art-of-mukaish"
+  ],
+  "location": "footer script, present in the HTML of both stored pages",
+  "url": "https://www.nicobar.com/pages/the-brass-story",
+  "fetched_at": "2026-10-29"
+ }
+}
