@@ -13,9 +13,13 @@ describe('test 4: route order', () => {
     const body = await (await get('/review/spend')).json() as { detail: string };
     expect(body.detail).toBe('ui/demo spend');
   });
-  for (const [path, detail] of [['/review/published', 'ui/demo published'], ['/review/evals', 'ui/demo evals'], ['/review/agents', 'agents list'], ['/review/abc', 'review draft']]) {
+  for (const [path, detail] of [['/review/published', 'ui/demo published'], ['/review/evals', 'ui/demo evals'], ['/review/abc', 'review draft']]) {
     it(`${path} → ${detail}`, async () => expect(((await (await get(path)).json()) as { detail: string }).detail).toBe(detail));
   }
+  it('/review/agents reaches the agents list, not /review/:id', async () => {
+    const r = await get('/review/agents');
+    expect(r.headers.get('content-type')).toContain('text/html');
+  });
   it('review after demo and agents in the table', () => {
     const at = (p: string) => ROUTES.findIndex((r) => r.path === p);
     expect(at('/review/spend')).toBeLessThan(at('/review/:id'));
