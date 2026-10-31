@@ -2,7 +2,7 @@
  "version": "recommendations/v1",
  "synthetic": true,
  "as_of": "2026-10-29",
- "snapshot_id": "f88b7db52538870d",
+ "snapshot_id": "2026-10-29-67819ca378f4",
  "rule": "sift 52: sift 40 picks.py variant A for 13 rows, hand table for c02 c03 c06 c13 c15 c18 (HAND_SET), new-user rule for c20 (NEW_USER_PRIOR). Assumed upstream, no behaviour data.",
  "rows": [
   {

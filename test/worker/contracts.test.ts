@@ -32,15 +32,11 @@ describe('contract helpers', () => {
       landing_page: '<img data-slot="p1" src="https://cdn.shopify.com/s/b.jpg"><img data-slot="p2" src="https://cdn.shopify.com/s/c.jpg">', catalog: '' }))
       .toEqual({ p1: '/s/a.jpg', p2: '/s/c.jpg' });
   });
-  it('renderAll reaches the stubs', () => {
-    expect(() => renderAll(fxModelJson('fx-email'), fxPlan('fx-email'), fxEnvelope('fx-email'), fxCatalog())).toThrow(NotBuilt);
-  });
   it('lists compile', () => expect(Object.keys(LISTS)).toContain('c4'));
 });
 
 describe('fakes', () => {
   it('cover every lib signature', () => expect(Object.keys(fakeLib).sort()).toEqual(Object.keys(lib).sort()));
-  it('stubs throw NOT_BUILT', () => expect(() => lib.ingestTsv('')).toThrow(NotBuilt));
   it('each key plans', () => {
     for (const k of FX_KEYS) expect(fxPlan(k).customer_id).toBe(k);
     expect(fxPlan('row:3').outcome).toEqual({ kind: 'failed', code: 'INVALID_CUSTOMER' });

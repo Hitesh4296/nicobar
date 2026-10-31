@@ -44,7 +44,7 @@ export function fxPlan(key: string): Plan {
 
 export function fxEnvelope(key: string, n: 1 | 2 = 1): Envelope {
   const p = fxPlan(key);
-  return { customer_id: p.customer_id, run_id: FX_RUN, format: p.format, picks: p.picks.map(({ slot, product_id }) => ({ slot, product_id })),
+  return { customer_id: p.customer_id, display_name: p.display_name, run_id: FX_RUN, format: p.format, picks: p.picks.map(({ slot, product_id }) => ({ slot, product_id })),
     occasion_key: p.occasion_key, shape: p.shape, snapshot_id: fixture.snapshot_id, snapshot_fetched_at: fixture.fetched_at,
     model: 'claude-sonnet-5-5', setting: 'sonnet-between_tools', prompt_version: 'v1', voice_guide_version: 'v1', validator_version: 'fx',
     carried_from: n === 2 ? 1 : null, carried_part: null };

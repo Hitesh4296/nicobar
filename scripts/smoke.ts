@@ -17,7 +17,7 @@ try {
   }
   if (res?.status !== 200) throw new Error(`/review answered ${res?.status}`);
   const spend = await fetch(`http://127.0.0.1:${port}/review/spend`);
-  if (((await spend.json()) as { detail?: string }).detail !== 'ui/demo spend') throw new Error('/review/spend missed demo');
+  if (spend.status !== 200 || !(await spend.text()).includes('aria-current')) throw new Error('/review/spend missed demo');
   console.log('smoke ok: /review 200');
 } finally {
   process.kill(-dev.pid!);
