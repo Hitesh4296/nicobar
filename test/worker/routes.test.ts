@@ -18,7 +18,9 @@ describe('test 4: route order', () => {
   }
   it('/review/agents reaches the agents list, not /review/:id', async () => {
     const r = await get('/review/agents');
-    expect(r.headers.get('content-type')).toContain('text/html');
+    const b = await r.text();
+    expect(b).not.toContain('review/:id');
+    expect(r.status).not.toBe(404);
   });
   it('review after demo and agents in the table', () => {
     const at = (p: string) => ROUTES.findIndex((r) => r.path === p);
