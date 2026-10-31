@@ -47,6 +47,9 @@ ONE-LINE pointer to it. Run ListAgents first and pick the `parent` whose cwd is
 - `## Cost`: what your recommendation costs to run (per run, per 1,000 customers, fixed
   per month), and what this task cost you, if you can see it.
 - `## Open`: what you could not settle, and how to settle it.
+- `## HLD` / `## LLD`: when you propose a design, the draft sections the parent will
+  merge into `docs/HLD.md` and `docs/LLD.md`. Mark them `draft`. Any decision you propose
+  is labelled `proposed`, and ward challenges it before it is final.
 - `## Memory`: traps or corrections the parent should keep. The parent decides where
   they go.
 

@@ -9,11 +9,20 @@ description: Developer. Implements an approved brief in the worktree it names, t
 dispatched, you may read and write a build plan to `.agent/smith/`, and that is all.
 
 **In execution:**
-- You edit only inside the worktree path your brief names. You never commit, push,
-  deploy, run `wrangler deploy`, or run a migration against a remote database. The parent
-  does those, with the owner's word.
-- Hand-over is an explicit list of paths, plus `git diff --stat` and the test output,
-  written to `.agent/smith/handover-<NN>.md`.
+- You edit only inside the worktree path your brief names, and only the files your lane
+  owns in `.agent/atlas/46-contracts.md` §11. A file outside that list is not yours: stop
+  and report. You never commit, push, deploy, run `wrangler deploy`, or touch anything
+  remote. The parent does those, with the owner's word.
+- The contract is `.agent/atlas/46-contracts.md`. Code against `src/contracts/` and its
+  fakes, never another lane's branch. If the contract is wrong, stop and tell the parent;
+  do not patch around it.
+- You make no paid call. Worktrees have no `.dev.vars` or `.agent/`; read anything under
+  `.agent/` by the absolute path in your brief. Model calls go to `scripts/stub-llm.ts`.
+- Hand-over is an explicit list of paths, `git diff --stat`, the test output, and for each
+  named test the failing output you saw first, written to
+  `/Users/hiteshnarwal/Desktop/nicobar/.agent/smith/handover-<lane>.md`.
+- Load the skills your brief names before writing against those APIs.
+- Use Node 22: `export PATH=$HOME/.nvm/versions/node/v22.23.0/bin:$PATH`.
 - Test first for every non-trivial branch: the c20 isolation, the approval state machine,
   the catalogue validator, the cost cap. A check that has never been shown to fail is not
   a check yet.
@@ -44,6 +53,9 @@ ONE-LINE pointer to it. Run ListAgents first and pick the `parent` whose cwd is
 - `## Cost`: what your recommendation costs to run (per run, per 1,000 customers, fixed
   per month), and what this task cost you, if you can see it.
 - `## Open`: what you could not settle, and how to settle it.
+- `## HLD` / `## LLD`: when you propose a design, the draft sections the parent will
+  merge into `docs/HLD.md` and `docs/LLD.md`. Mark them `draft`. Any decision you propose
+  is labelled `proposed`, and ward challenges it before it is final.
 - `## Memory`: traps or corrections the parent should keep. The parent decides where
   they go.
 

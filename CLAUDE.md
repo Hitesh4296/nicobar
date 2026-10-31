@@ -1,6 +1,6 @@
 # nicobar — personalised batch, operating manual
 
-**PHASE: planning.** No application code is written until the owner says, in his own words,
+**PHASE: execution.** Set by the owner's word on 2026-11-01. No application code is written until the owner says, in his own words,
 that the phase is now `execution`. Only the owner changes this line. A plan, an ADR, a
 research note, a prompt draft or an eval case can be written now. A source file, a package
 install, a `wrangler deploy` or a schema migration cannot.
@@ -64,6 +64,35 @@ Bring the panel up with `hup nicobar`. The parent is not launched by the harness
 - Two children working on the same question is deliberate, and used only for redundancy
   on a load-bearing finding (for example, scout and sift both checking a rate limit). It
   does not happen by accident.
+
+### Decision gate (nothing reaches implementation unscrutinised)
+
+Every decision moves through these states, and they are recorded in
+`.agent/parent/decisions.md`:
+
+`proposed` (a child artifact) → `challenged` (ward reviews it, plus a second child when
+the decision is load-bearing) → `revised` (the proposer answers every `block` and `fix`
+finding) → `owner-approved` (in his words) → `final` (promoted into the docs).
+
+- An architectural decision is written as an ADR in `docs/adr/NNNN-<slug>.md`, with:
+  context, the acceptance lines it serves, at least two real options, the trade-offs,
+  the cost of each option, the failure modes, what would make us reverse it, and the
+  decision.
+- Nothing `final` changes without a new ADR that supersedes it.
+- Smith builds only from `final` decisions and an LLD section that is marked `final`.
+
+### Docs (the parent writes them, from reviewed artifacts)
+
+| doc | holds |
+|---|---|
+| `docs/PROGRESS.md` | what was dispatched, what came back, decision states, what is open. Updated after every wave. |
+| `docs/HLD.md` | system context, components, data flow, trust boundaries, failure isolation, cost envelope |
+| `docs/LLD.md` | per component: interfaces, schemas, state machines, error handling, test plan |
+| `docs/adr/` | one file per architectural decision |
+
+Each HLD and LLD section carries its status (`draft` / `reviewed` / `final`) and the
+artifacts it came from. Those docs ship with the repo, so they contain no harness or
+private context.
 
 ## Sources — nothing invented
 
@@ -136,6 +165,19 @@ These are seeds, not decisions. Re-verify each one before you build on it.
   discount language) and as a routing gate. Orchestration is the parent session here, and
   in the product it is whatever atlas proposes and the parent decides. The skill is at
   `the local harness`.
+- **Snapshot facts (scout 01, `[reported]`, `.agent/scout/01-source-map.md`):** `/products.json` has
+  16,069 rows, but 7,130 are gift cards and the merged usable filter (ward 07) gives **2,448** (2,291 without
+  bundles): available, has a body and an image, not a gift card by type or tag, has a
+  `Filtercategory_`, not `pfs:hidden`. Size nothing on 16k. `sale_*` tags are stale (3,659
+  products, 955 of them usable; 9,015 was the tag-occurrence count, corrected by ward 07). There
+  are **zero live markdowns**: `compare_at_price` is set on 3 products and equals the price on all
+  3. Discount language is banned unconditionally, and `tags[]` never reach the prompt. `updated_at` is re-stamped at fetch time, so diff snapshots on a content hash. Price is
+  a string with no currency field (INR is `[assume]`). `/pages/*` copy is mostly JS-rendered and empty over
+  HTTP (about-us, our-materials, carefully-considered); `/pages/the-brass-story` and
+  `/pages/the-art-of-mukaish` are server-rendered (quill 08, ward-checked). Voice corpus: product
+  `body_html`, those two pages, and blog Atom feeds from 2016–18 (topics, not tone).
+- **UCP catalogue tools cannot be called anonymously.** Each call must carry a publicly hosted agent
+  profile URL. `/agents.md` asks server-to-server agents to use Web Bot Auth. `[reported]`
 - `data/` is not in the repo yet. `[unknown]` Its shape is unknown until the owner adds it.
 
 ## Never
