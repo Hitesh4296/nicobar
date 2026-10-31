@@ -72,7 +72,11 @@ function render(m: ModelJson, plan: Plan, env: Envelope, cat: Catalog, mutant: R
   return r;
 }
 
-const imgTag = (h: string, slot: string) => new RegExp(`<img\\b[^>]*data-slot="${slot}"[^>]*>`).exec(h)![0];
+const imgTag = (h: string, slot: string) => {
+  const m = new RegExp(`<img\\b[^>]*data-slot="${slot}"[^>]*>`).exec(h);
+  if (!m) throw new Error(`no image for ${slot} in the rendered part`);
+  return m[0];
+};
 const imgSrc = (h: string, slot: string) => /\bsrc="([^"]*)"/.exec(imgTag(h, slot))![1];
 const swapImage = (h: string, slot: string, src: string) => { const t = imgTag(h, slot); return h.replace(t, t.replace(/\bsrc="[^"]*"/, `src="${src}"`)); };
 
@@ -114,7 +118,7 @@ function runCase(c: Case, file: string, cat: Catalog, ck: Check, mutant: RenderM
   const { plan, envelope } = planFor(c, cat);
   if (c.layer === 'rendered' || c.kind === 'render') {
     const expect = typeof c.expect === 'string' ? { verdict: c.expect, fails_any: [c.expect_check ?? 'X1'] } : c.expect;
-    const model: ModelJson = c.draft ?? blindDraft(c.id) ?? {};
+    const model: ModelJson = c.draft ?? blindDraft(c.id) ?? goodDraft(c.customer_id) ?? {};
     const rendered = tamper(render(model, plan, envelope, cat, mutant), c);
     return finish(ck.validateRendered(rendered, envelope, cat, plan), expect);
   }
@@ -123,6 +127,9 @@ function runCase(c: Case, file: string, cat: Catalog, ck: Check, mutant: RenderM
 
 const blindDraft = (id: string): ModelJson | undefined => id === 'BL-D7-render'
   ? json('test/cases/blind-drafts.json').cases.find((c: Case) => c.id === 'BL-D7').draft : undefined;
+
+// L-12 cases carry no draft: they tamper with a good page of the same customer and picks.
+const goodDraft = (id?: string): ModelJson | undefined => json('test/cases/layout.json').cases.find((c: Case) => c.id === `GOOD-${id}`)?.draft;
 
 export const SKIPPED = [
   { id: 'L-10', kind: 'render', lane: 'page', why: 'the occasion eyebrow is drawn by the real renderLanding; runs under page tests 1 and 2' },
