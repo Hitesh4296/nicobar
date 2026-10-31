@@ -1,15 +1,19 @@
 // `npm run readiness`: R1–R7 and line 4 on a real local `wrangler dev` against a scripted Messages stub. $0, no key, no remote.
-// `--selftest` runs only the planted evidence. A line is PASS only if its assertion was seen failing on planted bad evidence in this
-// same process and held on the real run; a prerequisite that is not built makes it VOID, never PASS. reports/readiness.json is rewritten each time.
+// `--selftest` runs only the planted evidence. A line is PASS only if its assertion failed on planted bad evidence in this same process, failed again on a
+// real run driven red through DEV_FAULT or the stub, and held on the real run. No seam red, or a prerequisite not built, is VOID, never PASS. reports/readiness.json is rewritten each time.
+// S: the stub counts chars ÷ 4, so config/cap.json's S (a placeholder for real count_tokens) skips everyone. The Worker imports cap.json at bundle time, so the drive runs from a
+// byte copy of the source under out/readiness/tree whose only difference is S, measured here on the stub's own count. cap.json in the repo is not touched.
 import { execFileSync, spawn, spawnSync } from 'node:child_process';
 import type { ChildProcess } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { createServer } from 'node:http';
-import { dirname, join } from 'node:path';
+import { closeSync, cpSync, existsSync, mkdirSync, openSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { startStub } from './stub-llm.ts';
+import type { Call, StubOptions } from './stub-llm.ts';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const OUT = join(ROOT, 'out/readiness');
+const TREE = join(OUT, 'tree');
 const ISO = join(ROOT, 'test/fixtures/isolation');
 const PORT = 8797, STUB_PORT = 8798, GEN_CONCURRENCY = 4, POLL_S = 180;
 const sleep = (ms: number) => new Promise((ok) => setTimeout(ok, ms));
@@ -17,15 +21,15 @@ const json = (p: string) => JSON.parse(readFileSync(p, 'utf8'));
 
 // ---- verdicts, pure over evidence ----
 export type Verdict = 'PASS' | 'FAIL' | 'VOID';
-export interface Line { id: string; verdict: Verdict; why: string; red: string; output: unknown }
+export interface Line { id: string; verdict: Verdict; why: string; red: string; seam_red: string[]; output: unknown; seam_output: unknown }
 type Check = (e: any) => string[];   // returns the broken facts; [] holds
 const eq = (name: string, got: unknown, want: unknown) => (got === want ? [] : [`${name}: got ${JSON.stringify(got)}, want ${JSON.stringify(want)}`]);
 
-/** R1. finished: drafted before the kill. calls_after: stub calls per key after the kill. */
+/** R1. finished: drafted before the kill. calls_after: stub calls per key after the kill. A repeat is a key also called before it: first calls for untouched customers are the resume doing its job. */
 const R1: Check = (e) => [
   ...Object.keys(e.calls_after).filter((k) => e.finished.includes(k)).map((k) => `finished ${k} called again`),
   ...eq('every unit terminal', e.open, 0),
-  ...(Object.keys(e.calls_after).length > GEN_CONCURRENCY ? [`${Object.keys(e.calls_after).length} in-flight repeats > ${GEN_CONCURRENCY}`] : []),
+  ...(e.called_before.filter((k: string) => k in e.calls_after).length > GEN_CONCURRENCY ? [`${e.called_before.filter((k: string) => k in e.calls_after).length} in-flight repeats > ${GEN_CONCURRENCY}`] : []),
 ];
 /** R2. A pause, a kill, a restart: attempt 1 is possibly_billed, and each stub call has its own attempt row. */
 const R2: Check = (e) => [...eq('attempt 1 call_state', e.attempt1, 'possibly_billed'), ...eq('stub calls = attempt rows', e.calls, e.attempts)];
@@ -49,8 +53,8 @@ const L4: Check = (e) => [...eq('release on in_review', e.release_in_review, 409
 /** A check never seen failing is VOID. Each row: evidence that must hold, then a planted break that must fail. */
 const iso = { 'c-ok-1': 'drafted', 'c-throw': 'failed:INTERNAL_ERROR', 'row:*': 'failed:INVALID_CUSTOMER' };
 export const PLANTED: Record<string, { check: Check; good: unknown; bad: unknown[] }> = {
-  R1: { check: R1, good: { finished: ['d01'], calls_after: { d02: 1 }, open: 0 }, bad: [{ finished: ['d01'], calls_after: { d01: 1 }, open: 0 },
-    { finished: [], calls_after: { a: 1, b: 1, c: 1, d: 1, e: 1 }, open: 0 }, { finished: [], calls_after: {}, open: 1 }] },
+  R1: { check: R1, good: { finished: ['d01'], called_before: ['d01', 'd02'], calls_after: { d02: 1, d03: 1, d04: 1, d05: 1, d06: 1 }, open: 0 }, bad: [{ finished: ['d01'], called_before: ['d01'], calls_after: { d01: 1 }, open: 0 },
+    { finished: [], called_before: ['a', 'b', 'c', 'd', 'e'], calls_after: { a: 1, b: 1, c: 1, d: 1, e: 1 }, open: 0 }, { finished: [], called_before: [], calls_after: {}, open: 1 }] },
   R2: { check: R2, good: { attempt1: 'possibly_billed', calls: 2, attempts: 2 }, bad: [{ attempt1: 'answered', calls: 2, attempts: 2 }, { attempt1: 'possibly_billed', calls: 2, attempts: 1 }] },
   R3: { check: R3, good: { second_post: 409, approve_events: 1, release_events: 1, draft_id: 'r:c:v1', want_draft_id: 'r:c:v1' },
     bad: [{ second_post: 200, approve_events: 1, release_events: 1, draft_id: 'a', want_draft_id: 'a' }, { second_post: 409, approve_events: 2, release_events: 1, draft_id: 'a', want_draft_id: 'a' }] },
@@ -77,49 +81,20 @@ export function plantedProof(): Record<string, { ok: boolean; reds: string[][]; 
   }));
 }
 
-// ---- scripted Messages stub. scripts/stub-llm.ts answers every customer with one draft, so no 6-pick or shaped row can pass on it ----
-interface Call { key: string; parts: string; n: number; status: number }
-/** Answers come from layout.json's known-good drafts, one per occasion; occasion_key is null, as isolation rows have no row key. */
-export function scriptedStub(onAnswer: (key: string, answered: number) => void) {
-  const good = (id: string) => json(join(ROOT, 'test/cases/layout.json')).cases.find((c: any) => c.id === id).draft;
-  const stems: [RegExp, string][] = [[/birthday/, 'GOOD-c16'], [/trip/, 'GOOD-c18'], [/Diwali/, 'GOOD-c07'], [/wedding/, 'GOOD-c01'], [/Monsoon/, 'GOOD-c02-both']];
-  const calls: Call[] = [];
-  const server = createServer(async (req, res) => {
-    let raw = '';
-    for await (const c of req) raw += c;
-    const send = (status: number, body: unknown) => { res.writeHead(status, { 'content-type': 'application/json' }); res.end(JSON.stringify(body)); };
-    const body = JSON.parse(raw), input_tokens = Math.ceil(raw.length / 4);
-    if (req.url === '/v1/messages/count_tokens') return send(200, { input_tokens });
-    const occ = /<occasion>(.*?)<\/occasion>/.exec(JSON.stringify(body.messages))?.[1] ?? '';
-    const key = occ.split(' ').at(-1)!;
-    const schema = body.output_config?.format?.schema ?? {};
-    const parts = schema.required?.includes('email') ? 'both' : schema.properties?.sections ? 'landing_page' : 'email';
-    const n = calls.filter((c) => c.key === key).length + 1;
-    const base = { id: `msg_rd_${key}_${n}`, type: 'message', role: 'assistant', model: body.model, stop_sequence: null };
-    const log = (status: number) => calls.push({ key, parts, n, status });
-    if (key.startsWith('x429') && n === 1) { log(429); return send(429, { type: 'error', error: { type: 'rate_limit_error', message: 'stub' } }); }
-    log(200);
-    if (key.startsWith('xrefuse')) return send(200, { ...base, content: [], stop_reason: 'refusal', stop_details: { type: 'refusal', category: null, explanation: null }, usage: { input_tokens, output_tokens: 0 } });
-    await sleep(200);   // holds calls open, so a kill finds some in flight
-    const d = structuredClone(good(stems.find(([re]) => re.test(occ))?.[1] ?? 'GOOD-c16'));
-    for (const v of Object.values<any>(d)) v.occasion_key = null;
-    if (key.startsWith('xbad') && n === 1) d.landing_page.sections[0].line += ' Now 20% off.';
-    const text = JSON.stringify(parts === 'both' ? d : d[parts]);
-    onAnswer(key, calls.filter((c) => c.status === 200).length);
-    send(200, { ...base, content: [{ type: 'text', text }], stop_reason: 'end_turn', stop_details: null, usage: { input_tokens, output_tokens: Math.ceil(text.length / 4), cache_read_input_tokens: 0, cache_creation_input_tokens: 0 } });
-  });
-  return { calls, listen: () => new Promise<void>((ok) => server.listen(STUB_PORT, '127.0.0.1', ok)), close: () => server.close() };
-}
-
 // ---- wrangler ----
 /** detached makes wrangler a group leader; the group held all 6 processes including both workerd [verified 2026-11-01]. Killing less leaves an orphan that fakes a resume. */
-function killTree(p: ChildProcess) { try { process.kill(-p.pid!, 'SIGKILL'); } catch { /* gone */ } }
+const live = new Set<ChildProcess>();
+let logs = 0;
+function killTree(p: ChildProcess) { live.delete(p); try { process.kill(-p.pid!, 'SIGKILL'); } catch { /* gone */ } }
 const url = (path: string) => `http://127.0.0.1:${PORT}${path}`;
 async function up(state: string, fault?: string): Promise<ChildProcess> {
   // --env-file: an empty file stops wrangler loading .dev.vars, so no real key can reach this run [verified 2026-11-01]
   const vars = { DEV_MODE: '1', DEV_ACTOR: 'readiness@local', ANTHROPIC_API_KEY: 'stub', ANTHROPIC_BASE_URL: `http://127.0.0.1:${STUB_PORT}`, ...(fault ? { DEV_FAULT: fault } : {}) };
+  const log = openSync(join(OUT, `wrangler-${++logs}-${fault ?? 'plain'}.log`.replace(':', '-')), 'w');
   const dev = spawn('npx', ['wrangler', 'dev', '--port', String(PORT), '--persist-to', state, '--env-file', join(OUT, 'empty.env'),
-    ...Object.entries(vars).flatMap(([k, v]) => ['--var', `${k}:${v}`])], { cwd: ROOT, stdio: 'ignore', detached: true });
+    ...Object.entries(vars).flatMap(([k, v]) => ['--var', `${k}:${v}`])], { cwd: TREE, stdio: ['ignore', log, log], detached: true });
+  closeSync(log);
+  live.add(dev);
   for (let i = 0; i < 120; i++) { if (await fetch(url('/review')).catch(() => null)) return dev; await sleep(500); }
   killTree(dev); throw new Error('wrangler did not come up');
 }
@@ -136,11 +111,12 @@ const unitsOf = (state: string, id: string) => sql(state, `SELECT customer_id ke
 // ---- inputs, generated under out/ from the isolation rows, so every pick stays a real one ----
 const OCC = ["Mother's birthday", 'Work trip to Singapore', 'Diwali at home', "Sister's wedding"];
 const HEAD = 'customer_id\tfirst_name\tlast_name\toccasion\tpast_purchase_note\n';
-function writeInput(name: string, rows: { id: string; occ: string; picks: unknown[] }[]) {
+type Input = { tsv: string; recs: string; format: string };
+function writeInput(name: string, format: string, rows: { id: string; occ: string; picks: unknown[] }[]): Input {
   const tsv = join(OUT, `${name}.synthetic.tsv`), recs = join(OUT, `${name}.recs.synthetic.json`), base = json(join(ISO, 'recommendations.synthetic.json'));
   writeFileSync(tsv, HEAD + rows.map((r) => `${r.id}\tTest\tSynthetic\t${r.occ}\tBought a test item.\n`).join(''));
   writeFileSync(recs, JSON.stringify({ ...base, rule: `readiness ${name}`, rows: rows.map((r) => ({ customer_id: r.id, picks: r.picks })) }));
-  return { tsv, recs };
+  return { tsv, recs, format };
 }
 export function inputs() {
   const iso = json(join(ISO, 'recommendations.synthetic.json')).rows;
@@ -148,121 +124,189 @@ export function inputs() {
   const picks = (n: number) => iso.find((r: any) => r.customer_id === `c-ok-${n % 4 + 1}`).picks;
   const d = (i: number) => `d${String(i + 1).padStart(2, '0')}`;
   return {
-    dur: writeInput('durability', Array.from({ length: 12 }, (_, i) => ({ id: d(i), occ: `${OCC[i % 4]} ${d(i)}`, picks: picks(i) }))),
-    retry: writeInput('retry', ['x429', 'xbad', 'xrefuse'].map((k) => ({ id: k, occ: `Monsoon in Kochi ${k}`, picks: c02 }))),
+    dur: writeInput('durability', 'landing_page', Array.from({ length: 12 }, (_, i) => ({ id: d(i), occ: `${OCC[i % 4]} ${d(i)}`, picks: picks(i) }))),
+    retry: writeInput('retry', 'both', ['x429', 'xbad', 'xrefuse', 'xfail'].map((k) => ({ id: k, occ: `Monsoon in Kochi ${k}`, picks: c02 }))),
+    // the same customers, with the stub answering worse: x429's first answer fails checks, so it bills twice; xbad fails both parts, so nothing carries
+    retryRed: writeInput('retry-red', 'both', [['x429', 'xbad'], ['xbad', 'xbadboth'], ['xrefuse', 'xrefuse']].map(([k, m]) => ({ id: k!, occ: `Monsoon in Kochi ${m}`, picks: c02 }))),
     // U_hard is 26,760 tokens; about 4 characters a token, so 160 KB of occasion is over it on any tokenizer
-    cap: writeInput('cap', [{ id: 'big', occ: `${'Diwali at home '.repeat(11_000)}big`, picks: picks(2) }, { id: 'ok1', occ: 'Diwali at home ok1', picks: picks(2) }]),
-    isolation: { tsv: join(ISO, 'customers.synthetic.tsv'), recs: join(ISO, 'recommendations.synthetic.json') },
+    cap: writeInput('cap', 'landing_page', [{ id: 'big', occ: `${'Diwali at home '.repeat(11_000)}big`, picks: picks(2) }, { id: 'ok1', occ: 'Diwali at home ok1', picks: picks(2) }]),
+    isolation: { tsv: join(ISO, 'customers.synthetic.tsv'), recs: join(ISO, 'recommendations.synthetic.json'), format: 'landing_page' },
   };
 }
-/** [unknown] 46 defines no body; LLD:1400 lists its fields only. Settle this and PREVIEW against `run` and `gen` at merge. */
-const runBody = (id: string, stage: string, format: string, f: { tsv: string; recs: string }, preview: string) =>
-  ({ id, stage, format, customers: readFileSync(f.tsv, 'utf8'), customers_synthetic: true, recs: json(f.recs), preview_sha256: preview, start_rung: 'sonnet' });
-const PREVIEW = (f: { tsv: string; recs: string }, format: string) => execFileSync('node', ['scripts/preview.ts', '--customers', f.tsv, '--recs', f.recs, '--format', format], { cwd: ROOT, encoding: 'utf8' }).trim();
+/** handover-run: the body of POST /api/runs. Both files travel as bytes, because the preview hashes bytes. Format and rung come from the preview. */
+const runBody = (id: string, stage: string, f: Input, preview_sha256: string) => ({ run_id: id, stage, snapshot_id: json(f.recs).snapshot_id, customers_name: basename(f.tsv),
+  customers_tsv: readFileSync(f.tsv, 'utf8'), customers_synthetic: true, recs_json: readFileSync(f.recs, 'utf8'), preview_sha256 });
+
+/** scripts/preview.ts's CLI reads data/ only, so its `preview()` runs here on these inputs. Writes each preview to `state`'s R2 with no server up. Also measures S. */
+async function previewAll(f: Record<string, Input>, state: string) {
+  const [{ getPlatformProxy }, ingest, recs, plan, check, cost, catalog, gen, { preview }, { makeClient, planAll }, { readPromptDir }] = await Promise.all([import('wrangler'), import('../src/lib/ingest.ts'),
+    import('../src/lib/recs.ts'), import('../src/lib/plan.ts'), import('../src/lib/check/index.ts'), import('../src/lib/cost/index.ts'), import('../src/lib/catalog/index.ts'), import('../src/lib/gen/index.ts'),
+    import('./preview.ts'), import('./draft-one.ts'), import('./prompt-dir.ts')]);
+  const read = (p: string) => readFileSync(join(ROOT, p), 'utf8');
+  const proxy = await getPlatformProxy<any>({ configPath: join(ROOT, 'wrangler.jsonc'), persist: { path: join(state, 'v3') } });
+  try {
+    const prompt = readPromptDir(join(ROOT, 'config/prompt/v1'));
+    const base = { lib: { ...ingest, ...recs, ...plan, ...check, ...cost }, client: makeClient({ ANTHROPIC_BASE_URL: `http://127.0.0.1:${STUB_PORT}` }), log: () => {}, prices: json(join(ROOT, 'config/prices.json')),
+      rungs: json(join(ROOT, 'config/rungs.json')), cap: json(join(TREE, 'config/cap.json')), put: (k: string, t: string) => proxy.env.BUCKET.put(k, t) };
+    const inputsOf = (i: Input) => ({ customers: readFileSync(i.tsv, 'utf8'), recs: readFileSync(i.recs, 'utf8'), keys: read('data/row_keys.synthetic.json'), shapes: read('config/shapes.json') });
+    const cat = await catalog.loadCatalog(proxy.env, json(f.isolation!.recs).snapshot_id);
+    // measured: what the stub counts for everything but the user message, per format
+    const S: Record<string, number> = {};
+    for (const format of ['both', 'email', 'landing_page'] as const) {
+      const d = { ...base, inputs: { ...inputsOf(f.isolation!), cat } } as any;
+      const { pinned, plans } = planAll({ prompt, promptId: 'v1', format }, 'measure', d);
+      const { max_tokens: _omit, ...body } = gen.buildRequest(plans.find((p: any) => p.outcome.kind === 'ready')!, pinned, cat, base.rungs[0], prompt);
+      S[format] = Math.ceil(JSON.stringify({ ...body, messages: [] }).length / 4);
+    }
+    const capPath = join(TREE, 'config/cap.json');
+    writeFileSync(capPath, JSON.stringify({ ...base.cap, S }, null, 2));
+    base.cap = json(capPath);
+    const out: Record<string, string> = {};
+    for (const [name, i] of Object.entries(f)) {
+      const r = await preview({ prompt, promptId: 'v1', format: i.format as any }, { ...base, inputs: { ...inputsOf(i), cat } } as any);
+      out[name] = r.sha256;
+      console.log(`preview ${name}: ${r.sha256.slice(0, 12)} commit $${r.body.sum_commit_usd.toFixed(4)} ${JSON.stringify(Object.fromEntries(r.body.plans.map((p: any) => [p.customer_id.slice(0, 12), p.admission?.code ?? p.admission?.action ?? p.outcome.code])))}`);
+    }
+    return { S, sha: out };
+  } finally { await proxy.dispose(); }
+}
 
 // ---- drive ----
 type F = ReturnType<typeof inputs>;
-interface Ctx { state: string; f: F; id: (s: string) => string; stub: ReturnType<typeof scriptedStub>; hook: { fn: (k: string, n: number) => void } }
-async function start(c: Ctx, id: string, stage: string, format: string, f: { tsv: string; recs: string }) {
-  const r = await post('/api/runs', runBody(id, stage, format, f, PREVIEW(f, format)));
+interface Ctx { state: string; f: F; id: (s: string) => string; calls: Call[]; stub: StubOptions; sha: Record<string, string> }
+const shaOf = (c: Ctx, f: Input) => c.sha[Object.entries(c.f).find(([, v]) => v === f)![0]]!;
+async function start(c: Ctx, id: string, f: Input) {
+  const r = await post('/api/runs', runBody(id, 'isolation', f, shaOf(c, f)));
   if (!r.ok) throw new Error(`POST /api/runs ${r.status} ${await r.text()}`);
 }
-async function driveR1(c: Ctx) {
-  const id = c.id('r1'); let dev = await up(c.state); let killed!: () => void;
+const within = <T>(p: Promise<T>, what: string) => Promise.race([p, sleep(POLL_S * 1000).then(() => { throw new Error(`no ${what} in ${POLL_S}s`); })]);
+const openOf = (state: string, id: string) => unitsOf(state, id).filter((u) => !['drafted', 'failed', 'skipped'].includes(u.status)).length;
+/** Kill at the 7th answer. Green: restart. Red: skip the restart and rerun the customers as a new run, which is what a resume must not be. */
+async function driveR1(c: Ctx, red = false) {
+  const id = c.id(red ? 'r1-red' : 'r1'); let dev = await up(c.state); let killed!: () => void;
   const at7 = new Promise<void>((ok) => { killed = ok; });
-  c.stub.calls.length = 0;
-  c.hook.fn = (_, n) => { if (n === 7) { killTree(dev); killed(); } };
-  await start(c, id, 'isolation', 'landing_page', c.f.dur);
-  await at7; c.hook.fn = () => {};
-  const mark = c.stub.calls.length;
+  c.calls.length = 0;
+  c.stub.onAnswer = (_, n) => { if (n >= 7) { c.stub.onAnswer = undefined; killTree(dev); killed(); } };   // >=: calls overlap, so the count can step past 7
+  await start(c, id, c.f.dur);
+  await within(at7, 'the 7th answer');
+  const mark = c.calls.length, called_before = [...new Set(c.calls.map((x) => x.key))];
   await sleep(1000);
   const finished = unitsOf(c.state, id).filter((u) => u.status === 'drafted').map((u) => u.key);
   dev = await up(c.state);
-  await post(`/api/runs/${id}/restart`, {});
-  await done(c.state, id);
+  if (red) { const again = `${id}-new`; await start(c, again, c.f.dur); await done(c.state, again); }
+  else { const r = await post(`/api/runs/${id}/restart`, {}); if (!r.ok) throw new Error(`restart ${r.status} ${await r.text()}`); await done(c.state, id); }
   killTree(dev);
   const calls_after: Record<string, number> = {};
-  for (const x of c.stub.calls.slice(mark)) calls_after[x.key] = (calls_after[x.key] ?? 0) + 1;
-  return { finished, calls_after, open: unitsOf(c.state, id).filter((u) => !['drafted', 'failed', 'skipped'].includes(u.status)).length };
+  for (const x of c.calls.slice(mark)) calls_after[x.key] = (calls_after[x.key] ?? 0) + 1;
+  const billed = sql(c.state, `SELECT customer_id key, billed_attempts b FROM units WHERE run_id=${q(id)} AND billed_attempts > 1`);
+  return { finished, called_before, calls_after, open: openOf(c.state, id), billed_twice: billed };
 }
-async function driveR2(c: Ctx) {
-  const id = c.id('r2'); let dev = await up(c.state, 'pause_after_answer:d03');
-  c.stub.calls.length = 0;
-  const seen = new Promise<void>((ok) => { c.hook.fn = (k) => { if (k === 'd03') ok(); }; });
-  await start(c, id, 'isolation', 'landing_page', c.f.dur);
-  await seen; c.hook.fn = () => {};
-  await sleep(3000);   // answered; gen now holds before its write
-  killTree(dev);
-  await sleep(1000);
-  dev = await up(c.state);
-  await post(`/api/runs/${id}/restart`, {});
-  await done(c.state, id);
-  killTree(dev);
+/** Green: hold d03 after its answer, kill, restart. Red: no fault and no kill, so attempt 1 settles as answered. */
+async function driveR2(c: Ctx, red = false) {
+  const id = c.id(red ? 'r2-red' : 'r2'); let dev = await up(c.state, red ? undefined : 'pause_after_answer:d03');
+  c.calls.length = 0;
+  if (red) { await start(c, id, c.f.dur); await done(c.state, id); killTree(dev); }
+  else {
+    const seen = new Promise<void>((ok) => { c.stub.onAnswer = (k) => { if (k === 'd03') ok(); }; });
+    await start(c, id, c.f.dur);
+    await within(seen, 'd03 answered'); c.stub.onAnswer = undefined;
+    await sleep(3000);   // answered; gen now holds before its write
+    killTree(dev);
+    await sleep(1000);
+    dev = await up(c.state);
+    const r = await post(`/api/runs/${id}/restart`, {});
+    if (!r.ok) throw new Error(`restart ${r.status} ${await r.text()}`);
+    await done(c.state, id);
+    killTree(dev);
+  }
   const rows = sql(c.state, `SELECT attempt, call_state FROM cost_events WHERE run_id=${q(id)} AND customer_id='d03' ORDER BY attempt`);
-  return { attempt1: rows[0]?.call_state ?? null, attempts: rows.length, calls: c.stub.calls.filter((x) => x.key === 'd03').length };
+  return { attempt1: rows[0]?.call_state ?? null, attempts: rows.length, calls: c.calls.filter((x) => x.key === 'd03').length, rows };
 }
 async function driveR4(c: Ctx, fault: string | undefined, state: string) {
   const id = c.id(fault ? 'r4' : 'r4-red'), dev = await up(state, fault);
-  try { await start({ ...c, state }, id, 'isolation', 'landing_page', c.f.isolation); await done(state, id); } finally { killTree(dev); }
+  try { await start(c, id, c.f.isolation); await done(state, id); } finally { killTree(dev); }
   return { expected: json(join(ISO, 'expected.synthetic.json')).expected, units: Object.fromEntries(unitsOf(state, id).map((u) => [u.key, u.code ? `${u.status}:${u.code}` : u.status])) };
 }
-async function driveR5(c: Ctx) {
-  const id = c.id('r5'), dev = await up(c.state);
-  c.stub.calls.length = 0;
-  await start(c, id, 'isolation', 'both', c.f.retry); await done(c.state, id); killTree(dev);
-  const u = sql(c.state, `SELECT customer_id key, billed_attempts b FROM units WHERE run_id=${q(id)}`);
+async function driveR5(c: Ctx, f: Input, tag: string) {
+  const id = c.id(tag), dev = await up(c.state);
+  c.calls.length = 0;
+  await start(c, id, f); await done(c.state, id); killTree(dev);
+  const u = sql(c.state, `SELECT customer_id key, status, code, billed_attempts b FROM units WHERE run_id=${q(id)}`);
   const d = sql(c.state, `SELECT version, model_json FROM drafts WHERE run_id=${q(id)} AND customer_id='xbad' ORDER BY version`);
   const email = (i: number) => (d[i] ? JSON.stringify(JSON.parse(d[i].model_json).email) : null);
-  return { b429: u.find((x) => x.key === 'x429')?.b, refusal_calls: c.stub.calls.filter((x) => x.key === 'xrefuse').length,
-    retry_parts: c.stub.calls.find((x) => x.key === 'xbad' && x.n === 2)?.parts ?? null, carried_same: d.length === 2 && email(0) === email(1), max_billed: Math.max(...u.map((x) => x.b)) };
+  return { b429: u.find((x) => x.key === 'x429')?.b, refusal_calls: c.calls.filter((x) => x.key === 'xrefuse').length,
+    retry_parts: (c.calls.find((x) => x.key.startsWith('xbad') && x.n === 2)?.parts ?? null), carried_same: d.length === 2 && email(0) === email(1), max_billed: Math.max(...u.map((x) => x.b)), units: u, calls: c.calls.slice() };
 }
-async function driveR6(c: Ctx) {
-  const id = c.id('r6'), dev = await up(c.state);
-  c.stub.calls.length = 0;
-  const preview = PREVIEW(c.f.cap, 'landing_page');   // a real one, so the 400 cannot be a PREVIEW_STALE 409 in disguise
-  const cap_in_body = (await post('/api/runs', { ...runBody(c.id('r6-cap'), 'isolation', 'landing_page', c.f.cap, preview), cap_run_usd: 1 })).status;
-  await start(c, id, 'isolation', 'landing_page', c.f.cap); await done(c.state, id); killTree(dev);
+/** Red: the stub's count_tokens under-reports, so the oversized row is admitted and called. */
+async function driveR6(c: Ctx, red = false) {
+  const id = c.id(red ? 'r6-red' : 'r6'), dev = await up(c.state);
+  c.calls.length = 0;
+  const cap_in_body = (await post('/api/runs', { ...runBody(c.id(red ? 'r6-cap-red' : 'r6-cap'), 'isolation', c.f.cap, shaOf(c, c.f.cap)), cap_run_usd: 1 })).status;
+  if (red) c.stub.count = () => 1000;
+  await start(c, id, c.f.cap); await done(c.state, id); killTree(dev);
+  c.stub.count = undefined;
   const big = unitsOf(c.state, id).find((u) => u.key === 'big');
   const ev = sql(c.state, `SELECT action, charged_usd FROM cost_events WHERE run_id=${q(id)} AND customer_id='big'`)[0];
-  return { big: big ? `${big.status}:${big.code}` : null, big_calls: c.stub.calls.filter((x) => x.key === 'big').length, big_charged: ev?.charged_usd ?? 0, big_action: ev?.action ?? null, cap_in_body };
+  return { big: big ? `${big.status}:${big.code}` : null, big_calls: c.calls.filter((x) => x.key === 'big').length, big_charged: ev?.charged_usd ?? 0, big_action: ev?.action ?? null, cap_in_body };
 }
-/** Uses the finished R5 run: x429 is in_review. Line 4 and the event half of R3 share these two drafts. */
-async function driveGate(c: Ctx) {
-  const dev = await up(c.state), id = c.id('r5'), draft = sql(c.state, `SELECT id FROM drafts WHERE run_id=${q(id)} AND customer_id='x429'`)[0].id, path = (a: string) => `/api/drafts/${draft}/${a}`;
+/** Uses the finished R5 run. Green on x429, which is in_review. Red on xfail, whose draft the stub failed: the gate must refuse it, so nothing is approved or served. */
+async function driveGate(c: Ctx, key: string) {
+  const dev = await up(c.state), id = c.id('r5'), draft = sql(c.state, `SELECT id FROM drafts WHERE run_id=${q(id)} AND customer_id=${q(key)} ORDER BY version`)[0].id, path = (a: string) => `/api/drafts/${draft}/${a}`;
   const release_in_review = (await post(path('release'), {})).status;
   let status_update = 'applied';
   try { sql(c.state, `UPDATE drafts SET status='released' WHERE id=${q(draft)}`); } catch (e: any) { status_update = /CHECK constraint failed/.test(`${e.stdout}${e.stderr}`) ? 'refused' : `error: ${e.message}`; }
-  await post(path('approve'), {}); await post(path('approve'), {});
-  await post(path('release'), {}); await post(path('release'), {});
+  const approve = [(await post(path('approve'), {})).status, (await post(path('approve'), {})).status];
+  const release = [(await post(path('release'), {})).status, (await post(path('release'), {})).status];
   const events = (to: string) => sql(c.state, `SELECT COUNT(*) n FROM draft_events WHERE draft_id=${q(draft)} AND to_status='${to}'`)[0].n;
   const released = async () => (await fetch(url(`/released/${draft}?part=email`))).status;
   const released_before = await released();
-  sql(c.state, `UPDATE drafts SET rendered_json = rendered_json || ' ' WHERE id=${q(draft)}`);
+  let tamper = 'applied';
+  try { sql(c.state, `UPDATE drafts SET rendered_json = rendered_json || ' ' WHERE id=${q(draft)}`); } catch (e: any) { tamper = `refused: ${`${e.stdout}${e.stderr}`.trim().split('\n').at(-1)}`; }
   const released_after = await released();
-  const second_post = (await post('/api/runs', runBody(id, 'isolation', 'both', c.f.retry, PREVIEW(c.f.retry, 'both')))).status;
+  const second_post = (await post('/api/runs', runBody(id, 'isolation', c.f.retry, shaOf(c, c.f.retry)))).status;
   killTree(dev);
-  return { gate: { release_in_review, status_update, released_before, released_after },
-    idem: { second_post, approve_events: events('approved'), release_events: events('released'), draft_id: draft, want_draft_id: `${id}:x429:v1` } };
+  return { gate: { release_in_review, status_update, approve, release, released_before, tamper, released_after },
+    idem: { second_post, approve_events: events('approved'), release_events: events('released'), draft_id: draft, want_draft_id: `${id}:${key}:v1` } };
 }
-function evidenceR7(c: Ctx) {
-  const id = c.id('r4');
-  const status = sql(c.state, `SELECT status FROM runs WHERE id=${q(id)}`)[0]?.status;
-  return { status, units: sql(c.state, `SELECT u.customer_id key, u.code, d.id draft FROM units u LEFT JOIN drafts d ON d.run_id=u.run_id AND d.customer_id=u.customer_id WHERE u.run_id=${q(id)}`) };
+const evidenceR7 = (state: string, id: string) => ({ status: sql(state, `SELECT status FROM runs WHERE id=${q(id)}`)[0]?.status,
+  units: sql(state, `SELECT u.customer_id key, u.status, u.code, d.id draft FROM units u LEFT JOIN drafts d ON d.run_id=u.run_id AND d.customer_id=u.customer_id AND d.version=1 WHERE u.run_id=${q(id)}`) });
+/** Red: hold one customer, then mark the run stopped, so a run ends with open units. */
+async function driveR7Red(c: Ctx) {
+  const id = c.id('r7-red'), dev = await up(c.state, 'pause_after_answer:c-ok-2');
+  c.calls.length = 0;
+  const seen = new Promise<void>((ok) => { c.stub.onAnswer = (k) => { if (k === 'singapore') ok(); }; });
+  await start(c, id, c.f.isolation);
+  await within(seen, 'c-ok-2 answered'); c.stub.onAnswer = undefined;
+  await sleep(1000);
+  const r = await post(`/api/runs/${id}/mark-stopped`, { reason: 'readiness: red run' });
+  if (!r.ok) throw new Error(`mark-stopped ${r.status} ${await r.text()}`);
+  killTree(dev);
+  return evidenceR7(c.state, id);
 }
 
 const IDS = Object.keys(PLANTED);
-function report(lines: Line[]) {
+function report(lines: Line[], s_for_stub?: unknown) {
   mkdirSync(join(ROOT, 'reports'), { recursive: true });
   const counts = { PASS: 0, FAIL: 0, VOID: 0 };
   for (const l of lines) { counts[l.verdict]++; console.log(`${l.verdict} ${l.id}: ${l.why}`); }
-  writeFileSync(join(ROOT, 'reports/readiness.json'), `${JSON.stringify({ synthetic: true, paid_calls: 0, counts, lines }, null, 1)}\n`);
+  writeFileSync(join(ROOT, 'reports/readiness.json'), `${JSON.stringify({ synthetic: true, paid_calls: 0, s_for_stub, counts, lines }, null, 1)}\n`);
   return counts;
 }
-function verdict(id: string, evidence: unknown, proof: ReturnType<typeof plantedProof>): Line {
+/** Green evidence and seam evidence are each `{e}` or `{error}`. An error is no evidence: VOID. */
+type Got = { e: any } | { error: string };
+const tryDrive = async (f: () => Promise<any>): Promise<Got> => {
+  try { return { e: await f() }; } catch (e) { for (const p of [...live]) killTree(p); return { error: (e as Error).message }; } };
+function verdict(id: string, got: Got, seam: Got, proof: ReturnType<typeof plantedProof>): Line {
   const red = `planted: ${PLANTED[id]!.bad.length} bad, ${proof[id]!.ok ? 'all failed' : 'NOT all failed'}`;
-  const broken = PLANTED[id]!.check(evidence);
-  if (!proof[id]!.ok) return { id, verdict: 'VOID', why: 'assertion not seen red', red, output: evidence };
-  return { id, verdict: broken.length ? 'FAIL' : 'PASS', why: broken.join('; ') || 'held on the real run', red, output: evidence };
+  const check = PLANTED[id]!.check;
+  const seam_red = 'e' in seam ? check(seam.e) : [];
+  const base = { id, red, seam_red, output: 'e' in got ? got.e : null, seam_output: 'e' in seam ? seam.e : null };
+  if ('error' in got) return { ...base, verdict: 'VOID', why: `green drive stopped: ${got.error}` };
+  if ('error' in seam) return { ...base, verdict: 'VOID', why: `seam drive stopped: ${seam.error}` };
+  if (!proof[id]!.ok) return { ...base, verdict: 'VOID', why: 'assertion not seen red on planted evidence' };
+  if (!seam_red.length) return { ...base, verdict: 'VOID', why: 'seam run did not go red' };
+  const broken = check(got.e);
+  return { ...base, verdict: broken.length ? 'FAIL' : 'PASS', why: broken.join('; ') || 'held on the real run' };
 }
 
 async function main() {
@@ -270,43 +314,57 @@ async function main() {
   for (const [id, p] of Object.entries(proof)) console.log(`planted ${id}: good ${p.good.length ? 'BROKE' : 'holds'}; ${p.reds.map((r) => r[0] ?? 'NOT CAUGHT').join(' | ')}`);
   if (Object.values(proof).some((p) => !p.ok)) process.exitCode = 1;
   if (process.argv.includes('--selftest')) return;
-  rmSync(OUT, { recursive: true, force: true }); mkdirSync(OUT, { recursive: true });
+  rmSync(OUT, { recursive: true, force: true }); mkdirSync(TREE, { recursive: true });
   writeFileSync(join(OUT, 'empty.env'), '');
-  const voidAll = (why: string) => { process.exitCode = 1; report(IDS.map((id) => ({ id, verdict: 'VOID', why, red: `planted: ${proof[id]!.ok ? 'all failed' : 'NOT all failed'}`, output: null }))); };
-  const missing = ['scripts/preview.ts', 'scripts/seed.ts'].find((p) => !existsSync(join(ROOT, p)));
-  // config seed goes through the local routes, so it runs inside a server on the default state, which is the state export-demo reads
+  for (const p of ['src', 'config', 'data', 'migrations', 'scripts', 'wrangler.jsonc', 'package.json', 'tsconfig.json', 'worker-configuration.d.ts']) cpSync(join(ROOT, p), join(TREE, p), { recursive: true });
+  symlinkSync(join(ROOT, 'node_modules'), join(TREE, 'node_modules'));
+  const voidAll = (why: string) => { process.exitCode = 1; report(IDS.map((id) => ({ id, verdict: 'VOID', why, red: `planted: ${proof[id]!.ok ? 'all failed' : 'NOT all failed'}`, seam_red: [], output: null, seam_output: null }))); };
   const steps: [string, string[]][] = [['migrate', ['wrangler', 'd1', 'migrations', 'apply', 'nicobar', '--local']],
     ['build', ['node', 'scripts/build.ts', '--from-cache', process.env.READINESS_CACHE ?? '/Users/hiteshnarwal/Desktop/nicobar/.agent/scout/cache', '--publish']]];
   for (const [name, cmd] of steps) {
     const r = spawnSync(cmd[0] === 'wrangler' ? 'npx' : cmd[0]!, cmd[0] === 'wrangler' ? cmd : cmd.slice(1), { cwd: ROOT, encoding: 'utf8' });
     if (r.status !== 0) return voidAll(`prerequisite ${name}: ${`${r.stderr}${r.stdout}`.trim().split('\n').at(-1)}`);
   }
-  if (missing) return voidAll(`prerequisite: ${missing} not merged`);
-  const main = '.wrangler/state', scratch = join(OUT, 'state'), hook = { fn: (_: string, __: number) => {} };
-  const stub = scriptedStub((k, n) => hook.fn(k, n));
-  await stub.listen();
-  const lines: Line[] = [];
+  const main = join(ROOT, '.wrangler/state'), scratch = join(OUT, 'state');
+  const calls: Call[] = [], stub: StubOptions = { calls, delayMs: 200 };
+  const server = await startStub(STUB_PORT, stub);
+  let lines: Line[];
+  let measured: unknown;
   try {
-    const seed = await up(join(ROOT, main));
+    const seed = await up(main);
     const s = spawnSync('npm', ['run', 'config', 'seed'], { cwd: ROOT, encoding: 'utf8', env: { ...process.env, CONFIG_URL: url('') } });
     killTree(seed); await sleep(1000);
     if (s.status !== 0) return voidAll(`prerequisite config seed: ${`${s.stderr}${s.stdout}`.trim().split('\n').at(-1)}`);
-    cpSync(join(ROOT, main), scratch, { recursive: true });
+    const f = inputs();
+    const { S, sha } = await previewAll(f, main);
+    measured = { S, cap_json_S: json(join(ROOT, 'config/cap.json')).S };
+    console.log(`S for the stub, drive only: ${JSON.stringify(S)}`);
+    cpSync(main, scratch, { recursive: true });
     const ts = Date.now().toString(36);
-    const c: Ctx = { state: scratch, f: inputs(), id: (x) => `rd-${ts}-${x}`, stub, hook };
-    // R4's real run lands on the default state, so it can be seeded on /review (46 §3). Its red, no DEV_FAULT, stays on the scratch copy.
-    const r4red = PLANTED.R4!.check(await driveR4(c, undefined, scratch));
-    const r4 = await driveR4(c, 'throw:c-throw', join(ROOT, main));
-    const r4Line = verdict('R4', r4, proof);
-    r4Line.red += r4red.length ? `; seam: no DEV_FAULT → ${r4red.join('; ')}` : '; seam run did NOT go red';
-    if (!r4red.length) r4Line.verdict = 'VOID';
-    const r7 = evidenceR7({ ...c, state: join(ROOT, main) });
-    const r1 = await driveR1(c), r2 = await driveR2(c), r5 = await driveR5(c), r6 = await driveR6(c), g = await driveGate(c);
-    lines.push(verdict('R1', r1, proof), verdict('R2', r2, proof), verdict('R3', g.idem, proof), r4Line, verdict('R5', r5, proof), verdict('R6', r6, proof), verdict('R7', r7, proof), verdict('L4', g.gate, proof));
+    const c: Ctx = { state: scratch, f, id: (x) => `rd-${ts}-${x}`, calls, stub, sha };
+    const step = async (name: string, fn: () => Promise<any>) => { console.log(`drive ${name} ${new Date().toISOString().slice(11, 19)}`); const g = await tryDrive(fn); console.log(`  ${JSON.stringify(g).slice(0, 600)}`); return g; };
+    // R4's real run lands on the default state, so it can be seeded on /review (46 §3). Everything else stays on the scratch copy.
+    const r4red = await step('R4 red: no DEV_FAULT', () => driveR4(c, undefined, scratch));
+    const r4 = await step('R4', () => driveR4({ ...c, state: main }, 'throw:c-throw', main));
+    const r7 = await step('R7', async () => evidenceR7(main, c.id('r4')));
+    const r7red = await step('R7 red: pause, mark-stopped', () => driveR7Red(c));
+    const r1red = await step('R1 red: new run instead of restart', () => driveR1(c, true));
+    const r1 = await step('R1', () => driveR1(c));
+    const r2red = await step('R2 red: no pause, no kill', () => driveR2(c, true));
+    const r2 = await step('R2', () => driveR2(c));
+    const r5 = await step('R5', () => driveR5(c, c.f.retry, 'r5'));
+    const r5red = await step('R5 red: stub answers worse', () => driveR5(c, c.f.retryRed, 'r5-red'));
+    const gRed = await step('R3+L4 red: gate on a failed draft', () => driveGate(c, 'xfail'));
+    const g = await step('R3+L4', () => driveGate(c, 'x429'));
+    const part = (x: Got, k: 'gate' | 'idem'): Got => ('e' in x ? { e: x.e[k] } : x);
+    const r6 = await step('R6', () => driveR6(c));
+    const r6red = await step('R6 red: count_tokens under-reports', () => driveR6(c, true));
+    lines = [verdict('R1', r1, r1red, proof), verdict('R2', r2, r2red, proof), verdict('R3', part(g, 'idem'), part(gRed, 'idem'), proof), verdict('R4', r4, r4red, proof), verdict('R5', r5, r5red, proof),
+      verdict('R6', r6, r6red, proof), verdict('R7', r7, r7red, proof), verdict('L4', part(g, 'gate'), part(gRed, 'gate'), proof)];
   } catch (e) {
     return voidAll(`drive stopped: ${(e as Error).message}`);
-  } finally { stub.close(); }
-  const n = report(lines);
+  } finally { server.close(); for (const p of [...live]) killTree(p); }
+  const n = report(lines, measured);
   if (n.FAIL || n.VOID) process.exitCode = 1;
 }
 
