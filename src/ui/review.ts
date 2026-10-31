@@ -4,7 +4,9 @@ import quotes from '../../config/quotes.json' with { type: 'json' };
 import type { CheckResult, DraftStatus, Envelope, FlagView, ModelJson, Part, Plan, RenderedJson, RunFormat, RunReport, Stage, UnitStatus } from '../contracts/types.ts';
 import { readCards } from '../lib/render/catalog.ts';
 import { esc } from './nb.ts';
-import { banner, emptyCard, shell } from './shell.ts';
+import { banner, emptyCard, isStub, shell } from './shell.ts';
+
+const STUB = banner('Stub draft', 'Written by the local stub, not a model. The copy is generic on purpose: it shows the path, not the voice. The real checks, approval and publish still apply.', 'warn');
 
 export interface RunRow { id: string; stage: Stage; created_at: string; status: string; snapshot_id: string; jev_disabled_reason: string | null }
 export interface UnitView { customer_id: string; status: UnitStatus; code: string | null; plan: Plan | null;
@@ -57,7 +59,7 @@ export function runsPage(runs: RunRow[], run: RunRow | null, report: RunReport |
   for (const u of units) if (u.plan) formats.set(u.plan.format, (formats.get(u.plan.format) ?? 0) + 1);
   const split = [...formats].map(([f, n2]) => `${esc(f)} ${n2}`).join(' · ');
   const live = run.status === 'preparing' || run.status === 'generating';
-  const body = `${demo}${banner('Snapshot', `Frozen on ${report.snapshot_fetched_at.slice(0, 10)}. Nothing is sent to a customer.`, 'warn')}`
+  const body = `${isStub(run.id) ? STUB : ''}${demo}${banner('Snapshot', `Frozen on ${report.snapshot_fetched_at.slice(0, 10)}. Nothing is sent to a customer.`, 'warn')}`
     + (run.jev_disabled_reason ? banner('Jev off', `Draft flags did not run for this run: ${run.jev_disabled_reason}. Code checks still applied.`, 'warn') : '')
     + `<p class="runs">${runs.map((r) => `<a href="/review?run=${encodeURIComponent(r.id)}"${r.id === run.id ? ' aria-current="true"' : ''}>${esc(r.id)} · ${esc(r.stage)}</a>`).join('')}</p>`
     + `<div class="top"><div><p class="eyebrow">Runs · ${esc(run.stage)} · ${esc(run.status)} · snapshot ${esc(report.snapshot_fetched_at.slice(0, 10))}</p><h1>${esc(run.id)}</h1></div>`
@@ -169,7 +171,7 @@ export function draftPage(d: DraftView, plan: Plan | null, flags: FlagView[] | n
     + `<a href="${esc(c.href)}">${esc(c.href.replace('https://www.', ''))}</a></div></div>`).join('');
   const quoteRows = quotes.quotes.filter((q) => quoteIds.includes(q.id)).map((q) => `<div class="pick"><span></span><div>Quote ${esc(q.id)} <small>${esc(q.fetched_at)}</small><a href="https://www.${esc(q.source)}">${esc(q.source)}</a></div></div>`).join('');
 
-  const banners = (o.done && DONE[o.done] ? banner('Done', DONE[o.done]) : '')
+  const banners = (isStub(d.id) ? STUB : '') + (o.done && DONE[o.done] ? banner('Done', DONE[o.done]) : '')
     + (o.refused ? banner('Publish refused', `${o.refused}. The state did not change.`, 'fail') : '')
     + (plan?.new_user ? banner('New user', `No purchase history. Signals: ${plan.signals.join(', ') || 'none'}. Copy speaks from the picks' ordinary use.`, 'warn') : '');
 

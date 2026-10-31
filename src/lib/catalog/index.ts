@@ -1,3 +1,4 @@
+import { CatalogMissing } from '../../contracts/codes.ts';
 import type { AppEnv, Catalog, Product, Rules } from '../../contracts/types.ts';
 
 export interface CatalogFile { snapshot_id: string; fetched_at: string; rows: Product[] }
@@ -10,11 +11,11 @@ export function toCatalog(f: CatalogFile, rules: Rules): Catalog {
 
 async function readJson<T>(env: AppEnv, key: string): Promise<T> {
   const obj = await env.BUCKET.get(key);
-  if (!obj) throw new Error(`not in R2: ${key}`);
+  if (!obj) throw new CatalogMissing(key);
   return obj.json<T>();
 }
 
-// Resolved values only: a promise from another request cannot be awaited in a Worker. Two, because E7 needs the pinned and the newest (LLD).
+// Resolved values only: a promise from another request cannot be awaited in a Worker. Two, because E7 needs the pinned and the newest.
 const cache = new Map<string, Catalog>();
 
 export async function loadCatalog(env: AppEnv, snapshot_id: string): Promise<Catalog> {

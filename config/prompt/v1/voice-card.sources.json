@@ -105,12 +105,12 @@
   {
    "id": "X4",
    "text": "considered pieces, thoughtful curations and personal touches",
-   "cache": ".agent/scout/cache/2026-10-31/home.body",
+   "cache": "samples/site/pages/home.html",
    "url": "https://www.nicobar.com/",
    "fetched_at": "2026-10-31"
   }
  ],
- "rule_evidence_note": "Text is HTML-entity-decoded from .agent/scout/cache/2026-10-31/, home.body and p_diwali_guide.body. Evidence for a rule, not for the prompt.",
+ "rule_evidence_note": "Text is HTML-entity-decoded from samples/site/pages/home.html and diwali-gifting-guide.html. Evidence for a rule, not for the prompt.",
  "rule_evidence": [
   {
    "rule": "Headings: a fragment naming the moment or who it is for",

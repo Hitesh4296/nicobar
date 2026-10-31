@@ -1,6 +1,6 @@
 {
  "version": "shapes-v1",
- "source": "quill 41 section 2",
+ "source": "generative page design, section 2",
  "applies_to": "the raw occasion string. First match wins. No match, or no occasion: open",
  "default": "open",
  "shapes": [

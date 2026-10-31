@@ -4,9 +4,9 @@ import type { AppEnv, Catalog, DraftRow, Envelope, Format, J3Input, JevConfig, J
 import { expand } from '../render/expand.ts';
 
 const API = 'https://api.typesafe.ai/v1';
-const USD_PER_INPUT_TOKEN = 0.042 / 1e6;   // [reported, tally 19-jev-cost.md]; output is free. Not in config/prices.json, tally's file
+const USD_PER_INPUT_TOKEN = 0.042 / 1e6;   // [reported, docs.typesafe.ai/models 2026-10-29]; output is free. Not in config/prices.json
 const BACKOFF_MS = 250;
-const JEV_RESERVE_USD = 0.25;   // R111; LLD:2261
+const JEV_RESERVE_USD = 0.25;   // R111
 
 export function j3Input(d: DraftRow, plan: Plan, cat: Catalog): J3Input {
   const envelope = JSON.parse(d.envelope_json) as Envelope;
@@ -77,13 +77,13 @@ export async function jevPreflight(env: AppEnv, cfg: JevConfig): Promise<{ ok: t
   try {
     const res = await fetch(`${API}/models`, { headers: headers(env), signal: AbortSignal.timeout(cfg.deadline_ms) });
     if (!res.ok) return { ok: false, reason: `http_${res.status}` };
-    return (await res.text()).includes(cfg.model) ? { ok: true } : { ok: false, reason: 'model_not_listed' };   // list shape unspecified, LLD:2245
+    return (await res.text()).includes(cfg.model) ? { ok: true } : { ok: false, reason: 'model_not_listed' };   // list shape unspecified
   } catch (e) {
     return { ok: false, reason: failure(e) };
   }
 }
 
-/** R111: cumulative across every run, HLD's $0.25. A row with no request is NULL and adds nothing. */
+/** R111: cumulative across every run, $0.25. A row with no request is NULL and adds nothing. */
 export async function jevReserveOk(db: D1Database, basis_usd: number): Promise<boolean> {
   const row = await db.prepare('SELECT COALESCE(SUM(charged_usd), 0) AS spent FROM jev_events').first<{ spent: number }>();
   return row!.spent + basis_usd <= JEV_RESERVE_USD;

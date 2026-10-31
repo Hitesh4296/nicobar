@@ -1,7 +1,7 @@
-// Builds the snapshot from the frozen cache (46 R99: there is no pull). `--publish` writes the local D1 row and local R2 files, nothing remote.
+// Builds the snapshot from samples/site, the frozen copy of the site (R99: nothing is fetched). `--publish` writes the local D1 row and local R2 files, nothing remote.
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import mapJson from '../config/occasion_map.json' with { type: 'json' };
@@ -33,7 +33,7 @@ function gender(tags: string[]): Product['gender'] {
   return g === 'female' || g === 'male' ? g : g === 'unisex' ? 'any' : null;
 }
 
-/** First failing rule, LLD usable filter; rule 1 (gift cards) never reaches here. Rule 8 reads season.json, as the LLD's build order says. */
+/** First failing rule of the usable filter; rule 1 (gift cards) never reaches here. Rule 8 reads season.json. */
 function excluded(p: Raw, subcategory: string[], clean: string | null): string | null {
   if (!p.variants.some((v) => v.available)) return 'NOT_AVAILABLE';
   if (!clean) return 'NO_BODY';
@@ -79,11 +79,11 @@ function normalise(p: Raw, unknown: Set<string>): Product {
     content_sha256: sha256(JSON.stringify(p, (k, v) => (k === 'updated_at' ? undefined : v))) };
 }
 
-// C8 data, probe 10 rule N and quill 12 §3.1.
+// C8 data.
 const WORD = /[A-Za-z0-9]+(?:['’][A-Za-z0-9]+)*|&/g;
 const CONNECTIVES = new Set(['of', 'and', 'the', 'for', 'in', 'with', 'a', 'on', 'x', 'to', '&', 'by', 'at', 'from']);
 const titleCore = (t: string) => t.replace(/\([^)]*\)/g, '').split(/\s[-–|]|[-–|]\s/)[0].trim();
-const nounCore = (t: string) => t.replace(/\([^)]*\)/g, '').split(/\s*[-–|]\s*(?=[A-Z0-9])/)[0].trim();   // quill's split; 156 needs it, probe's gives 154
+const nounCore = (t: string) => t.replace(/\([^)]*\)/g, '').split(/\s*[-–|]\s*(?=[A-Z0-9])/)[0].trim();   // this split gives the 156 nouns; a stricter one gives 154
 const BEFORE_RULE_7 = new Set(['NOT_AVAILABLE', 'NO_BODY', 'NO_IMAGE', 'NO_CATEGORY', 'HIDDEN']);
 function isTitleCase(core: string) {
   const words = (core.match(WORD) ?? []).filter((w) => /[A-Za-z]/.test(w));
@@ -103,7 +103,7 @@ function buildRules(raw: Raw[], rows: Product[]): Rules {
     if (isTitleCase(core)) cores.set(core.toLowerCase(), core);
   }
   const distinctive = [...cores.values()].filter((c) => (c.toLowerCase().match(WORD) ?? []).some((w) => /[a-z]/.test(w) && (df.get(w) ?? 0) <= 2));
-  const classed = raw.filter((_, i) => !BEFORE_RULE_7.has(rows[i].excluded_reason ?? ''));   // quill 12 §3.1 measured stems on rows that pass rules 1–6
+  const classed = raw.filter((_, i) => !BEFORE_RULE_7.has(rows[i].excluded_reason ?? ''));   // stems are measured on rows that pass rules 1–6
   const classStems = new Set(classed.flatMap((p) => vals(p.tags, 'Filterclass_', 'Filtersubclass_').flatMap((v) => v.split(/[\s&/,_-]+/).filter((w) => w.length > 2).map(stem))));
   return { title_cores: [...cores.values()].sort(), distinctive_cores: distinctive.sort(), nouns: [...classStems].filter((s) => finals.has(s)).sort(), handles: raw.map((p) => p.handle) };
 }
@@ -120,26 +120,17 @@ function invariants(rows: Product[]): void {
   if (bad.length) throw new Error(`SNAPSHOT_INVARIANT_FAILED: ${bad.length}: ${bad.slice(0, 10).join(', ')}`);
 }
 
-export function readPages(cache: string): Raw[] {
-  const pages = readdirSync(cache).filter((f) => /^products_p\d+\.body$/.test(f)).sort((a, b) => parseInt(a.slice(10)) - parseInt(b.slice(10)));
-  return pages.flatMap((f) => (JSON.parse(readFileSync(join(cache, f), 'utf8')) as { products: Raw[] }).products);
-}
+interface Samples { fetched_at: string; gift_cards_removed: number; products: Raw[] }
+export const readSamples = (dir = 'samples/site'): Samples => JSON.parse(readFileSync(join(dir, 'catalog.json'), 'utf8'));
 
-/** The first page's response date, UTC. */
-export function fetchedAt(cache: string): string {
-  const m = /^date: (.+)$/im.exec(readFileSync(join(cache, 'products_p1.headers'), 'utf8'));
-  if (!m) throw new Error('no date header on page 1');
-  return new Date(m[1].trim()).toISOString();
-}
-
-export function buildSnapshot(pages: Raw[], fetched_at: string) {
-  const raw = pages.filter((p) => !isGiftCard(p));
+export function buildSnapshot({ products, fetched_at, gift_cards_removed }: Samples) {
+  const raw = products.filter((p) => !isGiftCard(p));
   const unknown = new Set<string>();
   const rows = raw.map((p) => normalise(p, unknown));
   invariants(rows);
   const hash = sha256([...rows.map((p) => p.content_sha256)].sort().join('')).slice(0, 12);
   const snapshot_id = `${fetched_at.slice(0, 10)}-${hash}`;
-  const excl: Record<string, number> = { GIFT_CARD: pages.length - raw.length };
+  const excl: Record<string, number> = { GIFT_CARD: gift_cards_removed + products.length - raw.length };
   for (const p of rows) if (p.excluded_reason) excl[p.excluded_reason] = (excl[p.excluded_reason] ?? 0) + 1;
   const usable = rows.filter((p) => !p.excluded_reason).length;
   const after_class = usable + (excl.THIN_COPY ?? 0);
@@ -157,9 +148,7 @@ function wrangler(args: string[], persist: string | undefined) {
 
 function main() {
   const arg = (name: string) => { const i = process.argv.indexOf(name); return i < 0 ? undefined : process.argv[i + 1]; };
-  const cache = arg('--from-cache');
-  if (!cache) throw new Error('usage: build.ts --from-cache <abs path> [--publish] [--persist-to <dir>]');
-  const { catalog, rules, report } = buildSnapshot(readPages(cache), fetchedAt(cache));
+  const { catalog, rules, report } = buildSnapshot(readSamples(arg('--samples')));
   const ids = ingestTsv(readFileSync('data/customers.with-c20.synthetic.tsv', 'utf8')).map((r) => r.key);
   const full = { ...report, row_keys: countKeys(ids, parseRowKeys(JSON.parse(readFileSync('data/row_keys.synthetic.json', 'utf8')))) };
 

@@ -7,6 +7,8 @@ import { routes } from '../../src/worker/routes/demo.ts';
 import { renderEvals } from '../../src/ui/demo/index.ts';
 import { NAV } from '../../src/contracts/nav.ts';
 import type { AppEnv } from '../../src/contracts/types.ts';
+import evalReport from '../../reports/eval.json' with { type: 'json' };
+import readiness from '../../reports/readiness.json' with { type: 'json' };
 
 const db = (env as unknown as { DB: D1Database }).DB;
 const get = async (path: string) => { const r = await exports.default.fetch(new Request(`https://x.test${path}`)); return { status: r.status, html: await r.text() }; };
@@ -32,7 +34,7 @@ beforeAll(async () => {
     db.prepare(`INSERT INTO cost_events (run_id, customer_id, attempt, setting, action, call_state, charged_usd, at) VALUES ('run-f', 'c01', 1, 's', 'admit', 'answered', 0.03, 't'), ('run-f', 'c02', 1, 's', 'skip', 'blocked', NULL, 't')`),
     db.prepare(`INSERT INTO jev_events (run_id, customer_id, attempt, model_requested, status, charged_usd, basis_usd, at) VALUES ('run-f', 'c01', 1, 'j', 'answered', 0.0005, 0.0005, 't')`),
     draft('run-f:c01:v1', 'c01', 'released', 'both', 'seed-demo@local'), draft('run-f:c02:v1', 'c02', 'released', 'email', 'judge@x.test'),
-    draft('run-f:c03:v1', 'c03', 'approved', 'both', 'seed-demo@local'), draft('run-f:c04:v1', 'c04', 'in_review', 'both', '')]);
+    draft('stub-x:c05:v1', 'c05', 'released', 'both', 'judge@x.test'), draft('run-f:c03:v1', 'c03', 'approved', 'both', 'seed-demo@local'), draft('run-f:c04:v1', 'c04', 'in_review', 'both', '')]);
 });
 
 describe('screens', () => {
@@ -62,10 +64,17 @@ describe('screens', () => {
     expect(html).toContain('&lt;b&gt;Meera&lt;/b&gt;');
     expect(html).toContain('abcdef12');
   });
-  it('evals: says not run while a report is absent, invents no number', async () => {
+  it('evals: the page shows the committed reports, not a placeholder', async () => {
     const { html } = await get('/review/evals');
-    expect(html.match(/not run yet/g)).toHaveLength(2);
-    expect(html).not.toMatch(/\b171\b/);
+    expect(html).not.toContain('not run yet');
+    expect(html).toContain(`<td>${evalReport.totals.cases}</td>`);
+    for (const l of readiness.lines) expect(html).toMatch(new RegExp(`<td>${l.id}</td>.*?<td>${l.verdict}</td>`));
+    for (const n of evalReport.named_failures) expect(html).toContain(n.label);
+  });
+  it('published: a stub run is labelled, a real one is not', async () => {
+    const { html } = await get('/review/published');
+    expect(html.match(/<td>[^<]*<code>c05<\/code> · stub draft/)).not.toBeNull();
+    expect(html).not.toMatch(/c02<\/code> · stub/);
   });
   it('evals: shows a report as given, escaped', () => {
     const html = renderEvals({ eval: { cases: 171, note: '<x>', rows: [{ id: 'C2', pass: true }] }, readiness: null });

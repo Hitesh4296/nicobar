@@ -1,4 +1,4 @@
-// config seed | import <path> | export <id> --out <dir>, through the local routes (46 §8, §13 step 5a).
+// config seed | import <path> | export <id> --out <dir>, through the local routes.
 import { mkdirSync, readFileSync, readdirSync, existsSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { canonicalContent } from '../src/lib/gen/canonical.ts';

@@ -1,4 +1,4 @@
-// customers/v2, 46 §3. last_name and the note stop here: neither enters a result, and no error quotes a row.
+// customers/v2. last_name and the note stop here: neither enters a result, and no error quotes a row.
 import type { IngestResult } from '../contracts/types.ts';
 
 const HEADER = 'customer_id\tfirst_name\tlast_name\toccasion\tpast_purchase_note';

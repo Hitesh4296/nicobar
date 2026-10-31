@@ -62,7 +62,7 @@ type Rule = [id: string, severity: CheckResult['severity'], run: (ctx: Ctx, fail
 
 const expandText = (t: string, ctx: Ctx) => t.replace(TOKEN, (_, n) => ctx.title(`p${n}` as Slot));
 
-/** Same names and scope as gen's expand (handover-gen finding 6), and tolerant nowhere: it runs only after C1 passed. */
+/** Same names and scope as gen's expand, and tolerant nowhere: it runs only after C1 passed. */
 function scan(model: any, part: Format): Omit<Field, 'expanded'>[] {
   const field = (name: string, raw: string, scope: Slot[] | null) => ({ name, raw, scope });
   if (part === 'email') return PROSE.email.map((k) => field(k, model[k], null));
@@ -141,7 +141,7 @@ function capitalRuns(t: string, ctx: Ctx, mask: string): string[] {
   return out;
 }
 
-// ---- the rules, in LLD order ----
+// ---- the rules ----
 const anyPart: Rule[] = [
   ['C2', 'hard', (ctx, fail) => {
     for (const f of ctx.fields) {

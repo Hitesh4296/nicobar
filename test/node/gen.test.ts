@@ -17,7 +17,7 @@ const DIR = 'config/prompt/v1';
 const prompt = readPromptDir(DIR);
 const schemas = [emailSchema, landingSchema];
 const cat = fxCatalog();
-const rung = rungs[0] as unknown as Rung;
+const rung = rungs.find((r) => r.id === 'sonnet-between_tools') as unknown as Rung;
 const sysText = (r: { system: unknown[] }) => (r.system[0] as { text: string }).text;
 const userText = (r: { messages: unknown[] }) => (r.messages[0] as { content: string }).content;
 const fail = (id: string, part: Format, detail = `${id} detail`): CheckResult => ({ id, part, severity: 'hard', pass: false, detail });
@@ -212,7 +212,7 @@ describe('4a part-scoped retry', () => {
     expect(r.model).toBe('claude-sonnet-5-5');
     expect(r.thinking).toEqual({ type: 'between_tools' });
     expect(r.output_config.effort).toBeUndefined();
-    const low = buildRequest(plan, fxPinned, cat, rungs[1] as unknown as Rung, prompt);
+    const low = buildRequest(plan, fxPinned, cat, rungs.find((r) => r.id === 'sonnet-low') as unknown as Rung, prompt);
     expect(low.thinking).toBeUndefined();
     expect(low.output_config.effort).toBe('low');
   });

@@ -1,4 +1,4 @@
-import { NotBuilt } from '../contracts/codes.ts';
+import { CatalogMissing, NotBuilt } from '../contracts/codes.ts';
 import type { ErrorCode } from '../contracts/codes.ts';
 import type { AppEnv } from '../contracts/types.ts';
 import { authenticate, sameOrigin } from './auth.ts';
@@ -19,6 +19,7 @@ export default {
       return await hit.route.handler({ req, env, exec, actor: auth.actor, params: hit.params });
     } catch (e) {
       if (e instanceof NotBuilt) return fail(501, 'NOT_BUILT', e.message);
+      if (e instanceof CatalogMissing) return fail(503, 'CATALOG_MISSING', e.message);
       console.error(JSON.stringify({ step: 'route', path: hit.route.path, status: 'error', code: 'INTERNAL_ERROR' }));
       return fail(500, 'INTERNAL_ERROR');
     }

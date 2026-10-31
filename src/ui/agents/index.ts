@@ -71,7 +71,7 @@ export function agentsPage(versions: ConfigVersion[], validity: EvalValidity[]):
 <p>No model has tool access. The Writer returns JSON, Jev returns a judgment, and code does everything else. Models can only fill fields that code checks, which limits what can be made up. A false claim in plain words is left to Jev and the reviewer.</p>
 ${sub}<h2>Writer prompt versions</h2>${versionRows(of('prompt'))}<h2>Jev versions</h2>${versionRows(of('jev'))}
 <h2>Eval goals on the active versions</h2>${rows.length ? table(['Goal', 'Hangs on', 'Active', 'Stages', 'Runs', 'State'], rows) : '<p>Needs an active prompt and Jev.</p>'}
-<p class="fine">Goals 1 to 9 depend on checks, lists and the stub, not on prompt text. A prompt change also voids <code>cap.json</code>'s S and E_out and <code>rungs.json</code>'s passed: re-run stage 0, and tally restages. The per-call token count at admit stays live. Nothing already approved changes.</p>
+<p class="fine">Goals 1 to 9 depend on checks, lists and the stub, not on prompt text. A prompt change also voids <code>cap.json</code>'s S and E_out and <code>rungs.json</code>'s passed: re-run stage 0. The per-call token count at admit stays live. Nothing already approved changes.</p>
 <h2>Agents</h2>${table(WHO, AGENTS)}<h2>Tools and code steps</h2>${table(WHO, TOOLS)}`);
 }
 

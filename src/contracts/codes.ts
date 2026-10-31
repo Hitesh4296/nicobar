@@ -1,4 +1,4 @@
-// 46 §2 CHECK lists, §9 check ids. test/worker/ddl.test.ts holds these equal to the migration.
+// CHECK lists and check ids. test/worker/ddl.test.ts holds these equal to the migration.
 import type { ConfigError } from './config.ts';
 
 export const FAILED_CODES = ['COLD_START_NO_HISTORY', 'NO_RECOMMENDATION', 'INVALID_PICK', 'TOO_FEW_CANDIDATES',
@@ -12,12 +12,16 @@ export const CHECK_IDS = ['C0', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 
   'C2.L1', 'C2.L2', 'C2.L3', 'C2.L4', 'C2.L5', 'C2.L6', 'C2.L7', 'X1', 'X2', 'X3', 'X4'] as const;
 export type CheckId = (typeof CHECK_IDS)[number];   // plus 'J3-*', flag only
 
-/** Route error codes, 46 §8. */
+/** Route error codes. */
 export type ErrorCode = 'WRONG_STATE' | 'HASH_MISMATCH' | 'CHECKS_FAILED' | 'STALE_PICK' | 'SNAPSHOT_TOO_OLD'
-  | 'PREVIEW_STALE' | 'RUN_ID_REUSED' | ConfigError | 'BAD_INPUT' | 'FORBIDDEN' | 'MISSING_CONFIG' | 'NOT_FOUND' | 'NOT_BUILT' | 'INTERNAL_ERROR';
+  | 'PREVIEW_STALE' | 'RUN_ID_REUSED' | ConfigError | 'BAD_INPUT' | 'FORBIDDEN' | 'MISSING_CONFIG' | 'NOT_FOUND' | 'NOT_BUILT' | 'CATALOG_MISSING' | 'INTERNAL_ERROR';
 
 export class NotBuilt extends Error {
   code = 'NOT_BUILT' as const;
+}
+/** The snapshot's files are not in R2: `build --publish` has not run for it. */
+export class CatalogMissing extends Error {
+  code = 'CATALOG_MISSING' as const;
 }
 export function notBuilt(what: string): never {
   throw new NotBuilt(what);

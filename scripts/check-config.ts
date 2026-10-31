@@ -1,5 +1,5 @@
-// Runs before every wrangler build. `landing` as a key is the silent-NaN trap (LLD:475), so it is always fatal.
-// Other drift from 46 §5 is listed; `--strict` makes it fatal, and turns on once G0's config lands.
+// Runs before every wrangler build. `landing` as a key is the silent-NaN trap, so it is always fatal.
+// Other drift from the contract is listed; `--strict` makes it fatal.
 import { fileURLToPath } from 'node:url';
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';

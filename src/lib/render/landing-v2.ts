@@ -9,7 +9,7 @@ const list = (v: unknown): Section[] => (Array.isArray(v) ? v.filter((x) => x &&
 
 const VIEW = (p: Product, slot: unknown) => `<a class="nb-link" data-slot="${esc(slot)}" href="${esc(p.url)}"><span>View on nicobar.com</span></a>`;
 
-/** `who` carries the occasion, which `Envelope` lacks. Without it the eyebrow is the name alone; see the handover. */
+/** `who` carries the occasion, which `Envelope` lacks. Without it the eyebrow is the name alone. */
 export function renderLanding(d: ExpandedDraft, cat: Catalog, envelope: Envelope, who?: Who): string {
   const expanded = new Map(d.fields.map((f) => [f.raw, f.expanded]));
   const text = (v: unknown) => esc(expanded.get(String(v ?? '')) ?? v);

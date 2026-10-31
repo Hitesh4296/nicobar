@@ -28,7 +28,7 @@ type Check = (e: any) => string[];   // returns the broken facts; [] holds
 const eq = (name: string, got: unknown, want: unknown) => (got === want ? [] : [`${name}: got ${JSON.stringify(got)}, want ${JSON.stringify(want)}`]);
 
 /** R1. finished: drafted before the kill. calls_after: stub calls per key after the kill. A repeat is a key also called before it: first calls for untouched customers are the resume doing its job.
- * In flight: called before the kill and not finished. Each gets exactly one call after it, and only those may be billed twice (ward 54 finding 8). */
+ * In flight: called before the kill and not finished. Each gets exactly one call after it, and only those may be billed twice. */
 const R1: Check = (e) => [
   ...Object.keys(e.calls_after).filter((k) => e.finished.includes(k)).map((k) => `finished ${k} called again`),
   ...eq('every unit terminal', e.open, 0),
@@ -40,7 +40,7 @@ const R1: Check = (e) => [
 const R2: Check = (e) => [...eq('attempt 1 call_state', e.attempt1, 'possibly_billed'), ...eq('stub calls = attempt rows', e.calls, e.attempts)];
 const R3: Check = (e) => [...eq('second POST', e.second_post, 409), ...eq('approve events', e.approve_events, 1), ...eq('release events', e.release_events, 1),
   ...eq('draft id', e.draft_id, e.want_draft_id)];
-/** R4. units: key → 'status[:code]'. Each failure sits alone; `row:*` matches by prefix, because 46 leaves n open. */
+/** R4. units: key → 'status[:code]'. Each failure sits alone; `row:*` matches by prefix. */
 const R4: Check = (e) => {
   const got = Object.entries<string>(e.units).map(([k, v]) => [k.startsWith('row:') ? 'row:*' : k, v]);
   return [...Object.entries(e.expected).filter(([k, v]) => !got.some(([g, s]) => g === k && s === v)).map(([k, v]) => `${k} wanted ${v}`),
@@ -140,7 +140,7 @@ export function inputs() {
     isolation: { tsv: join(ISO, 'customers.synthetic.tsv'), recs: join(ISO, 'recommendations.synthetic.json'), format: 'landing_page' },
   };
 }
-/** handover-run: the body of POST /api/runs. Both files travel as bytes, because the preview hashes bytes. Format and rung come from the preview. */
+/** The body of POST /api/runs. Both files travel as bytes, because the preview hashes bytes. Format and rung come from the preview. */
 const runBody = (id: string, stage: string, f: Input, preview_sha256: string) => ({ run_id: id, stage, snapshot_id: json(f.recs).snapshot_id, customers_name: basename(f.tsv),
   customers_tsv: readFileSync(f.tsv, 'utf8'), customers_synthetic: true, recs_json: readFileSync(f.recs, 'utf8'), preview_sha256 });
 
@@ -292,7 +292,7 @@ async function driveR7Red(c: Ctx) {
   return evidenceR7(c.state, id);
 }
 
-// ---- patched runs, line 4 only, by the parent's word (R116) ----
+// ---- patched runs, line 4 only ----
 // No fault or stub reaches the gate, so each rung patches out/readiness/tree for one wrangler, or rebuilds `drafts` from migrations/0001_core.sql minus named CHECKs in a throwaway copy of the state.
 // The tree is restored from src after each rung and must match before the green drive. Rungs drop one more layer each, so the report shows what actually held.
 const STATE_TS = 'src/lib/state/index.ts', REVIEW_TS = 'src/worker/routes/review.ts';
@@ -402,11 +402,11 @@ async function main() {
   if (process.argv.includes('--selftest')) return;
   rmSync(OUT, { recursive: true, force: true }); mkdirSync(TREE, { recursive: true });
   writeFileSync(join(OUT, 'empty.env'), '');
-  for (const p of ['src', 'config', 'data', 'migrations', 'scripts', 'wrangler.jsonc', 'package.json', 'tsconfig.json', 'worker-configuration.d.ts']) cpSync(join(ROOT, p), join(TREE, p), { recursive: true });
+  for (const p of ['src', 'config', 'data', 'reports', 'migrations', 'scripts', 'wrangler.jsonc', 'package.json', 'tsconfig.json', 'worker-configuration.d.ts']) cpSync(join(ROOT, p), join(TREE, p), { recursive: true });
   symlinkSync(join(ROOT, 'node_modules'), join(TREE, 'node_modules'));
   const voidAll = (why: string) => { process.exitCode = 1; report(IDS.map((id) => ({ id, verdict: 'VOID', why, red: `planted: ${proof[id]!.ok ? 'all failed' : 'NOT all failed'}`, seam_red: [], output: null, seam_output: null }))); };
   const steps: [string, string[]][] = [['migrate', ['wrangler', 'd1', 'migrations', 'apply', 'nicobar', '--local']],
-    ['build', ['node', 'scripts/build.ts', '--from-cache', process.env.READINESS_CACHE ?? '/Users/hiteshnarwal/Desktop/nicobar/.agent/scout/cache', '--publish']]];
+    ['build', ['node', 'scripts/build.ts', '--publish']]];
   for (const [name, cmd] of steps) {
     const r = spawnSync(cmd[0] === 'wrangler' ? 'npx' : cmd[0]!, cmd[0] === 'wrangler' ? cmd : cmd.slice(1), { cwd: ROOT, encoding: 'utf8' });
     if (r.status !== 0) return voidAll(`prerequisite ${name}: ${`${r.stderr}${r.stdout}`.trim().split('\n').at(-1)}`);
@@ -427,16 +427,16 @@ async function main() {
     console.log(`S for the stub, drive only: ${JSON.stringify(S)}`);
     cpSync(main, scratch, { recursive: true });
     const ts = Date.now().toString(36);
-    const c: Ctx = { state: scratch, f, id: (x) => `rd-${ts}-${x}`, calls, stub, sha };
+    const c: Ctx = { state: scratch, f, id: (x) => `stub-${ts}-${x}`, calls, stub, sha };
     const step = async (name: string, fn: () => Promise<any>) => { console.log(`drive ${name} ${new Date().toISOString().slice(11, 19)}`); const g = await tryDrive(fn); console.log(`  ${JSON.stringify(g).slice(0, 600)}`); return g; };
-    // R4's real run lands on the default state, so it can be seeded on /review (46 §3). Everything else stays on the scratch copy.
+    // R4's real run lands on the default state, so it can be seeded on /review. Everything else stays on the scratch copy.
     const r4red = await step('R4 red: no DEV_FAULT', () => driveR4(c, undefined, scratch));
     const r4 = await step('R4', () => driveR4({ ...c, state: main }, 'throw:c-throw', main));
     const r7 = await step('R7', async () => evidenceR7(main, c.id('r4')));
     const r7red = await step('R7 red: pause, mark-stopped', () => driveR7Red(c));
     const r1red = await step('R1 red: new run instead of restart', () => driveR1(c, true));
     const r1 = await step('R1', () => driveR1(c));
-    // finding 8 alone: only the new clause may fire on this run
+    // the in-flight clause alone: only the new clause may fire on this run
     const inflight = await driveBusy(c, stub, 'R1', 'in-flight', 'one in-flight key', R1, (x) => driveR1(x, false, true));
     console.log(JSON.stringify([inflight.clause, inflight.opened, inflight.failures]));
     const r2red = await step('R2 red: no pause, no kill', () => driveR2(c, true));

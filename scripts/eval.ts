@@ -132,14 +132,14 @@ const blindDraft = (id: string): ModelJson | undefined => id === 'BL-D7-render'
 const goodDraft = (id?: string): ModelJson | undefined => json('test/cases/layout.json').cases.find((c: Case) => c.id === `GOOD-${id}`)?.draft;
 
 export const SKIPPED = [
-  { id: 'L-10', kind: 'render', lane: 'page', why: 'the occasion eyebrow is drawn by the real renderLanding; runs under page tests 1 and 2' },
-  { id: 'L-11', kind: 'spec', lane: 'check', why: 'held by test/node/check.test.ts, a schema walk, and M21 here' },
-  { id: 'L-13', kind: 'live', lane: 'proof', why: 'stage F, gate false' },
-  { id: 'N-08', kind: 'request', lane: 'gen', why: 'buildRequest test' },
-  { id: 'N-10', kind: 'request', lane: 'gen', why: 'buildRequest test' },
-  { id: 'N-13', kind: 'data', lane: 'data', why: 'build output' },
-  { id: 'R1', kind: 'spec', lane: 'proof', why: 'readiness' },
-  { id: "INJ-08'-strip", kind: 'strip', lane: 'data', why: 'the strip rule, run by the build' },
+  { id: 'L-10', kind: 'render', held_by: 'render tests', why: 'the occasion eyebrow is drawn by the real renderLanding; runs under page tests 1 and 2' },
+  { id: 'L-11', kind: 'spec', held_by: 'check tests', why: 'held by test/node/check.test.ts, a schema walk, and M21 here' },
+  { id: 'L-13', kind: 'live', held_by: 'readiness', why: 'stage F, gate false' },
+  { id: 'N-08', kind: 'request', held_by: 'request tests', why: 'buildRequest test' },
+  { id: 'N-10', kind: 'request', held_by: 'request tests', why: 'buildRequest test' },
+  { id: 'N-13', kind: 'data', held_by: 'build', why: 'build output' },
+  { id: 'R1', kind: 'spec', held_by: 'readiness', why: 'readiness' },
+  { id: "INJ-08'-strip", kind: 'strip', held_by: 'build', why: 'the strip rule, run by the build' },
 ];
 
 export function runSuite(cat: Catalog, ck: Check = real, mutant: RenderMutant = null): Outcome[] {

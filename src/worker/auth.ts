@@ -6,7 +6,7 @@ export type AuthResult = { actor: Actor } | { http: 403 | 503; code: 'FORBIDDEN'
 
 const jwksFor = (team: string): JWTVerifyGetKey => createRemoteJWKSet(new URL(`${team}/cdn-cgi/access/certs`));
 
-/** Runs on every route; there is no public path (46 §8). `getKey` is the test seam. */
+/** Runs on every route; there is no public path. `getKey` is the test seam. */
 export async function authenticate(req: Request, env: AppEnv, getKey: (team: string) => JWTVerifyGetKey = jwksFor): Promise<AuthResult> {
   const { ACCESS_AUD: aud, TEAM_DOMAIN: team } = env;
   if (env.DEPLOYED === '1' && env.DEV_MODE) return { http: 503, code: 'MISSING_CONFIG' };

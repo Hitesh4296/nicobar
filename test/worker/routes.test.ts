@@ -1,4 +1,5 @@
-import { exports } from 'cloudflare:workers';
+import { applyD1Migrations } from 'cloudflare:test';
+import { env, exports } from 'cloudflare:workers';
 import { describe, expect, it } from 'vitest';
 import { generateKeyPair, SignJWT } from 'jose';
 import { authenticate } from '../../src/worker/auth.ts';
@@ -29,6 +30,22 @@ describe('test 4: route order', () => {
   it('dismiss is agents, not a draft action', () => {
     expect(match('POST', '/api/drafts/d/flags/q/dismiss')?.route.path).toBe('/api/drafts/:id/flags/:question/dismiss');
     expect(match('POST', '/api/drafts/d/launch')).toBeNull();
+  });
+});
+
+describe('a missing catalogue', () => {
+  it('approve answers a coded 503, not 500', async () => {
+    const db = (env as unknown as AppEnv).DB;
+    await applyD1Migrations(db, (env as unknown as { TEST_MIGRATIONS: Parameters<typeof applyD1Migrations>[1] }).TEST_MIGRATIONS);
+    const run = `INSERT INTO runs (id, instance_id, stage, format, snapshot_id, run_date, customers_sha256, customers_r2_key, customers_synthetic, recs_sha256, setting, prompt_version, voice_guide_version,
+      shapes_sha256, jev_model, jev_config_version, cap_run_usd, ceiling_usd, preview_sha256, expected_usd, status, created_by, created_at) VALUES ('nc', 'nc', 'rehearsal', 'both', 'gone', 'd', 'c', 'k', 1, 'r', 's', 'v1', 'v1', 'sh', 'j', 'jev-v1', 1, 1, 'p', 0, 'done', 'o', 't')`;
+    await db.batch([db.prepare(`INSERT OR IGNORE INTO snapshots (id, fetched_at, product_rows, usable_rows) VALUES ('gone', 't', 0, 0)`), db.prepare(run),
+      db.prepare(`INSERT INTO plans (run_id, customer_id, plan_json, created_at) VALUES ('nc', 'c', '{}', 't')`),
+      db.prepare(`INSERT INTO drafts (id, run_id, customer_id, version, format, snapshot_id, validator_version, model, envelope_json, model_json, rendered_json, content_sha256, checks_json, hard_failures, status)
+        VALUES ('nc:c:v1', 'nc', 'c', 1, 'both', 'gone', 'v', 'm', '{}', '{}', '{}', 'h', '[]', 0, 'in_review')`)]);
+    const r = await get('/api/drafts/nc%3Ac%3Av1/approve', { method: 'POST', headers: { Origin: 'https://x.test' } });
+    expect(r.status).toBe(503);
+    expect(await r.json()).toMatchObject({ code: 'CATALOG_MISSING' });
   });
 });
 

@@ -18,7 +18,7 @@ const guarded = (h: (c: Ctx) => Promise<Response>) => async (c: Ctx) => {
     throw e;
   }
 };
-/** Local only: no write to config and no model call on the link (46 §8). */
+/** Local only: no write to config and no model call on the link. */
 const local = (h: (c: Ctx) => Promise<Response>) => guarded((c) => (c.env.DEPLOYED === '1'
   ? Promise.resolve(Response.json({ code: 'MISSING_CONFIG', detail: 'read-only on the link' }, { status: 503 })) : h(c)));
 

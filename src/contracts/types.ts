@@ -1,6 +1,6 @@
-// Frozen from .agent/atlas/46-contracts.md §6. Change = parent decision + new numbered migration.
+// The frozen contract. A change needs a decision and a new numbered migration.
 import type { FailedCode, SkippedCode } from './codes.ts';
-export type * from './config.ts';   // agents lane, 46 §6
+export type * from './config.ts';
 
 // ---- enums ----
 export type Format = 'email'|'landing_page';  export type RunFormat = 'both'|Format;  export type Part = Format|'catalog';
@@ -114,7 +114,7 @@ export interface J3Input { email: string|null; landing_page: string|null; quote:
 export interface JevOutcome { status: JevStatus; reason: string|null; model: string|null; answers: Record<string,unknown>|null;
   input_tokens: number|null; charged_usd: number|null; basis_usd: number }
 
-// ---- worker env (46 §5 vars and secrets; not in §6) ----
+// ---- worker env: vars and secrets ----
 // Env comes from `wrangler types`. DEV_* and secrets are absent from wrangler.jsonc on purpose.
 export type AppEnv = Env & { DEV_MODE?: string; DEV_ACTOR?: string; DEV_FAULT?: string; ACCESS_AUD?: string;
   ANTHROPIC_API_KEY?: string; ANTHROPIC_BASE_URL?: string; JEV_API_KEY?: string };

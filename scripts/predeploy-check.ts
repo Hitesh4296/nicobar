@@ -1,4 +1,4 @@
-// The parent runs this before any deploy. Any DEV_* in a var fails it (46 §8).
+// Runs before any deploy. Any DEV_* in a var fails it.
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
 

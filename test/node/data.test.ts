@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { beforeAll, describe, expect, it } from 'vitest';
 import shapesJson from '../../config/shapes.json' with { type: 'json' };
-import { buildSnapshot, fetchedAt, readPages } from '../../scripts/build.ts';
+import { buildSnapshot, readSamples } from '../../scripts/build.ts';
 import { toCatalog } from '../../src/lib/catalog/index.ts';
 import { stripBody } from '../../src/lib/catalog/strip.ts';
 import { BadCustomerFile, ingestTsv } from '../../src/lib/ingest.ts';
@@ -15,7 +15,6 @@ import type { Catalog, IngestResult, Pinned, RecRow, RowKeys, ShapesFile } from 
 import { fxCatalog, fxPinned } from '../fakes/index.ts';
 
 const shapes = shapesJson as ShapesFile;
-const CACHE = ['.agent/scout/cache', '../../nicobar/.agent/scout/cache'].map((p) => resolve(p)).find(existsSync);
 const HEADER = 'customer_id\tfirst_name\tlast_name\toccasion\tpast_purchase_note\n';
 const REAL = readFileSync('data/customers.with-c20.synthetic.tsv', 'utf8');
 const row = (key: string, occasion: string | null = 'Goa weekend', new_user = false): IngestResult =>
@@ -27,9 +26,12 @@ const code = (p: { outcome: { kind: string; code?: string } }) => p.outcome.code
 const fx = fxCatalog();
 const plan = (item: IngestResult, r: RecRow | null, keys: RowKeys = {}, pinned: Pinned = fxPinned) => planCustomer(item, r, keys, fx, pinned, shapes);
 
-describe.skipIf(!CACHE)('test 1: snapshot from the frozen cache', () => {
+describe('test 1: snapshot from samples/site', () => {
   let s: ReturnType<typeof buildSnapshot>;
-  beforeAll(() => { s = buildSnapshot(readPages(CACHE!), fetchedAt(CACHE!)); }, 120_000);
+  beforeAll(() => { s = buildSnapshot(readSamples()); }, 120_000);
+  it('rebuilds the snapshot the recommendations pin', () => {
+    expect(s.catalog.snapshot_id).toBe(JSON.parse(readFileSync('data/recommendations.synthetic.json', 'utf8')).snapshot_id);
+  });
   it('2,180 usable, stage by stage (LLD usable filter, right-hand column)', () => {
     expect(s.report.stages).toEqual({ after_hidden_and_bundle: 2291, after_season: 2222, after_class: 2205, usable: 2180 });
     expect(s.catalog.rows.filter((p) => p.excluded_reason === null)).toHaveLength(2180);
@@ -251,7 +253,7 @@ describe('strip', () => {
   });
 });
 
-describe.skipIf(!CACHE)('test 5c: build --publish makes 0 network requests', () => {
+describe('test 5c: build --publish makes 0 network requests', () => {
   const hook = resolve('test/node/block-network.mjs');
   const dir = mkdtempSync(join(tmpdir(), 'build-'));
   const log = join(dir, 'net.log');
@@ -263,7 +265,7 @@ describe.skipIf(!CACHE)('test 5c: build --publish makes 0 network requests', () 
   });
   it('writes the local row and local R2 files, with nothing leaving loopback', () => {
     const persist = join(dir, 'state');
-    const r = spawnSync(process.execPath, ['scripts/build.ts', '--from-cache', CACHE!, '--publish', '--persist-to', persist], { env, encoding: 'utf8' });
+    const r = spawnSync(process.execPath, ['scripts/build.ts', '--publish', '--persist-to', persist], { env, encoding: 'utf8' });
     expect(r.status, r.stderr).toBe(0);
     expect(existsSync(log) ? readFileSync(log, 'utf8') : '').toBe('');
     const id = /snapshot (\S+):/.exec(r.stdout)![1];

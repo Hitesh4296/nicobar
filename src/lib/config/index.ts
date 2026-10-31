@@ -1,4 +1,4 @@
-// Prompt and Jev versions, 46 §13. saveVersion inserts; activateVersion alone updates. Content never changes.
+// Prompt and Jev versions. saveVersion inserts; activateVersion alone updates. Content never changes.
 import type { ErrorCode } from '../../contracts/codes.ts';
 import type { Actor, AppEnv, Catalog, ConfigFailure, ConfigKind, ConfigStatus, ConfigVersion, EvalValidity, FlagView, JevConfig, J3Input, JevQuestion, Plan, PromptFiles,
   Stage, ValidationResult } from '../../contracts/types.ts';

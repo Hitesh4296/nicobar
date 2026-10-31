@@ -187,7 +187,7 @@ describe('fixture export through real local wrangler (tests 4, 4a, 4b, seed twic
     target = dir('target');
     file(source, 'rows.sql', [
       `INSERT INTO snapshots VALUES ('snap', '2026-10-29', 16069, 2180, 0), ('fx-snapshot', '2026-10-29', 1, 1, 1);`,
-      runSql('run-f', 'F', 'snap', 'v2'), runSql('run-iso', 'isolation', 'snap', 'v2'), runSql('run-voice', 'voice', 'snap', 'v1'), runSql('fx-run', 'F', 'fx-snapshot', 'v1'),
+      runSql('run-f', 'F', 'snap', 'v2'), runSql('stub-f', 'F', 'snap', 'v2').replace('T10:', 'T11:'), runSql('run-iso', 'isolation', 'snap', 'v2'), runSql('run-voice', 'voice', 'snap', 'v1'), runSql('fx-run', 'F', 'fx-snapshot', 'v1'),
       unitSql('run-f', 'c01'), unitSql('run-f', 'c02'), unitSql('run-iso', 'c20-x'), unitSql('run-voice', 'c01'), unitSql('fx-run', 'fx-both'),
       draftSql('run-f', 'c01', big), draftSql('run-f', 'c02', '{"email":"small"}'), draftSql('run-iso', 'c20-x', '{}'), draftSql('run-voice', 'c01', '{"email":"voice-only-row"}'),
       draftSql('fx-run', 'fx-both', '{"email":"fixture-only-row"}'),

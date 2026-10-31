@@ -1,4 +1,4 @@
-// Unit and draft machines, LLD:1563–1630, 46 §7. Only this file writes `units.status`; `transition` is the only way a draft moves.
+// Unit and draft machines. Only this file writes `units.status`; `transition` is the only way a draft moves.
 import capJson from '../../../config/cap.json' with { type: 'json' };
 import { validate, validateRendered } from '../check/index.ts';
 import { loadCatalog } from '../catalog/index.ts';
@@ -7,9 +7,9 @@ import type { Lib } from '../../contracts/lib.ts';
 import type { Actor, AppEnv, Catalog, CheckResult, DraftRow, DraftStatus, Edge, EdgeResult, Envelope, Format, Freshness, Guarded, Plan,
   RenderedJson, RunFormat, RunReport, RunStatus, Stage, UnitStatus } from '../../contracts/types.ts';
 
-/** Test seam: other lanes through `L()`, the model's fetch, and the `pause_after_answer` hold. Nothing sets these outside test/. */
+/** Test seam: other modules through `L()`, the model's fetch, and the `pause_after_answer` hold. Nothing sets these outside test/. */
 export const seam: { lib?: Lib; rendered?: typeof validateRendered; fetch?: typeof fetch; pause?: () => Promise<void> } = {};
-/** X1–X4 on the pages. Not in `Lib`: `check` added it after M0. With fakes in place and no override, it passes. */
+/** X1–X4 on the pages. Not in `Lib`. With fakes in place and no override, it passes. */
 export const checkRendered: typeof validateRendered = (...a) => (seam.rendered ?? (seam.lib ? () => [] : validateRendered))(...a);
 const L = (): Pick<Lib, 'loadCatalog' | 'validate' | 'imagePaths'> => seam.lib ?? { loadCatalog, validate, imagePaths };
 
@@ -70,7 +70,7 @@ export async function transition(env: AppEnv, draft_id: string, edge: Edge, acto
     const plan = JSON.parse(row.plan_json) as Plan;
     const checks = [...L().validate(d.model_json, envelope, cat, plan), ...checkRendered(JSON.parse(d.rendered_json) as RenderedJson, envelope, cat, plan)];
     if (d.hard_failures > 0 || failedHard(checks) > 0) return { ok: false, http: 409, code: 'CHECKS_FAILED' };
-    const { contentSha256 } = await import('../../contracts/lib.ts');   // dynamic: routes reach this file, and contracts/lib.ts evaluates every lane
+    const { contentSha256 } = await import('../../contracts/lib.ts');   // dynamic: routes reach this file, and contracts/lib.ts evaluates every module
     if (await contentSha256(d.envelope_json, d.model_json, d.rendered_json) !== d.content_sha256) return { ok: false, http: 409, code: 'HASH_MISMATCH' };
     if (edge === 'E7') {
       const snap = await db.prepare('SELECT id, fetched_at FROM snapshots WHERE synthetic = 0 ORDER BY fetched_at DESC LIMIT 1').first<{ id: string; fetched_at: string }>();
@@ -106,7 +106,7 @@ export async function transition(env: AppEnv, draft_id: string, edge: Edge, acto
   return res[0].meta.changes === 1 ? { ok: true, status: e.to } : wrong();   // lost a race: the head and its siblings all no-op
 }
 
-/** Snapshot evidence only, no outbound call. `title_changed` has no baseline: `Envelope` stores no title (handover, Open). */
+/** Snapshot evidence only, no outbound call. `title_changed` has no baseline: `Envelope` stores no title. */
 export function freshness(envelope: Envelope, rendered_paths: Record<string, string>, newest: Catalog, fetched_at: string, now: number, max_age_h: number): Freshness {
   const age_s = Math.round((now - Date.parse(fetched_at)) / 1000);
   if (!(age_s <= max_age_h * 3600)) return { ok: false, code: 'SNAPSHOT_TOO_OLD', age_s };   // negated so a NaN fails closed

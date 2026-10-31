@@ -7,7 +7,7 @@ import { routes as runs } from './runs.ts';
 export interface Ctx { req: Request; env: AppEnv; exec: ExecutionContext; actor: Actor; params: Record<string, string> }
 export interface Route { method: 'GET' | 'POST'; path: string; origin?: true; handler(c: Ctx): Response | Promise<Response> }
 
-// First match wins. demo and agents stay before review, so /review/spend never reaches /review/:id (46 §8).
+// First match wins. demo and agents stay before review, so /review/spend never reaches /review/:id.
 export const ROUTES: Route[] = [...demo, ...agents, ...review, ...runs];
 
 export function match(method: string, pathname: string, table: Route[] = ROUTES) {

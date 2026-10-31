@@ -1,4 +1,4 @@
-// Every 46 §6 signature, once. `lib` binds them to the modules, so a module that drifts fails tsc;
+// Every library signature, once. `lib` binds them to the modules, so a module that drifts fails tsc;
 // test/fakes implements the same `Lib`. `readPromptDir` is node-only, in scripts/prompt-dir.ts, and stays out.
 import type { AdmissionResult, Actor, AnthropicRequest, AppEnv, CapConfig, Catalog, CheckResult, ConfigKind, ConfigVersion, DraftRow, Edge, EdgeResult,
   Envelope, EvalValidity, Estimate, ExpandedDraft, FlagView, Format, Freshness, Guarded, IngestResult, J3Input, JevConfig, JevOutcome, ModelDraft,
@@ -85,7 +85,7 @@ export const lib: Lib = { ingestTsv, parseRecs, parseRowKeys, loadCatalog, compu
   jevReserveOk, activeVersions, loadVersion, validatePrompt, validateJev, saveVersion, activateVersion, lineDiff, dismissFlag, reviewFlags, flagRow,
   evalValidity };
 
-/** 46 §2: sha256(envelope_json ‖ 0x00 ‖ model_json ‖ 0x00 ‖ rendered_json), lowercase hex. The only place these bytes are built. */
+/** sha256(envelope_json ‖ 0x00 ‖ model_json ‖ 0x00 ‖ rendered_json), lowercase hex. The only place these bytes are built. */
 export async function contentSha256(envelope_json: string, model_json: string, rendered_json: string): Promise<string> {
   const bytes = new TextEncoder().encode(`${envelope_json}\0${model_json}\0${rendered_json}`);
   const digest = await crypto.subtle.digest('SHA-256', bytes);

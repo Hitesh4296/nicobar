@@ -1,4 +1,4 @@
-// One instance per run, 46 §7, LLD:1432. A step that runs out of retries is caught per customer, so one customer never ends the run.
+// One instance per run. A step that runs out of retries is caught per customer, so one customer never ends the run.
 import { WorkflowEntrypoint } from 'cloudflare:workers';
 import type { WorkflowEvent, WorkflowStep } from 'cloudflare:workers';
 import type { AppEnv, RunFormat } from '../contracts/types.ts';

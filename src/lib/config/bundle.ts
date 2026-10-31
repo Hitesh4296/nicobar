@@ -1,11 +1,11 @@
-// What a Worker needs to hash and validate a version: 46 §13, R109. The fixture is for validatePrompt only and never reaches a request.
+// What a Worker needs to hash and validate a version: R109. The fixture is for validatePrompt only and never reaches a request.
 import emailSchema from '../../../config/schemas/draft-email.v2.json' with { type: 'json' };
 import landingSchema from '../../../config/schemas/draft-landing.v3.json' with { type: 'json' };
 import jevBase from '../../../config/jev.json' with { type: 'json' };
 import type { Catalog, JevConfig, Pick, Plan, Product, Slot } from '../../contracts/types.ts';
 
 export const BUNDLE: { schemas: object[]; jevBase: JevConfig } = { schemas: [emailSchema, landingSchema], jevBase: jevBase as unknown as JevConfig };
-export const PROMPT_MIN_BYTES = 8000;   // [assume] until tally reads the cache minimum (46 §13)
+export const PROMPT_MIN_BYTES = 8000;   // [assume] until the cache minimum is read
 export const PROMPT_MAX_BYTES = 18000;  // [assume]
 
 export async function sha256Hex(text: string): Promise<string> {

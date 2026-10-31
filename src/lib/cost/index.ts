@@ -1,4 +1,4 @@
-// The cap, LLD:1648–1706 with `E_out`, `S`, `U_*` keyed `both`. Pure but for `retryGate` and the statements `settle` builds.
+// The cap, with `E_out`, `S`, `U_*` keyed `both`. Pure but for `retryGate` and the statements `settle` builds.
 // Prices: a §6 signature carries no model, so `callWorst` and `settle` price the first model in `prices`; callers narrow with `onePrice`.
 import capJson from '../../../config/cap.json' with { type: 'json' };
 import rungsJson from '../../../config/rungs.json' with { type: 'json' };

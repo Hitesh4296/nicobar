@@ -1,4 +1,4 @@
-// 46 §6 config versions. Owned by contracts.
+// Config versions.
 import type { JevConfig, Stage } from './types.ts';
 
 export type ConfigKind = 'prompt'|'jev';  export type ConfigStatus = 'draft'|'active'|'retired';

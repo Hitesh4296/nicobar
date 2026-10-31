@@ -1,5 +1,17 @@
 [
   {
+    "id": "sonnet-default",
+    "model": "claude-sonnet-5-5",
+    "thinking": null,
+    "effort": null,
+    "max_tokens": {
+      "both": 8250,
+      "email": 6750,
+      "landing_page": 7500
+    },
+    "passed": {}
+  },
+  {
     "id": "sonnet-between_tools",
     "model": "claude-sonnet-5-5",
     "thinking": {
@@ -34,18 +46,6 @@
       "both": 5250,
       "email": 3750,
       "landing_page": 4500
-    },
-    "passed": {}
-  },
-  {
-    "id": "sonnet-default",
-    "model": "claude-sonnet-5-5",
-    "thinking": null,
-    "effort": null,
-    "max_tokens": {
-      "both": 8250,
-      "email": 6750,
-      "landing_page": 7500
     },
     "passed": {}
   },

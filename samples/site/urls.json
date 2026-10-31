@@ -1,0 +1,41 @@
+{
+ "note": "Every file here, where it came from and when. Image URLs stay in catalog.json; no image file is copied.",
+ "files": [
+  {
+   "file": "catalog.json",
+   "url": "https://www.nicobar.com/products.json?limit=250",
+   "fetched_at": "2026-10-29T12:01:07.000Z",
+   "sha256": "4e8b29ed3f2ceaaad44bcb4e65101cda7ede0360f97648f0aa62b20f43a94fcf"
+  },
+  {
+   "file": "pages/the-brass-story.html",
+   "url": "https://www.nicobar.com/pages/the-brass-story",
+   "fetched_at": "2026-10-29",
+   "sha256": "03ec125816ce587c0b44038faaa7b075bfd75fbfebadd7a6975b4c49a722a7ec"
+  },
+  {
+   "file": "pages/the-art-of-mukaish.html",
+   "url": "https://www.nicobar.com/pages/the-art-of-mukaish",
+   "fetched_at": "2026-10-29",
+   "sha256": "79c378400e354c132224667ab12a2e18f5c5e0e43d71541e5f46df70febc4953"
+  },
+  {
+   "file": "pages/diwali-gifting-guide.html",
+   "url": "https://www.nicobar.com/pages/diwali-gifting-guide",
+   "fetched_at": "2026-10-31",
+   "sha256": "5ee7edef07c78dc5fddbb583d2932735de6d814dd17c18d3be903f65d3c58aff"
+  },
+  {
+   "file": "pages/home.html",
+   "url": "https://www.nicobar.com/",
+   "fetched_at": "2026-10-31",
+   "sha256": "2c02a86d05e186adfbd299102b2725961eb32d2fd1625a9893aa26b69184647b"
+  },
+  {
+   "file": "pages/blogs-travel-p2.atom",
+   "url": "https://www.nicobar.com/blogs/travel.atom?page=2",
+   "fetched_at": "2026-10-29",
+   "sha256": "8e3de266d025195a2fe68ca90083ba72c6b720760c6f96f56a92e9dcc38c0fdd"
+  }
+ ]
+}

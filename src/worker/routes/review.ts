@@ -1,4 +1,4 @@
-// 46 §8. Calls `transition` and reads rows; holds no state logic and computes no flag.
+// Calls `transition` and reads rows; holds no state logic and computes no flag.
 import { NotBuilt } from '../../contracts/codes.ts';
 import type { ErrorCode } from '../../contracts/codes.ts';
 import type { AppEnv, CheckResult, DraftStatus, Edge, Envelope, FlagView, Plan, RenderedJson, RunFormat, UnitStatus } from '../../contracts/types.ts';
@@ -15,7 +15,7 @@ const CSP = "default-src 'none'; script-src 'none'; img-src https://cdn.shopify.
 const contentSha256 = async (e: string, m: string, r: string) => (await import('../../contracts/lib.ts')).contentSha256(e, m, r);
 const html = (body: string, status = 200) => new Response(body, { status, headers: { 'content-type': 'text/html; charset=utf-8', 'content-security-policy': CSP } });
 const fail = (http: number, code: ErrorCode, detail?: string) => Response.json({ code, detail }, { status: http });
-// R109: agents' flagRow takes the draft id. Typed here so this file compiles against the one-argument stub and against the merged function.
+// R109: flagRow takes the draft id.
 const rowFor: (f: FlagView, draft_id: string) => string = flagRow;
 
 async function flagsOf(env: AppEnv, id: string): Promise<FlagView[] | null> {
@@ -112,7 +112,7 @@ async function act(c: Ctx): Promise<Response> {
 
 const PARTS = ['email', 'landing_page', 'catalog'] as const;
 
-/** 200 only if released and the recomputed hash equals the approved one (LLD §5). The part is served with no script, as a sandbox of its own. */
+/** 200 only if released and the recomputed hash equals the approved one. The part is served with no script, as a sandbox of its own. */
 async function released(c: Ctx): Promise<Response> {
   const part = PARTS.find((p) => p === new URL(c.req.url).searchParams.get('part'));
   if (!part) return fail(400, 'BAD_INPUT', 'part');

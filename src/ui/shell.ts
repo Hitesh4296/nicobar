@@ -2,6 +2,8 @@
 import { NAV } from '../contracts/nav.ts';
 import { esc, TOKENS } from './nb.ts';
 
+export const isStub = (id: string) => id.startsWith('stub-');
+
 const CSS = `${TOKENS}
 body.p{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:100vh;background:var(--color-white);color:var(--color-ink);font:400 15px/22px var(--font-sans);-webkit-font-smoothing:antialiased}
 .p a{color:inherit}

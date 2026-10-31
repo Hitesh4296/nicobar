@@ -1,5 +1,5 @@
 // Local D1 only. `--fixtures`: a sample run to look at. `--voice <dir> [--catalog <file>]`: `draft-one` output, re-rendered and hashed,
-// stage='voice', so the owner reads it on /review. Neither reaches the link: export-demo takes stage F and isolation only (46 §11).
+// stage='voice', so the owner reads it on /review. Neither reaches the link: export-demo takes stage F and isolation only.
 import layout from '../test/cases/layout.json' with { type: 'json' };
 import { fakeLib, fxCatalog, fxPinned } from '../test/fakes/index.ts';
 import { contentSha256 } from '../src/contracts/lib.ts';
@@ -61,7 +61,7 @@ async function itemSql(run_id: string, it: Item): Promise<string[]> {
   ];
 }
 
-/** `draft-one`'s files, re-rendered by `renderAll`. `render` is a seam only for tests; `gen` and `page` supply the real one. */
+/** `draft-one`'s files, re-rendered by `renderAll`. `render` is a seam only for tests. */
 export async function voiceSql(files: VoiceFile[], cat: Catalog, label: string, render: Render = renderAll): Promise<string[]> {
   const run_id = `voice-${label}`;
   const out = runSql(run_id, 'voice', files[0]?.plan.format ?? 'both', cat.snapshot_id, cat.fetched_at);
@@ -125,7 +125,7 @@ export async function fixtureSql(): Promise<string[]> {
   for (const [id, status, checks] of rows) {
     const { plan, envelope, model } = fxCase(id);
     const landing_page = model.landing_page ? renderLanding(expandLanding(model.landing_page, envelope, cat), cat, envelope, plan) : null;
-    // ponytail: fixture email is fake's stub until `gen` merges; these rows are landing_page format anyway.
+    // ponytail: these rows are landing_page format, so the fake email is never shown.
     const email = plan.format === 'landing_page' ? null : fakeLib.renderEmail({} as ExpandedDraft, cat, envelope);
     out.push(...await itemSql(FX_RUN_ID, { plan, envelope, model_json: JSON.stringify(model), rendered: { email, landing_page, catalog: renderCatalog(plan, cat) },
       checks: checks ?? passing(plan.format), status }));

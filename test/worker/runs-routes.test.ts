@@ -36,6 +36,11 @@ describe('POST /api/runs', () => {
     expect(await env.BUCKET.head(`recs/${await sha256Hex(RECS)}.json`)).not.toBeNull();
     expect((await (await env.RUN_WORKFLOW!.get(b.run_id)).status()).status).toBeDefined();
   });
+  it('a run on a stub base URL must say so in its id, so the page can label it', async () => {
+    const stubbed = { ...env, ANTHROPIC_BASE_URL: 'http://127.0.0.1:8788' };
+    expect((await post('/api/runs', await body(), {}, stubbed)).status).toBe(400);
+    expect((await post('/api/runs', await body({ run_id: uid('stub-p') }), {}, stubbed)).status).toBe(201);
+  });
   it('test 6: cap_run_usd in the body → 400, no row', async () => {
     const b = await body({ cap_run_usd: 99 });
     expect((await post('/api/runs', b)).status).toBe(400);

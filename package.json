@@ -18,7 +18,9 @@
     "build": "npm run check:config && node scripts/build.ts",
     "eval": "node scripts/eval.ts",
     "readiness": "node scripts/readiness.ts",
-    "config": "node scripts/config.ts"
+    "config": "node scripts/config.ts",
+    "demo": "node scripts/demo.ts",
+    "batch": "node scripts/batch.ts"
   },
   "devDependencies": {
     "@cloudflare/vitest-plugin": "1.4.11",

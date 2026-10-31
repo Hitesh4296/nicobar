@@ -1,5 +1,5 @@
-// Builds out/demo/seed.sql for the link (46 §12). Local only: it works on a copy of the local D1 state and never reaches Cloudflare.
-// `node scripts/export-demo.ts`. The parent applies the file, on the owner's word.
+// Builds out/demo/seed.sql for the link. Local only: it works on a copy of the local D1 state and never reaches Cloudflare.
+// `node scripts/export-demo.ts`. Applying the file is a separate step, on the owner's word.
 import { execFileSync, spawn } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -34,9 +34,9 @@ export interface Selected { f: { id: string; prompt_version: string; jev_config_
 
 /** Latest finished run of each stage, on a real snapshot: fixture rows carry `snapshots.synthetic = 1`. */
 export function selectRuns(cfg: string): Selected {
-  const latest = (stage: string) => query<Selected['f']>(cfg, `SELECT r.id, r.prompt_version, r.jev_config_version FROM runs r JOIN snapshots s ON s.id = r.snapshot_id
-    WHERE r.stage = '${stage}' AND r.status = 'done' AND s.synthetic = 0 ORDER BY r.created_at DESC LIMIT 1`)[0];
-  const f = latest('F'), isolation = latest('isolation');
+  const latest = (stage: string, extra = '') => query<Selected['f']>(cfg, `SELECT r.id, r.prompt_version, r.jev_config_version FROM runs r JOIN snapshots s ON s.id = r.snapshot_id
+    WHERE r.stage = '${stage}' AND r.status = 'done' AND s.synthetic = 0 ${extra} ORDER BY r.created_at DESC LIMIT 1`)[0];
+  const f = latest('F', "AND r.id NOT LIKE 'stub-%'"), isolation = latest('isolation');
   if (!f) throw new Error('refused: no done stage F run on a real snapshot');
   if (!isolation) throw new Error('refused: no done isolation run on a real snapshot');
   return { f, isolation };
@@ -63,7 +63,7 @@ export async function driveToO5(ids: string[], post: (id: string, action: 'appro
   for (const id of sorted.slice(0, O5.released)) await step(id, 'release');
 }
 
-/** Run on the copy, so `d1 export` holds nothing else. F keeps its rows; isolation keeps `runs`, `units` (46 §1). */
+/** Run on the copy, so `d1 export` holds nothing else. F keeps its rows; isolation keeps `runs`, `units`. */
 export function pruneSql(fId: string, isolationId: string): string {
   const f = lit(fId), both = `${f}, ${lit(isolationId)}`;
   return [`DELETE FROM runs WHERE id NOT IN (${both});`, `DELETE FROM units WHERE run_id NOT IN (${both});`,
@@ -132,7 +132,7 @@ function chunks(text: string): string[] {
   return out;
 }
 
-/** Over the cap: the INSERT carries empty text and UPDATEs append it, because `d1 execute --file` has no binds (46 §12). */
+/** Over the cap: the INSERT carries empty text and UPDATEs append it, because `d1 execute --file` has no binds. */
 function splitStatement(stmt: string, table: string): string[] {
   const keys = KEYS[table];
   if (!keys) throw new Error(`refused: statement over ${MAX_STATEMENT} bytes in ${table}, which has no key to chunk on`);

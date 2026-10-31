@@ -5,7 +5,7 @@ A version is never edited in place once it has run. A change is then a new direc
 **Prefix** (system block, cached). Each part has trailing whitespace removed, and parts are joined with one blank line:
 
 1. `role.md`
-2. `voice-card.md` (`voice_guide_version` `v1`, brief 49; differs from v0)
+2. `voice-card.md` (`voice_guide_version` `v1`; differs from v0)
 3. `email.md`
 4. `landing-v2.md`
 5. `# Output schemas`, then the JSON of `draft-email.v2` and `draft-landing.v3` from `../../schemas/`, minified with keys in file order

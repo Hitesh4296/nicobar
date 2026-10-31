@@ -1,6 +1,7 @@
-// Spend, Published, Evals: read-only. `page`'s shell replaces `shell` in part 2.
+// Spend, Published, Evals: read-only.
 import { NAV } from '../../contracts/nav.ts';
 import type { RunFormat, Stage, RunStatus } from '../../contracts/types.ts';
+import { isStub } from '../shell.ts';
 
 export interface SpendRow { id: string; stage: Stage; status: RunStatus; expected_usd: number; spent_usd: number; jev_usd: number; cap_run_usd: number; ceiling_usd: number;
   created_at: string; actions: string | null }
@@ -26,7 +27,7 @@ a{color:#27405e}code{font-size:13px}</style><nav>${nav}</nav><main><div class="k
 
 export function renderSpend(rows: SpendRow[], ledger_usd: number): string {
   const body = rows.length === 0 ? '<p>No runs yet.</p>' : table(['Run', 'Stage', 'Status', 'Estimated', 'Spent', 'Jev', 'Cap', 'Ceiling', 'Cap actions'], rows.map((r) => [
-    `<code>${esc(r.id)}</code>`, esc(r.stage), esc(r.status), usd(r.expected_usd), usd(r.spent_usd), usd(r.jev_usd), usd(r.cap_run_usd), usd(r.ceiling_usd), esc(r.actions ?? 'none')]));
+    `<code>${esc(r.id)}</code>`, `${esc(r.stage)}${isStub(r.id) ? ' · stub, nothing billed' : ''}`, esc(r.status), usd(r.expected_usd), usd(r.spent_usd), usd(r.jev_usd), usd(r.cap_run_usd), usd(r.ceiling_usd), esc(r.actions ?? 'none')]));
   return shell('/review/spend', 'Spend · read-only', 'What each run cost', `${body}<p>Spent outside a run: ${usd(ledger_usd)}</p>`);
 }
 
@@ -34,18 +35,28 @@ const PARTS: Record<RunFormat, string[]> = { both: ['email', 'landing_page', 'ca
 
 export function renderPublished(rows: PublishedRow[]): string {
   const body = rows.length === 0 ? '<p>Nothing released yet.</p>' : table(['Customer', 'Approved', 'Released', 'Hash', 'Parts'], rows.map((r) => [
-    `${esc(r.display_name ?? r.customer_id)} <code>${esc(r.customer_id)}</code>`, `${actor(r.approved_by)}<br>${esc(r.approved_at)}`, `${actor(r.released_by)}<br>${esc(r.released_at)}`,
+    `${esc(r.display_name ?? r.customer_id)} <code>${esc(r.customer_id)}</code>${isStub(r.id) ? ' · stub draft' : ''}`, `${actor(r.approved_by)}<br>${esc(r.approved_at)}`, `${actor(r.released_by)}<br>${esc(r.released_at)}`,
     `<code>${esc(r.content_sha256.slice(0, 8))}</code>`,
     PARTS[r.format].map((p) => `<a href="/released/${encodeURIComponent(r.id)}?part=${p}">${p.replace('_', ' ')}</a>`).join('<br>')]));
   return shell('/review/published', 'Published · nothing is sent', 'Released results', body);
 }
 
-/** The report files' shapes are `check`'s and `proof`'s, so this shows what they hold and adds nothing. */
+const scalar = (v: unknown) => v === null || typeof v !== 'object';
+/** An array of rows gets a table of its scalar columns; the nested evidence stays in the file. Anything else is shown as given. */
+function cell(v: unknown): string {
+  if (scalar(v)) return `<code>${esc(v)}</code>`;
+  if (Array.isArray(v) && v.length && v.every((r) => r && typeof r === 'object')) {
+    const cols = Object.keys(v[0]).filter((k) => scalar(v[0][k]));
+    return table(cols.map(esc), v.map((r) => cols.map((k) => esc(r[k]))));
+  }
+  return Array.isArray(v) ? `<code>${esc(JSON.stringify(v))}</code>` : table(['Field', 'Value'], Object.entries(v as object).map(([k, x]) => [esc(k), scalar(x) ? esc(x) : cell(x)]));
+}
+
+/** Shows what the report file holds and adds nothing. */
 function report(name: string, value: unknown): string {
   const head = `<h2>${name}</h2>`;
   if (value === null || typeof value !== 'object') return `${head}<p>${name} not run yet.</p>`;
-  const entries = Object.entries(value);
-  return head + table(['Field', 'Value'], entries.map(([k, v]) => [esc(k), `<code>${esc(typeof v === 'object' ? JSON.stringify(v) : v)}</code>`]));
+  return head + cell(value);
 }
 
 export function renderEvals(reports: { eval: unknown; readiness: unknown }): string {

@@ -1,4 +1,4 @@
-// 46 §3 prep steps 1–4. Step 5 is `run`'s.
+// Prep steps 1–4. Step 5 is the workflow's.
 import type { FailedCode } from '../contracts/codes.ts';
 import type { Catalog, Group, IngestResult, Pick, Pinned, Plan, RecRow, RowKeys, RunFormat, ShapesFile, Signal, Slot } from '../contracts/types.ts';
 import { computeShape } from './shape.ts';

@@ -1,4 +1,4 @@
-// Run routes, 46 §7–8. Every one answers 503 on the link. Actor comes from auth only.
+// Run routes. Every one answers 503 on the link. Actor comes from auth only.
 import capJson from '../../../config/cap.json' with { type: 'json' };
 import shapes from '../../../config/shapes.json' with { type: 'json' };
 import stagesJson from '../../../config/stages.json' with { type: 'json' };
@@ -11,6 +11,7 @@ import { activeVersions } from '../../lib/config/index.ts';
 import { ingestTsv } from '../../lib/ingest.ts';
 import { parseRecs } from '../../lib/recs.ts';
 import { seam } from '../../lib/state/index.ts';
+import { isStub } from '../../ui/shell.ts';
 import type { Ctx, Route } from './list.ts';
 
 const L = () => seam.lib ?? { ingestTsv, parseRecs, activeVersions };
@@ -34,6 +35,7 @@ async function create(c: Ctx): Promise<Response> {
   if ('cap_run_usd' in b) return bad('cap_run_usd is computed, never sent');
   const { run_id, stage, snapshot_id, customers_name, customers_tsv, customers_synthetic, recs_json, preview_sha256 } = b;
   if (typeof run_id !== 'string' || !/^[A-Za-z0-9_-]{1,64}$/.test(run_id)) return bad('run_id');
+  if (env.ANTHROPIC_BASE_URL && !isStub(run_id)) return bad('a run on a stub base URL needs a stub- run id, so the page can label it');
   if (typeof stage !== 'string' || !(stage in stages)) return bad('stage');
   if (typeof snapshot_id !== 'string' || typeof customers_name !== 'string' || typeof customers_tsv !== 'string'
     || typeof customers_synthetic !== 'boolean' || typeof preview_sha256 !== 'string' || !/^[0-9a-z-]+$/.test(preview_sha256) || typeof recs_json !== 'string') return bad('fields');

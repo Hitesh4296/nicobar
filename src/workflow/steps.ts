@@ -1,4 +1,4 @@
-// Step bodies, 46 §7, LLD:1500. The rule for every step: read your own output first, because `restart()` re-enters finished steps.
+// Step bodies. The rule for every step: read your own output first, because `restart()` re-enters finished steps.
 // No `cloudflare:*` import here: contracts/lib.ts reaches this file and node scripts import that.
 import Anthropic from '@anthropic-ai/sdk';
 import rowKeys from '../../data/row_keys.synthetic.json' with { type: 'json' };
@@ -21,7 +21,7 @@ import { checkRendered, e1Event, insertDraft, insertUnits, moveUnit, runBatch, s
 import type { Admission, AnthropicRequest, AppEnv, Catalog, CheckResult, DraftRow, DraftStatus, Envelope, Estimate, Format, Guarded, IngestResult, JevConfig, JevOutcome, ModelDraft, ModelJson,
   Pinned, Plan, PromptFiles, RecFile, RenderedJson, ResultType, RunFormat, Rung, ShapesFile, Stage, UnitStatus, Usage } from '../contracts/types.ts';
 
-// Named imports, not contracts/lib.ts: the Worker entry reaches this file, and that module evaluates every lane at load.
+// Named imports, not contracts/lib.ts: the Worker entry reaches this file, and that module evaluates every module at load.
 const L = (): Pick<Lib, 'ingestTsv' | 'parseRecs' | 'parseRowKeys' | 'loadCatalog' | 'planCustomer' | 'buildRequest' | 'toModelJson' | 'validate' | 'renderAll' | 'renderCatalog' | 'transition'
   | 'j3Input' | 'judgeDraft' | 'jevPreflight' | 'jevReserveOk' | 'loadVersion'> => seam.lib ?? { ingestTsv, parseRecs, parseRowKeys, loadCatalog, planCustomer, buildRequest, toModelJson, validate,
   renderAll, renderCatalog, transition, j3Input, judgeDraft, jevPreflight, jevReserveOk, loadVersion };
@@ -90,7 +90,7 @@ const envelopeOf = (run: RunRow, plan: Plan, cat: Catalog, rung: Rung, carried: 
   snapshot_fetched_at: cat.fetched_at, model: rung.model, setting: rung.id, prompt_version: run.prompt_version, voice_guide_version: run.voice_guide_version,
   validator_version: VALIDATOR_VERSION, carried_from: carried ? 1 : null, carried_part: carried });
 
-/** 46 §3 step 5: the catalog is built here, at $0, so a pick that cannot render fails before admission. */
+/** Prep step 5: the catalog is built here, at $0, so a pick that cannot render fails before admission. */
 function catalogFails(run: RunRow, plan: Plan, cat: Catalog): boolean {
   try {
     const rendered = { email: null, landing_page: null, catalog: L().renderCatalog(plan, cat) };
@@ -186,7 +186,7 @@ async function retryOf(env: AppEnv, run_id: string, key: string, format: RunForm
 }
 
 type Verdict = 'retry' | 'possibly_billed' | 'invalid_request';
-/** LLD:1531: a retry may only follow a call that cannot have been billed. Anything ambiguous is possibly_billed. */
+/** A retry may only follow a call that cannot have been billed. Anything ambiguous is possibly_billed. */
 function classify(e: unknown): Verdict {
   if (e instanceof Anthropic.APIConnectionTimeoutError) return 'possibly_billed';
   if (e instanceof Anthropic.APIConnectionError) return /refused/i.test(String(e.cause ?? e.message)) ? 'retry' : 'possibly_billed';

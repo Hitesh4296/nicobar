@@ -1,4 +1,4 @@
-// Both files are untrusted input: an unparsable one stops the run before it starts (46 §3), so these throw.
+// Both files are untrusted input: an unparsable one stops the run before it starts, so these throw.
 import type { ReasonCode, RecFile, RecRow, RowKeys } from '../contracts/types.ts';
 
 const REASONS: ReasonCode[] = ['OCCASION_MATCH', 'SAME_CLASS_NEW', 'SAME_MATERIAL', 'TRIP_TAG', 'FALLBACK_NON_OCCASION', 'HAND_SET', 'NEW_USER_PRIOR'];

@@ -1,6 +1,6 @@
 # Cost configuration: sources and status
 
-Four files, typed in `.agent/atlas/46-contracts.md` §6 (`Prices`, `Rung`, `CapConfig`, `StagesFile`). US dollars per million tokens. Every format key is `both`, `email`, `landing_page`. JSON cannot carry comments, so the sources are here. Every token figure is `[assume]` until stage 0 or the first pairs replace it; `cap.json` stays `measured: false` until then.
+Four files, typed in `src/contracts/types.ts` (`Prices`, `Rung`, `CapConfig`, `StagesFile`). US dollars per million tokens. Every format key is `both`, `email`, `landing_page`. JSON cannot carry comments, so the sources are here. Every token figure is `[assume]` until stage 0 or the first pairs replace it; `cap.json` stays `measured: false` until then.
 
 ## `prices.json` `[verified 2026-11-01]`
 
@@ -19,7 +19,7 @@ Opened https://platform.claude.com/docs/en/about-claude/pricing. All rows unchan
 
 ## `rungs.json`, `cap.json`
 
-`E_out = V + T`, `max_tokens = 3 × E_out`. `V`: email 250, landing_page 500, both 750 (atlas 42 §6). One `T` per rung, the same for every format. All `T` are `[assume, placeholder]`.
+`E_out = V + T`, `max_tokens = 3 × E_out`. `V`: email 250, landing_page 500, both 750 (the cost plan). One `T` per rung, the same for every format. All `T` are `[assume, placeholder]`.
 
 | rung | T | max_tokens both / email / landing_page | `callWorst` both |
 |---|---|---|---|
@@ -33,12 +33,12 @@ Opened https://platform.claude.com/docs/en/about-claude/pricing. All rows unchan
 
 `callWorst` = `(S × write_5m + U_design_max × in + max_tokens × out) ÷ 1e6`. Default, both: `(7,500 + 2,676 + 82,500) ÷ 1e6 = $0.0927`.
 
-**6,150 vs 6,000:** 6,150 was my arithmetic error in tally 30 §4 (LLD:497 copied it). The old basis gave `3 × (1,500 + 400 + 100) = 6,000`. Both are now superseded: at T 2,000 landing_page is `3 × 2,500 = 7,500`.
+**6,150 vs 6,000:** 6,150 was an arithmetic error. The old basis gave `3 × (1,500 + 400 + 100) = 6,000`. Both are now superseded: at T 2,000 landing_page is `3 × 2,500 = 7,500`.
 
 | field | value | derivation |
 |---|---|---|
-| `S` | 3,000, all keys | atlas 42 §6; quill 45 got about 3,100 by chars ÷ 4. One prefix for every format (R97). The schema's injected system prompt is outside that count `[verified 2026-11-01, structured-outputs page: it costs tokens like any system prompt]`. Stage 0 counts it per schema |
-| `U_design_max` | 1,338, all keys | 1.25 × 1,070, rounded up. Same suffix for every format (quill 45) |
+| `S` | 3,000, all keys | The cost plan; the prompt came to about 3,100 by chars ÷ 4. One prefix for every format (R97). The schema's injected system prompt is outside that count `[verified 2026-11-01, structured-outputs page: it costs tokens like any system prompt]`. Stage 0 counts it per schema |
+| `U_design_max` | 1,338, all keys | 1.25 × 1,070, rounded up. Same suffix for every format |
 | `U_hard` | 26,760, all keys | 20 × `U_design_max` (R40) |
 | `sha256` | placeholder | stage 0 writes it |
 
@@ -60,7 +60,7 @@ Keys are `Stage`. Stages 0 and G are previews with no run row, so they have no k
 | J3, not a stage | | 0.03 | 0.25 | 0.25 reserve |
 | **total** | | **2.56** | **4.57** | **10.27** |
 
-Pair: expected `(660 + 2,140 + 27,500) ÷ 1e6 × 1.3 = $0.0394`; forecast `2 × (7,500 + 2,140 + 27,500) ÷ 1e6 = $0.0743`; bound `2 × 0.0927 = $0.1854`. Haiku bound `2 × 0.00163 × 20`. Atlas 42 §6 says about $10.10; this table gives $10.27. Only the expected and forecast columns reproduce atlas exactly.
+Pair: expected `(660 + 2,140 + 27,500) ÷ 1e6 × 1.3 = $0.0394`; forecast `2 × (7,500 + 2,140 + 27,500) ÷ 1e6 = $0.0743`; bound `2 × 0.0927 = $0.1854`. Haiku bound `2 × 0.00163 × 20`. The cost plan says about $10.10; this table gives $10.27. Only the expected and forecast columns reproduce the plan exactly.
 
 ## Retry cache miss
 
@@ -80,5 +80,5 @@ Net −$0.02 to +$0.03 on F's 0.79, inside the ×1.3. The forecast and bound alr
 
 1. `T`, `S` and `U`: stage 0 and the first pairs. Whichever way they fall, reset `cap.json` and `rungs.json` once and restage.
 2. Whether the retry adds a new write or the injected prompt sits after the breakpoint: `usage.cache_read_input_tokens` on the first real retry.
-3. `$0.17` gap to atlas's $10.10 bound: atlas to confirm which it meant.
-4. R2 free allowance for 14 MB (atlas 42 §6): not checked here.
+3. `$0.17` gap to the cost plan's $10.10 bound: unconfirmed.
+4. R2 free allowance for 14 MB: not checked here.
