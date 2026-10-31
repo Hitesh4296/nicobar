@@ -95,7 +95,7 @@ export async function draftOne(o: Options, d: Deps): Promise<{ spent_usd: number
     spent_usd += charged_usd;
     const text = message.content.flatMap((b) => (b.type === 'text' ? [b.text] : [])).join('');
     const model_json = toModelJson(text, partsOf(plan.format));
-    const envelope: Envelope = { customer_id: key, run_id, format: plan.format, picks: plan.picks.map(({ slot, product_id }) => ({ slot, product_id })),
+    const envelope: Envelope = { customer_id: key, display_name: plan.display_name, run_id, format: plan.format, picks: plan.picks.map(({ slot, product_id }) => ({ slot, product_id })),
       occasion_key: plan.occasion_key, shape: plan.shape, snapshot_id: cat.snapshot_id, snapshot_fetched_at: cat.fetched_at, model: rung.model, setting: rung.id,
       prompt_version: o.promptId, voice_guide_version: o.promptId, validator_version: 'unset', carried_from: null, carried_part: null };
     const record = { plan, envelope, request_sha256: sha256Hex(JSON.stringify(req)), message, model_json, checks: null as unknown };
