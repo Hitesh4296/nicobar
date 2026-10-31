@@ -60,7 +60,7 @@ export interface Rung { id: string; model: string; thinking: {type:'between_tool
   max_tokens: Record<RunFormat,number>; passed: Partial<Record<RunFormat,boolean>> }
 export interface AnthropicRequest { model: string; max_tokens: number; system: unknown[]; messages: unknown[]; thinking?: unknown;
   output_config: { effort?: string; format: { type:'json_schema'; schema: object } } }
-export interface Envelope { customer_id: string; run_id: string; format: RunFormat; picks: {slot: Slot; product_id: string}[];
+export interface Envelope { customer_id: string; display_name: string|null; run_id: string; format: RunFormat; picks: {slot: Slot; product_id: string}[];
   occasion_key: string|null; shape: Shape|null; snapshot_id: string; snapshot_fetched_at: string; model: string; setting: string;
   prompt_version: string; voice_guide_version: string; validator_version: string;
   carried_from: 1|null; carried_part: Format|null }
