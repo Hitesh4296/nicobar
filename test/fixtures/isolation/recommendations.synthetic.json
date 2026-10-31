@@ -2,7 +2,7 @@
  "version": "recommendations/v1",
  "synthetic": true,
  "as_of": "2026-10-29",
- "snapshot_id": "f88b7db52538870d",
+ "snapshot_id": "2026-10-29-67819ca378f4",
  "rule": "isolation fixture: picks copied from real rows; c-badpick p4 is a real product with no available variant",
  "rows": [
   {

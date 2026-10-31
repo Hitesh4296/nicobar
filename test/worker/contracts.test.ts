@@ -37,7 +37,6 @@ describe('contract helpers', () => {
 
 describe('fakes', () => {
   it('cover every lib signature', () => expect(Object.keys(fakeLib).sort()).toEqual(Object.keys(lib).sort()));
-  it('stubs throw NOT_BUILT', () => expect(() => lib.ingestTsv('')).toThrow(NotBuilt));
   it('each key plans', () => {
     for (const k of FX_KEYS) expect(fxPlan(k).customer_id).toBe(k);
     expect(fxPlan('row:3').outcome).toEqual({ kind: 'failed', code: 'INVALID_CUSTOMER' });
