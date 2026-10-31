@@ -7,7 +7,7 @@ type Section = Record<string, unknown>;
 type Who = Pick<Plan, 'display_name' | 'occasion'>;
 const list = (v: unknown): Section[] => (Array.isArray(v) ? v.filter((x) => x && typeof x === 'object') as Section[] : []);
 
-const VIEW = (p: Product) => `<a class="nb-link" href="${esc(p.url)}"><span>View on nicobar.com</span></a>`;
+const VIEW = (p: Product, slot: unknown) => `<a class="nb-link" data-slot="${esc(slot)}" href="${esc(p.url)}"><span>View on nicobar.com</span></a>`;
 
 /** `who` carries the occasion, which `Envelope` lacks. Without it the eyebrow is the name alone; see the handover. */
 export function renderLanding(d: ExpandedDraft, cat: Catalog, envelope: Envelope, who?: Who): string {
@@ -20,7 +20,7 @@ export function renderLanding(d: ExpandedDraft, cat: Catalog, envelope: Envelope
 
   const card = (slot: unknown, caption?: unknown): string => {
     const p = product(slot);
-    return p ? `<a class="nb-card" href="${esc(p.url)}">${pickImg(p, String(slot), 800)}<span class="nb-title">${esc(p.title)}</span>${caption === undefined ? '' : `<p class="nb-cap">${text(caption)}</p>`}</a>` : '';
+    return p ? `<a class="nb-card" data-slot="${esc(slot)}" href="${esc(p.url)}">${pickImg(p, String(slot), 800)}<span class="nb-title">${esc(p.title)}</span>${caption === undefined ? '' : `<p class="nb-cap">${text(caption)}</p>`}</a>` : '';
   };
 
   const section = (s: Section): string => {
@@ -30,7 +30,7 @@ export function renderLanding(d: ExpandedDraft, cat: Catalog, envelope: Envelope
         if (!p) return '';
         title ||= String(expanded.get(String(s.heading)) ?? s.heading);
         return `<section class="nb-hero nb-hero--split"><div>${pickImg(p, String(s.slot), 1200, false)}</div><div class="nb-hero-text">${eyebrow(name)}<h1 class="nb-h1">${text(s.heading)}</h1>`
-          + `<p class="nb-lede">${text(s.line)}</p><p class="nb-cap">${esc(p.title)}</p>${VIEW(p)}</div></section>`;
+          + `<p class="nb-lede">${text(s.line)}</p><p class="nb-cap">${esc(p.title)}</p>${VIEW(p, s.slot)}</div></section>`;
       }
       case 'story': return `<section class="nb-section nb-text"><p>${text(s.text)}</p></section>`;
       case 'product_grid': {
@@ -48,13 +48,13 @@ export function renderLanding(d: ExpandedDraft, cat: Catalog, envelope: Envelope
       case 'packing_list':
         return `<section class="nb-section nb-packing">${list(s.items).map((i) => {
           const p = product(i.slot);
-          return p ? `<a class="nb-row" href="${esc(p.url)}">${pickImg(p, String(i.slot), 72)}<span><span class="nb-title">${esc(p.title)}</span><span class="nb-cap">${text(i.note)}</span></span></a>` : '';
+          return p ? `<a class="nb-row" data-slot="${esc(i.slot)}" href="${esc(p.url)}">${pickImg(p, String(i.slot), 72)}<span><span class="nb-title">${esc(p.title)}</span><span class="nb-cap">${text(i.note)}</span></span></a>` : '';
         }).join('')}</section>`;
       case 'feature': {
         const p = product(s.slot);
         if (!p) return '';
         const reverse = features++ % 2 === 1 ? ' nb-split--reverse' : '';
-        return `<section class="nb-section nb-split${reverse}"><div class="nb-split-text"><h2 class="nb-h2">${esc(p.title)}</h2><p class="nb-lede">${text(s.line)}</p>${VIEW(p)}</div>`
+        return `<section class="nb-section nb-split${reverse}"><div class="nb-split-text"><h2 class="nb-h2">${esc(p.title)}</h2><p class="nb-lede">${text(s.line)}</p>${VIEW(p, s.slot)}</div>`
           + `<div class="nb-split-img">${pickImg(p, String(s.slot), 1000)}</div></section>`;
       }
       default: return '';

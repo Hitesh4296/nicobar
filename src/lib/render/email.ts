@@ -6,8 +6,8 @@ const INK = 'color:#2b2622;font-family:Georgia,serif';
 const card = (slot: string, p: Product) => {
   const href = `https://www.nicobar.com/products/${esc(p.handle)}`;
   const img = [...p.images].sort((a, b) => a.position - b.position)[0];
-  return `<td width="33%" valign="top" style="padding:8px">${img ? `<a href="${href}"><img data-slot="${slot}" src="${esc(img.src)}" alt="${esc(p.title)}" width="170" style="display:block;width:100%;height:auto;border:0"></a>` : ''}`
-    + `<a href="${href}" style="${INK};font-size:13px;text-decoration:none">${esc(p.title)}</a></td>`;
+  return `<td width="33%" valign="top" style="padding:8px">${img ? `<a data-slot="${slot}" href="${href}"><img data-slot="${slot}" src="${esc(img.src)}" alt="${esc(p.title)}" width="170" style="display:block;width:100%;height:auto;border:0"></a>` : ''}`
+    + `<a data-slot="${slot}" href="${href}" style="${INK};font-size:13px;text-decoration:none">${esc(p.title)}</a></td>`;
 };
 
 /** Fixed template: subject, preheader, body, cards for p1 to p3. Every title, image and link comes from the snapshot; no price. */

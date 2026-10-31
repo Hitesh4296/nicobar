@@ -1,8 +1,11 @@
 // page lane tests 1, 3, 7 (structure), 8: the renderers, against fixture catalog rows.
 import { describe, expect, it } from 'vitest';
-import { renderCatalog } from '../../src/lib/render/catalog.ts';
+import { readCards, renderCatalog } from '../../src/lib/render/catalog.ts';
 import { renderLanding } from '../../src/lib/render/landing-v2.ts';
 import { imagePaths } from '../../src/lib/render/index.ts';
+import { renderEmail } from '../../src/lib/render/email.ts';
+import { expand } from '../../src/lib/render/expand.ts';
+import { validateRendered } from '../../src/lib/check/index.ts';
 import { fxCatalog } from '../fakes/index.ts';
 import { fxCase, expandLanding } from '../../scripts/seed.ts';
 import type { Plan } from '../../src/contracts/types.ts';
@@ -81,6 +84,33 @@ describe('test 3: alt = title, X4 holds', () => {
     for (const p of c.plan.picks) expect(html).toContain(`href="${cat.rows.get(p.product_id)!.url}"`);
     expect(html).not.toMatch(/OCCASION_MATCH|NEW_USER_PRIOR|₹/);
   });
+});
+
+describe('X1 link integrity: every pick link is tied to its card', () => {
+  const c = fxCase('GOOD-c16');
+  const parts = {
+    email: renderEmail(expand({ subject: 'S', preheader: 'P', body: 'B' }, 'email', c.envelope, cat), cat, c.envelope),
+    landing_page: landing('GOOD-c16', {}, TREE).html,
+    catalog: renderCatalog(c.plan, cat),
+  };
+  const mismatches = (part: keyof typeof parts, html: string) =>
+    validateRendered({ email: null, landing_page: null, catalog: '', [part]: html }, c.envelope, cat, c.plan)
+      .filter((r) => r.code === 'LINK_MISMATCH');
+
+  it('the review page still reads the marked catalog', () => expect(readCards(parts.catalog)).toHaveLength(c.plan.picks.length));
+  for (const part of ['email', 'landing_page', 'catalog'] as const) {
+    it(`${part}: clean render has no mismatch`, () => expect(mismatches(part, parts[part])).toEqual([]));
+    it(`${part}: each link, swapped to another pick's handle, fails LINK_MISMATCH`, () => {
+      const links = [...parts[part].matchAll(/<a\b[^>]*href="[^"]*\/products\/([^"]+)"[^>]*>/g)];
+      expect(links.length).toBeGreaterThan(0);
+      for (const link of links) {
+        const other = c.plan.picks.map((p) => cat.rows.get(p.product_id)!.handle).find((h) => h !== link[1])!;
+        const tag = link[0].replace(`/products/${link[1]}"`, `/products/${other}"`);
+        const html = parts[part].slice(0, link.index) + tag + parts[part].slice(link.index + link[0].length);
+        expect(mismatches(part, html), link[0]).toHaveLength(1);
+      }
+    });
+  }
 });
 
 describe('eyebrow, code only', () => {

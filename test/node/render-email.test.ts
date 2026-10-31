@@ -60,7 +60,7 @@ describe('7 email validates against p1–p3', () => {
   const prod = (i: number) => cat.rows.get(env.picks[i].product_id)!;
   it('shows p1 to p3 and no other pick, though the plan has four', () => {
     expect(env.picks).toHaveLength(4);
-    expect([...html().matchAll(/data-slot="(p\d)"/g)].map((m) => m[1])).toEqual(['p1', 'p2', 'p3']);
+    expect([...html().matchAll(/<img data-slot="(p\d)"/g)].map((m) => m[1])).toEqual(['p1', 'p2', 'p3']);
     expect(html()).not.toContain(prod(3).handle);
   });
   it('every image is the pick\'s own, every link its product page (X2, X3)', () => {
@@ -89,7 +89,7 @@ describe('7 email validates against p1–p3', () => {
     const p = { ...prod(0), images: [] } as Product;
     const c: Catalog = { ...cat, rows: new Map(cat.rows).set(p.id, p) };
     const h = renderEmail(expand(email, 'email', env, c), c, env);
-    expect([...h.matchAll(/data-slot="(p\d)"/g)].map((m) => m[1])).toEqual(['p2', 'p3']);
+    expect([...h.matchAll(/<img data-slot="(p\d)"/g)].map((m) => m[1])).toEqual(['p2', 'p3']);
     expect(h).toContain(`/products/${p.handle}`);
   });
   it('uses the lowest position image', () => {
