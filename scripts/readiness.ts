@@ -21,15 +21,20 @@ const json = (p: string) => JSON.parse(readFileSync(p, 'utf8'));
 
 // ---- verdicts, pure over evidence ----
 export type Verdict = 'PASS' | 'FAIL' | 'VOID';
-export interface Line { id: string; verdict: Verdict; why: string; red: string; seam_red: string[]; output: unknown; seam_output: unknown }
+export interface Line { id: string; verdict: Verdict; why: string; red: string; seam_red: string[]; output: unknown; seam_output: unknown; clause_reds?: ClauseRed[] }
+/** One clause driven red on its own run. `must`: this run has to open the clause, or the line is VOID. A rung without it records which layer still held. */
+export interface ClauseRed { line: string; clause: string; via: string; must: boolean; opened: boolean; failures: string[]; evidence: unknown }
 type Check = (e: any) => string[];   // returns the broken facts; [] holds
 const eq = (name: string, got: unknown, want: unknown) => (got === want ? [] : [`${name}: got ${JSON.stringify(got)}, want ${JSON.stringify(want)}`]);
 
-/** R1. finished: drafted before the kill. calls_after: stub calls per key after the kill. A repeat is a key also called before it: first calls for untouched customers are the resume doing its job. */
+/** R1. finished: drafted before the kill. calls_after: stub calls per key after the kill. A repeat is a key also called before it: first calls for untouched customers are the resume doing its job.
+ * In flight: called before the kill and not finished. Each gets exactly one call after it, and only those may be billed twice (ward 54 finding 8). */
 const R1: Check = (e) => [
   ...Object.keys(e.calls_after).filter((k) => e.finished.includes(k)).map((k) => `finished ${k} called again`),
   ...eq('every unit terminal', e.open, 0),
   ...(e.called_before.filter((k: string) => k in e.calls_after).length > GEN_CONCURRENCY ? [`${e.called_before.filter((k: string) => k in e.calls_after).length} in-flight repeats > ${GEN_CONCURRENCY}`] : []),
+  ...e.called_before.filter((k: string) => !e.finished.includes(k) && e.calls_after[k] !== 1).map((k: string) => `in-flight ${k} called ${e.calls_after[k] ?? 0} times after the kill, want 1`),
+  ...e.billed_twice.filter((b: any) => !e.called_before.includes(b.key) || e.finished.includes(b.key)).map((b: any) => `billed twice outside in-flight: ${b.key}`),
 ];
 /** R2. A pause, a kill, a restart: attempt 1 is possibly_billed, and each stub call has its own attempt row. */
 const R2: Check = (e) => [...eq('attempt 1 call_state', e.attempt1, 'possibly_billed'), ...eq('stub calls = attempt rows', e.calls, e.attempts)];
@@ -53,8 +58,10 @@ const L4: Check = (e) => [...eq('release on in_review', e.release_in_review, 409
 /** A check never seen failing is VOID. Each row: evidence that must hold, then a planted break that must fail. */
 const iso = { 'c-ok-1': 'drafted', 'c-throw': 'failed:INTERNAL_ERROR', 'row:*': 'failed:INVALID_CUSTOMER' };
 export const PLANTED: Record<string, { check: Check; good: unknown; bad: unknown[] }> = {
-  R1: { check: R1, good: { finished: ['d01'], called_before: ['d01', 'd02'], calls_after: { d02: 1, d03: 1, d04: 1, d05: 1, d06: 1 }, open: 0 }, bad: [{ finished: ['d01'], called_before: ['d01'], calls_after: { d01: 1 }, open: 0 },
-    { finished: [], called_before: ['a', 'b', 'c', 'd', 'e'], calls_after: { a: 1, b: 1, c: 1, d: 1, e: 1 }, open: 0 }, { finished: [], called_before: [], calls_after: {}, open: 1 }] },
+  R1: { check: R1, good: { finished: ['d01'], called_before: ['d01', 'd02'], calls_after: { d02: 1, d03: 1, d04: 1, d05: 1, d06: 1 }, open: 0, billed_twice: [{ key: 'd02', b: 2 }] }, bad: [{ finished: ['d01'], called_before: ['d01'], calls_after: { d01: 1 }, open: 0, billed_twice: [] },
+    { finished: [], called_before: ['a', 'b', 'c', 'd', 'e'], calls_after: { a: 1, b: 1, c: 1, d: 1, e: 1 }, open: 0, billed_twice: [] }, { finished: [], called_before: [], calls_after: {}, open: 1, billed_twice: [] },
+    { finished: ['d01'], called_before: ['d01', 'd02'], calls_after: { d02: 2 }, open: 0, billed_twice: [] }, { finished: ['d01'], called_before: ['d01', 'd02'], calls_after: {}, open: 0, billed_twice: [] },
+    { finished: ['d01'], called_before: ['d01', 'd02'], calls_after: { d02: 1 }, open: 0, billed_twice: [{ key: 'd01', b: 2 }] }, { finished: ['d01'], called_before: ['d01', 'd02'], calls_after: { d02: 1, d09: 1 }, open: 0, billed_twice: [{ key: 'd09', b: 2 }] }] },
   R2: { check: R2, good: { attempt1: 'possibly_billed', calls: 2, attempts: 2 }, bad: [{ attempt1: 'answered', calls: 2, attempts: 2 }, { attempt1: 'possibly_billed', calls: 2, attempts: 1 }] },
   R3: { check: R3, good: { second_post: 409, approve_events: 1, release_events: 1, draft_id: 'r:c:v1', want_draft_id: 'r:c:v1' },
     bad: [{ second_post: 200, approve_events: 1, release_events: 1, draft_id: 'a', want_draft_id: 'a' }, { second_post: 409, approve_events: 2, release_events: 1, draft_id: 'a', want_draft_id: 'a' }] },
@@ -181,17 +188,18 @@ async function start(c: Ctx, id: string, f: Input) {
 }
 const within = <T>(p: Promise<T>, what: string) => Promise.race([p, sleep(POLL_S * 1000).then(() => { throw new Error(`no ${what} in ${POLL_S}s`); })]);
 const openOf = (state: string, id: string) => unitsOf(state, id).filter((u) => !['drafted', 'failed', 'skipped'].includes(u.status)).length;
-/** Kill at the 7th answer. Green: restart. Red: skip the restart and rerun the customers as a new run, which is what a resume must not be. */
-async function driveR1(c: Ctx, red = false) {
+/** Kill at the 7th answer. Green: restart. Red: skip the restart and rerun the customers as a new run, which is what a resume must not be. `busy`: 429 one in-flight key after the kill, so it alone is called twice. */
+async function driveR1(c: Ctx, red = false, busy = false) {
   const id = c.id(red ? 'r1-red' : 'r1'); let dev = await up(c.state); let killed!: () => void;
+  let mark = 0, called_before: string[] = [];
   const at7 = new Promise<void>((ok) => { killed = ok; });
   c.calls.length = 0;
-  c.stub.onAnswer = (_, n) => { if (n >= 7) { c.stub.onAnswer = undefined; killTree(dev); killed(); } };   // >=: calls overlap, so the count can step past 7
+  c.stub.onAnswer = (_, n) => { if (n >= 7) { c.stub.onAnswer = undefined; mark = c.calls.length; called_before = [...new Set(c.calls.map((x) => x.key))]; killTree(dev); killed(); } };   // >=: calls overlap, so the count can step past 7
   await start(c, id, c.f.dur);
   await within(at7, 'the 7th answer');
-  const mark = c.calls.length, called_before = [...new Set(c.calls.map((x) => x.key))];
   await sleep(1000);
   const finished = unitsOf(c.state, id).filter((u) => u.status === 'drafted').map((u) => u.key);
+  if (busy) c.stub.busy = new Set(called_before.filter((k) => !finished.includes(k)).slice(0, 1));
   dev = await up(c.state);
   if (red) { const again = `${id}-new`; await start(c, again, c.f.dur); await done(c.state, again); }
   else { const r = await post(`/api/runs/${id}/restart`, {}); if (!r.ok) throw new Error(`restart ${r.status} ${await r.text()}`); await done(c.state, id); }
@@ -284,6 +292,84 @@ async function driveR7Red(c: Ctx) {
   return evidenceR7(c.state, id);
 }
 
+// ---- patched runs, line 4 only, by the parent's word (R116) ----
+// No fault or stub reaches the gate, so each rung patches out/readiness/tree for one wrangler, or rebuilds `drafts` from migrations/0001_core.sql minus named CHECKs in a throwaway copy of the state.
+// The tree is restored from src after each rung and must match before the green drive. Rungs drop one more layer each, so the report shows what actually held.
+const STATE_TS = 'src/lib/state/index.ts', REVIEW_TS = 'src/worker/routes/review.ts';
+type Patch = [file: string, from: string, to: string];
+const NO_EDGE_CHECK: Patch = [STATE_TS, 'if (!d || d.status !== e.from || !e.who.includes(actor.kind)) return wrong();', 'if (!d || !e.who.includes(actor.kind)) return wrong();'];
+const NO_SQL_STATUS: Patch[] = [[STATE_TS, 'WHERE id = ? AND status = ? ${guard}`)', 'WHERE id = ? ${guard}`)'], [STATE_TS, '...head[1], draft_id, e.from, ...(guard', '...head[1], draft_id, ...(guard']];
+const NO_E7_GUARD: Patch = [STATE_TS, "edge === 'E7' ? 'AND approved_sha256 = ? AND content_sha256 = approved_sha256' : ''", "''"];
+const NO_RELEASED_HASH: Patch = [REVIEW_TS, "if (await contentSha256(row.envelope_json, row.model_json, row.rendered_json) !== row.approved_sha256) return fail(409, 'HASH_MISMATCH');\n  const body", 'const body'];
+const CK_APPROVED = "  CHECK ((status IN ('approved','released')) = (approved_by IS NOT NULL AND approved_sub IS NOT NULL\n                                               AND approved_at IS NOT NULL AND approved_sha256 IS NOT NULL)),\n";
+const CK_RELEASED = "  CHECK ((status = 'released') = (released_by IS NOT NULL AND released_at IS NOT NULL)),\n";
+interface Rung { id: string; clause: string; open: (g: any) => boolean; must?: boolean; code: Patch[]; ddl: string[] }
+const stateOpen = (g: any) => g.release_in_review === 200, ddlOpen = (g: any) => g.status_update === 'applied', hashOpen = (g: any) => g.released_after === 200;
+const STATE = 'release on in_review', DDL = 'status-only UPDATE', HASH = '/released still 200';
+export const RUNGS: Rung[] = [
+  { id: 'state-1-edge-check', clause: STATE, open: stateOpen, code: [NO_EDGE_CHECK], ddl: [] },
+  { id: 'state-2-sql-status', clause: STATE, open: stateOpen, code: [NO_EDGE_CHECK, ...NO_SQL_STATUS], ddl: [] },
+  { id: 'state-3-e7-guard', clause: STATE, open: stateOpen, code: [NO_EDGE_CHECK, ...NO_SQL_STATUS, NO_E7_GUARD], ddl: [] },
+  { id: 'state-4-ddl-approved', clause: STATE, open: stateOpen, must: true, code: [NO_EDGE_CHECK, ...NO_SQL_STATUS, NO_E7_GUARD], ddl: [CK_APPROVED] },
+  { id: 'ddl-1-approved', clause: DDL, open: ddlOpen, code: [], ddl: [CK_APPROVED] },
+  { id: 'ddl-2-released', clause: DDL, open: ddlOpen, must: true, code: [], ddl: [CK_APPROVED, CK_RELEASED] },
+  { id: 'hash-1-released-route', clause: HASH, open: hashOpen, must: true, code: [NO_RELEASED_HASH], ddl: [] },
+];
+const treeDiff = () => ['src', 'migrations'].map((d) => spawnSync('diff', ['-rq', join(ROOT, d), join(TREE, d)], { encoding: 'utf8' }).stdout).join('');
+function patchTree(code: Patch[]) {
+  const text = new Map<string, string>();
+  for (const [file, from, to] of code) {
+    const t = text.get(file) ?? readFileSync(join(TREE, file), 'utf8');
+    if (!t.includes(from)) throw new Error(`patch no longer applies: ${from}`);
+    text.set(file, t.replace(from, () => to));
+  }
+  for (const [file, t] of text) writeFileSync(join(TREE, file), t);
+  return [...text.keys()];
+}
+/** What the patched migration would have built, on the rows that exist. */
+function rebuildDrafts(state: string, drop: string[]) {
+  const m = /CREATE TABLE drafts \([\s\S]*?approved_sha256 = content_sha256\)\);/.exec(readFileSync(join(ROOT, 'migrations/0001_core.sql'), 'utf8'));
+  if (!m) throw new Error('drafts DDL not found');
+  let ddl = m[0];
+  for (const d of drop) { if (!ddl.includes(d)) throw new Error(`DDL patch no longer applies: ${d}`); ddl = ddl.replace(d, ''); }
+  const file = `${state}.rebuild.sql`;
+  writeFileSync(file, `${ddl.replace('CREATE TABLE drafts', 'CREATE TABLE drafts_x')}\nINSERT INTO drafts_x SELECT * FROM drafts;\nDROP TABLE drafts;\nALTER TABLE drafts_x RENAME TO drafts;\nCREATE UNIQUE INDEX one_live ON drafts(run_id, customer_id) WHERE status IN ('in_review','approved','released');\n`);
+  execFileSync('npx', ['wrangler', 'd1', 'execute', 'nicobar', '--local', '--persist-to', state, '--file', file], { cwd: ROOT, stdio: ['ignore', 'pipe', 'pipe'] });
+  rmSync(file);
+}
+/** The real driveGate on x429, on a copy of the state, on the patched tree. The tree comes back from src whatever happens. */
+async function driveRung(c: Ctx, r: Rung): Promise<ClauseRed> {
+  const state = join(OUT, `state-${r.id}`);
+  const out = { line: 'L4', clause: r.clause, via: `${r.id}: patched ${[...new Set(r.code.map((p) => p[0]))].join(', ') || 'no code'}; dropped ${r.ddl.length} DDL CHECK`, must: !!r.must };
+  cpSync(c.state, state, { recursive: true });
+  try {
+    if (r.ddl.length) rebuildDrafts(state, r.ddl);
+    patchTree(r.code);
+    const { gate } = await driveGate({ ...c, state }, 'x429');
+    return { ...out, opened: r.open(gate), failures: L4(gate), evidence: gate };
+  } catch (e) {
+    for (const p of [...live]) killTree(p);
+    return { ...out, opened: false, failures: [], evidence: { error: (e as Error).message } };
+  } finally {
+    for (const f of new Set(r.code.map((p) => p[0]))) cpSync(join(ROOT, f), join(TREE, f));
+    rmSync(state, { recursive: true, force: true });
+  }
+}
+/** R2 and R5's call-count clauses: the stub 429s a key's first call, so a real run makes one call more than the assertion allows. Shows the count reads real calls. A step retry under one row is the design, not a fault. */
+async function driveBusy(c: Ctx, stub: StubOptions, line: string, clause: string, key: string, check: Check, drive: (x: Ctx) => Promise<any>): Promise<ClauseRed> {
+  const out = { line, clause, via: `stub: first call for ${key} is a 429`, must: true };
+  stub.busy = key.startsWith('one ') ? undefined : new Set([key]);
+  try {
+    const e = await drive({ ...c, id: (x) => c.id(`${x}-busy`) }), failures = check(e);
+    return { ...out, opened: failures.length > 0 && failures.every((f) => f.startsWith(clause)), failures, evidence: e };
+  } catch (e) { for (const p of [...live]) killTree(p); return { ...out, opened: false, failures: [], evidence: { error: (e as Error).message } }; }
+  finally { stub.busy = undefined; }
+}
+function withClauses(l: Line, all: ClauseRed[]): Line {
+  const mine = all.filter((c) => c.line === l.id), closed = mine.filter((c) => c.must && !c.opened).map((c) => c.via);
+  return { ...l, clause_reds: mine, ...(l.verdict === 'PASS' && closed.length ? { verdict: 'VOID' as const, why: `clause not seen red: ${closed.join('; ')}` } : {}) };
+}
+
 const IDS = Object.keys(PLANTED);
 function report(lines: Line[], s_for_stub?: unknown) {
   mkdirSync(join(ROOT, 'reports'), { recursive: true });
@@ -350,17 +436,27 @@ async function main() {
     const r7red = await step('R7 red: pause, mark-stopped', () => driveR7Red(c));
     const r1red = await step('R1 red: new run instead of restart', () => driveR1(c, true));
     const r1 = await step('R1', () => driveR1(c));
+    // finding 8 alone: only the new clause may fire on this run
+    const inflight = await driveBusy(c, stub, 'R1', 'in-flight', 'one in-flight key', R1, (x) => driveR1(x, false, true));
+    console.log(JSON.stringify([inflight.clause, inflight.opened, inflight.failures]));
     const r2red = await step('R2 red: no pause, no kill', () => driveR2(c, true));
     const r2 = await step('R2', () => driveR2(c));
     const r5 = await step('R5', () => driveR5(c, c.f.retry, 'r5'));
     const r5red = await step('R5 red: stub answers worse', () => driveR5(c, c.f.retryRed, 'r5-red'));
     const gRed = await step('R3+L4 red: gate on a failed draft', () => driveGate(c, 'xfail'));
-    const g = await step('R3+L4', () => driveGate(c, 'x429'));
+    const reds: ClauseRed[] = [inflight];
+    for (const r of RUNGS) { console.log(`rung ${r.id} ${new Date().toISOString().slice(11, 19)}`); const x = await driveRung(c, r); reds.push(x); console.log(`  opened ${x.opened}: ${x.failures.join('; ')} ${JSON.stringify(x.evidence).slice(0, 400)}`); }
+    reds.push(await driveBusy(c, stub, 'R2', 'stub calls = attempt rows', 'd03', R2, driveR2));
+    reds.push(await driveBusy(c, stub, 'R5', 'refusal stub calls', 'xrefuse', R5, (x) => driveR5(x, c.f.retry, 'r5')));
+    console.log(JSON.stringify(reds.slice(-2).map((x) => [x.clause, x.opened, x.failures])));
+    const tree_diff_before_green = treeDiff();
+    console.log(`tree against src before green: ${tree_diff_before_green || 'identical'}`);
+    const g = await step('R3+L4', async () => { if (tree_diff_before_green) throw new Error(`tree not restored: ${tree_diff_before_green}`); return driveGate(c, 'x429'); });
     const part = (x: Got, k: 'gate' | 'idem'): Got => ('e' in x ? { e: x.e[k] } : x);
     const r6 = await step('R6', () => driveR6(c));
     const r6red = await step('R6 red: count_tokens under-reports', () => driveR6(c, true));
     lines = [verdict('R1', r1, r1red, proof), verdict('R2', r2, r2red, proof), verdict('R3', part(g, 'idem'), part(gRed, 'idem'), proof), verdict('R4', r4, r4red, proof), verdict('R5', r5, r5red, proof),
-      verdict('R6', r6, r6red, proof), verdict('R7', r7, r7red, proof), verdict('L4', part(g, 'gate'), part(gRed, 'gate'), proof)];
+      verdict('R6', r6, r6red, proof), verdict('R7', r7, r7red, proof), verdict('L4', part(g, 'gate'), part(gRed, 'gate'), proof)].map((l) => withClauses(l, reds));
   } catch (e) {
     return voidAll(`drive stopped: ${(e as Error).message}`);
   } finally { server.close(); for (const p of [...live]) killTree(p); }

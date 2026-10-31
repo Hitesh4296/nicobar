@@ -78,6 +78,7 @@ export interface StubOptions {
   onAnswer?: (key: string, answered: number) => void;   // before the answer goes out, so a kill can land between the answer and the worker's write
   delayMs?: number;                                // holds calls open, so a kill finds some in flight
   count?: (input_tokens: number) => number;        // what count_tokens reports; readiness lies through this to prove the cap reads it
+  busy?: Set<string>;                              // each key's next call gets one 429. A step retry is one more stub call under the same attempt row
 }
 
 export function startStub(port = 0, o: StubOptions = {}): Promise<Server> {
@@ -103,7 +104,7 @@ export function startStub(port = 0, o: StubOptions = {}): Promise<Server> {
     const schema = body.output_config?.format?.schema;
     const parts: string[] = schema?.required?.includes('email') ? ['email', 'landing_page'] : schema?.properties?.sections ? ['landing_page'] : ['email'];
     const log = (status: number) => calls.push({ key, parts: parts.join('+'), n, status });
-    if (key === 'x429' && n === 1) { log(429); return send(429, { type: 'error', error: { type: 'rate_limit_error', message: 'stub' } }); }
+    if ((key === 'x429' && n === 1) || o.busy?.delete(key)) { log(429); return send(429, { type: 'error', error: { type: 'rate_limit_error', message: 'stub' } }); }
     log(200);
     if (key === 'fx-refuse' || key === 'xrefuse') {
       return send(200, { ...base, content: [], stop_reason: 'refusal', stop_details: { type: 'refusal', category: null, explanation: null },

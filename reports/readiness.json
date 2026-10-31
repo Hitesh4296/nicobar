@@ -21,7 +21,7 @@
  "lines": [
   {
    "id": "R1",
-   "red": "planted: 3 bad, all failed",
+   "red": "planted: 7 bad, all failed",
    "seam_red": [
     "finished d01 called again",
     "finished d02 called again",
@@ -93,10 +93,10 @@
      "d03",
      "d04",
      "d05",
-     "d06",
      "d07",
      "d08",
-     "d09"
+     "d09",
+     "d06"
     ],
     "calls_after": {
      "d01": 1,
@@ -116,7 +116,67 @@
     "billed_twice": []
    },
    "verdict": "PASS",
-   "why": "held on the real run"
+   "why": "held on the real run",
+   "clause_reds": [
+    {
+     "line": "R1",
+     "clause": "in-flight",
+     "via": "stub: first call for one in-flight key is a 429",
+     "must": true,
+     "opened": true,
+     "failures": [
+      "in-flight d06 called 2 times after the kill, want 1"
+     ],
+     "evidence": {
+      "finished": [
+       "d01",
+       "d02",
+       "d03",
+       "d04",
+       "d05"
+      ],
+      "called_before": [
+       "d01",
+       "d02",
+       "d03",
+       "d04",
+       "d05",
+       "d06",
+       "d07",
+       "d08",
+       "d09"
+      ],
+      "calls_after": {
+       "d06": 2,
+       "d07": 1,
+       "d08": 1,
+       "d09": 1,
+       "d10": 1,
+       "d11": 1,
+       "d12": 1
+      },
+      "open": 0,
+      "billed_twice": [
+       {
+        "key": "d06",
+        "b": 2
+       },
+       {
+        "key": "d07",
+        "b": 2
+       },
+       {
+        "key": "d08",
+        "b": 2
+       },
+       {
+        "key": "d09",
+        "b": 2
+       }
+      ]
+     }
+    }
+   ]
   },
   {
    "id": "R2",
@@ -151,7 +211,34 @@
     ]
    },
    "verdict": "PASS",
-   "why": "held on the real run"
+   "why": "held on the real run",
+   "clause_reds": [
+    {
+     "line": "R2",
+     "clause": "stub calls = attempt rows",
+     "via": "stub: first call for d03 is a 429",
+     "must": true,
+     "opened": true,
+     "failures": [
+      "stub calls = attempt rows: got 3, want 2"
+     ],
+     "evidence": {
+      "attempt1": "possibly_billed",
+      "attempts": 2,
+      "calls": 3,
+      "rows": [
+       {
+        "attempt": 1,
+        "call_state": "possibly_billed"
+       },
+       {
+        "attempt": 2,
+        "call_state": "answered"
+       }
+      ]
+     }
+    }
+   ]
   },
   {
    "id": "R3",
@@ -164,18 +251,19 @@
     "second_post": 409,
     "approve_events": 1,
     "release_events": 1,
-    "draft_id": "rd-mvwwka6g-r5:x429:v1",
-    "want_draft_id": "rd-mvwwka6g-r5:x429:v1"
+    "draft_id": "rd-mvwxbkk7-r5:x429:v1",
+    "want_draft_id": "rd-mvwxbkk7-r5:x429:v1"
    },
    "seam_output": {
     "second_post": 409,
     "approve_events": 0,
     "release_events": 0,
-    "draft_id": "rd-mvwwka6g-r5:xfail:v1",
-    "want_draft_id": "rd-mvwwka6g-r5:xfail:v1"
+    "draft_id": "rd-mvwxbkk7-r5:xfail:v1",
+    "want_draft_id": "rd-mvwxbkk7-r5:xfail:v1"
    },
    "verdict": "PASS",
-   "why": "held on the real run"
+   "why": "held on the real run",
+   "clause_reds": []
   },
   {
    "id": "R4",
@@ -228,7 +316,8 @@
     }
    },
    "verdict": "PASS",
-   "why": "held on the real run"
+   "why": "held on the real run",
+   "clause_reds": []
   },
   {
    "id": "R5",
@@ -374,7 +463,102 @@
     ]
    },
    "verdict": "PASS",
-   "why": "held on the real run"
+   "why": "held on the real run",
+   "clause_reds": [
+    {
+     "line": "R5",
+     "clause": "refusal stub calls",
+     "via": "stub: first call for xrefuse is a 429",
+     "must": true,
+     "opened": true,
+     "failures": [
+      "refusal stub calls: got 2, want 1"
+     ],
+     "evidence": {
+      "b429": 1,
+      "refusal_calls": 2,
+      "retry_parts": "landing_page",
+      "carried_same": true,
+      "max_billed": 2,
+      "units": [
+       {
+        "key": "x429",
+        "status": "drafted",
+        "code": null,
+        "b": 1
+       },
+       {
+        "key": "xbad",
+        "status": "drafted",
+        "code": null,
+        "b": 2
+       },
+       {
+        "key": "xfail",
+        "status": "failed",
+        "code": "CHECKS_FAILED",
+        "b": 2
+       },
+       {
+        "key": "xrefuse",
+        "status": "failed",
+        "code": "UPSTREAM_UNAVAILABLE",
+        "b": 0
+       }
+      ],
+      "calls": [
+       {
+        "key": "x429",
+        "parts": "email+landing_page",
+        "n": 1,
+        "status": 429
+       },
+       {
+        "key": "x429",
+        "parts": "email+landing_page",
+        "n": 2,
+        "status": 200
+       },
+       {
+        "key": "xbad",
+        "parts": "email+landing_page",
+        "n": 1,
+        "status": 200
+       },
+       {
+        "key": "xfail",
+        "parts": "email+landing_page",
+        "n": 1,
+        "status": 200
+       },
+       {
+        "key": "xrefuse",
+        "parts": "email+landing_page",
+        "n": 1,
+        "status": 429
+       },
+       {
+        "key": "xbad",
+        "parts": "landing_page",
+        "n": 2,
+        "status": 200
+       },
+       {
+        "key": "xfail",
+        "parts": "email+landing_page",
+        "n": 2,
+        "status": 200
+       },
+       {
+        "key": "xrefuse",
+        "parts": "email+landing_page",
+        "n": 2,
+        "status": 200
+       }
+      ]
+     }
+    }
+   ]
   },
   {
    "id": "R6",
@@ -400,7 +584,8 @@
     "cap_in_body": 400
    },
    "verdict": "PASS",
-   "why": "held on the real run"
+   "why": "held on the real run",
+   "clause_reds": []
   },
   {
    "id": "R7",
@@ -422,25 +607,25 @@
       "key": "c-ok-1",
       "status": "drafted",
       "code": null,
-      "draft": "rd-mvwwka6g-r4:c-ok-1:v1"
+      "draft": "rd-mvwxbkk7-r4:c-ok-1:v1"
      },
      {
       "key": "c-ok-2",
       "status": "drafted",
       "code": null,
-      "draft": "rd-mvwwka6g-r4:c-ok-2:v1"
+      "draft": "rd-mvwxbkk7-r4:c-ok-2:v1"
      },
      {
       "key": "c-ok-3",
       "status": "drafted",
       "code": null,
-      "draft": "rd-mvwwka6g-r4:c-ok-3:v1"
+      "draft": "rd-mvwxbkk7-r4:c-ok-3:v1"
      },
      {
       "key": "c-ok-4",
       "status": "drafted",
       "code": null,
-      "draft": "rd-mvwwka6g-r4:c-ok-4:v1"
+      "draft": "rd-mvwxbkk7-r4:c-ok-4:v1"
      },
      {
       "key": "c-throw",
@@ -475,7 +660,7 @@
       "key": "c-ok-1",
       "status": "drafted",
       "code": null,
-      "draft": "rd-mvwwka6g-r7-red:c-ok-1:v1"
+      "draft": "rd-mvwxbkk7-r7-red:c-ok-1:v1"
      },
      {
       "key": "c-ok-2",
@@ -487,19 +672,19 @@
       "key": "c-ok-3",
       "status": "drafted",
       "code": null,
-      "draft": "rd-mvwwka6g-r7-red:c-ok-3:v1"
+      "draft": "rd-mvwxbkk7-r7-red:c-ok-3:v1"
      },
      {
       "key": "c-ok-4",
       "status": "drafted",
       "code": null,
-      "draft": "rd-mvwwka6g-r7-red:c-ok-4:v1"
+      "draft": "rd-mvwxbkk7-r7-red:c-ok-4:v1"
      },
      {
       "key": "c-throw",
       "status": "drafted",
       "code": null,
-      "draft": "rd-mvwwka6g-r7-red:c-throw:v1"
+      "draft": "rd-mvwxbkk7-r7-red:c-throw:v1"
      },
      {
       "key": "c20-x",
@@ -516,7 +701,8 @@
     ]
    },
    "verdict": "PASS",
-   "why": "held on the real run"
+   "why": "held on the real run",
+   "clause_reds": []
   },
   {
    "id": "L4",
@@ -555,7 +741,181 @@
     "released_after": 409
    },
    "verdict": "PASS",
-   "why": "held on the real run"
+   "why": "held on the real run",
+   "clause_reds": [
+    {
+     "line": "L4",
+     "clause": "release on in_review",
+     "via": "state-1-edge-check: patched src/lib/state/index.ts; dropped 0 DDL CHECK",
+     "must": false,
+     "opened": false,
+     "failures": [],
+     "evidence": {
+      "release_in_review": 409,
+      "status_update": "refused",
+      "approve": [
+       200,
+       409
+      ],
+      "release": [
+       200,
+       409
+      ],
+      "released_before": 200,
+      "tamper": "applied",
+      "released_after": 409
+     }
+    },
+    {
+     "line": "L4",
+     "clause": "release on in_review",
+     "via": "state-2-sql-status: patched src/lib/state/index.ts; dropped 0 DDL CHECK",
+     "must": false,
+     "opened": false,
+     "failures": [],
+     "evidence": {
+      "release_in_review": 409,
+      "status_update": "refused",
+      "approve": [
+       200,
+       200
+      ],
+      "release": [
+       200,
+       200
+      ],
+      "released_before": 200,
+      "tamper": "applied",
+      "released_after": 409
+     }
+    },
+    {
+     "line": "L4",
+     "clause": "release on in_review",
+     "via": "state-3-e7-guard: patched src/lib/state/index.ts; dropped 0 DDL CHECK",
+     "must": false,
+     "opened": false,
+     "failures": [
+      "release on in_review: got 500, want 409"
+     ],
+     "evidence": {
+      "release_in_review": 500,
+      "status_update": "refused",
+      "approve": [
+       200,
+       200
+      ],
+      "release": [
+       200,
+       200
+      ],
+      "released_before": 200,
+      "tamper": "applied",
+      "released_after": 409
+     }
+    },
+    {
+     "line": "L4",
+     "clause": "release on in_review",
+     "via": "state-4-ddl-approved: patched src/lib/state/index.ts; dropped 1 DDL CHECK",
+     "must": true,
+     "opened": true,
+     "failures": [
+      "release on in_review: got 200, want 409",
+      "status-only UPDATE: got \"applied\", want \"refused\"",
+      "/released before tamper: got 409, want 200"
+     ],
+     "evidence": {
+      "release_in_review": 200,
+      "status_update": "applied",
+      "approve": [
+       500,
+       500
+      ],
+      "release": [
+       200,
+       200
+      ],
+      "released_before": 409,
+      "tamper": "applied",
+      "released_after": 409
+     }
+    },
+    {
+     "line": "L4",
+     "clause": "status-only UPDATE",
+     "via": "ddl-1-approved: patched no code; dropped 1 DDL CHECK",
+     "must": false,
+     "opened": false,
+     "failures": [],
+     "evidence": {
+      "release_in_review": 409,
+      "status_update": "refused",
+      "approve": [
+       200,
+       409
+      ],
+      "release": [
+       200,
+       409
+      ],
+      "released_before": 200,
+      "tamper": "applied",
+      "released_after": 409
+     }
+    },
+    {
+     "line": "L4",
+     "clause": "status-only UPDATE",
+     "via": "ddl-2-released: patched no code; dropped 2 DDL CHECK",
+     "must": true,
+     "opened": true,
+     "failures": [
+      "status-only UPDATE: got \"applied\", want \"refused\"",
+      "/released before tamper: got 409, want 200"
+     ],
+     "evidence": {
+      "release_in_review": 409,
+      "status_update": "applied",
+      "approve": [
+       409,
+       409
+      ],
+      "release": [
+       409,
+       409
+      ],
+      "released_before": 409,
+      "tamper": "applied",
+      "released_after": 409
+     }
+    },
+    {
+     "line": "L4",
+     "clause": "/released still 200",
+     "via": "hash-1-released-route: patched src/worker/routes/review.ts; dropped 0 DDL CHECK",
+     "must": true,
+     "opened": true,
+     "failures": [
+      "/released still 200 after hash change"
+     ],
+     "evidence": {
+      "release_in_review": 409,
+      "status_update": "refused",
+      "approve": [
+       200,
+       409
+      ],
+      "release": [
+       200,
+       409
+      ],
+      "released_before": 200,
+      "tamper": "applied",
+      "released_after": 200
+     }
+    }
+   ]
   }
  ]
 }
