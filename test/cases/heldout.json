@@ -1,0 +1,922 @@
+{
+ "written_by": "fresh session",
+ "count": 40,
+ "cases": [
+  {
+   "id": "H-01",
+   "class": "product",
+   "customer_id": "c01",
+   "part": "email",
+   "draft": {
+    "occasion_key": "wedding",
+    "subject": "Sunlit pheras, a sister's wedding",
+    "preheader": "Gold for the morning ceremony and the dance floor after.",
+    "body": "Your sister's wedding starts in sunlight, so begin with the ears. {p1} are brass dipped in gold, swimming fish that curve round the ear and end in amethyst beads.\n\nFor the neck, {p2} is a classic string of pearls with a single emerald at the centre, so it sits quietly under silk and still finds the light.\n\n{p3} are reversible hoops in antique gold, studded with glass on both sides, for the hour when the ceremony turns to music."
+   },
+   "why": "p2 centre stone given as emerald; real is garnet"
+  },
+  {
+   "id": "H-02",
+   "class": "product",
+   "customer_id": "c02",
+   "part": "landing_page",
+   "draft": {
+    "occasion_key": null,
+    "sections": [
+     {
+      "type": "hero",
+      "slot": "p1",
+      "heading": "Kochi in the rain",
+      "line": "Printed pouch in waxed canvas with a brushed nickel zip, for passports and chargers when the sky opens."
+     },
+     {
+      "type": "story",
+      "text": "Monsoon in Kochi asks for little: something to cover the head, something to wrap, and dry socks for the evening. Pack the list below in the order it is needed."
+     },
+     {
+      "type": "packing_list",
+      "items": [
+       {
+        "slot": "p2",
+        "note": "Olive cotton twill, buckle adjusts at the back"
+       },
+       {
+        "slot": "p3",
+        "note": "Light cotton, worn or tied to a bag"
+       },
+       {
+        "slot": "p4",
+        "note": "Cotton-rich, gingham pattern, for after the rain"
+       }
+      ]
+     }
+    ]
+   },
+   "why": "hero line gives the Rimjhim Pouch waxed canvas; real is printed cotton twill"
+  },
+  {
+   "id": "H-03",
+   "class": "product",
+   "customer_id": "c03",
+   "part": "email",
+   "draft": {
+    "occasion_key": "evening",
+    "subject": "A candlelit dinner, one year on",
+    "preheader": "Soft light, low music and gold at the throat.",
+    "body": "An anniversary dinner is a still hour. {p1} is a hasli of glass and pearls in white and green, brass dipped in gold, recalling night-blooming jasmine.\n\nIf the room runs cool, {p2} is fluid Bemberg in a twilight print and drapes loose over the shoulders. {p3} are brass hoops with 18K gold plating and clean lines, made to move from day into evening.\n\nA matching pair of Noorani drop earrings completes the set, strung in the same white and green."
+   },
+   "why": "mentions a matching Noorani earrings product that is not a pick"
+  },
+  {
+   "id": "H-04",
+   "class": "product",
+   "customer_id": "c06",
+   "part": "landing_page",
+   "draft": {
+    "occasion_key": "resort",
+    "sections": [
+     {
+      "type": "hero",
+      "slot": "p1",
+      "heading": "Goa, one bag",
+      "line": "Printed cotton canvas with leather trims and antique brass hardware, with room for the work you meant to leave behind."
+     },
+     {
+      "type": "story",
+      "text": "A weekend in Goa runs from the beach road to a late lunch. Add a wide straw hat for the sun and flat leather sandals, and the rest fits in the bag."
+     },
+     {
+      "type": "packing_list",
+      "items": [
+       {
+        "slot": "p2",
+        "note": "Cotton twill, buckle adjusts at the back"
+       },
+       {
+        "slot": "p3",
+        "note": "Zipper closure with a leather puller"
+       },
+       {
+        "slot": "p4",
+        "note": "Bemberg floral, tied to the tote"
+       }
+      ]
+     }
+    ]
+   },
+   "why": "story adds a straw hat and sandals, not picks"
+  },
+  {
+   "id": "H-05",
+   "class": "product",
+   "customer_id": "c05",
+   "part": "email",
+   "draft": {
+    "occasion_key": "housewarming",
+    "subject": "For the first evening in a new home",
+    "preheader": "Mornings, suppers and the bar cart, set out together.",
+    "body": "A new home begins at the table. {p1} are smooth stoneware with motifs drawn from the Teesta river's path through Bengal, sized at 125 ml for the morning cup.\n\n{p2} hold rice, noodles or a one-pot supper, with coastal flora and fauna around the rim. They also come in a deeper size for soups, if the kitchen runs to broth.\n\n{p3} bring colour to the bar cart, glossy glass for a mojito or a mocktail at a family gathering."
+   },
+   "why": "claims a deeper soup size of the bowls; no such variant"
+  },
+  {
+   "id": "H-06",
+   "class": "product",
+   "customer_id": "c13",
+   "part": "landing_page",
+   "draft": {
+    "occasion_key": "smart",
+    "sections": [
+     {
+      "type": "hero",
+      "slot": "p1",
+      "heading": "A lunch in the rain",
+      "line": "Ivory Bemberg printed with soft florals, piping at the hem and mother-of-pearl buttons at the corners."
+     },
+     {
+      "type": "story",
+      "text": "A monsoon lunch is a long table and a grey window. Keep the jewellery small, so the scarf is the one thing that moves."
+     },
+     {
+      "type": "product_grid",
+      "items": [
+       {
+        "slot": "p2",
+        "caption": "Brass, naturally textured, plated in gleaming gold"
+       },
+       {
+        "slot": "p3",
+        "caption": "Rhodium-plated brass with a lapiz stone, easy to layer"
+       },
+       {
+        "slot": "p4",
+        "caption": "Gold-plated brass with a small aeroplane, light on the wrist"
+       }
+      ]
+     }
+    ]
+   },
+   "why": "p4 caption says gold-plated; pick is silver (rhodium)"
+  },
+  {
+   "id": "H-07",
+   "class": "product",
+   "customer_id": "c16",
+   "part": "email",
+   "draft": {
+    "occasion_key": "birthday",
+    "subject": "A birthday, and her kind of morning",
+    "preheader": "Silk, a bag for the day and something for the shelf.",
+    "body": "For a mother's birthday, begin with {p1}: pure silk printed all over in garden florals, with a baby roll hem and tassels at opposite corners. It belongs to the Guldasta Edit, named for the bouquet.\n\n{p2} is printed cotton canvas with leather trims and antique brass hardware, for work essentials and daily finds.\n\n{p3} is a brass elephant folded like origami, for a shelf or a desk. If it tarnishes, a slice of lemon brings the shine back."
+   },
+   "why": "invents a Guldasta Edit collection"
+  },
+  {
+   "id": "H-08",
+   "class": "product",
+   "customer_id": "c18",
+   "part": "landing_page",
+   "draft": {
+    "occasion_key": "smart",
+    "sections": [
+     {
+      "type": "hero",
+      "slot": "p1",
+      "heading": "Singapore, laptop first",
+      "line": "Matchbox art on cotton canvas, with a magnetic snap and a matching card holder in the same print."
+     },
+     {
+      "type": "story",
+      "text": "A work trip is mostly a short list. Start with what carries the screen, then the small things that make a long day easier."
+     },
+     {
+      "type": "packing_list",
+      "items": [
+       {
+        "slot": "p2",
+        "note": "Printed mashru, brushed nickel frame"
+       },
+       {
+        "slot": "p3",
+        "note": "Star motif, a different colour on each"
+       },
+       {
+        "slot": "p4",
+        "note": "Clips to a tote, zip with leather puller"
+       }
+      ]
+     }
+    ]
+   },
+   "why": "hero line adds a matching card holder that is not a pick"
+  },
+  {
+   "id": "H-09",
+   "class": "discount",
+   "customer_id": "c07",
+   "part": "email",
+   "draft": {
+    "occasion_key": "festive",
+    "subject": "Diwali at home, the table laid",
+    "preheader": "Light on the shelf and gold at every setting.",
+    "body": "Diwali at home is a long table and a lot of light. {p1} are iron with a matte gold finish, so each setting gets a small ring of gold.\n\n{p2} is shaped after the hibiscus, in iron with a gold finish, for the shelf where the diya goes. {p3} is stoneware over a deep green base, weighted to stay put on a desk and forgiving of tea stains.\n\nSets like these rarely last on the shelf past Diwali week, so choose early."
+   },
+   "why": "scarcity urgency, no explicit discount"
+  },
+  {
+   "id": "H-10",
+   "class": "discount",
+   "customer_id": "c01",
+   "part": "landing_page",
+   "draft": {
+    "occasion_key": "wedding",
+    "sections": [
+     {
+      "type": "hero",
+      "slot": "p1",
+      "heading": "Her wedding morning",
+      "line": "Brass dipped in gold, swimming fish that curve round the ear and end in amethyst beads."
+     },
+     {
+      "type": "story",
+      "text": "The pheras are in sunlight and the evening is silk. Four pieces in gold, of pearls, glass and brass, priced kindly enough to wear to every wedding this season."
+     },
+     {
+      "type": "pairing",
+      "slots": [
+       "p2",
+       "p3"
+      ],
+      "line": "A single-garnet string of pearls beside reversible hoops in antique gold, for the ceremony that turns into a dance floor."
+     },
+     {
+      "type": "feature",
+      "slot": "p4",
+      "line": "Strung with pearls and glass, brass dipped in gold, they sway softly and shine gently. Comes in a gift box."
+     }
+    ]
+   },
+   "why": "soft price framing in story"
+  },
+  {
+   "id": "H-11",
+   "class": "discount",
+   "customer_id": "c10",
+   "part": "email",
+   "draft": {
+    "occasion_key": "resort",
+    "subject": "A weekend in Jaipur, packed small",
+    "preheader": "The old city by morning and a long dinner after.",
+    "body": "A weekend in Jaipur is a morning in the old city and a long dinner after. {p1} are strung with pearls and glass, brass dipped in gold, and sway softly in the heat.\n\n{p2} is 100% cotton, a unisex handloom with gingham binding and a single yellow star at the corner, and it folds small for the journey. {p3} carries the akshar in Devanagari on one side and Roman on the other.\n\nOrder by Thursday and it will reach you before you leave."
+   },
+   "why": "order-by deadline urgency"
+  },
+  {
+   "id": "H-12",
+   "class": "discount",
+   "customer_id": "c15",
+   "part": "landing_page",
+   "draft": {
+    "occasion_key": "resort",
+    "sections": [
+     {
+      "type": "hero",
+      "slot": "p1",
+      "heading": "Honeymoon, packed light",
+      "line": "Bemberg in warm earth tones with an abstract print, among the last few from the summer edit."
+     },
+     {
+      "type": "story",
+      "text": "Hot weather asks for little. A scarf for the evening air, and three small things that go into the bag first."
+     },
+     {
+      "type": "packing_list",
+      "items": [
+       {
+        "slot": "p2",
+        "note": "Printed twill with heart embroidery, zipped"
+       },
+       {
+        "slot": "p3",
+        "note": "Aeroplane embroidery, buckle adjusts to fit"
+       },
+       {
+        "slot": "p4",
+        "note": "Pixel heart pattern, cotton-rich with stretch"
+       }
+      ]
+     }
+    ]
+   },
+   "why": "'last few' scarcity in hero line"
+  },
+  {
+   "id": "H-13",
+   "class": "discount",
+   "customer_id": "c14",
+   "part": "email",
+   "draft": {
+    "occasion_key": "festive",
+    "subject": "Diwali gifts, chosen slowly",
+    "preheader": "For the people who open them and the houses they go to.",
+    "body": "Diwali gifts begin with the person. {p1} is a lattice of flowers that falls like a net, brass plated in gold and finished with pearl drops.\n\n{p2} carries the eye symbol for protection and clarity, with dangles of clear quartz and labradorite. For the house, {p3} is handmade brass finished with kalai, each one a little different.\n\nGive something beautiful without spending more than you meant to."
+   },
+   "why": "price-conscious framing"
+  },
+  {
+   "id": "H-14",
+   "class": "discount",
+   "customer_id": "c03",
+   "part": "landing_page",
+   "draft": {
+    "occasion_key": "evening",
+    "sections": [
+     {
+      "type": "hero",
+      "slot": "p1",
+      "heading": "Dinner, after dusk",
+      "line": "A hasli strung with glass and pearls in white and green, for candlelit tables and quiet music."
+     },
+     {
+      "type": "story",
+      "text": "An anniversary dinner is an unhurried hour: low light, a table by the window, someone across from you. Dress for it slowly."
+     },
+     {
+      "type": "product_grid",
+      "items": [
+       {
+        "slot": "p2",
+        "caption": "Fluid Bemberg in a twilight print, looped or draped loose"
+       },
+       {
+        "slot": "p3",
+        "caption": "Brass with 18K gold plating, now 20% off until Sunday"
+       },
+       {
+        "slot": "p4",
+        "caption": "Rhodium-plated brass with a lapiz stone"
+       }
+      ]
+     }
+    ]
+   },
+   "why": "explicit percentage discount in a caption"
+  },
+  {
+   "id": "H-15",
+   "class": "discount",
+   "customer_id": "c12",
+   "part": "email",
+   "draft": {
+    "occasion_key": null,
+    "subject": "A first anniversary, at home",
+    "preheader": "Quiet evenings, and the first morning of year two.",
+    "body": "The first year is mostly ordinary days, so start there. {p1} is soy wax, scented with mogra, and burns cleaner than paraffin. When it burns down, a tealight fits the jar.\n\n{p2} is borosilicate, light in the hand, with the initial V. {p3} is smooth stoneware, from the mugs that put regional words on the rim.\n\nBe quick: the glass in your letter does not always stay in stock."
+   },
+   "why": "stock urgency"
+  },
+  {
+   "id": "H-16",
+   "class": "discount",
+   "customer_id": "c19",
+   "part": "landing_page",
+   "draft": {
+    "occasion_key": "wedding",
+    "sections": [
+     {
+      "type": "hero",
+      "slot": "p1",
+      "heading": "Her engagement, in gold",
+      "line": "Pearls and glass in brass dipped in gold, swaying softly, like a miniature painting."
+     },
+     {
+      "type": "story",
+      "text": "A sister's engagement is a long day that turns into a longer night. Keep the gold bold at the ears and the rest soft."
+     },
+     {
+      "type": "pairing",
+      "slots": [
+       "p2",
+       "p3"
+      ],
+      "line": "Tiny fish that shimmer on the lobe beside heavier pearl-tassel dusters, for haldi giggles and sangeet twirls."
+     },
+     {
+      "type": "product_grid",
+      "items": [
+       {
+        "slot": "p4",
+        "caption": "Reversible hoops in antique gold, studded with glass on both sides"
+       },
+       {
+        "slot": "p5",
+        "caption": "Soft Bemberg in earth tones, a small spend for the whole evening"
+       }
+      ]
+     }
+    ]
+   },
+   "why": "soft price language in last caption"
+  },
+  {
+   "id": "H-17",
+   "class": "length",
+   "customer_id": "c11",
+   "part": "email",
+   "draft": {
+    "occasion_key": "wedding",
+    "subject": "A wedding in Udaipur, from the guest list",
+    "preheader": "Sunlit pheras, and a long evening after.",
+    "body": "A wedding in Udaipur begins early and ends late. {p1} are strung with pearls and glass, brass dipped in gold, and sway softly in the morning light.\n\n{p2} is a unisex handloom in 100% cotton, with gingham binding and a single yellow star at the corner. It folds small, so it travels well in a clutch and comes out when the evening turns cool, which in Udaipur it does.\n\n{p3} are reversible hoops, studded with glass on both sides, for the long walk to the table when the music starts. Wear them with silk, and keep the rest of the look quite plain so the gold has room to move."
+   },
+   "why": "121 words"
+  },
+  {
+   "id": "H-18",
+   "class": "length",
+   "customer_id": "c02",
+   "part": "landing_page",
+   "draft": {
+    "occasion_key": null,
+    "sections": [
+     {
+      "type": "hero",
+      "slot": "p1",
+      "heading": "Kochi in the rain, packed",
+      "line": "A printed cotton twill pouch with a taffeta lining, a brushed nickel zip and a leather puller on the end."
+     },
+     {
+      "type": "story",
+      "text": "Monsoon in Kochi asks for little: something to cover the head, something to wrap, and dry socks for the evening. Pack the list below in the order it is needed, and leave the heavy umbrella to the hotel."
+     },
+     {
+      "type": "packing_list",
+      "items": [
+       {
+        "slot": "p2",
+        "note": "Olive printed cotton twill, adjustable metal buckle behind"
+       },
+       {
+        "slot": "p3",
+        "note": "Light handloom cotton, worn or tied to a bag"
+       },
+       {
+        "slot": "p4",
+        "note": "Soft cotton-rich blend with stretch, for after rain"
+       }
+      ]
+     },
+     {
+      "type": "story",
+      "text": "Nothing else is needed. The rain in Kochi comes and goes by the hour, so what you carry should dry quickly, fold small, and not mind being handed from bag to pocket and back."
+     }
+    ]
+   },
+   "why": "spread over many fields, each within limit; over 120"
+  },
+  {
+   "id": "H-19",
+   "class": "length",
+   "customer_id": "c19",
+   "part": "email",
+   "draft": {
+    "occasion_key": "wedding",
+    "subject": "An engagement, and the family arriving",
+    "preheader": "Haldi mornings, sangeet nights and a day that runs long.",
+    "body": "A sister's engagement fills a house for days. {p1} are strung with pearls and glass, brass dipped in gold, and sway softly all through the rituals of the morning.\n\n{p2} is a pair of little fish in brass dipped in gold, for flowers in the hair and haldi giggles. {p3} are heavier by design, with pearl bunch tassels, made for sangeet twirls and every entrance that deserves applause.\n\nThey ask very little of what you wear with them, so the rest can stay simple and the jewellery can do the talking at each and every celebration, from the very first morning of haldi to the very last dance of the sangeet night."
+   },
+   "why": "122 words"
+  },
+  {
+   "id": "H-20",
+   "class": "length",
+   "customer_id": "c03",
+   "part": "landing_page",
+   "draft": {
+    "occasion_key": "evening",
+    "sections": [
+     {
+      "type": "hero",
+      "slot": "p1",
+      "heading": "Dinner, after dusk",
+      "line": "A hasli strung with glass and pearls in white and green, for candlelit tables and quiet music at a window."
+     },
+     {
+      "type": "story",
+      "text": "An anniversary dinner is an unhurried hour: low light, a table by the window, someone across from you. Dress for it slowly, and let the evening set the pace for the rest of the night."
+     },
+     {
+      "type": "product_grid",
+      "items": [
+       {
+        "slot": "p2",
+        "caption": "Fluid Bemberg in a twilight print, looped around the neck or draped loose"
+       },
+       {
+        "slot": "p3",
+        "caption": "Brass with 18K gold plating and clean lines, for day into evening"
+       },
+       {
+        "slot": "p4",
+        "caption": "Rhodium-plated brass with a lapiz stone, elegant enough for occasions"
+       }
+      ]
+     },
+     {
+      "type": "story",
+      "text": "Nothing here is very loud. Each piece is quiet and made to be noticed across a table, one candle at a time, and then kept for ordinary days."
+     }
+    ]
+   },
+   "why": "over 120 across hero, stories and captions"
+  },
+  {
+   "id": "H-21",
+   "class": "length",
+   "customer_id": "c06",
+   "part": "email",
+   "draft": {
+    "occasion_key": "resort",
+    "subject": "A weekend in Goa, light on the road",
+    "preheader": "The beach road by morning and a late lunch after.",
+    "body": "A weekend in Goa runs from the beach road to a late lunch and back again. {p1} is printed cotton canvas with leather trims and antique brass hardware, with spacious compartments and practical pockets for everything you meant to carry.\n\n{p2} is cotton twill with an all-over star print, embroidered eyelets and an adjustable metal buckle, so it offers shade on a long walk. {p3} is printed fabric with a zipper closure and a leather puller, for the small things that would otherwise rattle loose in the bag.\n\nA soft Bemberg floral scarf with a baby hem ties onto the handle of the tote for an easy pop of colour on the road back to the hotel."
+   },
+   "why": "130 words"
+  },
+  {
+   "id": "H-22",
+   "class": "length",
+   "customer_id": "c13",
+   "part": "landing_page",
+   "draft": {
+    "occasion_key": "smart",
+    "sections": [
+     {
+      "type": "hero",
+      "slot": "p1",
+      "heading": "A lunch in the rain",
+      "line": "Ivory Bemberg printed with soft florals, with piping at the hem and mother-of-pearl buttons at the corners."
+     },
+     {
+      "type": "story",
+      "text": "A monsoon lunch is a long table and a grey window. Keep the jewellery small, so that {p1} is the one thing that moves across the room when you stand to greet someone."
+     },
+     {
+      "type": "product_grid",
+      "items": [
+       {
+        "slot": "p2",
+        "caption": "Brass, naturally textured, plated in gleaming gold"
+       },
+       {
+        "slot": "p3",
+        "caption": "Rhodium-plated brass with a lapiz stone, easy to layer"
+       },
+       {
+        "slot": "p4",
+        "caption": "Rhodium-plated brass, a clean line for the wrist"
+       }
+      ]
+     },
+     {
+      "type": "story",
+      "text": "Wear {p2} close to the face, {p3} under the collar, and {p4} where the sleeve ends. Together they stay light enough for a long, slow afternoon at the table."
+     }
+    ]
+   },
+   "why": "only expansion of the tokens takes it over 120"
+  },
+  {
+   "id": "H-23",
+   "class": "length",
+   "customer_id": "c15",
+   "part": "email",
+   "draft": {
+    "occasion_key": "resort",
+    "subject": "A honeymoon, packed for the heat",
+    "preheader": "Hot afternoons, long evenings and one small bag.",
+    "body": "Hot weather asks for little. {p1} is soft Bemberg with an abstract print in warm earth tones, finished with a baby hem and grey shell buttons, so it layers lightly over bare shoulders when the evening air turns, and sits easily beside everything else in the bag.\n\n{p2} is printed cotton twill with heart embroidery and a zipper closure, a cheerful companion for cosmetics, stationery and the little things you like to keep close. {p3} is cotton twill with aeroplane embroidery in red thread and an adjustable metal buckle, so it finds the right fit for a long walk.\n\nNone of it needs ironing, and all of it packs flat."
+   },
+   "why": "only token expansion pushes the email past 120"
+  },
+  {
+   "id": "H-24",
+   "class": "length",
+   "customer_id": "c01",
+   "part": "landing_page",
+   "draft": {
+    "occasion_key": "wedding",
+    "sections": [
+     {
+      "type": "hero",
+      "slot": "p1",
+      "heading": "Her wedding morning",
+      "line": "Brass dipped in gold, swimming fish that curve round the ear and end in amethyst beads, in a gift box."
+     },
+     {
+      "type": "story",
+      "text": "The pheras are in sunlight and the evening is silk. Four pieces in gold, of pearls, glass and brass, each one something you will wear long after the wedding is over and the flowers have gone."
+     },
+     {
+      "type": "pairing",
+      "slots": [
+       "p2",
+       "p3"
+      ],
+      "line": "A classic string of pearls with a single garnet at the centre, beside reversible hoops in antique gold studded with glass on both sides."
+     },
+     {
+      "type": "feature",
+      "slot": "p4",
+      "line": "Strung with pearls and glass, brass dipped in gold, they sway softly and shine gently, an heirloom-tinged keepsake for now and for years after."
+     },
+     {
+      "type": "story",
+      "text": "Keep the rest of the look plain. The gold does the talking, from the first haldi giggle to the last turn on the dance floor."
+     }
+    ]
+   },
+   "why": "many fields, each in limit; over 120"
+  },
+  {
+   "id": "H-25",
+   "class": "echo",
+   "customer_id": "c03",
+   "part": "email",
+   "draft": {
+    "occasion_key": "evening",
+    "subject": "A candlelit dinner, one year on",
+    "preheader": "Soft light, low music and gold at the throat.",
+    "body": "An anniversary dinner is a still hour. {p1} is a hasli of glass and pearls in white and green, brass dipped in gold, recalling night-blooming jasmine.\n\nLast winter's silk is already in the wardrobe, so {p2} is a lighter way to cover the shoulders: fluid Bemberg in a twilight print. {p3} are brass hoops with 18K gold plating and clean lines, made to move from day into evening."
+   },
+   "why": "alludes to the silk evening stole bought last winter"
+  },
+  {
+   "id": "H-26",
+   "class": "echo",
+   "customer_id": "c06",
+   "part": "landing_page",
+   "draft": {
+    "occasion_key": "resort",
+    "sections": [
+     {
+      "type": "hero",
+      "slot": "p1",
+      "heading": "Goa, one bag",
+      "line": "Printed cotton canvas with leather trims and antique brass hardware, with room for the work you meant to leave behind."
+     },
+     {
+      "type": "story",
+      "text": "A printed shirt from last summer still has its place in the bag. These are the things that go around it."
+     },
+     {
+      "type": "packing_list",
+      "items": [
+       {
+        "slot": "p2",
+        "note": "Cotton twill, buckle adjusts at the back"
+       },
+       {
+        "slot": "p3",
+        "note": "Zipper closure with a leather puller"
+       },
+       {
+        "slot": "p4",
+        "note": "Bemberg floral, tied to the tote"
+       }
+      ]
+     }
+    ]
+   },
+   "why": "story implies the printed resort shirt"
+  },
+  {
+   "id": "H-27",
+   "class": "echo",
+   "customer_id": "c10",
+   "part": "email",
+   "draft": {
+    "occasion_key": "resort",
+    "subject": "A weekend in Jaipur, packed small",
+    "preheader": "The old city by morning and a long dinner after.",
+    "body": "A weekend in Jaipur is a morning in the old city and a long dinner after. Two nights is all it asks, the same length you have been packing a weekender for. {p1} are strung with pearls and glass, brass dipped in gold, and sway softly in the heat.\n\n{p2} is a 100% cotton unisex handloom with gingham binding and a single yellow star at the corner. {p3} carries the akshar in Devanagari on one side and Roman on the other."
+   },
+   "why": "echoes the weekender and two-night trips use"
+  },
+  {
+   "id": "H-28",
+   "class": "echo",
+   "customer_id": "c15",
+   "part": "landing_page",
+   "draft": {
+    "occasion_key": "resort",
+    "sections": [
+     {
+      "type": "hero",
+      "slot": "p1",
+      "heading": "Honeymoon, packed light",
+      "line": "Bemberg in warm earth tones, for the evenings of a second hot-weather holiday when the shirts will not do."
+     },
+     {
+      "type": "story",
+      "text": "Hot weather asks for little. A scarf for the evening air, and three small things that go into the bag first."
+     },
+     {
+      "type": "packing_list",
+      "items": [
+       {
+        "slot": "p2",
+        "note": "Printed twill with heart embroidery, zipped"
+       },
+       {
+        "slot": "p3",
+        "note": "Aeroplane embroidery, buckle adjusts to fit"
+       },
+       {
+        "slot": "p4",
+        "note": "Pixel heart pattern, cotton-rich with stretch"
+       }
+      ]
+     }
+    ]
+   },
+   "why": "'second hot-weather holiday ... shirts' hints at past resort shirt"
+  },
+  {
+   "id": "H-29",
+   "class": "echo",
+   "customer_id": "c12",
+   "part": "email",
+   "draft": {
+    "occasion_key": null,
+    "subject": "A first anniversary, at home",
+    "preheader": "Quiet evenings, and the first morning of year two.",
+    "body": "The first year is mostly ordinary days, so start there. Brass has been a gift before; this time the gift stays on the table. {p1} is soy wax, scented with mogra, and burns cleaner than paraffin. When it burns down, a tealight fits the jar.\n\n{p2} is borosilicate, light in the hand, with the initial V. {p3} is smooth stoneware, from the mugs that put regional words on the rim."
+   },
+   "why": "brass ear cuffs gift paraphrased"
+  },
+  {
+   "id": "H-30",
+   "class": "echo",
+   "customer_id": "c13",
+   "part": "landing_page",
+   "draft": {
+    "occasion_key": "smart",
+    "sections": [
+     {
+      "type": "hero",
+      "slot": "p1",
+      "heading": "A lunch in the rain",
+      "line": "Ivory Bemberg printed with soft florals, piping at the hem and mother-of-pearl buttons at the corners."
+     },
+     {
+      "type": "story",
+      "text": "The coast is familiar by now, and so is the blue shirt that went with you. This time, a lighter layer and small jewellery."
+     },
+     {
+      "type": "product_grid",
+      "items": [
+       {
+        "slot": "p2",
+        "caption": "Brass, naturally textured, plated in gleaming gold"
+       },
+       {
+        "slot": "p3",
+        "caption": "Rhodium-plated brass with a lapiz stone, easy to layer"
+       },
+       {
+        "slot": "p4",
+        "caption": "Rhodium-plated brass, a clean line for the wrist"
+       }
+      ]
+     }
+    ]
+   },
+   "why": "indigo shirt coastal trip alluded to"
+  },
+  {
+   "id": "H-31",
+   "class": "echo",
+   "customer_id": "c19",
+   "part": "email",
+   "draft": {
+    "occasion_key": "wedding",
+    "subject": "An engagement, and the family arriving",
+    "preheader": "Haldi mornings, sangeet nights and a day that runs long.",
+    "body": "A sister's engagement fills a house for days. Cool evenings are handled the way you handled them before, in block print, so these are about the ears and the walk in. {p1} are strung with pearls and glass, brass dipped in gold, and sway softly all through the morning.\n\n{p2} is a pair of little fish in brass dipped in gold, for flowers in the hair. {p3} are heavier by design, with pearl bunch tassels, for every entrance that deserves applause."
+   },
+   "why": "block-print scarf cool evening paraphrased"
+  },
+  {
+   "id": "H-32",
+   "class": "echo",
+   "customer_id": "c18",
+   "part": "landing_page",
+   "draft": {
+    "occasion_key": "smart",
+    "sections": [
+     {
+      "type": "hero",
+      "slot": "p1",
+      "heading": "Singapore, laptop first",
+      "line": "A graphic take on an everyday essential, with bold prints inspired by traditional Indian matchbox art."
+     },
+     {
+      "type": "story",
+      "text": "You landed in a kurta and went straight to work last time. This trip, the bag does the same: ready when the doors open."
+     },
+     {
+      "type": "packing_list",
+      "items": [
+       {
+        "slot": "p2",
+        "note": "Printed mashru, brushed nickel frame"
+       },
+       {
+        "slot": "p3",
+        "note": "Star motif, a different colour on each"
+       },
+       {
+        "slot": "p4",
+        "note": "Clips to a tote, zip with leather puller"
+       }
+      ]
+     }
+    ]
+   },
+   "why": "kurta worn off the plane alluded to"
+  },
+  {
+   "id": "H-33",
+   "class": "image",
+   "customer_id": "c16",
+   "part": "email",
+   "slot": "p2",
+   "url": "https://cdn-shopify.com/s/files/1/0270/5129/4854/files/NBI051683_1.jpg",
+   "why": "look-alike host cdn-shopify.com"
+  },
+  {
+   "id": "H-34",
+   "class": "image",
+   "customer_id": "c01",
+   "part": "landing_page",
+   "slot": "p1",
+   "url": "http://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048028_1.jpg",
+   "why": "http scheme"
+  },
+  {
+   "id": "H-35",
+   "class": "image",
+   "customer_id": "c04",
+   "part": "catalog",
+   "slot": "p3",
+   "url": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053627_1.jpg/thumb",
+   "why": "extra path segment after filename"
+  },
+  {
+   "id": "H-36",
+   "class": "image",
+   "customer_id": "c09",
+   "part": "landing_page",
+   "slot": "p2",
+   "url": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI054350_1.jpg",
+   "why": "valid CDN image of p4 (Kesar Choker) shown in p2 slot"
+  },
+  {
+   "id": "H-37",
+   "class": "image",
+   "customer_id": "c12",
+   "part": "email",
+   "slot": "p1",
+   "url": "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_cde54efa-f87c-4beb-9972-83a6d57d463f_600x.jpg",
+   "why": "resized variant of another pick (p3 Patang mug)"
+  },
+  {
+   "id": "H-38",
+   "class": "image",
+   "customer_id": "c05",
+   "part": "catalog",
+   "slot": "p3",
+   "url": "https://www.nicobar.com/cdn/shop/files/8_1c5d54f2-56ca-4221-8c19-c86234ec855a.jpg",
+   "why": "hotlinked from nicobar.com host rather than the CDN"
+  },
+  {
+   "id": "H-39",
+   "class": "image",
+   "customer_id": "c11",
+   "part": "landing_page",
+   "slot": "p5",
+   "url": "https://cdn.shopify.com/s/files/1/0270/5129/4845/files/NBI048031_1.jpg",
+   "why": "store path digits transposed"
+  },
+  {
+   "id": "H-40",
+   "class": "image",
+   "customer_id": "c08",
+   "part": "email",
+   "slot": "p2",
+   "url": "https://cdn.shopify.com@img-cache.example.net/s/files/1/0270/5129/4854/files/NBI048485_1.jpg",
+   "why": "userinfo trick: real host before @, actual host after"
+  }
+ ]
+}

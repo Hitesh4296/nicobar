@@ -1,11 +1,12 @@
 // npm run eval: every offline case and mutant, $0. Writes reports/eval.json; exit 1 on any mismatch or surviving mutant.
 // Cases come from test/cases/; the catalogue is the 50-row fixture plus rules from test/fixtures/rules.eval.json (or --rules <path>).
-import { readFileSync, rmSync, writeFileSync, mkdirSync } from 'node:fs';
+import { existsSync, readFileSync, rmSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { NotBuilt } from '../src/contracts/codes.ts';
 import type { Catalog, CheckResult, Envelope, Format, Group, ModelDraft, ModelJson, Plan, Product, RenderedJson, RunFormat, Rules, Shape, Slot } from '../src/contracts/types.ts';
 import * as real from '../src/lib/check/index.ts';
+import { toCatalog } from '../src/lib/catalog/index.ts';
 import { renderAll } from '../src/lib/render/index.ts';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -28,8 +29,8 @@ const PICKS: Record<string, { id: string; group: Group }> = json('test/cases/pic
 
 export function planFor(c: Case, cat: Catalog): { plan: Plan; envelope: Envelope } {
   const format: RunFormat = c.format ?? 'email';
-  const picks = (c.picks as string[]).map((h, i) => ({ slot: `p${i + 1}` as Slot, product_id: PICKS[h].id,
-    reason_code: 'OCCASION_MATCH' as const, group: PICKS[h].group }));
+  const picks = (c.pick_rows as { slot: Slot; product_id: string; group: Group }[] | undefined)?.map(({ slot, product_id, group }) => ({ slot, product_id, reason_code: 'OCCASION_MATCH' as const, group }))
+    ?? (c.picks as string[]).map((h, i) => ({ slot: `p${i + 1}` as Slot, product_id: PICKS[h].id, reason_code: 'OCCASION_MATCH' as const, group: PICKS[h].group }));
   const occasion_key: string | null = c.plan_occasion_key ?? null;
   const shape: Shape | null = c.plan_shape ?? null;
   const customer_id: string = c.customer_id ?? 'case';
@@ -214,6 +215,61 @@ export async function runMutants(cat: Catalog, base: Outcome[]) {
   return rows;
 }
 
+// ---- held-out, goal 5: reported, never gates. Real rows on the real snapshot, so it stays out of CASE_FILES and the mutant baseline. ----
+const FAMILY: Record<string, string[]> = { product: ['C5', 'C7', 'C8', 'C8d', 'C8d-x'], discount: ['C4'], length: ['C3', 'C3.L'], echo: ['C8n'], image: ['X1', 'X2'] };
+
+export const HELDOUT_SNAPSHOT: string = json('data/recommendations.synthetic.json').snapshot_id;
+
+export function snapshotCatalog(id = HELDOUT_SNAPSHOT): Catalog | null {
+  const dir = `out/snapshot/${id}`;
+  return existsSync(join(ROOT, dir, 'catalog.json')) ? toCatalog(json(`${dir}/catalog.json`), json(`${dir}/rules.json`)) : null;
+}
+
+export const heldoutPlan = (row: Case, part: string, cat: Catalog) => planFor({ customer_id: row.customer_id, format: part === 'catalog' ? 'both' : part,
+  pick_rows: row.picks, plan_occasion: row.occasion, plan_occasion_key: row.occasion_key, plan_shape: row.shape }, cat);
+
+/** Render-only base for an image tamper: the case carries a url and no draft, and neither part below is ever validated as copy. */
+function baseModel(row: Case, part: string): ModelJson {
+  const slots = (row.picks as { slot: string }[]).map((p) => p.slot), occasion_key = row.occasion_key;
+  if (part === 'email') return { email: { occasion_key, subject: 'x', preheader: 'x', body: '{p1} {p2} {p3}' } } as ModelJson;
+  if (part === 'landing_page') return { landing_page: { occasion_key, sections: [{ type: 'hero', slot: 'p1', heading: 'x', line: 'x' },
+    { type: 'product_grid', items: slots.slice(1).map((slot) => ({ slot, caption: 'x' })) }] } } as ModelJson;
+  return {} as ModelJson;
+}
+
+export function imageControl(row: Case, part: string, cat: Catalog, ck: Check = real, src?: string, slot = 'p1') {
+  const { plan, envelope } = heldoutPlan(row, part, cat);
+  const clean = render(baseModel(row, part), plan, envelope, cat, null);
+  const rendered = src === undefined ? clean : tamper(clean, { id: 'heldout', part, slot, tamper: { src } });
+  return ck.validateRendered(rendered, envelope, cat, plan);
+}
+
+export function runHeldout(cat: Catalog, ck: Check = real) {
+  const rows = new Map((json('test/cases/heldout-pack.json').rows as Case[]).map((r) => [r.customer_id, r]));
+  const cases = (json('test/cases/heldout.json').cases as Case[]).map((c) => {
+    const row = rows.get(c.customer_id)!, family = FAMILY[c.class];
+    let rs: CheckResult[] = [], error: string | undefined, control: string[] | undefined;
+    try {
+      if (c.url) {
+        control = hard(imageControl(row, c.part, cat, ck));
+        rs = imageControl(row, c.part, cat, ck, c.url, c.slot);
+      } else {
+        const { plan, envelope } = heldoutPlan(row, c.part, cat);
+        rs = ck.validate(JSON.stringify({ [c.part]: c.draft }), envelope, cat, plan);
+      }
+    } catch (e) { error = String(e); }
+    const fired = hard(rs), caught = fired.some((f) => family.includes(f));
+    return { id: c.id, class: c.class, customer_id: c.customer_id, part: c.part, why: c.why, caught, blocked: fired.length > 0, fired, outside_family: fired.filter((f) => !family.includes(f)),
+      warn: warns(rs), control, error, hits: rs.filter((r) => !r.pass).map(({ id, code, field, detail }) => ({ id, code, field, detail })) };
+  });
+  const by_class = Object.fromEntries(Object.keys(FAMILY).map((k) => {
+    const of = cases.filter((c) => c.class === k);
+    return [k, { n: of.length, caught: of.filter((c) => c.caught).length, blocked: of.filter((c) => c.blocked).length }];
+  }));
+  return { status: 'scored', sha256_note: 'test/cases/heldout.json is byte-identical to the sealed file', family: FAMILY, n: cases.length, caught: cases.filter((c) => c.caught).length,
+    blocked: cases.filter((c) => c.blocked).length, by_class, misses: cases.filter((c) => !c.caught).map((c) => c.id), cases };
+}
+
 const NAMED: Record<string, string> = { made_up_product: 'a made-up product', image_not_on_nicobar: 'an image not on nicobar.com', discount_phrase: 'a discount phrase', body_over_120_words: 'a body over 120 words' };
 
 async function main() {
@@ -239,14 +295,17 @@ async function main() {
     && [...refFired.get(o.id)!].sort().join() !== o.fired.join()).map((o) => ({ id: o.id, reference: refFired.get(o.id), fired: o.fired }));
   const failed = outcomes.filter((o) => !o.ok);
   const survivors = mutants.filter((m) => !m.killed);
-  const report = { validator_version: real.VALIDATOR_VERSION, snapshot_id: cat.snapshot_id, paid_calls: 0,
-    totals: { cases: outcomes.length, ok: outcomes.length - failed.length, failed: failed.length, mutants: mutants.length, survivors: survivors.length },
+  const snap = snapshotCatalog();
+  const heldout = snap ? runHeldout(snap) : { status: 'VOID', reason: `out/snapshot/${HELDOUT_SNAPSHOT} is missing: run npm run build first` };
+  const totals = { cases: outcomes.length, ok: outcomes.length - failed.length, failed: failed.length, mutants: mutants.length, survivors: survivors.length };
+  const report = { validator_version: real.VALIDATOR_VERSION, snapshot_id: cat.snapshot_id, paid_calls: 0, totals, regression: totals, heldout,
     by_file: Object.fromEntries([...new Set(outcomes.map((o) => o.file))].map((f) => [f, { cases: by(f).length, ok: by(f).filter((o) => o.ok).length }])),
     named_failures: named, failures: failed, reference_diffs, known_gaps: gaps, skipped: SKIPPED,
     mutants: mutants.map(({ listed_killed_by: _, ...m }) => m), outcomes };
   mkdirSync(join(ROOT, 'reports'), { recursive: true });
   writeFileSync(join(ROOT, 'reports/eval.json'), JSON.stringify(report, null, 1) + '\n');
   console.log(JSON.stringify(report.totals));
+  console.log('heldout', 'by_class' in heldout ? JSON.stringify({ caught: heldout.caught, blocked: heldout.blocked, n: heldout.n, by_class: heldout.by_class }) : heldout.status);
   for (const f of failed) console.log(`FAIL ${f.file}:${f.id} ${f.why}`);
   for (const m of survivors) console.log(`SURVIVED ${m.id} ${m.rule_change}`);
   for (const d of reference_diffs) console.log(`diff ${d.id} reference=${d.reference} fired=${d.fired}`);

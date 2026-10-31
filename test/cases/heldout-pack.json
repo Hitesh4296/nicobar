@@ -1,0 +1,1528 @@
+{
+ "note": "real customer rows with their real picks from the 2026-10-29 snapshot",
+ "rows": [
+  {
+   "customer_id": "c01",
+   "occasion": "Sister's wedding",
+   "past_purchase_note": "Bought the indigo travel shirt last spring for a train to Jaipur.",
+   "occasion_key": "wedding",
+   "shape": "wedding",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "7492613243014",
+     "handle": "dupki-studs-gold",
+     "group": "wear",
+     "title": "Dupki Studs - Gold",
+     "body": "Some wedding moments feel like a secret smile. The kind you share across the room, the kind that makes your heart swim a little. The Dupki Studs are made for that feeling. Perfect for poolside mehendis, sun-soaked lunches, and every celebration where you want a touch of whimsy with your silk and sparkle. Crafted in brass and dipped in gold, these swimming fish curve around the ear and end in amethyst beads, a playful little treasure you’ll wear long past the wedding. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048028_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048028_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048028_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048028_4.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "7492613406854",
+     "handle": "chandni-necklace-large-gold",
+     "group": "wear",
+     "title": "Chandni Necklace Large - Gold",
+     "body": "There is a special kind of confidence that comes with pearls. A little old-world charm, a little modern ease, and that feeling of being exactly where you are meant to be. The Chandni Necklace Large holds that mood beautifully. Wear it when the morning turns into a ceremony and the ceremony turns into a dance floor. On its own or layered, it always finds the light. A classic string of pearls with a single garnet wink at the centre, crafted in brass and dipped in gold. Quiet, elegant, and just the right touch of playful. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048033_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048033_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048033_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048033_4.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "7492613275782",
+     "handle": "darbaar-balis-gold",
+     "group": "wear",
+     "title": "Darbaar Balis - Gold",
+     "body": "Some pieces feel like they’ve travelled through time to meet you at the wedding. The Darbaar Balis carry that grandeur. A little palace sparkle, a little portrait-painting romance, and all the beauty of women who have been adorning celebrations for centuries. Perfect for pheras in sunlight, silk evenings, and every moment you want to feel a touch royal without trying too hard. Crafted in brass and plated in antique gold, studded with glass on both sides, a reversible heirloom-style hoop inspired by jewels seen in paintings across the subcontinent. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_4.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "7492613177478",
+     "handle": "meher-earrings-gold",
+     "group": "wear",
+     "title": "Meher Earrings - Gold",
+     "body": "There is a grace to wedding days that feels timeless. The tilt of a head, the flicker of kajal, the kind of beauty that could be from today or a century ago. The Meher Earrings hold that feeling. Perfect for pheras drenched in sunshine, classic sangeet silks, and every moment you want to feel like you walked out of a miniature painting. Strung with pearls and glass, crafted in brass and dipped in gold, they sway softly and shine gently, an heirloom-tinged keepsake for now and forever. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_4.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c02",
+   "occasion": "Monsoon in Kochi",
+   "past_purchase_note": "Bought the cotton drape kurta before a work trip.",
+   "occasion_key": null,
+   "shape": "trip",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "7652882841734",
+     "handle": "rimjhim-pouch-ivory",
+     "group": "wear",
+     "title": "Rimjhim Pouch - Ivory",
+     "body": "An ode to the rain, the Rimjhim Pouch binds together playful print and everyday practicality. Crafted in printed cotton twill with a taffeta lining, it's finished with a brushed nickel metal zipper and a leather puller. Thoughtfully sized for cosmetics, stationery, travel essentials, or the little things you like to keep close. Easy to carry and made for everyday use, it slips effortlessly into your tote or handbag",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051695_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051695_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051695_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051695_4.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "7652883038342",
+     "handle": "pixel-cap-olive",
+     "group": "wear",
+     "title": "Pixel Cap - Olive",
+     "body": "Crafted in printed cotton twill with an all-over pixel heart print, it's finished with embroidered eyelets and an adjustable metal buckle for a personalised fit. Designed to feel light and comfortable throughout the day, it pairs effortlessly with both casual and travel-ready looks. Thoughtfully made for everyday adventures, it's a cap that's easy to wear wherever you're headed.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051700_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051700_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051700_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051700_4.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "7576166793350",
+     "handle": "everyday-stripes-scarf-dark-blue",
+     "group": "wear",
+     "title": "Everyday Stripes Scarf - Dark Blue",
+     "body": "Stripes that do more. The Everyday Stripes Scarf in dark blue is finished with a hint of red that catches the eye. Crafted in 100% cotton, it feels light and easy, made for all-day wear. A unisex handloom piece, it carries a sense of craft while staying easy to style. A running stitch detail at the ends and a red star embroidery bring in a graphic contrast. Wear it your way, around the neck, over the shoulders, or tied to a bag for a quick update.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049945_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049945_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049945_3.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "7652883103878",
+     "handle": "gingham-glow-socks-ice-blue-purple",
+     "group": "wear",
+     "title": "Gingham Glow Socks - Ice Blue & Purple",
+     "body": "Classic checks meet everyday comfort in the Gingham Glow Socks, designed for days on the move. Crafted in a soft cotton-rich blend with added stretch, they offer a comfortable fit that lasts throughout the day. The gingham-inspired pattern brings a timeless touch while remaining easy to pair with everyday favourites. Comfortable, versatile, and made for everyday wear.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051702_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051702_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051702_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051702_4.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c03",
+   "occasion": "Anniversary dinner",
+   "past_purchase_note": "Bought the silk evening stole last winter.",
+   "occasion_key": "evening",
+   "shape": "scene",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "7492613210246",
+     "handle": "noorani-necklace-gold",
+     "group": "wear",
+     "title": "Noorani Necklace - Gold",
+     "body": "There is a moment in every wedding night when everything feels still and full. Lights twinkle softer, music hums low, and you can almost smell jasmine in the air. The Noorani Necklace belongs to that beautiful hush. Wear it for evening pheras, candlelit dinners, and celebrations that feel like poetry after dusk. Crafted in brass and dipped in gold, this hasli is strung with glass and pearls in white and green, whispering night-blooming jasmine and gentle moonlit glow. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048026_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048026_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048026_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048026_4.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "7652882481286",
+     "handle": "moonlit-scarf-navy",
+     "group": "wear",
+     "title": "Moonlit Scarf - Navy",
+     "body": "Inspired by the stillness of twilight, the Moonlit Scarf brings together soft colour and serene pattern in an easy everyday layer. Crafted in fluid Bemberg with an abstract print, it's finished with a fine baby hem and grey shell buttons at opposite ends. Lightweight, breathable, and effortless to drape, it moves easily from cool mornings to evening outings. Wear it looped around the neck or draped loose for a thoughtful finishing touch.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051679_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051679_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051679_3.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "7652882382982",
+     "handle": "celestial-bali-gold",
+     "group": "wear",
+     "title": "Celestial Bali - Gold",
+     "body": "Inspired by the beauty of the night sky, the Celestial Bali brings a sense of wonder to a thoughtful silhouette. Handcrafted in brass with 18K gold plating, it reimagines the classic hoop through clean lines and a warm golden finish. Designed to move effortlessly from day to evening, it adds a subtle glow to every look., Comes in a gift box",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052104_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052104_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052104_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052104_4.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "7652882350214",
+     "handle": "taro-bracelet-silver",
+     "group": "wear",
+     "title": "Taro Bracelet - Silver",
+     "body": "Taking its cue from the taro leaf, this bracelet translates an organic form into a piece that's both subtle and distinctive. Handcrafted in brass with a rhodium-plated finish and a lapiz stone, it reflects Nicobar's love for thoughtful craftsmanship and natural motifs. Elegant enough for special occasions and understated enough for every day, it's a piece you'll reach for often., Comes in a gift box",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052103_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052103_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052103_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052103_4.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c04",
+   "occasion": "Father's sixtieth",
+   "past_purchase_note": "Bought the block-print scarf as a gift.",
+   "occasion_key": "birthday",
+   "shape": "gift",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "7576163352710",
+     "handle": "river-tiger-espresso-mug-set-of-4",
+     "group": "home",
+     "title": "River Tiger Espresso Mug - Set of 4",
+     "body": "Inspired by the vibrant beauty of the wild, the River Tiger Espresso Mugs – Set of 4 bring a playful yet striking touch to your coffee moments. Crafted from durable stoneware, two mugs feature bold tiger motifs while the other two showcase graceful totas, all highlighted with subtle gold accents. Perfectly sized for espresso or small brews, these mugs combine everyday functionality with distinctive, artful design. Capacity: 125 ml Comes in a Gift Box",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048966_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048966_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048966_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048966_4.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "7741540008070",
+     "handle": "firefly-scarf-grey-gold",
+     "group": "wear",
+     "title": "Firefly Scarf - Grey & Gold",
+     "body": "A Linen with Zari scarf in a grey and gold drawing on the collection's kalamkari-inspired garden motifs. Finished with a red star embroidered icon on one corner. Woven in alternate zari and linen stripes.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053183_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053183_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053183_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053183_4.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "7741539582086",
+     "handle": "appu-cufflinks-gold",
+     "group": "wear",
+     "title": "Appu Cufflinks - Gold",
+     "body": "Cufflinks shaped like seated elephants, named appu after the elephant that inspired them. Handcrafted in brass with 18ct gold plating, textured to bring out the folds of the ears and trunk. Small enough for a cuff, flamboyant enough to be the only accessory needed. For the shirt that could use a little personality at the wrist.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053627_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053627_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053627_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053627_4.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "7664341024902",
+     "handle": "twilight-pocket-square-set-of-2-blue",
+     "group": "wear",
+     "title": "Twilight Pocket Square - Set Of 2 - Blue",
+     "body": "The Twilight Pocket Square Set brings a finishing touch to formal dressing, printed in bemberg with an abstract motif. Crafted from cotton linter, a natural byproduct of cottonseed oil production, Bemberg is a regenerated cellulose fibre that’s soft, breathable, and gentle on the skin. It’s biodegradable, compostable, and made using a closed-loop process that minimises waste, making it a thoughtful choice for you and the planet. Sold as a set of two, each is finished with a smooth, lightweight handle. Perfect for weddings, formal dinners, and festive occasions it comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052474_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052474_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052474_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052474_4.jpg"
+     ]
+    },
+    {
+     "slot": "p5",
+     "product_id": "5196329812102",
+     "handle": "elephant-origami",
+     "group": "home",
+     "title": "Elephant Origami",
+     "body": "Inspired by the motifs on the clothing of the Banjara community, this is an origami-inspired elephant that is cast in brass Note: This piece may tarnish over time so take a slice of lemon to it to make it shine again.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_f90cc3e0-40ab-408b-8173-0dc5f7facb3a.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/2_c1784bfa-ac96-410a-9586-e02c4355d3e3.jpg"
+     ]
+    },
+    {
+     "slot": "p6",
+     "product_id": "7664340533382",
+     "handle": "alphabet-m-pin-gold",
+     "group": "wear",
+     "title": "Alphabet- M Pin - Gold",
+     "body": "A little personal touch for the everyday, the Alphabet- M Pin lets you carry your initial wherever you go. Handcrafted in brass with 18K gold plating, its clean letterform keeps the focus on simplicity. Small enough to pin onto a lapel, bag, or scarf, it makes for an easy everyday accent. Comes in a gift box",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052539_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052539_2.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c05",
+   "occasion": "Housewarming",
+   "past_purchase_note": "Bought the woven weekender for a long weekend.",
+   "occasion_key": "housewarming",
+   "shape": "home",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "5215840239750",
+     "handle": "nadi-espresso-mugs",
+     "group": "home",
+     "title": "Nadi Espresso Mugs (Set of 4)",
+     "body": "Crafted in smooth stoneware, our mugs feature motifs inspired by the Teesta river's path through Bengal and other graphic elements A set to prop up your mornings and high tea Capacity (each): 125 ml",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/4_5a180e24-0b5c-4587-9647-ae4290cb3062.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_d5ddca03-7a04-4c5b-b8ff-530871f83620.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/5_2d417a85-3183-4003-b6ab-fc71b57d2975.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/6_7a5370b8-a720-4840-9770-7cffe8aa2831.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "6538749378694",
+     "handle": "mahi-shallow-bowl-set-of-2",
+     "group": "home",
+     "title": "Mahi Shallow Bowl (Set of 2)",
+     "body": "A set of two shallow bowls with motifs inspired by the flora and fauna found along India's vast coast Best used to hold servings of rice, noodles or hearty one-pot meals",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI017076_5.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI017076_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI017076_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI017076_3.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "7728573481094",
+     "handle": "vira-cocktail-glass-set-of-4",
+     "group": "home",
+     "title": "Vira Cocktail Glass - Set of 4",
+     "body": "The Vira Cocktail Glass brings a spirited pop of colour to your bar cart, its glossy glass silhouette catching the light with every pour. Each glass in this set of four is finished in a vivid mix of colours, making them as much a design statement as they are a vessel for your favourite cocktail. Generously sized, they're built for everything from a classic mojito to a festive spiced cocktail, and look just as good holding a mocktail at a family gathering. A cheerful set to gift a friend who loves to entertain, or to elevate your own bar cart.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/8_1c5d54f2-56ca-4221-8c19-c86234ec855a.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/1_8c57f36a-91c2-4315-8df7-92aaede4f050.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/2_8c4f5f61-1373-4dd2-92e5-c16d0c18bec9.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/3_769a1695-055c-4443-8d1a-acd0bf690913.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "6581928263814",
+     "handle": "periyar-umbrella",
+     "group": "home",
+     "title": "Periyar Umbrella",
+     "body": "Peppered with swaying palms and the creatures of the jungle, this large umbrella can double up as a walking stick as well The handle is crafted from sturdy wood and is etched with little moon and star motifs",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_3e262970-1abf-478b-84ed-b04af07bec10.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/4_c1da28f4-a22c-4527-80c1-dba5c0f1a388.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/5_30eb3101-9518-43f8-81f1-243577d1f217.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/6_06bdb43c-3178-4803-bd26-0ad56daca83f.jpg"
+     ]
+    },
+    {
+     "slot": "p5",
+     "product_id": "7551228543110",
+     "handle": "kandy-dessert-plate",
+     "group": "home",
+     "title": "Kandy Dessert Plate",
+     "body": "The Kandy Dessert Plate draws from island greens and sunlit afternoons. Crafted in ecru stoneware, it features swaying palms in green that feel relaxed and evocative. Perfect for sweet endings, it carries a sense of escape into everyday dining.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049222_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049222_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049222_3.jpg"
+     ]
+    },
+    {
+     "slot": "p6",
+     "product_id": "6601425911942",
+     "handle": "mario-planter",
+     "group": "home",
+     "title": "Mario Planter",
+     "body": "Featuring the windows; architectural chronicles of Mario Miranda’s Goa, our planter is crafted with ceramic in charcoal grey Create a retro ethos at home and give your plant a striking new look",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/4_a109e46d-5698-4126-a987-5b0ae5166f5c.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_54f53570-7593-4d71-a484-ae14d08204e3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/5_ce6ac5a0-126d-4476-b960-2ff290d40a00.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c06",
+   "occasion": "Goa weekend",
+   "past_purchase_note": "Bought the printed resort shirt last summer.",
+   "occasion_key": "resort",
+   "shape": "trip",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "7652882579590",
+     "handle": "mukayu-city-tote-red-pink",
+     "group": "wear",
+     "title": "Mukayu City Tote - Red & Pink",
+     "body": "Designed for days that move from one place to the next, the Mukayu City Tote brings together generous space and thoughtful organisation for everyday carry. Crafted in printed cotton canvas with leather trims and antique brass hardware, it's finished with sturdy handles and whimsy details throughout. Designed with spacious compartments and practical pockets, it keeps work essentials, daily finds, and weekend favourites close at hand. Easy to carry and made for everyday adventures, it's a dependable companion you'll reach for time and again.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_4.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "7652882907270",
+     "handle": "starry-cap-navy-brown",
+     "group": "wear",
+     "title": "Starry Cap - Navy & Brown",
+     "body": "Made for sunny afternoons and days spent outdoors, the Starry Cap brings together everyday comfort and playful detail. Crafted in cotton twill with an all-over star print, it's finished with embroidered eyelets and an adjustable metal buckle at the back for a comfortable fit. Lightweight and easy to wear, it offers shade while adding a thoughtful touch of pattern to your everyday look. Whether you're travelling, exploring, or simply out for a walk, it's designed to go wherever the day takes you.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051698_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051698_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051698_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051698_4_2801ec7d-fb4f-4f84-afa4-a7bb28ae7878.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "7652882710662",
+     "handle": "machli-pouch-ivory",
+     "group": "wear",
+     "title": "Machli Pouch - Ivory",
+     "body": "Inspired by the fluid movement of the fish, the Machli Pouch brings a playful touch to everyday organisation. Crafted in printed fabric, it's finished with a zipper closure and a leather puller for ease of use. Perfect for storing everyday essentials, it keeps everything neatly together while slipping easily into your tote or travel bag. Designed for life on the move, it's equal parts practical and thoughtful.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051692_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051692_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051692_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051692_4.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "7652882415750",
+     "handle": "fleur-scarf-red-black",
+     "group": "wear",
+     "title": "Fleur Scarf - Red & Black",
+     "body": "A soft layer that brings together bold florals and contrast, the Fleur Scarf is made to brighten everyday dressing. Crafted in Bemberg with an all-over floral print, it's finished with a delicate baby hem for a light, fluid drape. Mother-of-pearl buttons and tassels at opposite corners add a thoughtful finishing touch. Wear it around the neck, over the shoulders, or tied onto your favourite bag for an easy pop of colour.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051677_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051677_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051677_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051677_4.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c07",
+   "occasion": "Diwali at home",
+   "past_purchase_note": "Bought the silver stack for a birthday.",
+   "occasion_key": "festive",
+   "shape": "home",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "6595613360262",
+     "handle": "kachnar-napkin-rings-set-of-4",
+     "group": "home",
+     "title": "Kachnar Napkin Rings (Set of 4)",
+     "body": "Crafted in iron with a matte gold finish, this is a set of four napkin rings that'll elevate every table setting Comes in a Gift Box",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/4_7b6411a8-b5aa-4ef6-9233-d64d46eb9976.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_00d8d736-b4c5-46bb-8e6f-b69fbe0023d7.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/5_0ed1e3e2-3f7b-41bc-be3b-168d2d59b062.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/6_3e58c70d-d03b-43db-b3a7-4d22dbb779fe.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "6914331869318",
+     "handle": "hibiscus-candle-holder",
+     "group": "home",
+     "title": "Hibiscus Candle Holder",
+     "body": "Add details to your home with Nicobar’s Hibiscus candle holder. This one instantly lights up any space. The shape of the candle holder is inspired by the beautiful Hibiscus flower. Great for festive home decor. Ideal gift for special occasions. Crafted in iron with a gold finish. Comes in a gift box",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI030426_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI030426_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI030426_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI030426_4.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "7728573251718",
+     "handle": "buransh-straight-mug",
+     "group": "home",
+     "title": "Buransh Straight Mug",
+     "body": "The buransh in full flower across a deep green base: pink rhododendron, white blossom and grey-green leaves wrapped around a straight-sided mug. Stoneware, with straight walls and a rounded handle, weighted enough to stay put on a desk. The dark base is forgiving of tea stains in a way a white mug rarely is.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/1_cff683b7-724d-4666-aafe-390f816d9293.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/2_f8826275-b849-43d6-ad40-371e543b003c.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/3_666e8846-12d2-4a97-9a73-ab50d5218ea1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/4_253c9b9c-f6a9-42a9-b5f1-e832905cd688.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "6892869877894",
+     "handle": "alam-cookie-tray-with-tong",
+     "group": "home",
+     "title": "Alam Cookie Tray with Tong",
+     "body": "Nicobar’s Alam Cookie tray is inspired by the flora and fauna of the jungles of Bali. Made in stoneware, the tray has a pleasing weight and heft to it. The plate is a great show stealer on the dining table. The Alam Cookie tray comes with a tong. Comes in a Gift Box",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI029859_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI029859_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI029859_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI029859_4.jpg"
+     ]
+    },
+    {
+     "slot": "p5",
+     "product_id": "5196418809990",
+     "handle": "anar-incense-set-anglesey",
+     "group": "home",
+     "title": "Anar Incense Set - Anglesey",
+     "body": "A set of two: incense holder and 12 incense sticks (each 4.5” long) The incense holder is cast in aluminium and plated in brass The incense sticks fill the air with a juicy tang of blackcurrant and have a burn time of approximately 25-30 minutes They come wrapped together in a gift box that makes for a great housewarming present",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI016479_5.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI016479_4.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/1.webp",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/2.webp"
+     ]
+    },
+    {
+     "slot": "p6",
+     "product_id": "7426322104454",
+     "handle": "phool-cake-stand",
+     "group": "home",
+     "title": "Phool Cake Stand",
+     "body": "Make room for a little drama. The Phool Cake Stand is tiered, gleaming, and ready to take centre stage. Each level is crafted in green glass with a polished gold rim—equal parts bold and beautiful. Finished with a sculptural gold-toned stem, it's made for high teas, festive feasts, and everything in between.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045554_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045554_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045554_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045554_4.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c08",
+   "occasion": "Farewell dinner",
+   "past_purchase_note": "Bought the linen column dress to wear to dinner.",
+   "occasion_key": "evening",
+   "shape": "scene",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "6858665001094",
+     "handle": "double-layer-dress-black",
+     "group": "wear",
+     "title": "Double Layer Dress - Black",
+     "body": "Built to be a staple for all seasons, our double layer dress crafted in linen cotton is great for a day at work or a meal with friends. The black hue and relaxed cut makes this an easy pick to spend your day in adding a touch of effortless style to your look. Wear it with sneakers or strappy sandals, and dress it up with delicate jewellery.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/1_7d51afc9-093d-4bcb-9a6b-c7e6e6ae41df.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/2_3f37719a-88a3-4961-b722-4bc7883d5d3e.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_4e785ed5-9f53-41b9-bd9d-820eea9e6410.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/4_66ec1cb6-11a2-463e-bc72-fec775648333.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "7537228775558",
+     "handle": "dhauli-kurta-grey-whitel-checks",
+     "group": "wear",
+     "title": "Dhauli Kurta - Grey & Whitel Checks",
+     "body": "The Dhauli Kurta makes a statement in bold gingham, where charcoal and white checks set the stage for crafted floral detail. Made in yarn dyed linen cotton checks, it carries a breathable texture with a strong, graphic summer presence. All over flower embroidery runs across the body, bringing softness and depth to the checked base. Finished with red pleating at the back collar, red check fabric accents under the sleeves, and slit sleeve styling as a modern twist on a classic kurta, this piece blends contrast, craft, and structure in linen cotton and threadwork.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048485_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048485_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048485_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048485_4.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "7551224545414",
+     "handle": "drop-armhole-shirt-ink-blue",
+     "group": "wear",
+     "title": "Drop Armhole Shirt - Ink Blue",
+     "body": "Our Drop Armhole Shirt is perfect for any occasion, whether it's a day at the office or a casual brunch with your friends. Its classic ink blue hue and versatile cut makes it easy to pair with any outfit, adding a touch of effortless style to your look.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048934_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048934_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048934_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048934_4.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "15401643540614",
+     "handle": "tahr-bandhgala-ivory",
+     "group": "wear",
+     "title": "Tahr Bandhgala - Ivory",
+     "body": "The Tahr Bandhgala, from the Rajesh Pratap Singh x Nicobar collection, is cut in ivory linen and named for the tahr, the wild goat of the mountains. 100% linen, piece dyed in solid ivory, with full sleeves. A solid ivory jacket leaves a printed or coloured kurta underneath to carry the pattern.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053653_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053653_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053653_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053653_4.jpg"
+     ]
+    },
+    {
+     "slot": "p5",
+     "product_id": "7741535322246",
+     "handle": "tokyo-offshoulder-top-bemberg-relaxed",
+     "group": "wear",
+     "title": "Tokyo offshoulder Top - Bemberg Relaxed",
+     "body": "The Tokyo Off-Shoulder Top brings a flash of colour to the collection in red Bemberg, with one bare shoulder and a bow at the waist. Cut in Bemberg, a fibre made from cotton linter that drapes like silk and breathes like cotton, the top falls in soft folds across the front. A tie at the side waist gathers the drape and finishes in a long bow. Half sleeves with a turned-back cuff balance the open shoulder. A heart of blue and gold sequins sits on the back shoulder. Wear it with black trousers for cocktail evenings and dinners out.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053738_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053738_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053738_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053738_4.jpg"
+     ]
+    },
+    {
+     "slot": "p6",
+     "product_id": "7741536665734",
+     "handle": "strut-kaftan-100-cotton-free-size",
+     "group": "wear",
+     "title": "Strut Kaftan - Cotton Silk Free size",
+     "body": "Firefly, our muse for the festive season, takes inspiration from the delicate, fleeting glow of fireflies that appear at dusk and make the night feel a little more magical. The Strut Kaftan brings that spirit to a green polka foil print with a small embroidered detail at the collar. Cut in lightweight Cotton Silk, this free-size kaftan has an easy silhouette with a regular collar and half kaftan sleeves. Polka dots in foil sit across the green base, giving the classic motif a festive finish while keeping the overall look graphic and considered. The collar is finished with a red and aqua stone bug embroidery, with a concealed underplacket and a button stitched in fuchsia thread for a small flash of colour. Finished with a baby hem and an easy free-size fit, it is made for daytime festivities, mehendis and long lunches.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053820_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053820_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053820_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053820_4.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c09",
+   "occasion": "Cousin's mehendi",
+   "past_purchase_note": "Bought the embroidered slip for a wedding last year.",
+   "occasion_key": "wedding",
+   "shape": "wedding",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "7265600635014",
+     "handle": "qurbat-dress-with-slip-ivory-hand-embroidered",
+     "group": "wear",
+     "title": "Qurbat Dress with Slip - Ivory Hand Embroidered",
+     "body": "A dreamy collection infused with heritage and opulence, the collared Qurbat Dress is a sheer delight in ivory, complete with an accompanying slip. The dress floats lighter than air, crafted in a buttery soft chanderi. The soft, neutral palette of ivory accentuates the intricate craftsmanship of the sequins in front, creating a harmonious interplay of texture and tone.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI035810_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI035810_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI035810_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI035810_4.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "7492613374086",
+     "handle": "bindu-choker-gold",
+     "group": "wear",
+     "title": "Bindu Choker - Gold",
+     "body": "There’s a sweetness in simplicity, the kind that lets your glow do all the talking. The Bindu Choker leans into that quiet beauty. Perfect for soft mehendi mornings, engagement brunches, or paired with longer layers when you want understated romance. An undulated pearl strand with a single pink glass dot at its heart, crafted in brass and dipped in gold, light and graceful on the skin. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048031_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048031_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048031_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048031_4.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "7664336502918",
+     "handle": "lola-slip-cotton-regular-fit",
+     "group": "wear",
+     "title": "Lola Slip - Cotton Regular Fit",
+     "body": "An everyday foundation, elevated through intricate embroidery and considered finishing. Crafted from breathable cotton, it offers softness and comfort while remaining light enough for year-round wear. The all-over Madhumalti embroidery lends beautiful texture, balanced by a clean silhouette and adjustable straps for an effortless fit. Perfect beneath sheer styles or worn as a simple camisole with relaxed separates.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052732_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052732_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052732_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052732_4.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "15401644687494",
+     "handle": "kesar-choker-gold",
+     "group": "wear",
+     "title": "Kesar Choker - Gold",
+     "body": "Three textured gold flowers, each with an amethyst at its centre, are joined by curling tendrils, with chalcedony drops in pale aqua beneath. Handcrafted in brass and 18k gold-plated, on a slim snake chain with a slider to adjust the fit. A piece where florals are worked in layered petals rather than drawn flat.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI054350_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI054350_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI054350_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI054350_4.jpg"
+     ]
+    },
+    {
+     "slot": "p5",
+     "product_id": "7576168169606",
+     "handle": "lila-dupatta-dust-pink-embroidered",
+     "group": "wear",
+     "title": "Lila Dupatta - Dust Pink Embroidered",
+     "body": "Dusty pink, softened with time and celebration. Crafted in cotton silk Chanderi, layered with embroidery and gentle sequin lift throughout. Gota borders and tassels frame the edges, adding movement and rhythm. It feels full without being heavy, detailed without being loud. Made for moments that call for something a little more.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI050731_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI050731_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI050731_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI050731_4.jpg"
+     ]
+    },
+    {
+     "slot": "p6",
+     "product_id": "7492613636230",
+     "handle": "inaaz-blouse-red-embroidered",
+     "group": "wear",
+     "title": "Inaaz Blouse - Red Embroidered",
+     "body": "This blouse is the one you'll be dancing in for years to come. The Inaaz Blouse is a vibrant red piece in 100% organic cotton voile, featuring all-over floral embroidery in gold and silver zari with a pop of green, for a delicate and textured finish.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048154_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048154_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048154_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/Nicobaraat_-_Product_Card_033f9ac7-cee7-4f68-98fe-9bf33efa76a1.png"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c10",
+   "occasion": "Jaipur weekend",
+   "past_purchase_note": "Bought the woven weekender and still uses it for two-night trips.",
+   "occasion_key": "resort",
+   "shape": "trip",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "7492613177478",
+     "handle": "meher-earrings-gold",
+     "group": "wear",
+     "title": "Meher Earrings - Gold",
+     "body": "There is a grace to wedding days that feels timeless. The tilt of a head, the flicker of kajal, the kind of beauty that could be from today or a century ago. The Meher Earrings hold that feeling. Perfect for pheras drenched in sunshine, classic sangeet silks, and every moment you want to feel like you walked out of a miniature painting. Strung with pearls and glass, crafted in brass and dipped in gold, they sway softly and shine gently, an heirloom-tinged keepsake for now and forever. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_4.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "7576166760582",
+     "handle": "windowpane-checks-scarf-dark-blue",
+     "group": "wear",
+     "title": "Windowpane Checks Scarf - Dark Blue",
+     "body": "Checks, sharpened. The Windowpane Checks Scarf in deep blue keeps things clean with a subtle twist. Crafted in 100% cotton, it offers a soft, breathable feel that works across seasons. A unisex handloom piece, it brings a sense of craft while staying easy to style. Finished with gingham binding and a single yellow star at the corner, a small detail that stands out. An easy add-on to elevate everyday outfits, from casual to slightly dressed up.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049944_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049944_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049944_3.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "6959138406534",
+     "handle": "alphabet-s-charm-black-gold-1",
+     "group": "wear",
+     "title": "Alphabet S Charm- Black & Gold",
+     "body": "With handwritten Devanagari akshar on one side and Roman letter on the other, this gold-plated charm with black enameling is the ideal gift for when you want to make it personal. Pair it with our Boondi Chain or gold plated snake chain. Comes in a Gift Box",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/APHABET-CHARMS-min.gif",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI020247_7.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI020247_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI020247_2.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "7492613275782",
+     "handle": "darbaar-balis-gold",
+     "group": "wear",
+     "title": "Darbaar Balis - Gold",
+     "body": "Some pieces feel like they’ve travelled through time to meet you at the wedding. The Darbaar Balis carry that grandeur. A little palace sparkle, a little portrait-painting romance, and all the beauty of women who have been adorning celebrations for centuries. Perfect for pheras in sunlight, silk evenings, and every moment you want to feel a touch royal without trying too hard. Crafted in brass and plated in antique gold, studded with glass on both sides, a reversible heirloom-style hoop inspired by jewels seen in paintings across the subcontinent. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_4.jpg"
+     ]
+    },
+    {
+     "slot": "p5",
+     "product_id": "7652882579590",
+     "handle": "mukayu-city-tote-red-pink",
+     "group": "wear",
+     "title": "Mukayu City Tote - Red & Pink",
+     "body": "Designed for days that move from one place to the next, the Mukayu City Tote brings together generous space and thoughtful organisation for everyday carry. Crafted in printed cotton canvas with leather trims and antique brass hardware, it's finished with sturdy handles and whimsy details throughout. Designed with spacious compartments and practical pockets, it keeps work essentials, daily finds, and weekend favourites close at hand. Easy to carry and made for everyday adventures, it's a dependable companion you'll reach for time and again.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_4.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c11",
+   "occasion": "Wedding guest in Udaipur",
+   "past_purchase_note": "Bought the cashmere wrap for a winter flight.",
+   "occasion_key": "wedding",
+   "shape": "wedding",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "7492613177478",
+     "handle": "meher-earrings-gold",
+     "group": "wear",
+     "title": "Meher Earrings - Gold",
+     "body": "There is a grace to wedding days that feels timeless. The tilt of a head, the flicker of kajal, the kind of beauty that could be from today or a century ago. The Meher Earrings hold that feeling. Perfect for pheras drenched in sunshine, classic sangeet silks, and every moment you want to feel like you walked out of a miniature painting. Strung with pearls and glass, crafted in brass and dipped in gold, they sway softly and shine gently, an heirloom-tinged keepsake for now and forever. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_4.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "7576166760582",
+     "handle": "windowpane-checks-scarf-dark-blue",
+     "group": "wear",
+     "title": "Windowpane Checks Scarf - Dark Blue",
+     "body": "Checks, sharpened. The Windowpane Checks Scarf in deep blue keeps things clean with a subtle twist. Crafted in 100% cotton, it offers a soft, breathable feel that works across seasons. A unisex handloom piece, it brings a sense of craft while staying easy to style. Finished with gingham binding and a single yellow star at the corner, a small detail that stands out. An easy add-on to elevate everyday outfits, from casual to slightly dressed up.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049944_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049944_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049944_3.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "7492613275782",
+     "handle": "darbaar-balis-gold",
+     "group": "wear",
+     "title": "Darbaar Balis - Gold",
+     "body": "Some pieces feel like they’ve travelled through time to meet you at the wedding. The Darbaar Balis carry that grandeur. A little palace sparkle, a little portrait-painting romance, and all the beauty of women who have been adorning celebrations for centuries. Perfect for pheras in sunlight, silk evenings, and every moment you want to feel a touch royal without trying too hard. Crafted in brass and plated in antique gold, studded with glass on both sides, a reversible heirloom-style hoop inspired by jewels seen in paintings across the subcontinent. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_4.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "7492613308550",
+     "handle": "jalpari-studs-gold",
+     "group": "wear",
+     "title": "Jalpari Studs - Gold",
+     "body": "There is a kind of joy at weddings that feels like sunlight, like secrets shared in a corner, like something lovely about to happen. The Jalpari Studs carry that feeling, tiny and sparkling and full of promise. Wear them with flowers in your hair, during haldi giggles, or on the night someone says you look like you’re glowing. Brass dipped in gold, a pair of little fish that shimmer softly and swim happily through every celebration. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048029_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048029_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048029_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048029_4.jpg"
+     ]
+    },
+    {
+     "slot": "p5",
+     "product_id": "7492613374086",
+     "handle": "bindu-choker-gold",
+     "group": "wear",
+     "title": "Bindu Choker - Gold",
+     "body": "There’s a sweetness in simplicity, the kind that lets your glow do all the talking. The Bindu Choker leans into that quiet beauty. Perfect for soft mehendi mornings, engagement brunches, or paired with longer layers when you want understated romance. An undulated pearl strand with a single pink glass dot at its heart, crafted in brass and dipped in gold, light and graceful on the skin. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048031_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048031_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048031_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048031_4.jpg"
+     ]
+    },
+    {
+     "slot": "p6",
+     "product_id": "6959138406534",
+     "handle": "alphabet-s-charm-black-gold-1",
+     "group": "wear",
+     "title": "Alphabet S Charm- Black & Gold",
+     "body": "With handwritten Devanagari akshar on one side and Roman letter on the other, this gold-plated charm with black enameling is the ideal gift for when you want to make it personal. Pair it with our Boondi Chain or gold plated snake chain. Comes in a Gift Box",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/APHABET-CHARMS-min.gif",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI020247_7.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI020247_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI020247_2.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c12",
+   "occasion": "First anniversary",
+   "past_purchase_note": "Bought the brass ear cuffs as a gift.",
+   "occasion_key": null,
+   "shape": "scene",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "5196412977286",
+     "handle": "madurai-jar-candle-1",
+     "group": "home",
+     "title": "Madurai Jar Candle",
+     "body": "Our warm, scented candles add a touch of dreaminess to an ordinary day. Soy wax candles last longer and burn cleaner than petroleum-based paraffin candles, and are less likely to trigger allergies. This candle scents the air with the sweet, intoxicating aroma of mogra (jasmine). Nico tip: when the candle burns all the way down, pop a tealight in and continue to use the jar",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/1600718093IMG_1076_bf961c57-f9ef-4502-abbc-1ed88165bf04.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/1600718094IMG_9614_309d062d-46e1-42f4-a3e2-b6d3e5bf8268.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "6897629429894",
+     "handle": "alphabet-glass-v",
+     "group": "home",
+     "title": "Alphabet Glass - V",
+     "body": "Our Alphabet glass series offers your initial in a beautiful design. A Nicobar design classic, it comes in a series of alphabets. A personalised and thoughtful gifting option. Crafted in borosilicate, making it lightweight and practical. Comes in a gift box Capacity: 275 ml",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI028592_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI028592_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI028592_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI028592_4.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "6538751443078",
+     "handle": "patang-mug",
+     "group": "home",
+     "title": "Patang mug",
+     "body": "Our much-loved alphabet mugs return; that familiar form in smooth stoneware, but with fresh designs that are a real love letter to India's regional dialect and scripts Part of our Core collection, you'll always find them in stores and in stock They make the perfect gifts, souvenirs, and keepsakes, packaged neatly in a gift box Capacity (each): 280 ml",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_cde54efa-f87c-4beb-9972-83a6d57d463f.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/4_2126275e-3f6c-4ae7-911a-5e78e4b6b2ae.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/5_0b60b306-44fb-436b-83f7-976a1342d296.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/6_6371f522-da83-488f-bebd-57e4c0396e3b.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "6861826162822",
+     "handle": "akshar-coaster-g",
+     "group": "home",
+     "title": "Akshar Coaster - G",
+     "body": "Settle down, put down your glass, and unwind with these Alphabet Coasters. These are guaranteed to be your most favourite addition to your home. Pairs well with our glasses, or our Alphabet Mugs. This versatile coaster can also become a great trinket dish. Comes in a gift box",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/1_2c01e356-d274-428f-95e5-132b9cf53a44.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/2_cf501fab-e3ef-4c77-8442-e38cf9d94fba.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_5ae31fae-22fb-4156-b3bf-8ef82b5b464a.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/P1833815_2b99f86f-69df-4afc-beb4-bda56f7c8909.jpg"
+     ]
+    },
+    {
+     "slot": "p5",
+     "product_id": "7454488395910",
+     "handle": "nico-belt-olive-red",
+     "group": "wear",
+     "title": "Nico Belt - Olive & Red",
+     "body": "The Nico Belt is a versatile essential, woven in sturdy cotton webbing with an olive base framed by a red edge. Finished with leather trims and an antique brass buckle, it blends durability with understated style. Designed as part of Nico Core, this piece is made to last — a perennial you’ll reach for season after season. An easy addition to any wardrobe, pairing seamlessly with both casual and polished looks.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI040348_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI040348_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI040348_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI040348_4.jpg"
+     ]
+    },
+    {
+     "slot": "p6",
+     "product_id": "7426319777926",
+     "handle": "kesar-scarf-yellow",
+     "group": "wear",
+     "title": "Kesar Scarf - Yellow",
+     "body": "Bright tumeric yellow sets the stage for blooming roses in watermelon hues on this scarf—bold, floral, and just a little nostalgic. Crafted in a modal-cupro blend and edged with a charcoal border for contrast. Tassels with button accents finish the look—drape it, knot it, or carry it like sunshine in your bag.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045735_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045735_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI045735_3.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c13",
+   "occasion": "Monsoon lunch",
+   "past_purchase_note": "Bought the indigo travel shirt for a coastal trip.",
+   "occasion_key": "smart",
+   "shape": "scene",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "7652882448518",
+     "handle": "floral-bloom-scarf-ivory",
+     "group": "wear",
+     "title": "Floral Bloom Scarf - Ivory",
+     "body": "Light, easy, and made for everyday moments, the Floral Bloom Scarf brings together soft florals and elegance. Crafted in Bemberg with an all-over floral print, it's finished with piping along the hem for a refined edge. Mother-of-pearl buttons and tassels at opposite corners add subtle movement and handcrafted detail. An effortless layer to wrap, drape, or carry through every season.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051678_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051678_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051678_3.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "6959137587334",
+     "handle": "ribbon-hoop-small-gold",
+     "group": "wear",
+     "title": "Ribbon Hoop Small - Gold",
+     "body": "Understated is underrated: these simple yet statement-worthy earrings are made in brass, naturally textured, and plated in gleaming gold. Perfect for every day or for special occasions, let them stand out as a statement in your look or pair them up with some dainty bangles. Comes in a Gift Box",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI032035_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI032035_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI032035_3.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "7652882284678",
+     "handle": "taro-chain-silver",
+     "group": "wear",
+     "title": "Taro Chain - Silver",
+     "body": "Inspired by the shape of the taro leaf, this chain celebrates the beauty found in nature's subtle details. Handcrafted in brass with a rhodium-plated finish and a lapiz stone, its elongated form creates a refined silhouette that feels light and an easy pick. A piece to wear every day, that layers beautifully while holding its own with equal ease., Comes in a gift box",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052101_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052101_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052101_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052101_4.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "7652882317446",
+     "handle": "flight-bracelet-silver",
+     "group": "wear",
+     "title": "Flight Bracelet - Silver",
+     "body": "Inspired by flying airplanes, this bracelet brings a gentle sense of movement to the wrist. Handcrafted in brass with a rhodium-plated finish, it pairs a clean silhouette with thoughtful detailing for everyday wear. Light, versatile, and easy to style, it slips naturally into your daily jewellery rotation., Comes in a gift box",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052102_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052102_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052102_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052102_4.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c14",
+   "occasion": "Diwali gifts",
+   "past_purchase_note": "Bought the handloom throw for a new flat.",
+   "occasion_key": "festive",
+   "shape": "gift",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "7741538959494",
+     "handle": "phool-jaal-earring-gold",
+     "group": "wear",
+     "title": "Phool Jaal Earring - Gold",
+     "body": "A lattice of flowers that falls like a net, jaal meaning exactly that, hence lending it its name: Phool Jaal. Handcrafted in brass, plated in gold and finished with pearl drops, adding a delicate detail. Each flower link is cut from sheet metal, joined so the whole thing moves as one.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053607_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053607_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053607_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053607_4.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "7426320466054",
+     "handle": "noor-earrings-gold",
+     "group": "wear",
+     "title": "Noor Earrings - Gold",
+     "body": "The eye symbol is universal, carrying powerful meanings of protection, intuition, and clarity across cultures. Crafted in brash and finished with gold with dangles of clear quartz. Set with luminous labradorite to enhance intuition and clear quartz to promote clarity of vision. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI046375_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI046375_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI046375_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI046375_4.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "6776774131846",
+     "handle": "madhu-ghee-pot-with-ladle",
+     "group": "home",
+     "title": "Madhu Ghee Pot With Ladle",
+     "body": "With its modern take on traditional brass, our very festive piece is one of our new favourites Handcrafted in brass and finished with a technique called 'kalai', this piece will make a big impression every time you bring it out Excellent to gift or keep Comes in a gift box Handmade in brass Perfectly imperfect: each piece is unique and will feature slight imperfections Capacity: 400 ml",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/P2488742_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/1_e9ea69a2-4049-4df8-9d32-2b14cd1ba3e9.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/2_42aa5d10-3597-4235-8edf-f6f12df80e80.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_d2716b24-df10-4f71-a31d-922517eefe77.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "5196418613382",
+     "handle": "nerola-incense-sticks-set-of-30",
+     "group": "home",
+     "title": "Nerola Incense Sticks - Set of 30",
+     "body": "A set of 30 incense sticks that fill the air with a sunny warm character and a sensual base Light one in the morning to kickstart your day, or in the evening to relax after a long day of work",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/1606903496IMG_6918_74906d9d-bc17-4944-8135-43f3789e968b.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/1606903495IMG_6759_ab2c1f8d-cf28-4abb-bd0c-d359aa48c1da.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/1606903496IMG_6969_d3c6deef-b10c-443d-9249-ebf960105176.jpg"
+     ]
+    },
+    {
+     "slot": "p5",
+     "product_id": "7537234182278",
+     "handle": "sindhu-choker-gold",
+     "group": "wear",
+     "title": "Sindhu Choker - Gold",
+     "body": "Sindhu Choker celebrates the resilience of nature through its delicate floral design. The flower motif is a symbol of nature’s enduring strength and beauty. Made in brass with gold plating, the choker combines elegance with symbolic meaning. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048647_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048647_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048647_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048647_4.jpg"
+     ]
+    },
+    {
+     "slot": "p6",
+     "product_id": "7728573481094",
+     "handle": "vira-cocktail-glass-set-of-4",
+     "group": "home",
+     "title": "Vira Cocktail Glass - Set of 4",
+     "body": "The Vira Cocktail Glass brings a spirited pop of colour to your bar cart, its glossy glass silhouette catching the light with every pour. Each glass in this set of four is finished in a vivid mix of colours, making them as much a design statement as they are a vessel for your favourite cocktail. Generously sized, they're built for everything from a classic mojito to a festive spiced cocktail, and look just as good holding a mocktail at a family gathering. A cheerful set to gift a friend who loves to entertain, or to elevate your own bar cart.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/8_1c5d54f2-56ca-4221-8c19-c86234ec855a.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/1_8c57f36a-91c2-4315-8df7-92aaede4f050.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/2_8c4f5f61-1373-4dd2-92e5-c16d0c18bec9.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/3_769a1695-055c-4443-8d1a-acd0bf690913.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c15",
+   "occasion": "Honeymoon packing",
+   "past_purchase_note": "Bought the printed resort shirt before a hot-weather trip.",
+   "occasion_key": "resort",
+   "shape": "trip",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "7652882514054",
+     "handle": "heera-scarf-brown",
+     "group": "wear",
+     "title": "Heera Scarf - Brown",
+     "body": "Grounded in warm earthy tones, the Heera Scarf is designed to bring depth and character to everyday dressing. Crafted in soft Bemberg with an abstract print, it's finished with a baby hem and grey shell buttons at opposite ends. Its lightweight construction makes it easy to layer, while the understated pattern pairs effortlessly with everyday essentials. Simple, versatile, and thoughtfully made, it's a scarf you'll reach for season after season.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051680_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051680_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051680_3.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "7652883267718",
+     "handle": "cupid-pouch-brown-mulberry",
+     "group": "wear",
+     "title": "Cupid Pouch - Brown & Mulberry",
+     "body": "Made for thoughtful gifting and everyday moments of pause, the Cupid Pouch is a cheerful companion for little essentials. Crafted in printed cotton twill with heart embroidery and finished with a zipper closure. Whether used on its own or as part of the set, it's designed to keep your everyday favourites neatly together. Thoughtful, playful, and made to travel with you, it's a little reminder to carry comfort wherever you go.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052564_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052564_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052564_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI052564_4.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "7652882972806",
+     "handle": "aero-cap-brown-beige",
+     "group": "wear",
+     "title": "Aero Cap - Brown & Beige",
+     "body": "Easy to wear and made for days on the move, the Aero Cap is a thoughtful companion for everyday adventures. Crafted in cotton twill with an aeroplane embroidery in red thread, it's finished with embroidered eyelets and an adjustable metal buckle that lets you find your perfect fit. Its clean design makes it an easy addition to everything from weekend outings to everyday errands. Lightweight, practical, and designed for everyday wear, it's a staple you'll bring along season after season.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051699_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051699_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051699_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051699_4.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "7652883071110",
+     "handle": "pixel-heart-socks-fuschia-brown",
+     "group": "wear",
+     "title": "Pixel Heart Socks - Fuschia & Brown",
+     "body": "Designed to bring a little joy to everyday dressing, the Pixel Heart Socks pair playful pattern with all-day comfort. Crafted in a soft cotton-rich blend with a touch of stretch, they feel breathable, comfortable, and easy to wear. Finished with an all-over pixel heart pattern, they add a subtle pop of character to everyday looks. Thoughtfully made for workdays, weekends, and nostalgic summer vacations.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051701_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051701_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051701_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051701_4.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c16",
+   "occasion": "Mother's birthday",
+   "past_purchase_note": "Bought the silk evening stole and lent it twice.",
+   "occasion_key": "birthday",
+   "shape": "gift",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "7741540040838",
+     "handle": "bouquet-scarf-green",
+     "group": "wear",
+     "title": "Bouquet Scarf - Pure Silk",
+     "body": "A pure silk scarf named for the guldasta, or bouquet, printed all over in garden florals. Finished with a baby roll hemline, tassels at opposite corners, and mother-of-pearl buttons. Woven in 100% silk.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053184_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053184_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053184_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053184_4.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "7652882579590",
+     "handle": "mukayu-city-tote-red-pink",
+     "group": "wear",
+     "title": "Mukayu City Tote - Red & Pink",
+     "body": "Designed for days that move from one place to the next, the Mukayu City Tote brings together generous space and thoughtful organisation for everyday carry. Crafted in printed cotton canvas with leather trims and antique brass hardware, it's finished with sturdy handles and whimsy details throughout. Designed with spacious compartments and practical pockets, it keeps work essentials, daily finds, and weekend favourites close at hand. Easy to carry and made for everyday adventures, it's a dependable companion you'll reach for time and again.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051683_4.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "5196329812102",
+     "handle": "elephant-origami",
+     "group": "home",
+     "title": "Elephant Origami",
+     "body": "Inspired by the motifs on the clothing of the Banjara community, this is an origami-inspired elephant that is cast in brass Note: This piece may tarnish over time so take a slice of lemon to it to make it shine again.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_f90cc3e0-40ab-408b-8173-0dc5f7facb3a.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/2_c1784bfa-ac96-410a-9586-e02c4355d3e3.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "6538751115398",
+     "handle": "ananas-mug",
+     "group": "home",
+     "title": "Ananas mug",
+     "body": "Our much-loved alphabet mugs return; that familiar form in smooth stoneware, but with fresh designs that are a real love letter to India's regional dialect and scripts Part of our Core collection, you'll always find them in stores and in stock They make the perfect gifts, souvenirs, and keepsakes, packaged neatly in a gift box Capacity (each): 280 ml",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/ALPHABET-MUG_GIF-1-min.gif",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/4_feee4029-8a2d-4499-a6ee-64b3bd8ed188.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/5_3fb851e6-0e34-4efe-beb5-a9fa51e85efa.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/6_3035ce68-3140-4fbd-9c93-27bcc80bb143.jpg"
+     ]
+    },
+    {
+     "slot": "p5",
+     "product_id": "7741538730118",
+     "handle": "pink-jade-drops-gold",
+     "group": "wear",
+     "title": "Pink Jade Drops - Gold",
+     "body": "A drop earring built around a single cabochon, pink jade held by three small gold beads. Handcrafted in brass and 18k gold-plated, finished with a plain gold hook. Small and rounded, it merges at a single point of colour.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053600_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053600_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053600_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053600_4.jpg"
+     ]
+    },
+    {
+     "slot": "p6",
+     "product_id": "7697174200454",
+     "handle": "bug-bracelet-gold-1",
+     "group": "wear",
+     "title": "Bug Bracelet - Gold",
+     "body": "NicoSera takes its name from the Italian word for evening, that golden hour when the day loosens its collar and the night begins. The Bug Bracelet brings a playful, jewel-like detail to after-dark dressing. Cast in brass and finished with 18k gold plating, the bracelet is accented with a polished onyx stone at its centre. A sculptural bug motif sits across the band, with intricate detailing and colourful accents that give the piece its character. Wear it as a statement piece with evening separates, or let it add an unexpected detail to a more pared-back look.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053206_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053206_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053206_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053206_4.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c17",
+   "occasion": "Gallery opening",
+   "past_purchase_note": "Bought the linen column dress for an evening out.",
+   "occasion_key": "evening",
+   "shape": "scene",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "6858665001094",
+     "handle": "double-layer-dress-black",
+     "group": "wear",
+     "title": "Double Layer Dress - Black",
+     "body": "Built to be a staple for all seasons, our double layer dress crafted in linen cotton is great for a day at work or a meal with friends. The black hue and relaxed cut makes this an easy pick to spend your day in adding a touch of effortless style to your look. Wear it with sneakers or strappy sandals, and dress it up with delicate jewellery.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/1_7d51afc9-093d-4bcb-9a6b-c7e6e6ae41df.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/2_3f37719a-88a3-4961-b722-4bc7883d5d3e.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_4e785ed5-9f53-41b9-bd9d-820eea9e6410.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/4_66ec1cb6-11a2-463e-bc72-fec775648333.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "7537228775558",
+     "handle": "dhauli-kurta-grey-whitel-checks",
+     "group": "wear",
+     "title": "Dhauli Kurta - Grey & Whitel Checks",
+     "body": "The Dhauli Kurta makes a statement in bold gingham, where charcoal and white checks set the stage for crafted floral detail. Made in yarn dyed linen cotton checks, it carries a breathable texture with a strong, graphic summer presence. All over flower embroidery runs across the body, bringing softness and depth to the checked base. Finished with red pleating at the back collar, red check fabric accents under the sleeves, and slit sleeve styling as a modern twist on a classic kurta, this piece blends contrast, craft, and structure in linen cotton and threadwork.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048485_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048485_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048485_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048485_4.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "7551224545414",
+     "handle": "drop-armhole-shirt-ink-blue",
+     "group": "wear",
+     "title": "Drop Armhole Shirt - Ink Blue",
+     "body": "Our Drop Armhole Shirt is perfect for any occasion, whether it's a day at the office or a casual brunch with your friends. Its classic ink blue hue and versatile cut makes it easy to pair with any outfit, adding a touch of effortless style to your look.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048934_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048934_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048934_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048934_4.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "15401643540614",
+     "handle": "tahr-bandhgala-ivory",
+     "group": "wear",
+     "title": "Tahr Bandhgala - Ivory",
+     "body": "The Tahr Bandhgala, from the Rajesh Pratap Singh x Nicobar collection, is cut in ivory linen and named for the tahr, the wild goat of the mountains. 100% linen, piece dyed in solid ivory, with full sleeves. A solid ivory jacket leaves a printed or coloured kurta underneath to carry the pattern.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053653_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053653_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053653_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053653_4.jpg"
+     ]
+    },
+    {
+     "slot": "p5",
+     "product_id": "7741535355014",
+     "handle": "sashay-top-metallised-fibre-a-line-fit",
+     "group": "wear",
+     "title": "Sashay Top - Metallised Fibre A-Line Fit",
+     "body": "The Sashay Top brings a little evening shimmer to the collection in plum metallic tissue. Made in metallic tissue and fully lined, this A-line top has a deep V-neckline and straps that tie at the back of the neck. The back is open to the waist, closed with a single fabric shell button. A tiny red heart is embroidered near the hem. Wear it to a sangeet night or cocktail party.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053743_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053743_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053743_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053743_4.jpg"
+     ]
+    },
+    {
+     "slot": "p6",
+     "product_id": "7741537878150",
+     "handle": "blush-sari-metallic-tissue",
+     "group": "wear",
+     "title": "Blush Sari - Metallic Tissue",
+     "body": "The Blush Sari brings that feeling to pink metallic tissue, with a pallu striped in pink and silver. Made in metallic tissue, it has an easy, fluid drape. The body stays plain pink, and pink and silver stripes run across the pallu. A blue icon is embroidered at the pallu corner, with green bead tassels at both ends. Made for sangeets, festive dinners and celebrations.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053973_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053973_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053973_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053973_4.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c18",
+   "occasion": "Work trip to Singapore",
+   "past_purchase_note": "Bought the cotton drape kurta and wore it off the plane.",
+   "occasion_key": "smart",
+   "shape": "trip",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "7576167350406",
+     "handle": "matchbox-laptop-sleeve-multicolor",
+     "group": "wear",
+     "title": "Matchbox Laptop Sleeve - Multicolor",
+     "body": "A graphic take on an everyday essential. The Matchbox Laptop Sleeve brings together bold prints inspired by traditional Indian matchbox art. Crafted in cotton canvas with a soft lining, it offers structure on the outside and ease within. Reimagined with Nicobar’s signature motifs, the multicolour print feels playful yet considered. Finished with magnetic snap closures, it slips easily into your bag or carries just as well on its own through the workday.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049961_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049961_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049961_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI049961_4.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "7652882940038",
+     "handle": "hana-spec-case-charcoal",
+     "group": "wear",
+     "title": "Hana Spec Case - Charcoal",
+     "body": "A thoughtful home for your everyday eyewear, the Hana Spec Case keeps your essentials protected in style. Crafted in printed mashru with a floral print, it's finished with a brushed nickel metal frame for a secure closure. Compact and easy to carry, it slips neatly into your handbag or travel tote while keeping your glasses close at hand. Practical, lightweight, and designed for everyday use, it's a small companion you'll reach for often.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051697_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051697_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051697_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051697_4.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "7652883136646",
+     "handle": "starfly-socks-black-white",
+     "group": "wear",
+     "title": "Starfly Socks - Black & White",
+     "body": "Inspired by star-filled skies, the Starfly Socks bring together playful pattern and everyday ease. Crafted in a soft cotton-rich blend with a comfortable stretch, they're designed to feel light and breathable from morning to night. Finished with a star motif in different colours on each sock, they add a cheerful touch without feeling loud. An easy everyday essential you'll keep reaching for.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051703_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051703_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051703_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051703_4.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "7652883333254",
+     "handle": "nova-charm-black-red",
+     "group": "wear",
+     "title": "Nova Charm - Black & Red",
+     "body": "A small detail that brings a little personality wherever it goes, the Nova Bag Charm is designed to brighten everyday carry. Crafted in eucalyptus leather with thoughtful finishing details, it's easy to clip onto your favourite tote, backpack, or keyring. The Trapunto Star on Front and Heart on back and Metal zipper with red leather puller add a playful accent without overwhelming. An easy way to make an everyday favourite feel uniquely yours.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051738_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051738_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051738_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051738_4.jpg"
+     ]
+    }
+   ]
+  },
+  {
+   "customer_id": "c19",
+   "occasion": "Sister's engagement",
+   "past_purchase_note": "Bought the block-print scarf for a cool evening.",
+   "occasion_key": "wedding",
+   "shape": "wedding",
+   "picks": [
+    {
+     "slot": "p1",
+     "product_id": "7492613177478",
+     "handle": "meher-earrings-gold",
+     "group": "wear",
+     "title": "Meher Earrings - Gold",
+     "body": "There is a grace to wedding days that feels timeless. The tilt of a head, the flicker of kajal, the kind of beauty that could be from today or a century ago. The Meher Earrings hold that feeling. Perfect for pheras drenched in sunshine, classic sangeet silks, and every moment you want to feel like you walked out of a miniature painting. Strung with pearls and glass, crafted in brass and dipped in gold, they sway softly and shine gently, an heirloom-tinged keepsake for now and forever. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048027_4.jpg"
+     ]
+    },
+    {
+     "slot": "p2",
+     "product_id": "7492613308550",
+     "handle": "jalpari-studs-gold",
+     "group": "wear",
+     "title": "Jalpari Studs - Gold",
+     "body": "There is a kind of joy at weddings that feels like sunlight, like secrets shared in a corner, like something lovely about to happen. The Jalpari Studs carry that feeling, tiny and sparkling and full of promise. Wear them with flowers in your hair, during haldi giggles, or on the night someone says you look like you’re glowing. Brass dipped in gold, a pair of little fish that shimmer softly and swim happily through every celebration. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048029_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048029_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048029_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048029_4.jpg"
+     ]
+    },
+    {
+     "slot": "p3",
+     "product_id": "7492613144710",
+     "handle": "mogra-shoulder-duster-gold",
+     "group": "wear",
+     "title": "Mogra Shoulder Duster - Gold",
+     "body": "Some moments in a wedding deserve a little drama. The kind that sways when you laugh, glows when you move, and feels like fresh mogra tucked behind your ear on the happiest day. The Mogra Shoulder Dusters are unapologetically statement. Heavier by design, made for those who love their jewellery bold, celebratory, and full of presence. Perfect for sangeet twirls, cocktail sparkle, and every entrance that deserves applause. Crafted in brass and dipped in gold with pearl bunch tassels, a modern take on a Nicobar favourite, created for nights that call for glamour. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048025_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048025_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048025_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048025_4.jpg"
+     ]
+    },
+    {
+     "slot": "p4",
+     "product_id": "7492613275782",
+     "handle": "darbaar-balis-gold",
+     "group": "wear",
+     "title": "Darbaar Balis - Gold",
+     "body": "Some pieces feel like they’ve travelled through time to meet you at the wedding. The Darbaar Balis carry that grandeur. A little palace sparkle, a little portrait-painting romance, and all the beauty of women who have been adorning celebrations for centuries. Perfect for pheras in sunlight, silk evenings, and every moment you want to feel a touch royal without trying too hard. Crafted in brass and plated in antique gold, studded with glass on both sides, a reversible heirloom-style hoop inspired by jewels seen in paintings across the subcontinent. Comes in a gift box.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_3.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048030_4.jpg"
+     ]
+    },
+    {
+     "slot": "p5",
+     "product_id": "7652882514054",
+     "handle": "heera-scarf-brown",
+     "group": "wear",
+     "title": "Heera Scarf - Brown",
+     "body": "Grounded in warm earthy tones, the Heera Scarf is designed to bring depth and character to everyday dressing. Crafted in soft Bemberg with an abstract print, it's finished with a baby hem and grey shell buttons at opposite ends. Its lightweight construction makes it easy to layer, while the understated pattern pairs effortlessly with everyday essentials. Simple, versatile, and thoughtfully made, it's a scarf you'll reach for season after season.",
+     "images": [
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051680_1.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051680_2.jpg",
+      "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051680_3.jpg"
+     ]
+    }
+   ]
+  }
+ ]
+}
