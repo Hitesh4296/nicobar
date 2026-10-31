@@ -1,0 +1,561 @@
+{
+ "synthetic": true,
+ "paid_calls": 0,
+ "s_for_stub": {
+  "S": {
+   "both": 3961,
+   "email": 3463,
+   "landing_page": 3865
+  },
+  "cap_json_S": {
+   "both": 3000,
+   "email": 3000,
+   "landing_page": 3000
+  }
+ },
+ "counts": {
+  "PASS": 8,
+  "FAIL": 0,
+  "VOID": 0
+ },
+ "lines": [
+  {
+   "id": "R1",
+   "red": "planted: 3 bad, all failed",
+   "seam_red": [
+    "finished d01 called again",
+    "finished d02 called again",
+    "finished d03 called again",
+    "finished d04 called again",
+    "finished d05 called again",
+    "every unit terminal: got 7, want 0",
+    "9 in-flight repeats > 4"
+   ],
+   "output": {
+    "finished": [
+     "d01",
+     "d02",
+     "d03",
+     "d04",
+     "d05"
+    ],
+    "called_before": [
+     "d01",
+     "d02",
+     "d03",
+     "d04",
+     "d05",
+     "d06",
+     "d07",
+     "d08",
+     "d09"
+    ],
+    "calls_after": {
+     "d06": 1,
+     "d09": 1,
+     "d08": 1,
+     "d07": 1,
+     "d11": 1,
+     "d10": 1,
+     "d12": 1
+    },
+    "open": 0,
+    "billed_twice": [
+     {
+      "key": "d06",
+      "b": 2
+     },
+     {
+      "key": "d07",
+      "b": 2
+     },
+     {
+      "key": "d08",
+      "b": 2
+     },
+     {
+      "key": "d09",
+      "b": 2
+     }
+    ]
+   },
+   "seam_output": {
+    "finished": [
+     "d01",
+     "d02",
+     "d03",
+     "d04",
+     "d05"
+    ],
+    "called_before": [
+     "d01",
+     "d02",
+     "d03",
+     "d04",
+     "d05",
+     "d06",
+     "d07",
+     "d08",
+     "d09"
+    ],
+    "calls_after": {
+     "d01": 1,
+     "d02": 1,
+     "d03": 1,
+     "d04": 1,
+     "d05": 1,
+     "d06": 1,
+     "d07": 1,
+     "d08": 1,
+     "d09": 1,
+     "d10": 1,
+     "d11": 1,
+     "d12": 1
+    },
+    "open": 7,
+    "billed_twice": []
+   },
+   "verdict": "PASS",
+   "why": "held on the real run"
+  },
+  {
+   "id": "R2",
+   "red": "planted: 2 bad, all failed",
+   "seam_red": [
+    "attempt 1 call_state: got \"answered\", want \"possibly_billed\""
+   ],
+   "output": {
+    "attempt1": "possibly_billed",
+    "attempts": 2,
+    "calls": 2,
+    "rows": [
+     {
+      "attempt": 1,
+      "call_state": "possibly_billed"
+     },
+     {
+      "attempt": 2,
+      "call_state": "answered"
+     }
+    ]
+   },
+   "seam_output": {
+    "attempt1": "answered",
+    "attempts": 1,
+    "calls": 1,
+    "rows": [
+     {
+      "attempt": 1,
+      "call_state": "answered"
+     }
+    ]
+   },
+   "verdict": "PASS",
+   "why": "held on the real run"
+  },
+  {
+   "id": "R3",
+   "red": "planted: 2 bad, all failed",
+   "seam_red": [
+    "approve events: got 0, want 1",
+    "release events: got 0, want 1"
+   ],
+   "output": {
+    "second_post": 409,
+    "approve_events": 1,
+    "release_events": 1,
+    "draft_id": "rd-mvwwka6g-r5:x429:v1",
+    "want_draft_id": "rd-mvwwka6g-r5:x429:v1"
+   },
+   "seam_output": {
+    "second_post": 409,
+    "approve_events": 0,
+    "release_events": 0,
+    "draft_id": "rd-mvwwka6g-r5:xfail:v1",
+    "want_draft_id": "rd-mvwwka6g-r5:xfail:v1"
+   },
+   "verdict": "PASS",
+   "why": "held on the real run"
+  },
+  {
+   "id": "R4",
+   "red": "planted: 2 bad, all failed",
+   "seam_red": [
+    "c-throw wanted failed:INTERNAL_ERROR"
+   ],
+   "output": {
+    "expected": {
+     "c-ok-1": "drafted",
+     "c-ok-2": "drafted",
+     "c-ok-3": "drafted",
+     "c-ok-4": "drafted",
+     "c20-x": "failed:COLD_START_NO_HISTORY",
+     "c-badpick": "failed:INVALID_PICK",
+     "row:*": "failed:INVALID_CUSTOMER",
+     "c-throw": "failed:INTERNAL_ERROR"
+    },
+    "units": {
+     "c-badpick": "failed:INVALID_PICK",
+     "c-ok-1": "drafted",
+     "c-ok-2": "drafted",
+     "c-ok-3": "drafted",
+     "c-ok-4": "drafted",
+     "c-throw": "failed:INTERNAL_ERROR",
+     "c20-x": "failed:COLD_START_NO_HISTORY",
+     "row:6": "failed:INVALID_CUSTOMER"
+    }
+   },
+   "seam_output": {
+    "expected": {
+     "c-ok-1": "drafted",
+     "c-ok-2": "drafted",
+     "c-ok-3": "drafted",
+     "c-ok-4": "drafted",
+     "c20-x": "failed:COLD_START_NO_HISTORY",
+     "c-badpick": "failed:INVALID_PICK",
+     "row:*": "failed:INVALID_CUSTOMER",
+     "c-throw": "failed:INTERNAL_ERROR"
+    },
+    "units": {
+     "c-badpick": "failed:INVALID_PICK",
+     "c-ok-1": "drafted",
+     "c-ok-2": "drafted",
+     "c-ok-3": "drafted",
+     "c-ok-4": "drafted",
+     "c-throw": "drafted",
+     "c20-x": "failed:COLD_START_NO_HISTORY",
+     "row:6": "failed:INVALID_CUSTOMER"
+    }
+   },
+   "verdict": "PASS",
+   "why": "held on the real run"
+  },
+  {
+   "id": "R5",
+   "red": "planted: 3 bad, all failed",
+   "seam_red": [
+    "429 then 200 billed: got 2, want 1",
+    "passing part byte-identical: got false, want true"
+   ],
+   "output": {
+    "b429": 1,
+    "refusal_calls": 1,
+    "retry_parts": "landing_page",
+    "carried_same": true,
+    "max_billed": 2,
+    "units": [
+     {
+      "key": "x429",
+      "status": "drafted",
+      "code": null,
+      "b": 1
+     },
+     {
+      "key": "xbad",
+      "status": "drafted",
+      "code": null,
+      "b": 2
+     },
+     {
+      "key": "xfail",
+      "status": "failed",
+      "code": "CHECKS_FAILED",
+      "b": 2
+     },
+     {
+      "key": "xrefuse",
+      "status": "failed",
+      "code": "UPSTREAM_UNAVAILABLE",
+      "b": 0
+     }
+    ],
+    "calls": [
+     {
+      "key": "x429",
+      "parts": "email+landing_page",
+      "n": 1,
+      "status": 429
+     },
+     {
+      "key": "x429",
+      "parts": "email+landing_page",
+      "n": 2,
+      "status": 200
+     },
+     {
+      "key": "xbad",
+      "parts": "email+landing_page",
+      "n": 1,
+      "status": 200
+     },
+     {
+      "key": "xfail",
+      "parts": "email+landing_page",
+      "n": 1,
+      "status": 200
+     },
+     {
+      "key": "xrefuse",
+      "parts": "email+landing_page",
+      "n": 1,
+      "status": 200
+     },
+     {
+      "key": "xbad",
+      "parts": "landing_page",
+      "n": 2,
+      "status": 200
+     },
+     {
+      "key": "xfail",
+      "parts": "email+landing_page",
+      "n": 2,
+      "status": 200
+     }
+    ]
+   },
+   "seam_output": {
+    "b429": 2,
+    "refusal_calls": 1,
+    "retry_parts": "landing_page",
+    "carried_same": false,
+    "max_billed": 2,
+    "units": [
+     {
+      "key": "x429",
+      "status": "drafted",
+      "code": null,
+      "b": 2
+     },
+     {
+      "key": "xbad",
+      "status": "drafted",
+      "code": null,
+      "b": 2
+     },
+     {
+      "key": "xrefuse",
+      "status": "failed",
+      "code": "UPSTREAM_UNAVAILABLE",
+      "b": 0
+     }
+    ],
+    "calls": [
+     {
+      "key": "xbad",
+      "parts": "email+landing_page",
+      "n": 1,
+      "status": 200
+     },
+     {
+      "key": "xbad",
+      "parts": "landing_page",
+      "n": 2,
+      "status": 200
+     },
+     {
+      "key": "xbadboth",
+      "parts": "email+landing_page",
+      "n": 1,
+      "status": 200
+     },
+     {
+      "key": "xrefuse",
+      "parts": "email+landing_page",
+      "n": 1,
+      "status": 200
+     },
+     {
+      "key": "xbadboth",
+      "parts": "email+landing_page",
+      "n": 2,
+      "status": 200
+     }
+    ]
+   },
+   "verdict": "PASS",
+   "why": "held on the real run"
+  },
+  {
+   "id": "R6",
+   "red": "planted: 3 bad, all failed",
+   "seam_red": [
+    "oversized unit: got \"drafted:null\", want \"skipped:OVER_CAP\"",
+    "oversized stub calls: got 1, want 0",
+    "oversized charged: got 0.093288, want 0",
+    "oversized cost_events action: got \"admit\", want \"skip\""
+   ],
+   "output": {
+    "big": "skipped:OVER_CAP",
+    "big_calls": 0,
+    "big_charged": 0,
+    "big_action": "skip",
+    "cap_in_body": 400
+   },
+   "seam_output": {
+    "big": "drafted:null",
+    "big_calls": 1,
+    "big_charged": 0.093288,
+    "big_action": "admit",
+    "cap_in_body": 400
+   },
+   "verdict": "PASS",
+   "why": "held on the real run"
+  },
+  {
+   "id": "R7",
+   "red": "planted: 2 bad, all failed",
+   "seam_red": [
+    "run status: got \"stopped\", want \"done\"",
+    "c-ok-2 has neither"
+   ],
+   "output": {
+    "status": "done",
+    "units": [
+     {
+      "key": "c-badpick",
+      "status": "failed",
+      "code": "INVALID_PICK",
+      "draft": null
+     },
+     {
+      "key": "c-ok-1",
+      "status": "drafted",
+      "code": null,
+      "draft": "rd-mvwwka6g-r4:c-ok-1:v1"
+     },
+     {
+      "key": "c-ok-2",
+      "status": "drafted",
+      "code": null,
+      "draft": "rd-mvwwka6g-r4:c-ok-2:v1"
+     },
+     {
+      "key": "c-ok-3",
+      "status": "drafted",
+      "code": null,
+      "draft": "rd-mvwwka6g-r4:c-ok-3:v1"
+     },
+     {
+      "key": "c-ok-4",
+      "status": "drafted",
+      "code": null,
+      "draft": "rd-mvwwka6g-r4:c-ok-4:v1"
+     },
+     {
+      "key": "c-throw",
+      "status": "failed",
+      "code": "INTERNAL_ERROR",
+      "draft": null
+     },
+     {
+      "key": "c20-x",
+      "status": "failed",
+      "code": "COLD_START_NO_HISTORY",
+      "draft": null
+     },
+     {
+      "key": "row:6",
+      "status": "failed",
+      "code": "INVALID_CUSTOMER",
+      "draft": null
+     }
+    ]
+   },
+   "seam_output": {
+    "status": "stopped",
+    "units": [
+     {
+      "key": "c-badpick",
+      "status": "failed",
+      "code": "INVALID_PICK",
+      "draft": null
+     },
+     {
+      "key": "c-ok-1",
+      "status": "drafted",
+      "code": null,
+      "draft": "rd-mvwwka6g-r7-red:c-ok-1:v1"
+     },
+     {
+      "key": "c-ok-2",
+      "status": "admitted",
+      "code": null,
+      "draft": null
+     },
+     {
+      "key": "c-ok-3",
+      "status": "drafted",
+      "code": null,
+      "draft": "rd-mvwwka6g-r7-red:c-ok-3:v1"
+     },
+     {
+      "key": "c-ok-4",
+      "status": "drafted",
+      "code": null,
+      "draft": "rd-mvwwka6g-r7-red:c-ok-4:v1"
+     },
+     {
+      "key": "c-throw",
+      "status": "drafted",
+      "code": null,
+      "draft": "rd-mvwwka6g-r7-red:c-throw:v1"
+     },
+     {
+      "key": "c20-x",
+      "status": "failed",
+      "code": "COLD_START_NO_HISTORY",
+      "draft": null
+     },
+     {
+      "key": "row:6",
+      "status": "failed",
+      "code": "INVALID_CUSTOMER",
+      "draft": null
+     }
+    ]
+   },
+   "verdict": "PASS",
+   "why": "held on the real run"
+  },
+  {
+   "id": "L4",
+   "red": "planted: 3 bad, all failed",
+   "seam_red": [
+    "/released before tamper: got 409, want 200"
+   ],
+   "output": {
+    "release_in_review": 409,
+    "status_update": "refused",
+    "approve": [
+     200,
+     409
+    ],
+    "release": [
+     200,
+     409
+    ],
+    "released_before": 200,
+    "tamper": "applied",
+    "released_after": 409
+   },
+   "seam_output": {
+    "release_in_review": 409,
+    "status_update": "refused",
+    "approve": [
+     409,
+     409
+    ],
+    "release": [
+     409,
+     409
+    ],
+    "released_before": 409,
+    "tamper": "applied",
+    "released_after": 409
+   },
+   "verdict": "PASS",
+   "why": "held on the real run"
+  }
+ ]
+}
