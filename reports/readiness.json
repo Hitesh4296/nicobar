@@ -1,0 +1,67 @@
+{
+ "synthetic": true,
+ "paid_calls": 0,
+ "counts": {
+  "PASS": 0,
+  "FAIL": 0,
+  "VOID": 8
+ },
+ "lines": [
+  {
+   "id": "R1",
+   "verdict": "VOID",
+   "why": "prerequisite build: NOT_BUILT: build, lane data",
+   "red": "planted: all failed",
+   "output": null
+  },
+  {
+   "id": "R2",
+   "verdict": "VOID",
+   "why": "prerequisite build: NOT_BUILT: build, lane data",
+   "red": "planted: all failed",
+   "output": null
+  },
+  {
+   "id": "R3",
+   "verdict": "VOID",
+   "why": "prerequisite build: NOT_BUILT: build, lane data",
+   "red": "planted: all failed",
+   "output": null
+  },
+  {
+   "id": "R4",
+   "verdict": "VOID",
+   "why": "prerequisite build: NOT_BUILT: build, lane data",
+   "red": "planted: all failed",
+   "output": null
+  },
+  {
+   "id": "R5",
+   "verdict": "VOID",
+   "why": "prerequisite build: NOT_BUILT: build, lane data",
+   "red": "planted: all failed",
+   "output": null
+  },
+  {
+   "id": "R6",
+   "verdict": "VOID",
+   "why": "prerequisite build: NOT_BUILT: build, lane data",
+   "red": "planted: all failed",
+   "output": null
+  },
+  {
+   "id": "R7",
+   "verdict": "VOID",
+   "why": "prerequisite build: NOT_BUILT: build, lane data",
+   "red": "planted: all failed",
+   "output": null
+  },
+  {
+   "id": "L4",
+   "verdict": "VOID",
+   "why": "prerequisite build: NOT_BUILT: build, lane data",
+   "red": "planted: all failed",
+   "output": null
+  }
+ ]
+}
