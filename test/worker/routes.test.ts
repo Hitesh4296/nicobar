@@ -48,7 +48,7 @@ describe('stubs', () => {
   it('foreign Origin on a mutating route is 403, same origin passes it', async () => {
     const post = (origin: string) => get('/api/drafts/d/approve', { method: 'POST', headers: { Origin: origin } });
     expect((await post('https://evil.test')).status).toBe(403);
-    expect((await post('https://x.test')).status).toBe(501);
+    expect((await post('https://x.test')).status).not.toBe(403);
   });
 });
 

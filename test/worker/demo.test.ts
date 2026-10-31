@@ -81,6 +81,6 @@ describe('test 3: run routes answer 503 when deployed', () => {
   const call = (path: string) => worker.fetch(new Request(`https://x.test${path}`, { method: 'POST' }) as never, deployed, {} as ExecutionContext);
   // ponytail: `run` owns routes/runs.ts and its own test 9; these stay `it.fails` on the M0 stub. They go red the moment run merges: then drop `.fails`, part 2.
   for (const p of ['/api/runs', '/api/runs/r/restart', '/api/runs/r/mark-stopped', '/api/ledger']) {
-    it.fails(`${p} → 503`, async () => expect((await call(p)).status).toBe(503));
+    it(`${p} → 503`, async () => expect((await call(p)).status).toBe(503));
   }
 });
