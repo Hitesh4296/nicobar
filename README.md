@@ -70,7 +70,7 @@ npm run batch -- --stage <label>                      # preview, then the full r
 
 | command | what it does | cost | time |
 |---|---|---|---|
-| `npm run eval` | 312 offline cases and 22 mutants. Writes `reports/eval.json` | $0 | about 10 s |
+| `npm run eval` | 361 offline cases and 25 mutants, plus the held-out regression. Writes `reports/eval.json` | $0 | about 10 s |
 | `npm run readiness` | 8 production lines on real local runs. Writes `reports/readiness.json` | $0 | about 4 min |
 | `npm test` | 655 unit and worker tests | $0 | about 1 min |
 | `npm run typecheck` | `tsc` | $0 | seconds |

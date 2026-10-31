@@ -81,7 +81,7 @@ One `validate` runs in `finish` and again at E2, E4 and E7 on the stored `model_
 | C1 | Schema |
 | C2, C2.L1–L7 | Slot use and adjacency; landing layout rules |
 | C3, C3.L | Body over 120 words. Counts prose plus titles expanded inside it |
-| C4 | Discount, pressure and familiarity phrases |
+| C4 | Discount, pressure, scarcity, deadline, spend and familiarity phrases |
 | C5 | URLs and digit runs |
 | C6 | Occasion key equals the plan's |
 | C7 | Ungrounded attributes and counts, scoped to the pick |

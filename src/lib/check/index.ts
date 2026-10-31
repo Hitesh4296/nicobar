@@ -10,7 +10,7 @@ import { LISTS } from '../../contracts/lists.ts';
 import { stem } from '../catalog/strip.ts';
 import type { Catalog, CheckResult, Envelope, Format, Part, Plan, Product, RenderedJson, Rules, Slot } from '../../contracts/types.ts';
 
-export const VALIDATOR_VERSION = 'check-v1';
+export const VALIDATOR_VERSION = 'check-v2';
 
 /** Every string leaf the model writes as prose. test/node/check.test.ts walks the schemas against this (L-11). */
 export const PROSE: Record<Format, string[]> = {
@@ -35,6 +35,13 @@ const SPACED = new RegExp(LISTS.charset.spaced_letter_re);
 const C4 = LISTS.c4.patterns.map((p) => ({ id: p.id, group: p.group, re: new RegExp(p.re, LISTS.c4.flags) }));
 const C5 = [new RegExp(LISTS.c5.url_or_domain, LISTS.c5.flags), new RegExp(LISTS.c5.digit_run, LISTS.c5.flags)];
 const C8N: Record<string, RegExp[]> = Object.fromEntries(Object.entries(LISTS.c8n).map(([id, spans]) => [id, (spans as string[]).map(phrase)]));
+// The head noun is the last word of a row's last span: travel shirt, drape kurta, ear cuffs. Plural either way.
+const C8N_HEAD: Record<string, RegExp> = Object.fromEntries(Object.entries(LISTS.c8n).flatMap(([id, spans]) => {
+  const last = (spans as string[]).at(-1)?.split(/\s+/).at(-1);
+  return last ? [[id, new RegExp(`\\b${last.replace(/(?<!s)s$/, '')}(?:s|es)?\\b`, 'i')]] : [];
+}));
+// ponytail: each cue fires 0 times beside a head noun in the 8,938 raw bodies and the good drafts. Bare `last`, `again`, `still`, `second`, `already` and `you've` do not, so they stay out.
+const PAST_CUE = /\blast (?:winter|summer|spring|autumn|monsoon|year|season|month|week|time|trip|holiday)\b|\bbefore(?=\s*(?:[,.?;:]|$))|\bpreviously\b|\byou had\b|\bhave been\b|\bwent with you\b|\byou (?:wore|bought|took|packed|carried|chose|picked|used|brought|landed|kept)\b/i;
 const C8O = LISTS.c8o.names.map((n) => ({ n, re: phrase(fold(n)) }));
 const ALLOW = LISTS.c8_allow.allow_title_case;
 const DAYS = LISTS.c8_allow.c8d_allow.days_and_months;
@@ -343,10 +350,14 @@ function context(part: Format, model: any, cat: Catalog, plan: Plan): Ctx {
   return ctx;
 }
 
-/** Matching spans of the row's past items, on raw model text. */
+/** Matching spans of the row's past item, then any sentence holding its head noun and a past-time cue. Raw model text. */
 export function c8nHits(text: string, customer_id: string): string[] {
-  const t = fold(text);
-  return (C8N[customer_id] ?? []).filter((re) => re.test(t)).map((re) => re.source);
+  const t = fold(text), head = C8N_HEAD[customer_id];
+  const echoes = !head ? [] : t.split(SENTENCE).flatMap((s) => {
+    const noun = head.exec(s), cue = PAST_CUE.exec(s);
+    return noun && cue ? [`${noun[0]} + ${cue[0]}`] : [];
+  });
+  return [...(C8N[customer_id] ?? []).filter((re) => re.test(t)).map((re) => re.source), ...echoes];
 }
 
 export function validate(model_json: string, envelope: Envelope, cat: Catalog, plan: Plan): CheckResult[] {

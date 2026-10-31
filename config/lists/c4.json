@@ -1,5 +1,5 @@
 {
- "version": "c4-v3",
+ "version": "c4-v4",
  "flags": "i",
  "applies_to": "raw model text and raw source text, after the apostrophe fold (U+2019 and U+2018 become U+0027). Never run on expanded or rendered text, so a pick title such as \"(Limited Edition)\" renders verbatim.",
  "also": {
@@ -435,12 +435,168 @@
    "id": "c4.086",
    "group": "familiarity",
    "re": "\\bchosen\\s+for\\s+you\\b"
+  },
+  {
+   "id": "c4.087",
+   "group": "urgency-scarcity",
+   "re": "\\b(rarely|seldom|never|won't|will not|does not|do not|doesn't|don't) last\\b"
+  },
+  {
+   "id": "c4.088",
+   "group": "urgency-scarcity",
+   "re": "\\b(last|final) (few|pieces?)\\b"
+  },
+  {
+   "id": "c4.089",
+   "group": "urgency-scarcity",
+   "re": "\\bfew (left|remain|remaining)\\b"
+  },
+  {
+   "id": "c4.090",
+   "group": "urgency-scarcity",
+   "re": "\\balmost gone\\b"
+  },
+  {
+   "id": "c4.091",
+   "group": "urgency-scarcity",
+   "re": "\\brunning (out|low)\\b"
+  },
+  {
+   "id": "c4.092",
+   "group": "urgency-scarcity",
+   "re": "\\b(sold|sells?|selling) out\\b"
+  },
+  {
+   "id": "c4.093",
+   "group": "urgency-scarcity",
+   "re": "\\b(stays?|staying|back|out of|low on|last) (in )?stock\\b"
+  },
+  {
+   "id": "c4.094",
+   "group": "urgency-scarcity",
+   "re": "\\bbe quick\\b"
+  },
+  {
+   "id": "c4.095",
+   "group": "urgency-scarcity",
+   "re": "\\b(act|move|go|goes) (fast|quickly)\\b"
+  },
+  {
+   "id": "c4.096",
+   "group": "urgency-scarcity",
+   "re": "\\bwhile (it|they) lasts?\\b"
+  },
+  {
+   "id": "c4.097",
+   "group": "urgency-scarcity",
+   "re": "\\b(don't|do not) (wait|delay)\\b"
+  },
+  {
+   "id": "c4.098",
+   "group": "urgency-scarcity",
+   "re": "\\b(choose|buy|order|shop|decide) early\\b"
+  },
+  {
+   "id": "c4.099",
+   "group": "deadline",
+   "re": "\\borders?( placed)? (by|before)\\b"
+  },
+  {
+   "id": "c4.100",
+   "group": "deadline",
+   "re": "\\b(reach(es)?( you)?|arrives?|delivered|ships?|dispatched) (by|before|in time)\\b"
+  },
+  {
+   "id": "c4.101",
+   "group": "deadline",
+   "re": "\\bby (monday|tuesday|wednesday|thursday|friday|saturday|sunday)\\b"
+  },
+  {
+   "id": "c4.102",
+   "group": "deadline",
+   "re": "\\bdeadline\\b"
+  },
+  {
+   "id": "c4.103",
+   "group": "deadline",
+   "re": "\\b(last|final) (order|day|date)\\b"
+  },
+  {
+   "id": "c4.104",
+   "group": "deadline",
+   "re": "\\bending soon\\b"
+  },
+  {
+   "id": "c4.105",
+   "group": "price",
+   "re": "\\bspend(ing)? (more|less|too much|little)\\b(?! (time|evenings?|days?|nights?|hours?|mornings?))"
+  },
+  {
+   "id": "c4.106",
+   "group": "price",
+   "re": "\\bwithout spending\\b"
+  },
+  {
+   "id": "c4.107",
+   "group": "price",
+   "re": "\\b(small|little|modest|tiny|light|easy) spend\\b"
+  },
+  {
+   "id": "c4.108",
+   "group": "price",
+   "re": "\\bbudget\\b"
+  },
+  {
+   "id": "c4.109",
+   "group": "price",
+   "re": "\\baffordabl[ey]\\b"
+  },
+  {
+   "id": "c4.110",
+   "group": "price",
+   "re": "\\bbargain\\b"
+  },
+  {
+   "id": "c4.111",
+   "group": "price",
+   "re": "\\binexpensive\\b"
+  },
+  {
+   "id": "c4.112",
+   "group": "price",
+   "re": "\\bcheap(er|est|ly)?\\b"
+  },
+  {
+   "id": "c4.113",
+   "group": "price",
+   "re": "\\bcosts? (less|little)\\b"
+  },
+  {
+   "id": "c4.114",
+   "group": "price",
+   "re": "\\bgood value\\b"
+  },
+  {
+   "id": "c4.115",
+   "group": "price",
+   "re": "\\bvalue for money\\b"
+  },
+  {
+   "id": "c4.116",
+   "group": "price",
+   "re": "\\bworth every\\b"
+  },
+  {
+   "id": "c4.117",
+   "group": "price",
+   "re": "\\bsplurge\\b"
   }
  ],
  "notes": [
   "\\bdeals?\\b has no exception.",
   "\"hurry\" is narrowed with (?<!no ) so \"in no hurry at all\" passes.",
   "\"our\" is not here: it is a WARN (warn.json).",
+  "c4.087 to c4.117 (check-v2): scarcity, deadline and spend. Each fired 0 times on the raw and clean bodies and the good drafts at entry. Left out because Nicobar's own copy says them: bare spend, stock, last; in time for, within reach, money, before they go, don't hesitate.",
   "Patterns use only syntax shared by Python re and ECMAScript (lookahead and fixed-width lookbehind)."
  ]
 }

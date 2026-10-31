@@ -2,7 +2,8 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import type { CheckResult } from '../../src/contracts/types.ts';
 import { imageGate, PROSE, validate, validateRendered } from '../../src/lib/check/index.ts';
-import { evalCatalog, planFor, runMutants, runSuite } from '../../scripts/eval.ts';
+import { existsSync } from 'node:fs';
+import { evalCatalog, HELDOUT_SNAPSHOT, heldoutCatalog, planFor, runHeldout, runMutants, runSuite, snapshotCatalog } from '../../scripts/eval.ts';
 
 const load = (f: string) => JSON.parse(readFileSync(f, 'utf8'));
 const CASES = ['checks', 'blind-drafts', 'layout'].flatMap((f) => load(`test/cases/${f}.json`).cases);
@@ -141,7 +142,19 @@ describe('test 8: every case and mutant', () => {
     expect(out.filter((o) => !o.ok).map((o) => `${o.file}:${o.id} ${o.why}`)).toEqual([]);
     expect(out.length).toBeGreaterThanOrEqual(171);
     const mutants = await runMutants(cat, out);
-    expect(mutants).toHaveLength(22);
+    expect(mutants).toHaveLength(25);
     expect(mutants.filter((m) => !m.killed).map((m) => m.id)).toEqual([]);
   }, 300_000);
+});
+
+describe('held-out v1, now regression', () => {
+  const v1 = load('test/cases/heldout-v1.json');
+  const live = runHeldout(heldoutCatalog());
+  it('v1 stays as scored', () => expect([v1.validator_version, v1.caught, v1.blocked, v1.n]).toEqual(['check-v1', 22, 26, 40]));
+  it('runs from the committed slice, so a clean clone is not VOID', () => expect(live.cases.filter((c) => c.error)).toEqual([]));
+  it('every remaining miss is a named known_gap, and no gap is stale', () => expect(live.misses.sort()).toEqual(Object.keys(load('test/cases/heldout-gaps.json')).sort()));
+  it.skipIf(!existsSync(`out/snapshot/${HELDOUT_SNAPSHOT}/catalog.json`))('the slice gives the same verdicts as the full snapshot', () => {
+    const verdicts = (r: typeof live) => r.cases.map(({ id, fired, warn, hits }) => ({ id, fired, warn, hits }));
+    expect(verdicts(live)).toEqual(verdicts(runHeldout(snapshotCatalog()!)));
+  });
 });

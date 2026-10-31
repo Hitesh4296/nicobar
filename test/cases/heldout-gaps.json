@@ -1,0 +1,10 @@
+{
+ "H-03": "Unselected product in a single capital word plus a lower-case noun (earrings). Lower-case noun check false-fires on 49 of 73 known-good drafts, so it is not built",
+ "H-04": "Unselected product in lower-case common nouns (hat, sandals). Neither noun is in the catalogue noun list",
+ "H-05": "Plain-word variant claim (a deeper size) with no vocabulary term. Beyond a word check",
+ "H-08": "Unselected product in lower case (card holder). Same lower-case noun check as H-03",
+ "H-25": "Echo by material and season, without the head noun (silk, stole). Blocked by C7 only because the pick lacks the word",
+ "H-28": "Thin echo, head noun with no past cue: a second holiday. `second` fires beside a head noun in 5 bodies, so it is not a cue",
+ "H-29": "Echo by material, without the head noun (brass, cuffs). Blocked by C7 only because the pick lacks the word",
+ "H-31": "Echo by technique and past use, without the head noun (block print, scarf)"
+}

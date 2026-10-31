@@ -23,15 +23,19 @@ The checks run in one function at three points: offline, before review, and agai
 
 `npm run eval`, $0, no key, reproduced from a clean clone on 2026-11-01:
 
-- **312 of 312 cases.** 124 checks, 33 blind drafts, 23 image and link, 3 injection, 56 layout, 41 fixtures, 32 echo rows.
-- **22 of 22 mutants killed.** Each patches `src/lib/check/index.ts` for one run, so production code carries no switches. A check never seen failing would prove nothing.
+- **361 of 361 cases.** 124 checks, 33 blind drafts, 23 image and link, 3 injection, 56 layout, 33 check-v2, 41 fixtures, 48 echo rows.
+- **25 of 25 mutants killed.** Each patches `src/lib/check/index.ts` for one run, so production code carries no switches. A check never seen failing would prove nothing.
 - **8 cases skipped,** each named with the test that owns it.
 
-**What this does not show.** Those cases shaped the checker, so 312 of 312 says little about drafts it has not seen. It runs on a 50-row fixture catalogue with the real rule set. A held-out set, written once by someone who has not read the rules, is the honest recall figure. [[SLOT held-out: not written yet. caught/40 per class]]
+**What this does not show.** Those cases shaped the checker, so 361 of 361 says little about drafts it has not seen. It runs on a 50-row fixture catalogue with the real rule set. A held-out set, written once by someone who has not read the rules, is the honest recall figure.
+
+**Held-out v1, scored once on `check-v1`: 22 of 40 caught.** Image 8/8, length 8/8, product 4/8, discount 2/8, echo 0/8. Lists catch the words they were built from, and a fresh writer used other words. That is the published number.
+
+`check-v2` was then fixed against those 40, so they are regression now, not recall. It catches 32 of 40 on them: discount 8/8, echo 4/8, the rest unchanged. Do not read 32 as a score. `reports/eval.json` keeps both under `heldout_v1`, and `npm run eval` reproduces them from a committed slice of 79 rows and the rules, so a clean clone needs no snapshot. A second blind set, written by a session that has seen neither the lists nor these misses, is what scores `check-v2`. [[SLOT held-out v2: not scored yet]]
 
 ### Known gaps
 
-Code does not catch these 12. Each is listed by id in `reports/eval.json`, and none can place a wrong image, link, title or price on a page. They reach the advisory judge and the reviewer.
+Code does not catch these 20. Each is listed by id in `reports/eval.json`, and none can place a wrong image, link, title or price on a page. They reach the advisory judge and the reviewer.
 
 | gap | example |
 |---|---|
@@ -43,6 +47,10 @@ Code does not catch these 12. Each is listed by id in `reports/eval.json`, and n
 | Plain-word claim about a place | N-01b |
 | Attribute grounded on the wrong one of two picks in a sentence | GR7 |
 | Material outside the vocabulary | GR8 |
+| Unselected product named in lower-case nouns. The noun check false-fires on 49 of 73 known-good drafts, so it is not built | H-03, H-04, H-08 |
+| Plain-word variant claim, no vocabulary term | H-05 |
+| Echo that never uses the past item's head noun | H-25, H-29, H-31 |
+| Echo with the head noun and no past-time word | H-28 |
 | A greeting | N-06 |
 
 A made-up claim in plain words remains the largest gap. Checks catch vocabulary, not facts. A reader counting words on a rendered page will also see more than 120, because code-rendered titles and quotes are outside the count.

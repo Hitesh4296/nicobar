@@ -4,7 +4,7 @@ All matching runs on raw model text, after the apostrophe fold, on every string 
 
 | file | shape | check | rule |
 |---|---|---|---|
-| `lists/c8n.json` | `{customer_id: string[]}` | C8n, hard | case-insensitive, `\b<span>\b`, whitespace runs folded. A row or id with no entry, or `[]`, passes |
+| `lists/c8n.json` | `{customer_id: string[]}` | C8n, hard | case-insensitive, `\b<span>\b`, whitespace runs folded. Also fires on the head noun, the last word of the row's last span, with a past-time cue in the same sentence (`PAST_CUE` in `src/lib/check/index.ts`). A row or id with no entry, or `[]`, passes |
 | `lists/c8_allow.json` `per_row` | `{customer_id: string[]}`, lower case | C8c, C8d, C8d-x | a capitalised token is allowed if, lower-cased, it is in the row's list or in `c8o.json`. A missing id has no row tokens |
 | `lists/c8o.json` `names` | `string[]` | C8o, hard | case-insensitive, `\b<name>\b`. Runs only when `plan.occasion` is null |
 | `lists/c4.json` group `familiarity` | patterns | C4, hard | as every C4 pattern. No bare `again` |

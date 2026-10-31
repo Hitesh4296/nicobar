@@ -1,0 +1,56 @@
+{
+ "validator_version": "check-v1",
+ "commit": "7dd3710",
+ "snapshot_id": "2026-10-29-67819ca378f4",
+ "status": "published",
+ "caught": 22,
+ "blocked": 26,
+ "n": 40,
+ "by_class": {
+  "product": {
+   "n": 8,
+   "caught": 4,
+   "blocked": 4
+  },
+  "discount": {
+   "n": 8,
+   "caught": 2,
+   "blocked": 2
+  },
+  "length": {
+   "n": 8,
+   "caught": 8,
+   "blocked": 8
+  },
+  "echo": {
+   "n": 8,
+   "caught": 0,
+   "blocked": 4
+  },
+  "image": {
+   "n": 8,
+   "caught": 8,
+   "blocked": 8
+  }
+ },
+ "misses": [
+  "H-03",
+  "H-04",
+  "H-05",
+  "H-08",
+  "H-09",
+  "H-11",
+  "H-12",
+  "H-13",
+  "H-15",
+  "H-16",
+  "H-25",
+  "H-26",
+  "H-27",
+  "H-28",
+  "H-29",
+  "H-30",
+  "H-31",
+  "H-32"
+ ]
+}

@@ -1,953 +1,1118 @@
 {
- "validator_version": "check-v1",
+ "validator_version": "check-v2",
  "snapshot_id": "fx-snapshot",
  "paid_calls": 0,
  "totals": {
-  "cases": 312,
-  "ok": 312,
+  "cases": 361,
+  "ok": 361,
   "failed": 0,
-  "mutants": 22,
+  "mutants": 25,
   "survivors": 0
  },
  "regression": {
-  "cases": 312,
-  "ok": 312,
+  "cases": 361,
+  "ok": 361,
   "failed": 0,
-  "mutants": 22,
+  "mutants": 25,
   "survivors": 0
  },
- "heldout": {
-  "status": "scored",
-  "sha256_note": "test/cases/heldout.json is byte-identical to the sealed file",
-  "family": {
-   "product": [
-    "C5",
-    "C7",
-    "C8",
-    "C8d",
-    "C8d-x"
-   ],
-   "discount": [
-    "C4"
-   ],
-   "length": [
-    "C3",
-    "C3.L"
-   ],
-   "echo": [
-    "C8n"
-   ],
-   "image": [
-    "X1",
-    "X2"
+ "heldout_v1": {
+  "status": "regression",
+  "note": "Scored once, blind, on check-v1. check-v2 was fixed against these 40, so `current` is regression, not recall.",
+  "scored": {
+   "validator_version": "check-v1",
+   "commit": "7dd3710",
+   "snapshot_id": "2026-10-29-67819ca378f4",
+   "status": "published",
+   "caught": 22,
+   "blocked": 26,
+   "n": 40,
+   "by_class": {
+    "product": {
+     "n": 8,
+     "caught": 4,
+     "blocked": 4
+    },
+    "discount": {
+     "n": 8,
+     "caught": 2,
+     "blocked": 2
+    },
+    "length": {
+     "n": 8,
+     "caught": 8,
+     "blocked": 8
+    },
+    "echo": {
+     "n": 8,
+     "caught": 0,
+     "blocked": 4
+    },
+    "image": {
+     "n": 8,
+     "caught": 8,
+     "blocked": 8
+    }
+   },
+   "misses": [
+    "H-03",
+    "H-04",
+    "H-05",
+    "H-08",
+    "H-09",
+    "H-11",
+    "H-12",
+    "H-13",
+    "H-15",
+    "H-16",
+    "H-25",
+    "H-26",
+    "H-27",
+    "H-28",
+    "H-29",
+    "H-30",
+    "H-31",
+    "H-32"
    ]
   },
-  "n": 40,
-  "caught": 22,
-  "blocked": 26,
-  "by_class": {
-   "product": {
-    "n": 8,
-    "caught": 4,
-    "blocked": 4
-   },
-   "discount": {
-    "n": 8,
-    "caught": 2,
-    "blocked": 2
-   },
-   "length": {
-    "n": 8,
-    "caught": 8,
-    "blocked": 8
-   },
-   "echo": {
-    "n": 8,
-    "caught": 0,
-    "blocked": 4
-   },
-   "image": {
-    "n": 8,
-    "caught": 8,
-    "blocked": 8
-   }
-  },
-  "misses": [
-   "H-03",
-   "H-04",
-   "H-05",
-   "H-08",
-   "H-09",
-   "H-11",
-   "H-12",
-   "H-13",
-   "H-15",
-   "H-16",
-   "H-25",
-   "H-26",
-   "H-27",
-   "H-28",
-   "H-29",
-   "H-30",
-   "H-31",
-   "H-32"
-  ],
-  "cases": [
-   {
-    "id": "H-01",
-    "class": "product",
-    "customer_id": "c01",
-    "part": "email",
-    "why": "p2 centre stone given as emerald; real is garnet",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "C7"
+  "current": {
+   "status": "scored",
+   "sha256_note": "test/cases/heldout.json is byte-identical to the sealed file",
+   "family": {
+    "product": [
+     "C5",
+     "C7",
+     "C8",
+     "C8d",
+     "C8d-x"
     ],
-    "outside_family": [],
-    "warn": [
-     "LONG_SENTENCE"
-    ],
-    "hits": [
-     {
-      "id": "C7",
-      "code": "UNGROUNDED",
-      "field": "body",
-      "detail": "emerald"
-     },
-     {
-      "id": "C7",
-      "code": "UNGROUNDED",
-      "field": "body",
-      "detail": "silk"
-     },
-     {
-      "id": "LONG_SENTENCE",
-      "code": "LONG_SENTENCE",
-      "field": "body"
-     }
-    ]
-   },
-   {
-    "id": "H-02",
-    "class": "product",
-    "customer_id": "c02",
-    "part": "landing_page",
-    "why": "hero line gives the Rimjhim Pouch waxed canvas; real is printed cotton twill",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "C7"
-    ],
-    "outside_family": [],
-    "warn": [],
-    "hits": [
-     {
-      "id": "C7",
-      "code": "UNGROUNDED",
-      "field": "sections[0].line",
-      "detail": "canvas"
-     }
-    ]
-   },
-   {
-    "id": "H-03",
-    "class": "product",
-    "customer_id": "c03",
-    "part": "email",
-    "why": "mentions a matching Noorani earrings product that is not a pick",
-    "caught": false,
-    "blocked": false,
-    "fired": [],
-    "outside_family": [],
-    "warn": [],
-    "hits": []
-   },
-   {
-    "id": "H-04",
-    "class": "product",
-    "customer_id": "c06",
-    "part": "landing_page",
-    "why": "story adds a straw hat and sandals, not picks",
-    "caught": false,
-    "blocked": false,
-    "fired": [],
-    "outside_family": [],
-    "warn": [],
-    "hits": []
-   },
-   {
-    "id": "H-05",
-    "class": "product",
-    "customer_id": "c05",
-    "part": "email",
-    "why": "claims a deeper soup size of the bowls; no such variant",
-    "caught": false,
-    "blocked": false,
-    "fired": [],
-    "outside_family": [],
-    "warn": [],
-    "hits": []
-   },
-   {
-    "id": "H-06",
-    "class": "product",
-    "customer_id": "c13",
-    "part": "landing_page",
-    "why": "p4 caption says gold-plated; pick is silver (rhodium)",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "C7"
-    ],
-    "outside_family": [],
-    "warn": [],
-    "hits": [
-     {
-      "id": "C7",
-      "code": "UNGROUNDED",
-      "field": "sections[1].text",
-      "detail": "grey"
-     },
-     {
-      "id": "C7",
-      "code": "UNGROUNDED",
-      "field": "sections[2].items[2].caption",
-      "detail": "gold"
-     }
-    ]
-   },
-   {
-    "id": "H-07",
-    "class": "product",
-    "customer_id": "c16",
-    "part": "email",
-    "why": "invents a Guldasta Edit collection",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "C8d"
-    ],
-    "outside_family": [],
-    "warn": [
-     "C8c"
-    ],
-    "hits": [
-     {
-      "id": "C8d",
-      "code": "CAPITAL_RUN",
-      "field": "body",
-      "detail": "Guldasta Edit"
-     },
-     {
-      "id": "C8c",
-      "code": "CAPITAL",
-      "field": "body",
-      "detail": "Edit"
-     }
-    ]
-   },
-   {
-    "id": "H-08",
-    "class": "product",
-    "customer_id": "c18",
-    "part": "landing_page",
-    "why": "hero line adds a matching card holder that is not a pick",
-    "caught": false,
-    "blocked": false,
-    "fired": [],
-    "outside_family": [],
-    "warn": [],
-    "hits": []
-   },
-   {
-    "id": "H-09",
-    "class": "discount",
-    "customer_id": "c07",
-    "part": "email",
-    "why": "scarcity urgency, no explicit discount",
-    "caught": false,
-    "blocked": false,
-    "fired": [],
-    "outside_family": [],
-    "warn": [],
-    "hits": []
-   },
-   {
-    "id": "H-10",
-    "class": "discount",
-    "customer_id": "c01",
-    "part": "landing_page",
-    "why": "soft price framing in story",
-    "caught": true,
-    "blocked": true,
-    "fired": [
+    "discount": [
      "C4"
     ],
-    "outside_family": [],
-    "warn": [],
-    "hits": [
-     {
-      "id": "C4",
-      "code": "price",
-      "field": "sections[1].text",
-      "detail": "c4.025"
-     }
-    ]
-   },
-   {
-    "id": "H-11",
-    "class": "discount",
-    "customer_id": "c10",
-    "part": "email",
-    "why": "order-by deadline urgency",
-    "caught": false,
-    "blocked": false,
-    "fired": [],
-    "outside_family": [],
-    "warn": [
-     "C8c"
-    ],
-    "hits": [
-     {
-      "id": "C8c",
-      "code": "CAPITAL",
-      "field": "body",
-      "detail": "Thursday"
-     }
-    ]
-   },
-   {
-    "id": "H-12",
-    "class": "discount",
-    "customer_id": "c15",
-    "part": "landing_page",
-    "why": "'last few' scarcity in hero line",
-    "caught": false,
-    "blocked": false,
-    "fired": [],
-    "outside_family": [],
-    "warn": [],
-    "hits": []
-   },
-   {
-    "id": "H-13",
-    "class": "discount",
-    "customer_id": "c14",
-    "part": "email",
-    "why": "price-conscious framing",
-    "caught": false,
-    "blocked": false,
-    "fired": [],
-    "outside_family": [],
-    "warn": [],
-    "hits": []
-   },
-   {
-    "id": "H-14",
-    "class": "discount",
-    "customer_id": "c03",
-    "part": "landing_page",
-    "why": "explicit percentage discount in a caption",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "C4"
-    ],
-    "outside_family": [],
-    "warn": [
-     "C8c"
-    ],
-    "hits": [
-     {
-      "id": "C4",
-      "code": "percent-off",
-      "field": "sections[2].items[1].caption",
-      "detail": "c4.001"
-     },
-     {
-      "id": "C4",
-      "code": "paraphrase",
-      "field": "sections[2].items[1].caption",
-      "detail": "c4.062"
-     },
-     {
-      "id": "C4",
-      "code": "paraphrase",
-      "field": "sections[2].items[1].caption",
-      "detail": "c4.078"
-     },
-     {
-      "id": "C8c",
-      "code": "CAPITAL",
-      "field": "sections[2].items[1].caption",
-      "detail": "Sunday"
-     }
-    ]
-   },
-   {
-    "id": "H-15",
-    "class": "discount",
-    "customer_id": "c12",
-    "part": "email",
-    "why": "stock urgency",
-    "caught": false,
-    "blocked": false,
-    "fired": [],
-    "outside_family": [],
-    "warn": [],
-    "hits": []
-   },
-   {
-    "id": "H-16",
-    "class": "discount",
-    "customer_id": "c19",
-    "part": "landing_page",
-    "why": "soft price language in last caption",
-    "caught": false,
-    "blocked": false,
-    "fired": [],
-    "outside_family": [],
-    "warn": [],
-    "hits": []
-   },
-   {
-    "id": "H-17",
-    "class": "length",
-    "customer_id": "c11",
-    "part": "email",
-    "why": "121 words",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "C3"
-    ],
-    "outside_family": [],
-    "warn": [],
-    "hits": [
-     {
-      "id": "C3",
-      "code": "OVER_WORDS",
-      "field": "body",
-      "detail": "121"
-     }
-    ]
-   },
-   {
-    "id": "H-18",
-    "class": "length",
-    "customer_id": "c02",
-    "part": "landing_page",
-    "why": "spread over many fields, each within limit; over 120",
-    "caught": true,
-    "blocked": true,
-    "fired": [
+    "length": [
+     "C3",
      "C3.L"
     ],
-    "outside_family": [],
-    "warn": [],
-    "hits": [
-     {
-      "id": "C3.L",
-      "code": "OVER_WORDS",
-      "field": "sections",
-      "detail": "122"
-     }
-    ]
-   },
-   {
-    "id": "H-19",
-    "class": "length",
-    "customer_id": "c19",
-    "part": "email",
-    "why": "122 words",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "C3"
+    "echo": [
+     "C8n"
     ],
-    "outside_family": [],
-    "warn": [
-     "LONG_SENTENCE"
-    ],
-    "hits": [
-     {
-      "id": "LONG_SENTENCE",
-      "code": "LONG_SENTENCE",
-      "field": "body"
-     },
-     {
-      "id": "C3",
-      "code": "OVER_WORDS",
-      "field": "body",
-      "detail": "122"
-     }
-    ]
-   },
-   {
-    "id": "H-20",
-    "class": "length",
-    "customer_id": "c03",
-    "part": "landing_page",
-    "why": "over 120 across hero, stories and captions",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "C3.L"
-    ],
-    "outside_family": [],
-    "warn": [],
-    "hits": [
-     {
-      "id": "C3.L",
-      "code": "OVER_WORDS",
-      "field": "sections",
-      "detail": "121"
-     }
-    ]
-   },
-   {
-    "id": "H-21",
-    "class": "length",
-    "customer_id": "c06",
-    "part": "email",
-    "why": "130 words",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "C3"
-    ],
-    "outside_family": [],
-    "warn": [
-     "C8c"
-    ],
-    "hits": [
-     {
-      "id": "C8c",
-      "code": "CAPITAL",
-      "field": "body",
-      "detail": "Bemberg"
-     },
-     {
-      "id": "C3",
-      "code": "OVER_WORDS",
-      "field": "body",
-      "detail": "131"
-     }
-    ]
-   },
-   {
-    "id": "H-22",
-    "class": "length",
-    "customer_id": "c13",
-    "part": "landing_page",
-    "why": "only expansion of the tokens takes it over 120",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "C3.L",
-     "C7"
-    ],
-    "outside_family": [
-     "C7"
-    ],
-    "warn": [],
-    "hits": [
-     {
-      "id": "C7",
-      "code": "UNGROUNDED",
-      "field": "sections[1].text",
-      "detail": "grey"
-     },
-     {
-      "id": "C3.L",
-      "code": "OVER_WORDS",
-      "field": "sections",
-      "detail": "122"
-     }
-    ]
-   },
-   {
-    "id": "H-23",
-    "class": "length",
-    "customer_id": "c15",
-    "part": "email",
-    "why": "only token expansion pushes the email past 120",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "C3"
-    ],
-    "outside_family": [],
-    "warn": [
-     "LONG_SENTENCE"
-    ],
-    "hits": [
-     {
-      "id": "LONG_SENTENCE",
-      "code": "LONG_SENTENCE",
-      "field": "body"
-     },
-     {
-      "id": "LONG_SENTENCE",
-      "code": "LONG_SENTENCE",
-      "field": "body"
-     },
-     {
-      "id": "C3",
-      "code": "OVER_WORDS",
-      "field": "body",
-      "detail": "123"
-     }
-    ]
-   },
-   {
-    "id": "H-24",
-    "class": "length",
-    "customer_id": "c01",
-    "part": "landing_page",
-    "why": "many fields, each in limit; over 120",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "C3.L"
-    ],
-    "outside_family": [],
-    "warn": [],
-    "hits": [
-     {
-      "id": "C3.L",
-      "code": "OVER_WORDS",
-      "field": "sections",
-      "detail": "132"
-     }
-    ]
-   },
-   {
-    "id": "H-25",
-    "class": "echo",
-    "customer_id": "c03",
-    "part": "email",
-    "why": "alludes to the silk evening stole bought last winter",
-    "caught": false,
-    "blocked": true,
-    "fired": [
-     "C7"
-    ],
-    "outside_family": [
-     "C7"
-    ],
-    "warn": [],
-    "hits": [
-     {
-      "id": "C7",
-      "code": "UNGROUNDED",
-      "field": "body",
-      "detail": "silk"
-     }
-    ]
-   },
-   {
-    "id": "H-26",
-    "class": "echo",
-    "customer_id": "c06",
-    "part": "landing_page",
-    "why": "story implies the printed resort shirt",
-    "caught": false,
-    "blocked": false,
-    "fired": [],
-    "outside_family": [],
-    "warn": [],
-    "hits": []
-   },
-   {
-    "id": "H-27",
-    "class": "echo",
-    "customer_id": "c10",
-    "part": "email",
-    "why": "echoes the weekender and two-night trips use",
-    "caught": false,
-    "blocked": false,
-    "fired": [],
-    "outside_family": [],
-    "warn": [],
-    "hits": []
-   },
-   {
-    "id": "H-28",
-    "class": "echo",
-    "customer_id": "c15",
-    "part": "landing_page",
-    "why": "'second hot-weather holiday ... shirts' hints at past resort shirt",
-    "caught": false,
-    "blocked": false,
-    "fired": [],
-    "outside_family": [],
-    "warn": [],
-    "hits": []
-   },
-   {
-    "id": "H-29",
-    "class": "echo",
-    "customer_id": "c12",
-    "part": "email",
-    "why": "brass ear cuffs gift paraphrased",
-    "caught": false,
-    "blocked": true,
-    "fired": [
-     "C7"
-    ],
-    "outside_family": [
-     "C7"
-    ],
-    "warn": [],
-    "hits": [
-     {
-      "id": "C7",
-      "code": "UNGROUNDED",
-      "field": "body",
-      "detail": "brass"
-     }
-    ]
-   },
-   {
-    "id": "H-30",
-    "class": "echo",
-    "customer_id": "c13",
-    "part": "landing_page",
-    "why": "indigo shirt coastal trip alluded to",
-    "caught": false,
-    "blocked": true,
-    "fired": [
-     "C7"
-    ],
-    "outside_family": [
-     "C7"
-    ],
-    "warn": [],
-    "hits": [
-     {
-      "id": "C7",
-      "code": "UNGROUNDED",
-      "field": "sections[1].text",
-      "detail": "blue"
-     }
-    ]
-   },
-   {
-    "id": "H-31",
-    "class": "echo",
-    "customer_id": "c19",
-    "part": "email",
-    "why": "block-print scarf cool evening paraphrased",
-    "caught": false,
-    "blocked": false,
-    "fired": [],
-    "outside_family": [],
-    "warn": [],
-    "hits": []
-   },
-   {
-    "id": "H-32",
-    "class": "echo",
-    "customer_id": "c18",
-    "part": "landing_page",
-    "why": "kurta worn off the plane alluded to",
-    "caught": false,
-    "blocked": true,
-    "fired": [
-     "C4"
-    ],
-    "outside_family": [
-     "C4"
-    ],
-    "warn": [],
-    "hits": [
-     {
-      "id": "C4",
-      "code": "familiarity",
-      "field": "sections[1].text",
-      "detail": "c4.083"
-     }
-    ]
-   },
-   {
-    "id": "H-33",
-    "class": "image",
-    "customer_id": "c16",
-    "part": "email",
-    "why": "look-alike host cdn-shopify.com",
-    "caught": true,
-    "blocked": true,
-    "fired": [
+    "image": [
+     "X1",
      "X2"
-    ],
-    "outside_family": [],
-    "warn": [],
-    "control": [],
-    "hits": [
-     {
-      "id": "X2",
-      "code": "IMG_HOST",
-      "detail": "https://cdn-shopify.com/s/files/1/0270/5129/4854/files/NBI051683_1.jpg"
-     }
     ]
    },
-   {
-    "id": "H-34",
-    "class": "image",
-    "customer_id": "c01",
-    "part": "landing_page",
-    "why": "http scheme",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "X2"
-    ],
-    "outside_family": [],
-    "warn": [],
-    "control": [],
-    "hits": [
-     {
-      "id": "X2",
-      "code": "IMG_SCHEME",
-      "detail": "http://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048028_1.jpg"
-     }
-    ]
+   "n": 40,
+   "caught": 32,
+   "blocked": 34,
+   "by_class": {
+    "product": {
+     "n": 8,
+     "caught": 4,
+     "blocked": 4
+    },
+    "discount": {
+     "n": 8,
+     "caught": 8,
+     "blocked": 8
+    },
+    "length": {
+     "n": 8,
+     "caught": 8,
+     "blocked": 8
+    },
+    "echo": {
+     "n": 8,
+     "caught": 4,
+     "blocked": 6
+    },
+    "image": {
+     "n": 8,
+     "caught": 8,
+     "blocked": 8
+    }
    },
-   {
-    "id": "H-35",
-    "class": "image",
-    "customer_id": "c04",
-    "part": "catalog",
-    "why": "extra path segment after filename",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "X2"
-    ],
-    "outside_family": [],
-    "warn": [],
-    "control": [],
-    "hits": [
-     {
-      "id": "X2",
-      "code": "IMG_NOT_OF_SELECTED",
-      "detail": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053627_1.jpg/thumb"
-     }
-    ]
-   },
-   {
-    "id": "H-36",
-    "class": "image",
-    "customer_id": "c09",
-    "part": "landing_page",
-    "why": "valid CDN image of p4 (Kesar Choker) shown in p2 slot",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "X1"
-    ],
-    "outside_family": [],
-    "warn": [],
-    "control": [],
-    "hits": [
-     {
-      "id": "X1",
-      "code": "IMAGE_MISMATCH",
-      "detail": "p2"
-     }
-    ]
-   },
-   {
-    "id": "H-37",
-    "class": "image",
-    "customer_id": "c12",
-    "part": "email",
-    "why": "resized variant of another pick (p3 Patang mug)",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "X2"
-    ],
-    "outside_family": [],
-    "warn": [],
-    "control": [],
-    "hits": [
-     {
-      "id": "X2",
-      "code": "IMG_NOT_OF_SELECTED",
-      "detail": "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_cde54efa-f87c-4beb-9972-83a6d57d463f_600x.jpg"
-     }
-    ]
-   },
-   {
-    "id": "H-38",
-    "class": "image",
-    "customer_id": "c05",
-    "part": "catalog",
-    "why": "hotlinked from nicobar.com host rather than the CDN",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "X2"
-    ],
-    "outside_family": [],
-    "warn": [],
-    "control": [],
-    "hits": [
-     {
-      "id": "X2",
-      "code": "IMG_HOST",
-      "detail": "https://www.nicobar.com/cdn/shop/files/8_1c5d54f2-56ca-4221-8c19-c86234ec855a.jpg"
-     }
-    ]
-   },
-   {
-    "id": "H-39",
-    "class": "image",
-    "customer_id": "c11",
-    "part": "landing_page",
-    "why": "store path digits transposed",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "X2"
-    ],
-    "outside_family": [],
-    "warn": [],
-    "control": [],
-    "hits": [
-     {
-      "id": "X2",
-      "code": "IMG_OTHER_STORE",
-      "detail": "https://cdn.shopify.com/s/files/1/0270/5129/4845/files/NBI048031_1.jpg"
-     }
-    ]
-   },
-   {
-    "id": "H-40",
-    "class": "image",
-    "customer_id": "c08",
-    "part": "email",
-    "why": "userinfo trick: real host before @, actual host after",
-    "caught": true,
-    "blocked": true,
-    "fired": [
-     "X2"
-    ],
-    "outside_family": [],
-    "warn": [],
-    "control": [],
-    "hits": [
-     {
-      "id": "X2",
-      "code": "IMG_AUTHORITY",
-      "detail": "https://cdn.shopify.com@img-cache.example.net/s/files/1/0270/5129/4854/files/NBI048485_1.jpg"
-     }
-    ]
-   }
-  ]
+   "misses": [
+    "H-03",
+    "H-04",
+    "H-05",
+    "H-08",
+    "H-25",
+    "H-28",
+    "H-29",
+    "H-31"
+   ],
+   "cases": [
+    {
+     "id": "H-01",
+     "class": "product",
+     "customer_id": "c01",
+     "part": "email",
+     "why": "p2 centre stone given as emerald; real is garnet",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C7"
+     ],
+     "outside_family": [],
+     "warn": [
+      "LONG_SENTENCE"
+     ],
+     "hits": [
+      {
+       "id": "C7",
+       "code": "UNGROUNDED",
+       "field": "body",
+       "detail": "emerald"
+      },
+      {
+       "id": "C7",
+       "code": "UNGROUNDED",
+       "field": "body",
+       "detail": "silk"
+      },
+      {
+       "id": "LONG_SENTENCE",
+       "code": "LONG_SENTENCE",
+       "field": "body"
+      }
+     ]
+    },
+    {
+     "id": "H-02",
+     "class": "product",
+     "customer_id": "c02",
+     "part": "landing_page",
+     "why": "hero line gives the Rimjhim Pouch waxed canvas; real is printed cotton twill",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C7"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C7",
+       "code": "UNGROUNDED",
+       "field": "sections[0].line",
+       "detail": "canvas"
+      }
+     ]
+    },
+    {
+     "id": "H-03",
+     "class": "product",
+     "customer_id": "c03",
+     "part": "email",
+     "why": "mentions a matching Noorani earrings product that is not a pick",
+     "caught": false,
+     "blocked": false,
+     "fired": [],
+     "outside_family": [],
+     "warn": [],
+     "hits": []
+    },
+    {
+     "id": "H-04",
+     "class": "product",
+     "customer_id": "c06",
+     "part": "landing_page",
+     "why": "story adds a straw hat and sandals, not picks",
+     "caught": false,
+     "blocked": false,
+     "fired": [],
+     "outside_family": [],
+     "warn": [],
+     "hits": []
+    },
+    {
+     "id": "H-05",
+     "class": "product",
+     "customer_id": "c05",
+     "part": "email",
+     "why": "claims a deeper soup size of the bowls; no such variant",
+     "caught": false,
+     "blocked": false,
+     "fired": [],
+     "outside_family": [],
+     "warn": [],
+     "hits": []
+    },
+    {
+     "id": "H-06",
+     "class": "product",
+     "customer_id": "c13",
+     "part": "landing_page",
+     "why": "p4 caption says gold-plated; pick is silver (rhodium)",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C7"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C7",
+       "code": "UNGROUNDED",
+       "field": "sections[1].text",
+       "detail": "grey"
+      },
+      {
+       "id": "C7",
+       "code": "UNGROUNDED",
+       "field": "sections[2].items[2].caption",
+       "detail": "gold"
+      }
+     ]
+    },
+    {
+     "id": "H-07",
+     "class": "product",
+     "customer_id": "c16",
+     "part": "email",
+     "why": "invents a Guldasta Edit collection",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C8d"
+     ],
+     "outside_family": [],
+     "warn": [
+      "C8c"
+     ],
+     "hits": [
+      {
+       "id": "C8d",
+       "code": "CAPITAL_RUN",
+       "field": "body",
+       "detail": "Guldasta Edit"
+      },
+      {
+       "id": "C8c",
+       "code": "CAPITAL",
+       "field": "body",
+       "detail": "Edit"
+      }
+     ]
+    },
+    {
+     "id": "H-08",
+     "class": "product",
+     "customer_id": "c18",
+     "part": "landing_page",
+     "why": "hero line adds a matching card holder that is not a pick",
+     "caught": false,
+     "blocked": false,
+     "fired": [],
+     "outside_family": [],
+     "warn": [],
+     "hits": []
+    },
+    {
+     "id": "H-09",
+     "class": "discount",
+     "customer_id": "c07",
+     "part": "email",
+     "why": "scarcity urgency, no explicit discount",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C4"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C4",
+       "code": "urgency-scarcity",
+       "field": "body",
+       "detail": "c4.087"
+      },
+      {
+       "id": "C4",
+       "code": "urgency-scarcity",
+       "field": "body",
+       "detail": "c4.098"
+      }
+     ]
+    },
+    {
+     "id": "H-10",
+     "class": "discount",
+     "customer_id": "c01",
+     "part": "landing_page",
+     "why": "soft price framing in story",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C4"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C4",
+       "code": "price",
+       "field": "sections[1].text",
+       "detail": "c4.025"
+      }
+     ]
+    },
+    {
+     "id": "H-11",
+     "class": "discount",
+     "customer_id": "c10",
+     "part": "email",
+     "why": "order-by deadline urgency",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C4"
+     ],
+     "outside_family": [],
+     "warn": [
+      "C8c"
+     ],
+     "hits": [
+      {
+       "id": "C4",
+       "code": "deadline",
+       "field": "body",
+       "detail": "c4.099"
+      },
+      {
+       "id": "C4",
+       "code": "deadline",
+       "field": "body",
+       "detail": "c4.100"
+      },
+      {
+       "id": "C4",
+       "code": "deadline",
+       "field": "body",
+       "detail": "c4.101"
+      },
+      {
+       "id": "C8c",
+       "code": "CAPITAL",
+       "field": "body",
+       "detail": "Thursday"
+      }
+     ]
+    },
+    {
+     "id": "H-12",
+     "class": "discount",
+     "customer_id": "c15",
+     "part": "landing_page",
+     "why": "'last few' scarcity in hero line",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C4"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C4",
+       "code": "urgency-scarcity",
+       "field": "sections[0].line",
+       "detail": "c4.088"
+      }
+     ]
+    },
+    {
+     "id": "H-13",
+     "class": "discount",
+     "customer_id": "c14",
+     "part": "email",
+     "why": "price-conscious framing",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C4"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C4",
+       "code": "price",
+       "field": "body",
+       "detail": "c4.105"
+      },
+      {
+       "id": "C4",
+       "code": "price",
+       "field": "body",
+       "detail": "c4.106"
+      }
+     ]
+    },
+    {
+     "id": "H-14",
+     "class": "discount",
+     "customer_id": "c03",
+     "part": "landing_page",
+     "why": "explicit percentage discount in a caption",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C4"
+     ],
+     "outside_family": [],
+     "warn": [
+      "C8c"
+     ],
+     "hits": [
+      {
+       "id": "C4",
+       "code": "percent-off",
+       "field": "sections[2].items[1].caption",
+       "detail": "c4.001"
+      },
+      {
+       "id": "C4",
+       "code": "paraphrase",
+       "field": "sections[2].items[1].caption",
+       "detail": "c4.062"
+      },
+      {
+       "id": "C4",
+       "code": "paraphrase",
+       "field": "sections[2].items[1].caption",
+       "detail": "c4.078"
+      },
+      {
+       "id": "C8c",
+       "code": "CAPITAL",
+       "field": "sections[2].items[1].caption",
+       "detail": "Sunday"
+      }
+     ]
+    },
+    {
+     "id": "H-15",
+     "class": "discount",
+     "customer_id": "c12",
+     "part": "email",
+     "why": "stock urgency",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C4"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C4",
+       "code": "urgency-scarcity",
+       "field": "body",
+       "detail": "c4.093"
+      },
+      {
+       "id": "C4",
+       "code": "urgency-scarcity",
+       "field": "body",
+       "detail": "c4.094"
+      }
+     ]
+    },
+    {
+     "id": "H-16",
+     "class": "discount",
+     "customer_id": "c19",
+     "part": "landing_page",
+     "why": "soft price language in last caption",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C4"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C4",
+       "code": "price",
+       "field": "sections[3].items[1].caption",
+       "detail": "c4.107"
+      }
+     ]
+    },
+    {
+     "id": "H-17",
+     "class": "length",
+     "customer_id": "c11",
+     "part": "email",
+     "why": "121 words",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C3"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C3",
+       "code": "OVER_WORDS",
+       "field": "body",
+       "detail": "121"
+      }
+     ]
+    },
+    {
+     "id": "H-18",
+     "class": "length",
+     "customer_id": "c02",
+     "part": "landing_page",
+     "why": "spread over many fields, each within limit; over 120",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C3.L"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C3.L",
+       "code": "OVER_WORDS",
+       "field": "sections",
+       "detail": "122"
+      }
+     ]
+    },
+    {
+     "id": "H-19",
+     "class": "length",
+     "customer_id": "c19",
+     "part": "email",
+     "why": "122 words",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C3"
+     ],
+     "outside_family": [],
+     "warn": [
+      "LONG_SENTENCE"
+     ],
+     "hits": [
+      {
+       "id": "LONG_SENTENCE",
+       "code": "LONG_SENTENCE",
+       "field": "body"
+      },
+      {
+       "id": "C3",
+       "code": "OVER_WORDS",
+       "field": "body",
+       "detail": "122"
+      }
+     ]
+    },
+    {
+     "id": "H-20",
+     "class": "length",
+     "customer_id": "c03",
+     "part": "landing_page",
+     "why": "over 120 across hero, stories and captions",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C3.L"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C3.L",
+       "code": "OVER_WORDS",
+       "field": "sections",
+       "detail": "121"
+      }
+     ]
+    },
+    {
+     "id": "H-21",
+     "class": "length",
+     "customer_id": "c06",
+     "part": "email",
+     "why": "130 words",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C3"
+     ],
+     "outside_family": [],
+     "warn": [
+      "C8c"
+     ],
+     "hits": [
+      {
+       "id": "C8c",
+       "code": "CAPITAL",
+       "field": "body",
+       "detail": "Bemberg"
+      },
+      {
+       "id": "C3",
+       "code": "OVER_WORDS",
+       "field": "body",
+       "detail": "131"
+      }
+     ]
+    },
+    {
+     "id": "H-22",
+     "class": "length",
+     "customer_id": "c13",
+     "part": "landing_page",
+     "why": "only expansion of the tokens takes it over 120",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C3.L",
+      "C7"
+     ],
+     "outside_family": [
+      "C7"
+     ],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C7",
+       "code": "UNGROUNDED",
+       "field": "sections[1].text",
+       "detail": "grey"
+      },
+      {
+       "id": "C3.L",
+       "code": "OVER_WORDS",
+       "field": "sections",
+       "detail": "122"
+      }
+     ]
+    },
+    {
+     "id": "H-23",
+     "class": "length",
+     "customer_id": "c15",
+     "part": "email",
+     "why": "only token expansion pushes the email past 120",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C3"
+     ],
+     "outside_family": [],
+     "warn": [
+      "LONG_SENTENCE"
+     ],
+     "hits": [
+      {
+       "id": "LONG_SENTENCE",
+       "code": "LONG_SENTENCE",
+       "field": "body"
+      },
+      {
+       "id": "LONG_SENTENCE",
+       "code": "LONG_SENTENCE",
+       "field": "body"
+      },
+      {
+       "id": "C3",
+       "code": "OVER_WORDS",
+       "field": "body",
+       "detail": "123"
+      }
+     ]
+    },
+    {
+     "id": "H-24",
+     "class": "length",
+     "customer_id": "c01",
+     "part": "landing_page",
+     "why": "many fields, each in limit; over 120",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C3.L"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C3.L",
+       "code": "OVER_WORDS",
+       "field": "sections",
+       "detail": "132"
+      }
+     ]
+    },
+    {
+     "id": "H-25",
+     "class": "echo",
+     "customer_id": "c03",
+     "part": "email",
+     "why": "alludes to the silk evening stole bought last winter",
+     "caught": false,
+     "blocked": true,
+     "fired": [
+      "C7"
+     ],
+     "outside_family": [
+      "C7"
+     ],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C7",
+       "code": "UNGROUNDED",
+       "field": "body",
+       "detail": "silk"
+      }
+     ]
+    },
+    {
+     "id": "H-26",
+     "class": "echo",
+     "customer_id": "c06",
+     "part": "landing_page",
+     "why": "story implies the printed resort shirt",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C8n"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C8n",
+       "code": "PAST_ITEM",
+       "field": "sections[1].text",
+       "detail": "shirt + last summer"
+      }
+     ]
+    },
+    {
+     "id": "H-27",
+     "class": "echo",
+     "customer_id": "c10",
+     "part": "email",
+     "why": "echoes the weekender and two-night trips use",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C8n"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C8n",
+       "code": "PAST_ITEM",
+       "field": "body",
+       "detail": "weekender + have been"
+      }
+     ]
+    },
+    {
+     "id": "H-28",
+     "class": "echo",
+     "customer_id": "c15",
+     "part": "landing_page",
+     "why": "'second hot-weather holiday ... shirts' hints at past resort shirt",
+     "caught": false,
+     "blocked": false,
+     "fired": [],
+     "outside_family": [],
+     "warn": [],
+     "hits": []
+    },
+    {
+     "id": "H-29",
+     "class": "echo",
+     "customer_id": "c12",
+     "part": "email",
+     "why": "brass ear cuffs gift paraphrased",
+     "caught": false,
+     "blocked": true,
+     "fired": [
+      "C7"
+     ],
+     "outside_family": [
+      "C7"
+     ],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C7",
+       "code": "UNGROUNDED",
+       "field": "body",
+       "detail": "brass"
+      }
+     ]
+    },
+    {
+     "id": "H-30",
+     "class": "echo",
+     "customer_id": "c13",
+     "part": "landing_page",
+     "why": "indigo shirt coastal trip alluded to",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C7",
+      "C8n"
+     ],
+     "outside_family": [
+      "C7"
+     ],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C7",
+       "code": "UNGROUNDED",
+       "field": "sections[1].text",
+       "detail": "blue"
+      },
+      {
+       "id": "C8n",
+       "code": "PAST_ITEM",
+       "field": "sections[1].text",
+       "detail": "shirt + went with you"
+      }
+     ]
+    },
+    {
+     "id": "H-31",
+     "class": "echo",
+     "customer_id": "c19",
+     "part": "email",
+     "why": "block-print scarf cool evening paraphrased",
+     "caught": false,
+     "blocked": false,
+     "fired": [],
+     "outside_family": [],
+     "warn": [],
+     "hits": []
+    },
+    {
+     "id": "H-32",
+     "class": "echo",
+     "customer_id": "c18",
+     "part": "landing_page",
+     "why": "kurta worn off the plane alluded to",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "C4",
+      "C8n"
+     ],
+     "outside_family": [
+      "C4"
+     ],
+     "warn": [],
+     "hits": [
+      {
+       "id": "C4",
+       "code": "familiarity",
+       "field": "sections[1].text",
+       "detail": "c4.083"
+      },
+      {
+       "id": "C8n",
+       "code": "PAST_ITEM",
+       "field": "sections[1].text",
+       "detail": "kurta + You landed"
+      }
+     ]
+    },
+    {
+     "id": "H-33",
+     "class": "image",
+     "customer_id": "c16",
+     "part": "email",
+     "why": "look-alike host cdn-shopify.com",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "X2"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "control": [],
+     "hits": [
+      {
+       "id": "X2",
+       "code": "IMG_HOST",
+       "detail": "https://cdn-shopify.com/s/files/1/0270/5129/4854/files/NBI051683_1.jpg"
+      }
+     ]
+    },
+    {
+     "id": "H-34",
+     "class": "image",
+     "customer_id": "c01",
+     "part": "landing_page",
+     "why": "http scheme",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "X2"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "control": [],
+     "hits": [
+      {
+       "id": "X2",
+       "code": "IMG_SCHEME",
+       "detail": "http://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI048028_1.jpg"
+      }
+     ]
+    },
+    {
+     "id": "H-35",
+     "class": "image",
+     "customer_id": "c04",
+     "part": "catalog",
+     "why": "extra path segment after filename",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "X2"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "control": [],
+     "hits": [
+      {
+       "id": "X2",
+       "code": "IMG_NOT_OF_SELECTED",
+       "detail": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI053627_1.jpg/thumb"
+      }
+     ]
+    },
+    {
+     "id": "H-36",
+     "class": "image",
+     "customer_id": "c09",
+     "part": "landing_page",
+     "why": "valid CDN image of p4 (Kesar Choker) shown in p2 slot",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "X1"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "control": [],
+     "hits": [
+      {
+       "id": "X1",
+       "code": "IMAGE_MISMATCH",
+       "detail": "p2"
+      }
+     ]
+    },
+    {
+     "id": "H-37",
+     "class": "image",
+     "customer_id": "c12",
+     "part": "email",
+     "why": "resized variant of another pick (p3 Patang mug)",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "X2"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "control": [],
+     "hits": [
+      {
+       "id": "X2",
+       "code": "IMG_NOT_OF_SELECTED",
+       "detail": "https://cdn.shopify.com/s/files/1/0270/5129/4854/products/3_cde54efa-f87c-4beb-9972-83a6d57d463f_600x.jpg"
+      }
+     ]
+    },
+    {
+     "id": "H-38",
+     "class": "image",
+     "customer_id": "c05",
+     "part": "catalog",
+     "why": "hotlinked from nicobar.com host rather than the CDN",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "X2"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "control": [],
+     "hits": [
+      {
+       "id": "X2",
+       "code": "IMG_HOST",
+       "detail": "https://www.nicobar.com/cdn/shop/files/8_1c5d54f2-56ca-4221-8c19-c86234ec855a.jpg"
+      }
+     ]
+    },
+    {
+     "id": "H-39",
+     "class": "image",
+     "customer_id": "c11",
+     "part": "landing_page",
+     "why": "store path digits transposed",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "X2"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "control": [],
+     "hits": [
+      {
+       "id": "X2",
+       "code": "IMG_OTHER_STORE",
+       "detail": "https://cdn.shopify.com/s/files/1/0270/5129/4845/files/NBI048031_1.jpg"
+      }
+     ]
+    },
+    {
+     "id": "H-40",
+     "class": "image",
+     "customer_id": "c08",
+     "part": "email",
+     "why": "userinfo trick: real host before @, actual host after",
+     "caught": true,
+     "blocked": true,
+     "fired": [
+      "X2"
+     ],
+     "outside_family": [],
+     "warn": [],
+     "control": [],
+     "hits": [
+      {
+       "id": "X2",
+       "code": "IMG_AUTHORITY",
+       "detail": "https://cdn.shopify.com@img-cache.example.net/s/files/1/0270/5129/4854/files/NBI048485_1.jpg"
+      }
+     ]
+    }
+   ]
+  }
  },
  "by_file": {
   "checks": {
@@ -970,6 +1135,10 @@
    "cases": 56,
    "ok": 56
   },
+  "check2": {
+   "cases": 33,
+   "ok": 33
+  },
   "drafts.good": {
    "cases": 17,
    "ok": 17
@@ -979,8 +1148,8 @@
    "ok": 24
   },
   "c8n_rows": {
-   "cases": 32,
-   "ok": 32
+   "cases": 48,
+   "ok": 48
   }
  },
  "named_failures": [
@@ -1116,6 +1285,38 @@
   {
    "id": "N-06",
    "known_gap": "a greeting is not in c4.json"
+  },
+  {
+   "id": "H-03",
+   "known_gap": "Unselected product in a single capital word plus a lower-case noun (earrings). Lower-case noun check false-fires on 49 of 73 known-good drafts, so it is not built"
+  },
+  {
+   "id": "H-04",
+   "known_gap": "Unselected product in lower-case common nouns (hat, sandals). Neither noun is in the catalogue noun list"
+  },
+  {
+   "id": "H-05",
+   "known_gap": "Plain-word variant claim (a deeper size) with no vocabulary term. Beyond a word check"
+  },
+  {
+   "id": "H-08",
+   "known_gap": "Unselected product in lower case (card holder). Same lower-case noun check as H-03"
+  },
+  {
+   "id": "H-25",
+   "known_gap": "Echo by material and season, without the head noun (silk, stole). Blocked by C7 only because the pick lacks the word"
+  },
+  {
+   "id": "H-28",
+   "known_gap": "Thin echo, head noun with no past cue: a second holiday. `second` fires beside a head noun in 5 bodies, so it is not a cue"
+  },
+  {
+   "id": "H-29",
+   "known_gap": "Echo by material, without the head noun (brass, cuffs). Blocked by C7 only because the pick lacks the word"
+  },
+  {
+   "id": "H-31",
+   "known_gap": "Echo by technique and past use, without the head noun (block print, scarf)"
   }
  ],
  "skipped": [
@@ -1239,7 +1440,18 @@
     "N-02b",
     "N-04-7",
     "N-06",
-    "N-09c"
+    "N-09c",
+    "V2-OK-11",
+    "V2-OK-01",
+    "V2-OK-02",
+    "V2-OK-03",
+    "V2-OK-04",
+    "V2-OK-05",
+    "V2-OK-06",
+    "V2-OK-07",
+    "V2-OK-08",
+    "V2-OK-09",
+    "V2-OK-10"
    ]
   },
   {
@@ -1456,6 +1668,63 @@
     "BL-D7-render",
     "X1-00",
     "L-12d"
+   ]
+  },
+  {
+   "id": "M23",
+   "rule_change": "C8n fires on the head noun with no past-time cue",
+   "killed": true,
+   "killed_by": [
+    "C8n-v2-09",
+    "C8n-v2-10",
+    "C8n-v2-11",
+    "C8n-v2-12",
+    "C8n-v2-13",
+    "C8n-v2-16"
+   ]
+  },
+  {
+   "id": "M24",
+   "rule_change": "C4 without the scarcity, deadline and spend terms of check-v2",
+   "killed": true,
+   "killed_by": [
+    "V2-C4-01",
+    "V2-C4-02",
+    "V2-C4-03",
+    "V2-C4-04",
+    "V2-C4-05",
+    "V2-C4-06",
+    "V2-C4-07",
+    "V2-C4-08",
+    "V2-C4-09",
+    "V2-C4-10",
+    "V2-C4-11",
+    "V2-C4-12",
+    "V2-C4-13",
+    "V2-C4-14",
+    "V2-C4-15",
+    "V2-C4-16",
+    "V2-C4-17",
+    "V2-C4-18",
+    "V2-C4-19",
+    "V2-C4-20",
+    "V2-C4-21",
+    "V2-C4-23"
+   ]
+  },
+  {
+   "id": "M25",
+   "rule_change": "C8n matches the exact spans only, no head noun",
+   "killed": true,
+   "killed_by": [
+    "C8n-v2-01",
+    "C8n-v2-02",
+    "C8n-v2-03",
+    "C8n-v2-04",
+    "C8n-v2-05",
+    "C8n-v2-06",
+    "C8n-v2-07",
+    "C8n-v2-08"
    ]
   }
  ],
@@ -3793,6 +4062,318 @@
    "ok": true
   },
   {
+   "id": "V2-C4-01",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-02",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-03",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-04",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-05",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-06",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-07",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-08",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-09",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-10",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-11",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-12",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [
+    "C8c"
+   ],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-13",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-14",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-15",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-16",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [
+    "C8c"
+   ],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-17",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-18",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-19",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-20",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-21",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-OK-11",
+   "file": "check2",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "V2-C4-23",
+   "file": "check2",
+   "fired": [
+    "C4"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "V2-OK-01",
+   "file": "check2",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "V2-OK-02",
+   "file": "check2",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "V2-OK-03",
+   "file": "check2",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "V2-OK-04",
+   "file": "check2",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "V2-OK-05",
+   "file": "check2",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "V2-OK-06",
+   "file": "check2",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "V2-OK-07",
+   "file": "check2",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "V2-OK-08",
+   "file": "check2",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "V2-OK-09",
+   "file": "check2",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "V2-OK-10",
+   "file": "check2",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
    "id": "G1",
    "file": "drafts.good",
    "fired": [],
@@ -4460,6 +5041,150 @@
    ],
    "warn": [],
    "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "C8n-v2-01",
+   "file": "c8n_rows",
+   "fired": [
+    "C8n"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "C8n-v2-02",
+   "file": "c8n_rows",
+   "fired": [
+    "C8n"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "C8n-v2-03",
+   "file": "c8n_rows",
+   "fired": [
+    "C8n"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "C8n-v2-04",
+   "file": "c8n_rows",
+   "fired": [
+    "C8n"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "C8n-v2-05",
+   "file": "c8n_rows",
+   "fired": [
+    "C8n"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "C8n-v2-06",
+   "file": "c8n_rows",
+   "fired": [
+    "C8n"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "C8n-v2-07",
+   "file": "c8n_rows",
+   "fired": [
+    "C8n"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "C8n-v2-08",
+   "file": "c8n_rows",
+   "fired": [
+    "C8n"
+   ],
+   "warn": [],
+   "verdict": "fail",
+   "ok": true
+  },
+  {
+   "id": "C8n-v2-09",
+   "file": "c8n_rows",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "C8n-v2-10",
+   "file": "c8n_rows",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "C8n-v2-11",
+   "file": "c8n_rows",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "C8n-v2-12",
+   "file": "c8n_rows",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "C8n-v2-13",
+   "file": "c8n_rows",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "C8n-v2-14",
+   "file": "c8n_rows",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "C8n-v2-15",
+   "file": "c8n_rows",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
+   "ok": true
+  },
+  {
+   "id": "C8n-v2-16",
+   "file": "c8n_rows",
+   "fired": [],
+   "warn": [],
+   "verdict": "pass",
    "ok": true
   }
  ]

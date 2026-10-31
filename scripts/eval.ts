@@ -14,7 +14,7 @@ const json = (p: string) => JSON.parse(readFileSync(join(ROOT, p), 'utf8'));
 type Check = typeof real;
 type Case = Record<string, any>;
 
-export const CASE_FILES = ['checks', 'blind-drafts', 'image-gate-and-links', 'injection', 'layout'] as const;
+export const CASE_FILES = ['checks', 'blind-drafts', 'image-gate-and-links', 'injection', 'layout', 'check2'] as const;
 
 export function evalCatalog(rulesPath = 'test/fixtures/rules.eval.json'): Catalog {
   const fx = json('test/fixtures/catalog.fixture.json');
@@ -187,6 +187,9 @@ export const PATCHES: Record<string, [string, string][]> = {
   M18: [['const words = (t: string) => Math.max(wsCount(t), tokCount(t));', 'const words = (t: string) => Math.max(t.split(/\\s+/).filter((w) => /[A-Za-z0-9]/.test(w)).length, tokCount(t));']],
   M19: [['const counted = ctx.fields.map((f) => f.expanded).join(\' \');', "const counted = [...ctx.fields.map((f) => f.expanded), ...ctx.slots.map((s) => ctx.title(s))].join(' ');"]],
   M20: [['const ALLOW = LISTS.c8_allow.allow_title_case;', "const ALLOW = LISTS.c8_allow.allow_title_case.filter((a) => a !== 'Indian Ocean');"]],
+  M23: [['return noun && cue ? [`${noun[0]} + ${cue[0]}`] : [];', 'return noun ? [noun[0]] : [];']],
+  M24: [['const C4 = LISTS.c4.patterns.map(', "const C4 = LISTS.c4.patterns.filter((p) => p.id <= 'c4.086').map("]],
+  M25: [['const t = fold(text), head = C8N_HEAD[customer_id];', 'const t = fold(text), head = undefined as RegExp | undefined;']],
   M21: [["case 'packing_list': return s.items.map((it: any, j: number) => field(`${at}.items[${j}].note`, it.note, [it.slot]));", "case 'packing_list': return [];"]],
 };
 
@@ -219,6 +222,9 @@ export async function runMutants(cat: Catalog, base: Outcome[]) {
 const FAMILY: Record<string, string[]> = { product: ['C5', 'C7', 'C8', 'C8d', 'C8d-x'], discount: ['C4'], length: ['C3', 'C3.L'], echo: ['C8n'], image: ['X1', 'X2'] };
 
 export const HELDOUT_SNAPSHOT: string = json('data/recommendations.synthetic.json').snapshot_id;
+
+/** The 79 picked rows and the full rules, committed, so a clean clone with no out/ scores the same. */
+export const heldoutCatalog = (): Catalog => toCatalog(json('test/fixtures/heldout.catalog.json'), json('test/fixtures/heldout.rules.json'));
 
 export function snapshotCatalog(id = HELDOUT_SNAPSHOT): Catalog | null {
   const dir = `out/snapshot/${id}`;
@@ -287,25 +293,26 @@ async function main() {
       : { key, label, cases, caught: cases.filter((id) => byId.get(id)?.verdict === 'fail').length / (cases.length || 1) };
   });
   const by = (f: string) => outcomes.filter((o) => o.file === f);
+  const v1 = json('test/cases/heldout-v1.json');
   const gaps = (json('test/cases/checks.json').cases as Case[]).concat(json('test/cases/blind-drafts.json').cases, json('test/cases/layout.json').cases)
-    .filter((c) => c.known_gap).map((c) => ({ id: c.id, known_gap: c.known_gap }));
+    .filter((c) => c.known_gap).map((c) => ({ id: c.id, known_gap: c.known_gap }))
+    .concat(Object.entries(json('test/cases/heldout-gaps.json') as Record<string, string>).map(([id, known_gap]) => ({ id, known_gap })));
   const refFired = new Map((json('test/cases/checks.json').cases as Case[]).concat(json('test/cases/blind-drafts.json').cases)
     .filter((c) => c.reference_fired).map((c) => [c.id, c.reference_fired as string[]]));
   const reference_diffs = outcomes.filter((o) => (o.file === 'checks' || o.file === 'blind-drafts') && refFired.has(o.id)
     && [...refFired.get(o.id)!].sort().join() !== o.fired.join()).map((o) => ({ id: o.id, reference: refFired.get(o.id), fired: o.fired }));
   const failed = outcomes.filter((o) => !o.ok);
   const survivors = mutants.filter((m) => !m.killed);
-  const snap = snapshotCatalog();
-  const heldout = snap ? runHeldout(snap) : { status: 'VOID', reason: `out/snapshot/${HELDOUT_SNAPSHOT} is missing: run npm run build first` };
+  const heldout_v1 = { status: 'regression', note: 'Scored once, blind, on check-v1. check-v2 was fixed against these 40, so `current` is regression, not recall.', scored: v1, current: runHeldout(heldoutCatalog()) };
   const totals = { cases: outcomes.length, ok: outcomes.length - failed.length, failed: failed.length, mutants: mutants.length, survivors: survivors.length };
-  const report = { validator_version: real.VALIDATOR_VERSION, snapshot_id: cat.snapshot_id, paid_calls: 0, totals, regression: totals, heldout,
+  const report = { validator_version: real.VALIDATOR_VERSION, snapshot_id: cat.snapshot_id, paid_calls: 0, totals, regression: totals, heldout_v1,
     by_file: Object.fromEntries([...new Set(outcomes.map((o) => o.file))].map((f) => [f, { cases: by(f).length, ok: by(f).filter((o) => o.ok).length }])),
     named_failures: named, failures: failed, reference_diffs, known_gaps: gaps, skipped: SKIPPED,
     mutants: mutants.map(({ listed_killed_by: _, ...m }) => m), outcomes };
   mkdirSync(join(ROOT, 'reports'), { recursive: true });
   writeFileSync(join(ROOT, 'reports/eval.json'), JSON.stringify(report, null, 1) + '\n');
   console.log(JSON.stringify(report.totals));
-  console.log('heldout', 'by_class' in heldout ? JSON.stringify({ caught: heldout.caught, blocked: heldout.blocked, n: heldout.n, by_class: heldout.by_class }) : heldout.status);
+  console.log('heldout_v1', JSON.stringify({ scored: `${v1.caught}/${v1.n}`, status: 'regression', now: `${heldout_v1.current.caught}/${heldout_v1.current.n}`, by_class: heldout_v1.current.by_class }));
   for (const f of failed) console.log(`FAIL ${f.file}:${f.id} ${f.why}`);
   for (const m of survivors) console.log(`SURVIVED ${m.id} ${m.rule_change}`);
   for (const d of reference_diffs) console.log(`diff ${d.id} reference=${d.reference} fired=${d.fired}`);

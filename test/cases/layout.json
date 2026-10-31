@@ -3209,7 +3209,7 @@
   }
  ],
  "c8n_rows": {
-  "count": 32,
+  "count": 48,
   "note": "text-level: run C8n only",
   "rows": [
    {
@@ -3583,6 +3583,158 @@
      ]
     },
     "by_design_false_positive": "honest adjacent words hit the span \"silk evening\"; quill 52 Open 5"
+   },
+   {
+    "id": "C8n-v2-01",
+    "customer_id": "c06",
+    "text": "A shirt from last summer still has its place.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-v2-02",
+    "customer_id": "c02",
+    "text": "You landed in a kurta last time.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-v2-03",
+    "customer_id": "c05",
+    "text": "The trips you have been packing a weekender for.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-v2-04",
+    "customer_id": "c13",
+    "text": "So is the shirt that went with you.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-v2-05",
+    "customer_id": "c08",
+    "text": "The dress you wore before.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-v2-06",
+    "customer_id": "c12",
+    "text": "The cuffs you chose.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-v2-07",
+    "customer_id": "c03",
+    "text": "The stole you had.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-v2-08",
+    "customer_id": "c04",
+    "text": "A scarf, as before.",
+    "expect": {
+     "verdict": "fail",
+     "fails_any": [
+      "C8n"
+     ]
+    }
+   },
+   {
+    "id": "C8n-v2-09",
+    "customer_id": "c06",
+    "text": "A shirt for the summer ahead.",
+    "expect": {
+     "verdict": "pass"
+    }
+   },
+   {
+    "id": "C8n-v2-10",
+    "customer_id": "c06",
+    "text": "Wear the shirt before dinner.",
+    "expect": {
+     "verdict": "pass"
+    }
+   },
+   {
+    "id": "C8n-v2-11",
+    "customer_id": "c02",
+    "text": "The kurta will last the whole summer.",
+    "expect": {
+     "verdict": "pass"
+    }
+   },
+   {
+    "id": "C8n-v2-12",
+    "customer_id": "c05",
+    "text": "Pack the weekender again.",
+    "expect": {
+     "verdict": "pass"
+    }
+   },
+   {
+    "id": "C8n-v2-13",
+    "customer_id": "c08",
+    "text": "The dress has been worn on repeat.",
+    "expect": {
+     "verdict": "pass"
+    }
+   },
+   {
+    "id": "C8n-v2-14",
+    "customer_id": "c03",
+    "text": "Last winter was long, and the silk is here.",
+    "expect": {
+     "verdict": "pass"
+    }
+   },
+   {
+    "id": "C8n-v2-15",
+    "customer_id": "c20",
+    "text": "The shirt you wore last summer.",
+    "expect": {
+     "verdict": "pass"
+    }
+   },
+   {
+    "id": "C8n-v2-16",
+    "customer_id": "c06",
+    "text": "It sits beside any shirt you already own.",
+    "expect": {
+     "verdict": "pass"
+    }
    }
   ]
  }

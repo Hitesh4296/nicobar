@@ -1,0 +1,896 @@
+{
+ "note": "check-v2: scarcity, deadline and spend, with the good-copy sentences those terms must leave alone. G1 plus one sentence.",
+ "cases": [
+  {
+   "id": "V2-C4-01",
+   "family": "check-v2",
+   "title": "Sets like these rarely last.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Sets like these rarely last."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-02",
+   "family": "check-v2",
+   "title": "It will not last long.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. It will not last long."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-03",
+   "family": "check-v2",
+   "title": "These are among the last few.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. These are among the last few."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-04",
+   "family": "check-v2",
+   "title": "Only a few left now.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Only a few left now."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-05",
+   "family": "check-v2",
+   "title": "They are almost gone.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. They are almost gone."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-06",
+   "family": "check-v2",
+   "title": "It is running low.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. It is running low."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-07",
+   "family": "check-v2",
+   "title": "It may be sold out soon.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. It may be sold out soon."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-08",
+   "family": "check-v2",
+   "title": "It does not always stay in stock.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. It does not always stay in stock."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-09",
+   "family": "check-v2",
+   "title": "Be quick about it.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Be quick about it."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-10",
+   "family": "check-v2",
+   "title": "Choose early for the evening.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Choose early for the evening."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-11",
+   "family": "check-v2",
+   "title": "Do not hesitate, they go quickly.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Do not hesitate, they go quickly."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-12",
+   "family": "check-v2",
+   "title": "Order by Thursday.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Order by Thursday."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-13",
+   "family": "check-v2",
+   "title": "Order before the weekend.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Order before the weekend."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-14",
+   "family": "check-v2",
+   "title": "It will reach you before you leave.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. It will reach you before you leave."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-15",
+   "family": "check-v2",
+   "title": "It arrives in time for the evening.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. It arrives in time for the evening."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-16",
+   "family": "check-v2",
+   "title": "It ships by Friday.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. It ships by Friday."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-17",
+   "family": "check-v2",
+   "title": "Keep this within budget.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Keep this within budget."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-18",
+   "family": "check-v2",
+   "title": "A small spend for the whole evening.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. A small spend for the whole evening."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-19",
+   "family": "check-v2",
+   "title": "Give something good without spending more than you meant to.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Give something good without spending more than you meant to."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-20",
+   "family": "check-v2",
+   "title": "It is a bargain for what it does.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. It is a bargain for what it does."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-C4-21",
+   "family": "check-v2",
+   "title": "It costs little and does a lot.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. It costs little and does a lot."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-OK-11",
+   "family": "check-v2",
+   "title": "Keep small things within reach.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Keep small things within reach."
+    }
+   },
+   "expect": {
+    "verdict": "pass"
+   }
+  },
+  {
+   "id": "V2-C4-23",
+   "family": "check-v2",
+   "title": "It is worth every bit.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. It is worth every bit."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C4"
+    ]
+   }
+  },
+  {
+   "id": "V2-OK-01",
+   "family": "check-v2",
+   "title": "It is an easy thing to spend the day in.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. It is an easy thing to spend the day in."
+    }
+   },
+   "expect": {
+    "verdict": "pass"
+   }
+  },
+  {
+   "id": "V2-OK-02",
+   "family": "check-v2",
+   "title": "Spend the evening outside.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Spend the evening outside."
+    }
+   },
+   "expect": {
+    "verdict": "pass"
+   }
+  },
+  {
+   "id": "V2-OK-03",
+   "family": "check-v2",
+   "title": "Spending the evening at home is reason enough.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Spending the evening at home is reason enough."
+    }
+   },
+   "expect": {
+    "verdict": "pass"
+   }
+  },
+  {
+   "id": "V2-OK-04",
+   "family": "check-v2",
+   "title": "Spend more evenings outdoors.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Spend more evenings outdoors."
+    }
+   },
+   "expect": {
+    "verdict": "pass"
+   }
+  },
+  {
+   "id": "V2-OK-05",
+   "family": "check-v2",
+   "title": "You will always find them in stores and in stock.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. You will always find them in stores and in stock."
+    }
+   },
+   "expect": {
+    "verdict": "pass"
+   }
+  },
+  {
+   "id": "V2-OK-06",
+   "family": "check-v2",
+   "title": "Just the last buttons visible.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Just the last buttons visible."
+    }
+   },
+   "expect": {
+    "verdict": "pass"
+   }
+  },
+  {
+   "id": "V2-OK-07",
+   "family": "check-v2",
+   "title": "It is made to last.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. It is made to last."
+    }
+   },
+   "expect": {
+    "verdict": "pass"
+   }
+  },
+  {
+   "id": "V2-OK-08",
+   "family": "check-v2",
+   "title": "Nothing here runs long.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Nothing here runs long."
+    }
+   },
+   "expect": {
+    "verdict": "pass"
+   }
+  },
+  {
+   "id": "V2-OK-09",
+   "family": "check-v2",
+   "title": "Early morning suits it too.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. Early morning suits it too."
+    }
+   },
+   "expect": {
+    "verdict": "pass"
+   }
+  },
+  {
+   "id": "V2-OK-10",
+   "family": "check-v2",
+   "title": "It is rare to find a colour this quiet.",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand. It is rare to find a colour this quiet."
+    }
+   },
+   "expect": {
+    "verdict": "pass"
+   }
+  }
+ ]
+}

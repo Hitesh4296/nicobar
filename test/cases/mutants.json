@@ -1,5 +1,5 @@
 {
- "count": 22,
+ "count": 25,
  "rule": "a mutant is a deliberately broken rule set. Run the whole case suite under each; a mutant is killed when at least one case changes verdict from its baseline. A survivor fails the build.",
  "baseline": "all cases in checks.json, blind-drafts.json, image-gate-and-links.json, injection.json, layout.json",
  "retired": [
@@ -301,6 +301,33 @@
     "L-12b"
    ],
    "status": "VOID until the port"
+  },
+  {
+   "id": "M23",
+   "rule_change": "C8n fires on the head noun with no past-time cue",
+   "why_it_matters": "any pick of the same class as the past item would fail",
+   "killed_by": [
+    "C8n-v2-09"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M24",
+   "rule_change": "C4 without the scarcity, deadline and spend terms of check-v2",
+   "why_it_matters": "urgency and price framing in plain words reach the reviewer",
+   "killed_by": [
+    "V2-C4-01"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M25",
+   "rule_change": "C8n matches the exact spans only, no head noun",
+   "why_it_matters": "a paraphrase of the past item passes, as on held-out v1",
+   "killed_by": [
+    "C8n-v2-01"
+   ],
+   "status": "killed"
   }
  ]
 }
