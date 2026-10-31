@@ -35,7 +35,7 @@ describe('test 11: seed --voice', () => {
     const d = db();
     for (const s of await voiceSql([voiceFile('GOOD-c16')], cat, 'first')) d.exec(s);
     const { landing_page, catalog } = JSON.parse((d.prepare('SELECT rendered_json FROM drafts').get() as { rendered_json: string }).rendered_json);
-    expect(landing_page).toContain('>For Aditi<');
+    expect(landing_page).toMatch(/>For Aditi[^<]+birthday</i);
     expect(landing_page).not.toMatch(/\{p\d\}/);
     expect(catalog).toContain('data-slot="p6"');
   });
