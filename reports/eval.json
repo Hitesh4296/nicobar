@@ -5187,5 +5187,1148 @@
    "verdict": "pass",
    "ok": true
   }
- ]
+ ],
+ "heldout_v2": {
+  "status": "scored",
+  "scored_once": true,
+  "sealed_sha256": "b59bb69854fe3b9c73842da735b4711335397f5309df991004589ccdd49a26a2",
+  "validator_version": "check-v2",
+  "commit": "0f6a65b",
+  "snapshot_id": "2026-10-29-67819ca378f4",
+  "family": {
+   "product": [
+    "C5",
+    "C7",
+    "C8",
+    "C8d",
+    "C8d-x"
+   ],
+   "discount": [
+    "C4"
+   ],
+   "length": [
+    "C3",
+    "C3.L"
+   ],
+   "echo": [
+    "C8n"
+   ],
+   "image": [
+    "X1",
+    "X2"
+   ]
+  },
+  "conversion": "rendered string to email model: heading=subject, body verbatim, Featured and Image lines dropped, preheader 20 spaces, body right-padded with spaces to 200 chars. C2 SLOT_SET excluded; C8 read with p1-p3 names as tokens. Image class scored on the Image URL by render, tamper, validateRendered.",
+  "n": 40,
+  "caught": 33,
+  "blocked": 33,
+  "by_class": {
+   "product": {
+    "n": 8,
+    "caught": 6,
+    "blocked": 6
+   },
+   "discount": {
+    "n": 8,
+    "caught": 5,
+    "blocked": 5
+   },
+   "length": {
+    "n": 8,
+    "caught": 8,
+    "blocked": 8
+   },
+   "echo": {
+    "n": 8,
+    "caught": 6,
+    "blocked": 6
+   },
+   "image": {
+    "n": 8,
+    "caught": 8,
+    "blocked": 8
+   }
+  },
+  "misses": [
+   "h2-01",
+   "h2-08",
+   "h2-09",
+   "h2-11",
+   "h2-13",
+   "h2-27",
+   "h2-31"
+  ],
+  "cases": [
+   {
+    "id": "h2-01",
+    "class": "product",
+    "customer_id": "c01",
+    "caught": false,
+    "blocked": false,
+    "fired": [],
+    "outside_family": [],
+    "warn": [],
+    "hits": [],
+    "body_words": 29,
+    "body_chars": 150
+   },
+   {
+    "id": "h2-02",
+    "class": "product",
+    "customer_id": "c03",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C7"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C7",
+      "code": "UNGROUNDED",
+      "field": "body",
+      "detail": "silver"
+     }
+    ],
+    "body_words": 29,
+    "body_chars": 147
+   },
+   {
+    "id": "h2-03",
+    "class": "product",
+    "customer_id": "c05",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C7"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C7",
+      "code": "UNGROUNDED_COUNT",
+      "field": "body",
+      "detail": "set of six"
+     }
+    ],
+    "body_words": 26,
+    "body_chars": 133
+   },
+   {
+    "id": "h2-04",
+    "class": "product",
+    "customer_id": "c07",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C7",
+     "C8",
+     "C8d"
+    ],
+    "outside_family": [],
+    "warn": [
+     "C8c"
+    ],
+    "hits": [
+     {
+      "id": "C7",
+      "code": "UNGROUNDED",
+      "field": "body",
+      "detail": "brass"
+     },
+     {
+      "id": "C8",
+      "code": "NAMES_PRODUCT",
+      "field": "body",
+      "detail": "The Lakshmi Diya Stand"
+     },
+     {
+      "id": "C8d",
+      "code": "CAPITAL_RUN",
+      "field": "body",
+      "detail": "Lakshmi Diya Stand"
+     },
+     {
+      "id": "C8c",
+      "code": "CAPITAL",
+      "field": "body",
+      "detail": "Lakshmi"
+     },
+     {
+      "id": "C8c",
+      "code": "CAPITAL",
+      "field": "body",
+      "detail": "Diya"
+     },
+     {
+      "id": "C8c",
+      "code": "CAPITAL",
+      "field": "body",
+      "detail": "Stand"
+     }
+    ],
+    "body_words": 29,
+    "body_chars": 151
+   },
+   {
+    "id": "h2-05",
+    "class": "product",
+    "customer_id": "c10",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C8d"
+    ],
+    "outside_family": [],
+    "warn": [
+     "C8c"
+    ],
+    "hits": [
+     {
+      "id": "C8d",
+      "code": "CAPITAL_RUN",
+      "field": "body",
+      "detail": "Jaipur Weekender Duffel"
+     },
+     {
+      "id": "C8c",
+      "code": "CAPITAL",
+      "field": "body",
+      "detail": "Weekender"
+     },
+     {
+      "id": "C8c",
+      "code": "CAPITAL",
+      "field": "body",
+      "detail": "Duffel"
+     }
+    ],
+    "body_words": 23,
+    "body_chars": 113
+   },
+   {
+    "id": "h2-06",
+    "class": "product",
+    "customer_id": "c14",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C7",
+     "C8"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C7",
+      "code": "UNGROUNDED",
+      "field": "body",
+      "detail": "copper"
+     },
+     {
+      "id": "C8",
+      "code": "NAMES_PRODUCT",
+      "field": "body",
+      "detail": "The Madhu Ghee Pot"
+     }
+    ],
+    "body_words": 31,
+    "body_chars": 153
+   },
+   {
+    "id": "h2-07",
+    "class": "product",
+    "customer_id": "c16",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C7"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C7",
+      "code": "UNGROUNDED",
+      "field": "body",
+      "detail": "cashmere"
+     }
+    ],
+    "body_words": 24,
+    "body_chars": 130
+   },
+   {
+    "id": "h2-08",
+    "class": "product",
+    "customer_id": "c12",
+    "caught": false,
+    "blocked": false,
+    "fired": [],
+    "outside_family": [],
+    "warn": [
+     "C8c"
+    ],
+    "hits": [
+     {
+      "id": "C8c",
+      "code": "CAPITAL",
+      "field": "body",
+      "detail": "R"
+     }
+    ],
+    "body_words": 25,
+    "body_chars": 120
+   },
+   {
+    "id": "h2-09",
+    "class": "discount",
+    "customer_id": "c02",
+    "caught": false,
+    "blocked": false,
+    "fired": [],
+    "outside_family": [],
+    "warn": [],
+    "hits": [],
+    "body_words": 31,
+    "body_chars": 160
+   },
+   {
+    "id": "h2-10",
+    "class": "discount",
+    "customer_id": "c04",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C4"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C4",
+      "code": "price",
+      "field": "body",
+      "detail": "c4.025"
+     }
+    ],
+    "body_words": 24,
+    "body_chars": 134
+   },
+   {
+    "id": "h2-11",
+    "class": "discount",
+    "customer_id": "c06",
+    "caught": false,
+    "blocked": false,
+    "fired": [],
+    "outside_family": [],
+    "warn": [],
+    "hits": [],
+    "body_words": 27,
+    "body_chars": 144
+   },
+   {
+    "id": "h2-12",
+    "class": "discount",
+    "customer_id": "c08",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C4"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C4",
+      "code": "deadline",
+      "field": "body",
+      "detail": "c4.100"
+     }
+    ],
+    "body_words": 28,
+    "body_chars": 137
+   },
+   {
+    "id": "h2-13",
+    "class": "discount",
+    "customer_id": "c09",
+    "caught": false,
+    "blocked": false,
+    "fired": [],
+    "outside_family": [],
+    "warn": [
+     "SOFT"
+    ],
+    "hits": [
+     {
+      "id": "SOFT",
+      "code": "SOFT",
+      "field": "body"
+     }
+    ],
+    "body_words": 24,
+    "body_chars": 129
+   },
+   {
+    "id": "h2-14",
+    "class": "discount",
+    "customer_id": "c11",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C4"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C4",
+      "code": "urgency-scarcity",
+      "field": "body",
+      "detail": "c4.088"
+     }
+    ],
+    "body_words": 30,
+    "body_chars": 146
+   },
+   {
+    "id": "h2-15",
+    "class": "discount",
+    "customer_id": "c13",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C4"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C4",
+      "code": "paraphrase",
+      "field": "body",
+      "detail": "c4.073"
+     },
+     {
+      "id": "C4",
+      "code": "price",
+      "field": "body",
+      "detail": "c4.113"
+     }
+    ],
+    "body_words": 23,
+    "body_chars": 128
+   },
+   {
+    "id": "h2-16",
+    "class": "discount",
+    "customer_id": "c15",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C4"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C4",
+      "code": "urgency-scarcity",
+      "field": "body",
+      "detail": "c4.040"
+     },
+     {
+      "id": "C4",
+      "code": "urgency-scarcity",
+      "field": "body",
+      "detail": "c4.097"
+     }
+    ],
+    "body_words": 27,
+    "body_chars": 131
+   },
+   {
+    "id": "h2-17",
+    "class": "length",
+    "customer_id": "c01",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C3",
+     "C7"
+    ],
+    "outside_family": [
+     "C7"
+    ],
+    "warn": [
+     "LONG_SENTENCE"
+    ],
+    "hits": [
+     {
+      "id": "C7",
+      "code": "UNGROUNDED",
+      "field": "body",
+      "detail": "cotton"
+     },
+     {
+      "id": "LONG_SENTENCE",
+      "code": "LONG_SENTENCE",
+      "field": "body"
+     },
+     {
+      "id": "C3",
+      "code": "OVER_WORDS",
+      "field": "body",
+      "detail": "138"
+     }
+    ],
+    "body_words": 138,
+    "body_chars": 695
+   },
+   {
+    "id": "h2-18",
+    "class": "length",
+    "customer_id": "c03",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C3"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C3",
+      "code": "OVER_WORDS",
+      "field": "body",
+      "detail": "129"
+     }
+    ],
+    "body_words": 129,
+    "body_chars": 671
+   },
+   {
+    "id": "h2-19",
+    "class": "length",
+    "customer_id": "c05",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C3",
+     "C7"
+    ],
+    "outside_family": [
+     "C7"
+    ],
+    "warn": [
+     "C8c",
+     "LONG_SENTENCE"
+    ],
+    "hits": [
+     {
+      "id": "C7",
+      "code": "UNGROUNDED",
+      "field": "body",
+      "detail": "by hand"
+     },
+     {
+      "id": "C8c",
+      "code": "CAPITAL",
+      "field": "body",
+      "detail": "Sunday"
+     },
+     {
+      "id": "LONG_SENTENCE",
+      "code": "LONG_SENTENCE",
+      "field": "body"
+     },
+     {
+      "id": "C3",
+      "code": "OVER_WORDS",
+      "field": "body",
+      "detail": "139"
+     }
+    ],
+    "body_words": 139,
+    "body_chars": 714
+   },
+   {
+    "id": "h2-20",
+    "class": "length",
+    "customer_id": "c07",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C3"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C3",
+      "code": "OVER_WORDS",
+      "field": "body",
+      "detail": "149"
+     }
+    ],
+    "body_words": 149,
+    "body_chars": 733
+   },
+   {
+    "id": "h2-21",
+    "class": "length",
+    "customer_id": "c10",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C3"
+    ],
+    "outside_family": [],
+    "warn": [
+     "LONG_SENTENCE"
+    ],
+    "hits": [
+     {
+      "id": "LONG_SENTENCE",
+      "code": "LONG_SENTENCE",
+      "field": "body"
+     },
+     {
+      "id": "C3",
+      "code": "OVER_WORDS",
+      "field": "body",
+      "detail": "146"
+     }
+    ],
+    "body_words": 146,
+    "body_chars": 719
+   },
+   {
+    "id": "h2-22",
+    "class": "length",
+    "customer_id": "c14",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C3"
+    ],
+    "outside_family": [],
+    "warn": [
+     "C8c",
+     "LONG_SENTENCE",
+     "OUR"
+    ],
+    "hits": [
+     {
+      "id": "C8c",
+      "code": "CAPITAL",
+      "field": "body",
+      "detail": "Tuesday"
+     },
+     {
+      "id": "OUR",
+      "code": "OUR",
+      "field": "body"
+     },
+     {
+      "id": "LONG_SENTENCE",
+      "code": "LONG_SENTENCE",
+      "field": "body"
+     },
+     {
+      "id": "C3",
+      "code": "OVER_WORDS",
+      "field": "body",
+      "detail": "145"
+     }
+    ],
+    "body_words": 145,
+    "body_chars": 733
+   },
+   {
+    "id": "h2-23",
+    "class": "length",
+    "customer_id": "c16",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C3"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C3",
+      "code": "OVER_WORDS",
+      "field": "body",
+      "detail": "148"
+     }
+    ],
+    "body_words": 148,
+    "body_chars": 738
+   },
+   {
+    "id": "h2-24",
+    "class": "length",
+    "customer_id": "c19",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C3",
+     "C7"
+    ],
+    "outside_family": [
+     "C7"
+    ],
+    "warn": [
+     "LONG_SENTENCE"
+    ],
+    "hits": [
+     {
+      "id": "C7",
+      "code": "UNGROUNDED",
+      "field": "body",
+      "detail": "silk"
+     },
+     {
+      "id": "C7",
+      "code": "UNGROUNDED",
+      "field": "body",
+      "detail": "cotton"
+     },
+     {
+      "id": "LONG_SENTENCE",
+      "code": "LONG_SENTENCE",
+      "field": "body"
+     },
+     {
+      "id": "C3",
+      "code": "OVER_WORDS",
+      "field": "body",
+      "detail": "145"
+     }
+    ],
+    "body_words": 145,
+    "body_chars": 769
+   },
+   {
+    "id": "h2-25",
+    "class": "echo",
+    "customer_id": "c01",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C7",
+     "C8n"
+    ],
+    "outside_family": [
+     "C7"
+    ],
+    "warn": [
+     "C8c"
+    ],
+    "hits": [
+     {
+      "id": "C7",
+      "code": "UNGROUNDED",
+      "field": "body",
+      "detail": "indigo"
+     },
+     {
+      "id": "C8n",
+      "code": "PAST_ITEM",
+      "field": "body",
+      "detail": "\\bindigo\\s+travel\\b"
+     },
+     {
+      "id": "C8n",
+      "code": "PAST_ITEM",
+      "field": "body",
+      "detail": "\\btravel\\s+shirt\\b"
+     },
+     {
+      "id": "C8n",
+      "code": "PAST_ITEM",
+      "field": "body",
+      "detail": "shirt + You wore"
+     },
+     {
+      "id": "C8c",
+      "code": "CAPITAL",
+      "field": "body",
+      "detail": "Jaipur"
+     }
+    ],
+    "body_words": 27,
+    "body_chars": 153
+   },
+   {
+    "id": "h2-26",
+    "class": "echo",
+    "customer_id": "c03",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C7",
+     "C8n"
+    ],
+    "outside_family": [
+     "C7"
+    ],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C7",
+      "code": "UNGROUNDED",
+      "field": "body",
+      "detail": "silk"
+     },
+     {
+      "id": "C8n",
+      "code": "PAST_ITEM",
+      "field": "body",
+      "detail": "\\bsilk\\s+evening\\b"
+     },
+     {
+      "id": "C8n",
+      "code": "PAST_ITEM",
+      "field": "body",
+      "detail": "\\bevening\\s+stole\\b"
+     },
+     {
+      "id": "C8n",
+      "code": "PAST_ITEM",
+      "field": "body",
+      "detail": "stole + you bought"
+     }
+    ],
+    "body_words": 27,
+    "body_chars": 154
+   },
+   {
+    "id": "h2-27",
+    "class": "echo",
+    "customer_id": "c05",
+    "caught": false,
+    "blocked": false,
+    "fired": [],
+    "outside_family": [],
+    "warn": [],
+    "hits": [],
+    "body_words": 26,
+    "body_chars": 147
+   },
+   {
+    "id": "h2-28",
+    "class": "echo",
+    "customer_id": "c07",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C7",
+     "C8n"
+    ],
+    "outside_family": [
+     "C7"
+    ],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C7",
+      "code": "UNGROUNDED",
+      "field": "body",
+      "detail": "silver"
+     },
+     {
+      "id": "C8n",
+      "code": "PAST_ITEM",
+      "field": "body",
+      "detail": "\\bsilver\\s+stack\\b"
+     }
+    ],
+    "body_words": 28,
+    "body_chars": 148
+   },
+   {
+    "id": "h2-29",
+    "class": "echo",
+    "customer_id": "c10",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C8n"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C8n",
+      "code": "PAST_ITEM",
+      "field": "body",
+      "detail": "\\bwoven\\s+weekender\\b"
+     }
+    ],
+    "body_words": 28,
+    "body_chars": 149
+   },
+   {
+    "id": "h2-30",
+    "class": "echo",
+    "customer_id": "c14",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C8n"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C8n",
+      "code": "PAST_ITEM",
+      "field": "body",
+      "detail": "\\bhandloom\\s+throw\\b"
+     },
+     {
+      "id": "C8n",
+      "code": "PAST_ITEM",
+      "field": "body",
+      "detail": "throw + you chose"
+     }
+    ],
+    "body_words": 29,
+    "body_chars": 148
+   },
+   {
+    "id": "h2-31",
+    "class": "echo",
+    "customer_id": "c16",
+    "caught": false,
+    "blocked": false,
+    "fired": [],
+    "outside_family": [],
+    "warn": [],
+    "hits": [],
+    "body_words": 29,
+    "body_chars": 150
+   },
+   {
+    "id": "h2-32",
+    "class": "echo",
+    "customer_id": "c19",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "C8n"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "hits": [
+     {
+      "id": "C8n",
+      "code": "PAST_ITEM",
+      "field": "body",
+      "detail": "\\bblock-print\\s+scarf\\b"
+     }
+    ],
+    "body_words": 26,
+    "body_chars": 145
+   },
+   {
+    "id": "h2-33",
+    "class": "image",
+    "customer_id": "c04",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "X2"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "slot": "p2",
+    "control": [],
+    "copy_fires": [],
+    "hits": [
+     {
+      "id": "X2",
+      "code": "IMG_HOST",
+      "detail": "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=900"
+     }
+    ],
+    "body_words": 23,
+    "body_chars": 131
+   },
+   {
+    "id": "h2-34",
+    "class": "image",
+    "customer_id": "c09",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "X2"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "slot": "p2",
+    "control": [],
+    "copy_fires": [],
+    "hits": [
+     {
+      "id": "X2",
+      "code": "IMG_HOST",
+      "detail": "https://www.nicobar.com.cdn-assets.net/cdn/shop/files/NBI048031_1.jpg?v=1762773203"
+     }
+    ],
+    "body_words": 18,
+    "body_chars": 104
+   },
+   {
+    "id": "h2-35",
+    "class": "image",
+    "customer_id": "c11",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "X1"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "slot": "p1",
+    "control": [],
+    "copy_fires": [],
+    "hits": [
+     {
+      "id": "X1",
+      "code": "IMAGE_MISMATCH",
+      "detail": "p1"
+     }
+    ],
+    "body_words": 23,
+    "body_chars": 118
+   },
+   {
+    "id": "h2-36",
+    "class": "image",
+    "customer_id": "c17",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "X2"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "slot": "p1",
+    "control": [],
+    "copy_fires": [],
+    "hits": [
+     {
+      "id": "X2",
+      "code": "IMG_OTHER_STORE",
+      "detail": "https://cdn.shopify.com/s/files/1/0057/8938/4802/files/1_7d51afc9-093d-4bcb-9a6b-c7e6e6ae41df.jpg?v=1700000000"
+     }
+    ],
+    "body_words": 23,
+    "body_chars": 120
+   },
+   {
+    "id": "h2-37",
+    "class": "image",
+    "customer_id": "c06",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "X2"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "slot": "p2",
+    "control": [],
+    "copy_fires": [],
+    "hits": [
+     {
+      "id": "X2",
+      "code": "IMG_SCHEME",
+      "detail": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/"
+     }
+    ],
+    "body_words": 15,
+    "body_chars": 90
+   },
+   {
+    "id": "h2-38",
+    "class": "image",
+    "customer_id": "c12",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "X2"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "slot": "p3",
+    "control": [],
+    "copy_fires": [],
+    "hits": [
+     {
+      "id": "X2",
+      "code": "IMG_HOST",
+      "detail": "https://i.pinimg.com/736x/5c/1e/aa/patang-mug-stoneware.jpg"
+     }
+    ],
+    "body_words": 18,
+    "body_chars": 112
+   },
+   {
+    "id": "h2-39",
+    "class": "image",
+    "customer_id": "c15",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "X2"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "slot": "p1",
+    "control": [],
+    "copy_fires": [],
+    "hits": [
+     {
+      "id": "X2",
+      "code": "IMG_SCHEME",
+      "detail": "//img.nicobar-mirror.in/products/heera-scarf-brown.jpg"
+     }
+    ],
+    "body_words": 20,
+    "body_chars": 108
+   },
+   {
+    "id": "h2-40",
+    "class": "image",
+    "customer_id": "c02",
+    "caught": true,
+    "blocked": true,
+    "fired": [
+     "X2"
+    ],
+    "outside_family": [],
+    "warn": [],
+    "slot": "p1",
+    "control": [],
+    "copy_fires": [],
+    "hits": [
+     {
+      "id": "X2",
+      "code": "IMG_NOT_OF_SELECTED",
+      "detail": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI051695_9.jpg?v=1783686107"
+     }
+    ],
+    "body_words": 20,
+    "body_chars": 100
+   }
+  ]
+ }
 }
