@@ -29,9 +29,9 @@ const PAUSE_MS = 15 * 60_000;              // past the step timeout: readiness k
 
 export interface RunRow { id: string; instance_id: string; stage: Stage; format: RunFormat; snapshot_id: string; run_date: string; customers_sha256: string; customers_r2_key: string;
   recs_sha256: string; setting: string; prompt_version: string; voice_guide_version: string; shapes_sha256: string; jev_model: string; jev_config_version: string; jev_reserve_usd: number;
-  jev_disabled_reason: string | null; cap_run_usd: number; committed_usd: number; status: string }
+  jev_disabled_reason: string | null; cap_run_usd: number; spent_usd: number; committed_usd: number; status: string }
 
-export const log = (o: { run_id: string; key?: string; step: string; status: string; code?: string; ms?: number; est_usd?: number; charged_usd?: number }) => console.log(JSON.stringify(o));
+export const log = (o: { run_id: string; key?: string; step: string; status: string; code?: string; ms?: number; est_usd?: number; charged_usd?: number; spent_usd?: number; cap_run_usd?: number }) => console.log(JSON.stringify(o));
 
 const readRun = async (env: AppEnv, run_id: string) => {
   const r = await env.DB.prepare('SELECT * FROM runs WHERE id = ?').bind(run_id).first<RunRow>();
@@ -207,6 +207,7 @@ export async function gen(env: AppEnv, run_id: string, key: string, n: 1 | 2): P
   if (ce?.call_state !== 'estimated') throw new Error(`gen ${key}:${n} in state ${ce?.call_state}`);
 
   const run = await readRun(env, run_id);
+  if (run.status === 'stopped') return runBatch(db, [genRow(db, run_id, key, n, 'no_completion', { stop_detail: 'run_stopped' }), ...settleUnbilled(db, run_id, key, n)]);   // terminate() is best effort
   const plan = await needPlan(env, run_id, key);
   const rung = rungOf(run.setting);
   const cat = await L().loadCatalog(env, run.snapshot_id);
@@ -236,8 +237,13 @@ export async function gen(env: AppEnv, run_id: string, key: string, n: 1 | 2): P
     ...settle(db, run_id, key, n, { usage: msg.usage as Usage, stop_reason: msg.stop_reason ?? undefined, category, content_empty: msg.content.length === 0 }, onePrice(PRICES, rung.model))]);
 }
 
-/** Out of step retries. Each retry reset `calling`, so nothing was billed. */
-export const genFailed = (env: AppEnv, run_id: string, key: string, n: 1 | 2) => runBatch(env.DB, [genRow(env.DB, run_id, key, n, 'no_completion'), ...settleUnbilled(env.DB, run_id, key, n)]);
+/** Out of step retries. `calling` means the last try got past the call, so it may be billed; a retry that failed earlier reset to `estimated`. */
+export async function genFailed(env: AppEnv, run_id: string, key: string, n: 1 | 2): Promise<void> {
+  const db = env.DB;
+  const ce = await db.prepare('SELECT call_state FROM cost_events WHERE run_id = ? AND customer_id = ? AND attempt = ?').bind(run_id, key, n).first<{ call_state: string }>();
+  await runBatch(db, ce?.call_state === 'calling' ? [genRow(db, run_id, key, n, 'possibly_billed'), ...settleAtEstimate(db, run_id, key, n)]
+    : [genRow(db, run_id, key, n, 'no_completion'), ...settleUnbilled(db, run_id, key, n)]);
+}
 
 const failOne = (env: AppEnv, run_id: string, key: string, code: string, detail?: string) => runBatch(env.DB, [moveUnit(env.DB, run_id, key, 'admitted', 'failed', { code, detail })]);
 
@@ -333,6 +339,7 @@ export async function failUnit(env: AppEnv, run_id: string, key: string, e: unkn
 export async function close(env: AppEnv, run_id: string): Promise<void> {
   const run = await readRun(env, run_id);
   if (run.status === 'done') return;
+  if (run.spent_usd > run.cap_run_usd) log({ run_id, step: 'close', status: 'cap_breach', code: 'RUN_CAP', spent_usd: run.spent_usd, cap_run_usd: run.cap_run_usd });
   const units = (await env.DB.prepare('SELECT customer_id, status, code FROM units WHERE run_id = ?').bind(run_id).all<{ customer_id: string; status: UnitStatus; code: string | null }>()).results;
   const list = (await customers(env, run)).map((i) => i.key).sort().join('\n');
   const stranded = await env.DB.prepare(`SELECT 1 FROM drafts d JOIN units u ON u.run_id = d.run_id AND u.customer_id = d.customer_id

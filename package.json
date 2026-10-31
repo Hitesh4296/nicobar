@@ -12,6 +12,7 @@
     "types": "wrangler types --strict-vars false",
     "check:config": "node scripts/check-config.ts",
     "predeploy:check": "node scripts/predeploy-check.ts",
+    "deploy:demo": "npm run predeploy:check && wrangler deploy --env demo",
     "stub-llm": "node scripts/stub-llm.ts",
     "smoke": "node scripts/smoke.ts",
     "build": "npm run check:config && node scripts/build.ts",

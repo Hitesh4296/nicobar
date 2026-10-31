@@ -51,7 +51,7 @@ describe('active versions must equal the pins of F', () => {
 describe('test 2: a DEV_* var fails the pre-deploy command', () => {
   const run = (vars: object) => {
     const dir = mkdtempSync(join(tmpdir(), 'predeploy-'));
-    writeFileSync(join(dir, 'wrangler.jsonc'), JSON.stringify({ env: { demo: { vars: { DEPLOYED: '1', ...vars } } } }));
+    writeFileSync(join(dir, 'wrangler.jsonc'), JSON.stringify({ env: { demo: { vars: { DEPLOYED: '1', TEAM_DOMAIN: 'https://t.test', ...vars }, d1_databases: [{ database_id: 'x' }] } } }));
     return spawnSync(process.execPath, [join(ROOT, 'scripts/predeploy-check.ts')], { cwd: dir, encoding: 'utf8' });
   };
   it('clean passes', () => expect(run({}).status).toBe(0));

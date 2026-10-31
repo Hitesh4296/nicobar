@@ -109,7 +109,7 @@ export async function transition(env: AppEnv, draft_id: string, edge: Edge, acto
 /** Snapshot evidence only, no outbound call. `title_changed` has no baseline: `Envelope` stores no title (handover, Open). */
 export function freshness(envelope: Envelope, rendered_paths: Record<string, string>, newest: Catalog, fetched_at: string, now: number, max_age_h: number): Freshness {
   const age_s = Math.round((now - Date.parse(fetched_at)) / 1000);
-  if (age_s > max_age_h * 3600) return { ok: false, code: 'SNAPSHOT_TOO_OLD', age_s };
+  if (!(age_s <= max_age_h * 3600)) return { ok: false, code: 'SNAPSHOT_TOO_OLD', age_s };   // negated so a NaN fails closed
   for (const { slot, product_id } of envelope.picks) {
     const stale = (reason: 'gone' | 'unavailable' | 'image_gone'): Freshness => ({ ok: false, code: 'STALE_PICK', product_id, reason });
     const p = newest.rows.get(product_id);

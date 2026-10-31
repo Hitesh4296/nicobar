@@ -9,6 +9,7 @@ const jwksFor = (team: string): JWTVerifyGetKey => createRemoteJWKSet(new URL(`$
 /** Runs on every route; there is no public path (46 §8). `getKey` is the test seam. */
 export async function authenticate(req: Request, env: AppEnv, getKey: (team: string) => JWTVerifyGetKey = jwksFor): Promise<AuthResult> {
   const { ACCESS_AUD: aud, TEAM_DOMAIN: team } = env;
+  if (env.DEPLOYED === '1' && env.DEV_MODE) return { http: 503, code: 'MISSING_CONFIG' };
   if (env.DEV_MODE === '1') {
     if (aud || team || !env.DEV_ACTOR) return { http: 503, code: 'MISSING_CONFIG' };
     return { actor: { kind: 'dev', email: env.DEV_ACTOR, sub: `dev:${env.DEV_ACTOR}` } };
