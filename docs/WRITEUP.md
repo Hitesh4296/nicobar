@@ -1,6 +1,6 @@
 # Write-up
 
-**Read this first.** [[SLOT status: rewrite after the real run]] As of this draft, no real model has been called. The batch, the checker and the approval gate have run on real local infrastructure against a scripted stand-in for the model. Every result below says which it is. Blanks marked `[[SLOT …]]` wait for a real run, and nothing has been filled in by estimate.
+**Read this first.** [[SLOT real run: rewrite this paragraph after the real run]] As of this draft, no real model has been called. The batch, the checker and the approval gate have run on real local infrastructure against a scripted stand-in for the model. `npm run demo` reproduces that from a clean clone, with no key, in about 15 seconds. Every result below says which it is. Blanks marked `[[SLOT …]]` wait for a real run, and nothing has been filled in by estimate.
 
 ## Deep dive: the eval
 
@@ -63,7 +63,7 @@ A made-up claim in plain words remains the largest gap. Checks catch vocabulary,
 
 ## Production readiness
 
-`npm run readiness`, $0, no key. It runs a real local Worker and Workflow against a stand-in model. A line counts as PASS only if its assertion failed on planted evidence, failed again on a real run driven red, and held on a real run. Result: **8 PASS, 0 FAIL, 0 VOID**, reproduced from a clean clone on 2026-11-01 with the snapshot input supplied by path.
+`npm run readiness`, $0, no key. It runs a real local Worker and Workflow against a stand-in model. A line counts as PASS only if its assertion failed on planted evidence, failed again on a real run driven red, and held on a real run. Result: **8 of 8 PASS on the stub, 0 FAIL, 0 VOID**, reproduced from a clean clone on 2026-11-01. Nothing here says how a real model behaves.
 
 | line | shown |
 |---|---|
@@ -77,17 +77,53 @@ A made-up claim in plain words remains the largest gap. Checks catch vocabulary,
 | Approval | Release on `in_review` 409. Status-only UPDATE refused. Hash change takes `/released` off 200 |
 
 **Weak spots in that table.**
-- The three approval clauses were red only on planted evidence: no fault or stub can open them, so a real-run red needs patched code. [[SLOT approval red: update if the patched run lands]]
-- `R1`'s assertion was changed after a first failure, because it had counted first-time calls as repeats. The planted and real reds still fail it.
+- `R1`'s assertion was changed after a first failure, because it had counted first-time calls as repeats. It was then tightened: each in-flight customer gets exactly one call after the kill, and only those may be billed twice. That clause was seen red on its own, on a run where one of them met a 429.
 - Resume on a new instance id is tested with a forced throw only. `restart()` took the same-instance path in the drive.
 - Retry blocked by the pool and the exact `2 × callWorst` boundary stand on unit tests.
 - `UPDATE drafts SET rendered_json` is not refused by the database. `/released` catches it by hash.
 
+### The approval gate, four layers
+
+No fault or stub can open the gate, so acceptance line 4 was tested by removing it. Each rung is one real run on a patched copy of the source, with one more layer gone. The copy was restored and diffed before the green run, and the repo was not touched.
+
+| removed | release on `in_review` | |
+|---|---|---|
+| Status check in `transition` | 409 | Held |
+| Also the status in the SQL `WHERE` | 409 | Held, but a second approve and release now answer 200: these two layers are also what makes them idempotent |
+| Also the hash guard on the release `UPDATE` | 500 | Still closed: the `CHECK` refused the write. Ugly, but nothing was released |
+| Also the approval `CHECK` in the table | **200** | **Open. This is the only rung where a draft was released without approval** |
+
+So four layers guard release, and all four had to go.
+
+Two neighbouring clauses are thinner, and the runs show that too. A status-only `UPDATE` takes two `CHECK`s to open: with one dropped it was still refused, with both it applied. `/released` has **one** layer: a single patch removing its hash comparison served changed content with a 200. That is the honest limit of this gate. It is the last read before content leaves, and nothing behind it would catch a bug there.
+
 ## A kill bills in-flight customers twice, by design
 
-When a process dies during a model call, the system cannot tell whether Anthropic completed it. It records `possibly_billed` at the estimate, then makes attempt 2. In the readiness drive, d06 to d09 were in flight at the kill and each shows 2 billed attempts. On a real model that is real money: up to `GEN_CONCURRENCY` (4) customers per kill.
+When a process dies during a model call, the system cannot tell whether Anthropic completed it. It records `possibly_billed` at the estimate, then makes attempt 2. The readiness drive sends `SIGKILL` to the process tree at the seventh answer. d01 to d05 had finished and made 0 further calls. d06 to d09 were in flight, got one more call each, and each shows 2 billed attempts. d10 to d12 made their first calls after the restart, and every unit ended. On a real model that is real money: up to `GEN_CONCURRENCY` (4) customers per kill.
 
 The alternative is to retry without recording, which risks a third call and an unbounded bill, or to fail those customers, which trades a few cents for a missing result. Two attempts is the limit, held by a `CHECK`. A repeated kill loop still ends at 2 per customer.
+
+A stop is different from a kill. `mark-stopped` ends the Workflow, and a generate step that still runs on a stopped run makes no call. If the Workflow could not be terminated and kept going, its remaining units end `failed{UPSTREAM_UNAVAILABLE}`, and `restart` does not regenerate them. I accepted that: they are visible and coded, and a fresh run covers them.
+
+## What code review changed
+
+An independent review of the merged code found 0 blockers and 8 things to fix. All 8 were fixed, tests first, at no added cost per run.
+
+| found | now |
+|---|---|
+| `DEV_MODE` reaching a deployed Worker with no Access config logged anyone in | `DEPLOYED=1` with any `DEV_MODE` answers 503, first thing |
+| Nothing ran the deploy guard, and it passed empty values | `npm run deploy:demo` runs it first, and it refuses an empty `TEAM_DOMAIN` or `database_id`. It refuses today, by design |
+| An unset freshness window, or a bad date, passed as fresh | It fails closed: `SNAPSHOT_TOO_OLD` |
+| A retry could fire with the run already over its cap, and nothing logged it | Retry refused with `run_cap`. `close` logs `cap_breach` |
+| A last try that got an answer and then failed its write was recorded as $0 | `possibly_billed` at the estimate |
+| A stopped run could keep calling the model if `terminate()` failed | The generate step reads run status and makes no call |
+| The preview's cap check compared a label, so editing `cap.json` went unnoticed | Both sides hash the file. An edit gives `PREVIEW_STALE` |
+| `R1` could pass with five repeat calls for one customer | One call each is asserted, as above |
+
+**What is still open after those fixes.**
+- `cap_run_usd` is still not a hard bound. First calls can overrun it, and the retry gate does not count calls in flight. A breach is a log line only: it is not stored and not on the run report.
+- The stop check is not atomic: a stop landing just after the read can still get one call. An answer already in hand still finishes, which can make one Jev call.
+- The deploy guard cannot see secrets or `--var`s. The run-time 503 covers that case.
 
 ## c20
 
@@ -117,13 +153,13 @@ Prices were read from Anthropic's pricing page on 2026-11-01. **Every other figu
 | Per 1,000, Jev | about $0.55 |
 | Fixed | $0 local, $5/month for a hosted link |
 
-The largest unknown is thinking tokens. The start rung is also a run setting, and the first rung in `config/rungs.json` is cheaper than this table's.
+The largest unknown is thinking tokens. The start rung is a run setting. This table's rung, `sonnet-default`, is the default.
 
-**The cap** is enforced before each call from `count_tokens`. Over it, a customer is skipped with `OVER_CAP`, logged, at $0. No downgrade happens, since no cheaper rung has passed the eval. The run cap is computed from the preview, never typed. It is not a spend bound: an attempt running to `max_tokens` costs more than its commit, and the worst case is the figure above.
+**The cap** is enforced before each call from `count_tokens`. Over it, a customer is skipped with `OVER_CAP`, logged, at $0. No downgrade happens, since no cheaper rung has passed the eval. The run cap is computed from the preview, never typed. It stops retries, not first calls, so it is not a spend bound: an attempt running to `max_tokens` costs more than its commit, and the worst case is the figure above. A breach is logged at `close`.
 
 **Before a real run,** `S` in `config/cap.json` needs a measured value. It is a placeholder. A real `count_tokens` figure too far above it would skip customers, at $0 and logged.
 
-[[SLOT cost: measured]]
+[[SLOT real run: measured cost, table below]]
 
 | measure | Sonnet | Haiku |
 |---|---|---|
@@ -132,21 +168,21 @@ The largest unknown is thinking tokens. The start rung is also a run setting, an
 | First-try pass, per part | [[SLOT]] | [[SLOT]] |
 | Cache hit rate | [[SLOT]] | [[SLOT]] |
 
-**Model choice.** [[SLOT model: measured choice]] The rule was set before seeing data: Sonnet stays for this run. Haiku becomes the recommendation at 1,000 only if it is within 2 of Sonnet on first-try pass for each part, has 0 escapes, at most 2 false rejects, and the reviewer picks it or cannot tell on at least 3 of 6 blind pairs.
+**Model choice.** [[SLOT real run: measured model choice]] The rule was set before seeing data: Sonnet stays for this run. Haiku becomes the recommendation at 1,000 only if it is within 2 of Sonnet on first-try pass for each part, has 0 escapes, at most 2 false rejects, and the reviewer picks it or cannot tell on at least 3 of 6 blind pairs.
 
 ## What was and was not measured
 
 | | state |
 |---|---|
 | Checker, offline | **Ran.** Real checks, real renderers, real rule set, fixture catalogue |
-| Batch path | **Ran on a stub.** Real Worker, Workflow, D1 and R2, local. The model is a script that fills the plan's slots |
-| Approval gate | **Ran on a stub draft** |
+| Batch path | **Ran on a stub.** Real Worker, Workflow, D1 and R2, local. The model is a script that fills the plan's slots. `npm run demo` drafts all 20 from a clean clone |
+| Approval gate | **Ran on a stub draft,** and red on patched copies of the source, layer by layer |
 | Real model call | **None.** 0 paid calls |
 | Whether the combined output schema compiles on the API | **Unknown** until one real call |
 | Copy quality, voice | **Unmeasured.** No real draft exists |
 | Jev | **Never called.** Stubbed transport only, and no real answer has been seen |
 | Cost | **Plan only** |
-| Deployed Worker, Access, catalogue in Worker memory | **Never run** [[SLOT link: update]] |
+| Deployed Worker, Access, catalogue in Worker memory | **Never run.** No link exists, and `npm run deploy:demo` refuses until `TEAM_DOMAIN` and `database_id` are set |
 
 ## Known gaps
 
@@ -160,6 +196,6 @@ The largest unknown is thinking tokens. The start rung is also a run setting, an
 
 ## Trade-offs I would revisit
 
-- **One call for two parts.** Cheaper and simpler, but a pair passes less often than a part, and the email may echo the page. [[SLOT combined: note if the first-try numbers changed this]]
+- **One call for two parts.** Cheaper and simpler, but a pair passes less often than a part, and the email may echo the page. [[SLOT real run: note if the first-try numbers changed this]]
 - **Hard checks on vocabulary.** A false reject costs one retry. A false pass could cost a made-up product on a page.
 - **Snapshot over live data.** Correct for a reviewed demo. Wrong the day anything really sends.

@@ -8,8 +8,8 @@ Built on Cloudflare Workers, Workflows, D1 and R2. Design: [docs/HLD.md](docs/HL
 
 ## Status
 
-[[SLOT status: replace this paragraph after the first real run]]
-The batch has so far run only against a scripted stand-in for the model. No real model has been called, so no real draft exists yet. `docs/WRITEUP.md` says exactly what has and has not run.
+[[SLOT real run: replace this paragraph after the first real run]]
+The batch, the checker and the approval gate run end to end, locally, against a scripted stand-in for the model. No real model has been called, so no real draft exists yet. `docs/WRITEUP.md` says exactly what has and has not run.
 
 ## Requirements
 
@@ -21,26 +21,23 @@ npm ci
 
 ## Run it without a key
 
-Costs $0 and makes no outside request.
-
-**Look at the review screens (fixture data):**
+Costs $0 and makes no outside request. `.dev.vars` is not read, so a key cannot be spent by accident.
 
 ```sh
-node scripts/seed.ts --fixtures && npm run dev
+npm run demo
 ```
 
-Open <http://localhost:8787/review>. The fixture run shows the layout and refuses an early release with 409. Approve needs the catalogue, which this path does not publish. Use the next path to see approve and release work.
+Open <http://localhost:8787/review>. If 8787 is taken, use `PORT=8801 npm run demo`. It takes about 15 seconds, then keeps serving until Ctrl-C.
 
-**Run the real batch path on the stand-in model:**
+It builds the snapshot from `samples/site/`, seeds the prompt versions, and runs all 20 customers through the real Worker and Workflow against a local stand-in for the model. The run id starts `stub-`, and every screen labels the drafts as stub. Their copy is deliberately generic. The checks, approve and publish are real.
+
+`npm run demo` shows 20 drafts and no failures. To see customers failing alone, run this first:
 
 ```sh
-READINESS_CACHE=<absolute path to the snapshot cache> npm run readiness   # about 4 minutes
-npm run dev
+npm run readiness   # about 4 minutes
 ```
 
-[[SLOT snapshot path: name the committed location of the snapshot input. No one-command wrapper exists yet; add it here if built]]
-
-`readiness` starts a real local Worker and Workflow, kills it mid-run, restarts it and injects faults. It leaves one labelled isolation run on `/review`. Its four drafts can be approved and released. Their copy is deliberately generic stub text.
+It starts a real local Worker and Workflow, kills it mid-run, restarts it and injects faults. It leaves one labelled isolation run on `/review`, beside the demo run: four drafts and four failures, each with its own code.
 
 ## Run it with a key
 
@@ -51,18 +48,23 @@ cat > .dev.vars <<'VARS'
 ANTHROPIC_API_KEY=...
 JEV_API_KEY=...
 VARS
-node scripts/build.ts --from-cache <absolute path to the snapshot cache> --publish
+node scripts/build.ts --publish
 npm run dev
-npm run config seed                                   # second terminal
-node scripts/draft-one.ts --limit-usd 0.10 --only c16 # one customer, stops at the limit
-node scripts/preview.ts --format both                 # $0 plan and cost preview
 ```
 
-A full run is `POST /api/runs` with the preview's hash; the body is in [docs/contracts.md](docs/contracts.md#routes). The review screens have no start button.
+In a second terminal:
+
+```sh
+npm run config seed
+node scripts/draft-one.ts --limit-usd 0.10 --only c16 # one customer, stops at the limit
+npm run batch -- --stage <label>                      # preview, then the full run
+```
+
+`batch` prints the plan and cost, starts the run on the local server, and prints its `/review` link. `--stage` takes a key of `config/stages.json`, which sets the run's label and its expected-cost line. All 20 customers run whichever key you pick. `--format` and `--rung` are optional. Without a key or a stub URL it refuses before any call. The review screens have no start button.
 
 **Before the first full run,** `S` in `config/cap.json` must be set from a real `count_tokens` reading. It is a placeholder today. If the real figure is too far above it, the batch skips customers with `OVER_CAP`, at $0 and logged.
 
-`.dev.vars` is gitignored. Keys go nowhere else. `JEV_API_KEY` is optional: without it the Jev step records `unavailable` and drafts continue.
+`.dev.vars` is gitignored. Keys go nowhere else. `JEV_API_KEY` is optional: without it the Jev step records `no_key` and drafts continue.
 
 ## Run the checks
 
@@ -70,10 +72,10 @@ A full run is `POST /api/runs` with the preview's hash; the body is in [docs/con
 |---|---|---|---|
 | `npm run eval` | 312 offline cases and 22 mutants. Writes `reports/eval.json` | $0 | about 10 s |
 | `npm run readiness` | 8 production lines on real local runs. Writes `reports/readiness.json` | $0 | about 4 min |
-| `npm test` | unit and worker tests | $0 | minutes |
+| `npm test` | 655 unit and worker tests | $0 | about 1 min |
 | `npm run typecheck` | `tsc` | $0 | seconds |
 
-`eval` needs nothing beyond `npm ci`. `readiness` needs the snapshot input.
+Neither needs a key or anything beyond `npm ci`. Both results are committed in `reports/`, and `/review/evals` shows them.
 
 ## What is synthetic
 
@@ -86,7 +88,7 @@ A full run is `POST /api/runs` with the preview's hash; the body is in [docs/con
 | `data/row_keys.synthetic.json` | Occasion key per customer. Keys only, no guessed gender |
 | `test/fixtures/isolation/*.synthetic.*` | Customers built to fail one at a time |
 
-The catalogue is real: 2,180 usable products out of 8,938 non-gift-card rows, frozen on 2026-10-29. No request goes to nicobar.com at build or run time.
+The catalogue is real: 2,180 usable products out of 8,938 non-gift-card rows, frozen on 2026-10-29 and committed in `samples/site/`. No request goes to nicobar.com at build or run time.
 
 ## What is off, and why
 
@@ -99,4 +101,4 @@ The catalogue is real: 2,180 usable products out of 8,938 non-gift-card rows, fr
 | Vector search, recommender | Recommendations are an assumed upstream contract |
 | Queues, Durable Objects | Workflows steps cover the batch. Each extra component needs an acceptance line to serve |
 | Product prices | Never rendered. The snapshot has no currency field and the model never sees a price |
-| Deployed runs | [[SLOT link: state whether the hosted review link exists]] Runs happen locally. A deployed Worker refuses run routes with 503 and holds no model key |
+| Deployed runs | No hosted link exists. `npm run deploy:demo` refuses until `TEAM_DOMAIN` and a D1 `database_id` are set in `wrangler.jsonc`. Runs happen locally. A deployed Worker refuses run routes with 503 and holds no model key |

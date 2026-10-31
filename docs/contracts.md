@@ -6,6 +6,7 @@ The code is the authority where it can be. **DDL:** `migrations/0001_core.sql`, 
 
 | object | location | writer | notes |
 |---|---|---|---|
+| Site sample | `samples/site/` | committed once | The frozen pull the build reads, minus gift cards. No image files |
 | Snapshot | R2 `snapshots/<id>/catalog.json`, `rules.json`; D1 `snapshots` | `scripts/build.ts --publish` | Frozen 2026-10-29. Catalogue is 21.5 MB `[verified 2026-11-01]` |
 | Customer input | `data/*.tsv`; R2 `customers/<sha256>.tsv` | `POST /api/runs` | Immutable by hash. Last names never deploy |
 | Rec input | `data/recommendations.synthetic.json`; R2 `recs/<sha256>.json` | `POST /api/runs` | Immutable by hash |
@@ -111,7 +112,7 @@ Each edge is one D1 batch keyed by a fresh nonce. `transition` returns a result 
 
 **Unit.** `pending → prepared|failed`; `prepared → admitted|skipped|failed`; `admitted → admitted (retry)|drafted|failed`.
 
-**Run.** `preparing → generating → done`. `close` with units left open gives `stopped`, reason `close_incomplete`. `mark-stopped` stops a run and leaves open units open. `restart` resumes a stopped run under the same id, and a `done` run answers 409.
+**Run.** `preparing → generating → done`. `close` with units left open gives `stopped`, reason `close_incomplete`. `mark-stopped` stops a run and leaves open units open. `restart` resumes a stopped run under the same id, and a `done` run answers 409. A generate step on a stopped run makes no call and settles unbilled. If `terminate()` failed and the Workflow kept going, its remaining units end `failed{UPSTREAM_UNAVAILABLE}`, and `restart` does not regenerate them.
 
 **Config version.** `draft → active → retired`, nothing else.
 
@@ -153,9 +154,9 @@ Enforced before each call, from `count_tokens`:
 | No estimate | `skipped{ESTIMATE_FAILED}` |
 | Input over `U_hard`, or `2 × callWorst` over `CAP_CUSTOMER` | `skipped{OVER_CAP}`. No truncation and no downgrade |
 | Σ commit past the budget | `skipped{RUN_CAP}` for the rest, logged |
-| Retry not covered | `retry_blocked`, the unit ends failed |
+| Retry over the customer cap, or `spent + estimate` over `cap_run_usd`, or not covered by the pool | `retry_blocked`, the unit ends failed |
 
-Spend can pass `ceiling_usd`, because an attempt that runs to `max_tokens` costs more than its commit. Billed attempts cannot pass 2.
+Spend can pass `ceiling_usd` and `cap_run_usd`, because an attempt that runs to `max_tokens` costs more than its commit. `close` then logs `cap_breach`. That is a log line only, not a stored field. Billed attempts cannot pass 2.
 
 ## Prompts and Jev versions
 
@@ -173,4 +174,4 @@ One JSON log line per step: `{run_id, key, step, status, code?, ms, est_usd?, ch
 
 ## Hosted link
 
-One Worker in `env.demo`, behind Access. Seeded from a real run on a copy of local D1, by real `transition` calls under a labelled seed actor. It receives no customer files, last names or model keys. Run and config-write routes answer 503. D1 caps a statement at 100,000 bytes, so `scripts/export-demo.ts` splits large cells. Workers Paid is needed, because E4 and E7 parse the catalogue, which cannot fit the free plan's CPU limit. [[SLOT link: state whether this has been done]]
+One Worker in `env.demo`, behind Access. Seeded from a real run on a copy of local D1, by real `transition` calls under a labelled seed actor. It receives no customer files, last names or model keys. Run and config-write routes answer 503. D1 caps a statement at 100,000 bytes, so `scripts/export-demo.ts` splits large cells. Workers Paid is needed, because E4 and E7 parse the catalogue, which cannot fit the free plan's CPU limit. Not done: no link exists. `npm run deploy:demo` runs `predeploy:check` first, which refuses a `DEV_` var in any scope, an empty `TEAM_DOMAIN` or an empty `database_id`. Both values are empty in `wrangler.jsonc` today. At run time, `DEPLOYED=1` with any `DEV_MODE` answers 503.
