@@ -168,6 +168,7 @@ describe('weights (R128)', () => {
     expect(() => checkWeights({ ...w, past: 100 })).toThrow(/past/);
     expect(() => checkWeights({ ...w, past: 101 })).toThrow(/past/);
     expect(() => checkWeights({ ...w, occasion: 0, past: 0 })).toThrow(/occasion/);
+    expect(() => checkWeights({ ...w, occasion: 11, past: 10 })).toThrow(/outweigh/);
     expect(() => checkWeights({ ...w, season: -1 })).toThrow(/season/);
     expect(() => checkWeights({ ...w, typo: 3 } as never)).toThrow(/unknown/);
     expect(() => checkWeights({ ...w, new: Infinity })).toThrow(/new/);

@@ -23,6 +23,7 @@ export function checkWeights(w: Weights): Weights {
   if (Object.keys(w).length !== 5) throw new Error('rank: unknown weight');
   if (w.occasion === 0) throw new Error('rank: the occasion weight cannot be 0');
   if (w.past >= w.occasion) throw new Error('rank: past must stay below occasion');
+  if (w.season + w.bestseller + w.new + w.past >= w.occasion) throw new Error('rank: occasion must outweigh the other four together');
   return w;
 }
 

@@ -73,7 +73,7 @@ npm run batch -- --stage <label>                      # preview, then the full r
 | `npm run eval` | 361 offline cases and 25 mutants, plus the held-out regression. Writes `reports/eval.json` | $0 | about 10 s |
 | `npm run readiness` | 8 production lines on real local runs. Writes `reports/readiness.json` | $0 | about 4 min |
 | `npm test` | 655 unit and worker tests | $0 | about 1 min |
-| `npm run rank` | Rebuilds the recommendations file offline. `-- --check` prints tiers, p1 and the diff, writes nothing | $0 | seconds |
+| `npm run rank` | Rebuilds the recommendations file offline. `-- --check` prints scores, p1 and the diff, writes nothing | $0 | seconds |
 | `npm run typecheck` | `tsc` | $0 | seconds |
 
 Neither needs a key or anything beyond `npm ci`. Both results are committed in `reports/`, and `/review/evals` shows them.
@@ -84,7 +84,7 @@ Neither needs a key or anything beyond `npm ci`. Both results are committed in `
 |---|---|
 | `data/customers.nicobar.tsv` | **Real**, as supplied. 19 rows, verbatim |
 | `data/customers.with-c20.synthetic.tsv` | The run input: those 19 rows plus a `c20` row with four blank fields. The supplied list had no `c20` row, so it is labelled synthetic. Nothing was invented for it |
-| `data/recommendations.synthetic.json` | Picks per customer, written by the internal ranking engine (`npm run rank`). Tiers from `config/ranking.json`, compared in order: occasion first, past purchase only as a tie-break inside it. No behaviour data sits behind it. A real recommender can replace this file by contract |
+| `data/recommendations.synthetic.json` | Picks per customer, written by the internal ranking engine (`npm run rank`). Filter, then weighted score, then fixed guards, from `config/ranking.json` and the version active on the Refine page. Occasion must outweigh the other four signals together, and the hero must fit the occasion |
 | `data/hand_table.synthetic.json` | Hand-set picks merged into that file: `c02`, `c03`, `c06`, `c13`, `c15`, `c18` |
 | `data/row_keys.synthetic.json` | Occasion key per customer. Keys only, no guessed gender |
 | `test/fixtures/isolation/*.synthetic.*` | Customers built to fail one at a time |
