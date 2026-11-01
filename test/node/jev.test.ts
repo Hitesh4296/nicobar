@@ -221,14 +221,12 @@ describe('flaggedQuestions, the only reading of a gate', () => {
 });
 
 describe('jevPreflight', () => {
-  it('passes on a 200 that names the pinned model', async () => {
-    const f = stubFetch(() => reply({ data: [{ id: cfg.model }] }));
+  it('passes on a 200, whatever the list holds: live, it lists aliases only', async () => {
+    const f = stubFetch(() => reply({ models: [{ name: 'jev-latest' }] }));
     expect(await jevPreflight(env, cfg)).toEqual({ ok: true });
     expect(f.mock.calls[0][0]).toBe('https://api.typesafe.ai/v1/models');
   });
   it('fails, never throws', async () => {
-    stubFetch(() => reply({ data: [] }));
-    expect(await jevPreflight(env, cfg)).toEqual({ ok: false, reason: 'model_not_listed' });
     stubFetch(() => reply({}, 401));
     expect(await jevPreflight(env, cfg)).toEqual({ ok: false, reason: 'http_401' });
     stubFetch(() => { throw new TypeError('x'); });

@@ -14,8 +14,8 @@ const est = (key: string, input_tokens: number): Estimate => ({ key, format: 'bo
 beforeAll(migrate);
 
 describe('callWorst', () => {
-  it('reproduces 42 §6: $0.0927 at U_design_max, 8,250 max_tokens', () => {
-    expect(callWorst(1338, 8250, 'both', cap, sonnet)).toBeCloseTo(0.0927, 4);
+  it('the measured worst call, $0.1021, at U_design_max, 8,250 max_tokens', () => {
+    expect(callWorst(1719, 8250, 'both', cap, sonnet)).toBeCloseTo(0.1021, 4);
   });
   it('prices the one model it is handed', () => {
     expect(callWorst(1000, 1000, 'both', cap, onePrice(prices, 'claude-haiku-5-5'))).toBeLessThan(callWorst(1000, 1000, 'both', cap, sonnet) / 10);
@@ -24,20 +24,20 @@ describe('callWorst', () => {
 
 describe('admitAll', () => {
   it('admits within budget, commit = 2 × est_1, prefix at the write rate', () => {
-    const r = admitAll([est('a', 3338)], cap, rungs, START, null, prices);
-    const est1 = (3000 * 2.5 + 338 * 2 + 2750 * 10) / 1e6;
+    const r = admitAll([est('a', cap.S.both + 338)], cap, rungs, START, null, prices);
+    const est1 = (6453 * 2.5 + 338 * 2 + 3000 * 10) / 1e6;
     expect(r.per.a.action).toBe('admit');
     expect(r.per.a.est_1_usd).toBeCloseTo(est1, 9);
     expect(r.per.a.commit_usd).toBeCloseTo(2 * est1, 9);
     expect(r.committed_usd).toBeCloseTo(2 * est1, 9);
   });
   it('test 6: over the hard bound → skip OVER_CAP, never admitted', () => {
-    const r = admitAll([est('big', 3000 + cap.U_hard.both + 1), est('ok', 3100)], cap, rungs, START, null, prices);
+    const r = admitAll([est('big', cap.S.both + cap.U_hard.both + 1), est('ok', cap.S.both + 100)], cap, rungs, START, null, prices);
     expect(r.per.big).toMatchObject({ action: 'skip', code: 'OVER_CAP', commit_usd: 0 });
     expect(r.admitted.map((a) => a.key)).toEqual(['ok']);
   });
   it('test 6: over the customer cap, under the hard bound → OVER_CAP (no ladder)', () => {
-    expect(admitAll([est('mid', 3000 + cap.U_design_max.both + 1)], cap, rungs, START, null, prices).per.mid).toMatchObject({ action: 'skip', code: 'OVER_CAP' });
+    expect(admitAll([est('mid', cap.S.both + cap.U_design_max.both + 1)], cap, rungs, START, null, prices).per.mid).toMatchObject({ action: 'skip', code: 'OVER_CAP' });
   });
   it('no estimate → ESTIMATE_FAILED', () => {
     expect(admitAll([est('none', -1)], cap, rungs, START, null, prices).per.none).toMatchObject({ action: 'skip', code: 'ESTIMATE_FAILED' });

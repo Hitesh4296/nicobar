@@ -76,8 +76,7 @@ export async function jevPreflight(env: AppEnv, cfg: JevConfig): Promise<{ ok: t
   if (!env.JEV_API_KEY) return { ok: false, reason: 'no_key' };
   try {
     const res = await fetch(`${API}/models`, { headers: headers(env), signal: AbortSignal.timeout(cfg.deadline_ms) });
-    if (!res.ok) return { ok: false, reason: `http_${res.status}` };
-    return (await res.text()).includes(cfg.model) ? { ok: true } : { ok: false, reason: 'model_not_listed' };   // list shape unspecified
+    return res.ok ? { ok: true } : { ok: false, reason: `http_${res.status}` };   // the live list holds aliases only, never the pinned id; judgeDraft's model_mismatch guards the pin
   } catch (e) {
     return { ok: false, reason: failure(e) };
   }

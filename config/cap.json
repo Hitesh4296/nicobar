@@ -1,19 +1,19 @@
 {
-  "sha256": "PLACEHOLDER-stage-0-sets-this",
+  "sha256": "90476f2bcf4f45556e176a354baa573759f3a86df97ac453d4dc3937f27c1835",
   "S": {
-    "both": 3000,
-    "email": 3000,
-    "landing_page": 3000
+    "both": 6453,
+    "email": 4884,
+    "landing_page": 6121
   },
   "U_design_max": {
-    "both": 1338,
-    "email": 1338,
-    "landing_page": 1338
+    "both": 1719,
+    "email": 1719,
+    "landing_page": 1719
   },
   "U_hard": {
-    "both": 26760,
-    "email": 26760,
-    "landing_page": 26760
+    "both": 34380,
+    "email": 34380,
+    "landing_page": 34380
   },
   "E_out": {
     "sonnet-between_tools": {
@@ -32,7 +32,7 @@
       "landing_page": 1500
     },
     "sonnet-default": {
-      "both": 2750,
+      "both": 3000,
       "email": 2250,
       "landing_page": 2500
     },
@@ -52,5 +52,5 @@
       "landing_page": 1000
     }
   },
-  "measured": false
+  "measured": true
 }

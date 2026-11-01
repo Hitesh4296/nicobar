@@ -74,7 +74,7 @@ describe('runReport stand-in', () => {
     const r = await runReport(db, 'rr');
     expect(r.counts).toEqual({ 'unit:drafted': 1, 'unit:failed': 1, 'code:INVALID_PICK': 1, 'draft:in_review': 1 });
     expect(r.first_try_pass.email).toBe(1);
-    expect(r.placeholders).toContain('cap.json');
+    expect(r.placeholders).toEqual([]);   // cap.json is measured
     expect(r.snapshot_fetched_at).toBe('2026-10-29');
   });
 });
