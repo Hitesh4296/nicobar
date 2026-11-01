@@ -1,8 +1,8 @@
 {
  "version": "recommendations/v1",
  "synthetic": true,
- "as_of": "2026-10-29",
- "snapshot_id": "2026-10-29-67819ca378f4",
+ "as_of": "2026-11-01",
+ "snapshot_id": "2026-11-01-cdda17faae52",
  "rule": "Internal ranking engine, src/lib/rank with config/ranking.json. Filter, then a weighted score, then fixed guards: the first pick fits the occasion and is never past-only, one per class, at most two per family where the pool allows. A stable hash breaks ties. Hand table for c02 c03 c06 c13 c15 c18 (HAND_SET), pinned and resorted so p1 obeys the rule; pinned new-user picks for c20 (NEW_USER_PRIOR). Row rules and the complements table are hand-written and synthetic, no behaviour data. A real recommender can replace this file by contract.",
  "rows": [
   {
@@ -663,7 +663,7 @@
     }
    ],
    "pool": {
-    "filtered": 80,
+    "filtered": 79,
     "on_occasion": 23,
     "past": 0
    }
@@ -852,49 +852,49 @@
     },
     {
      "kind": "occasion_category",
-     "label": "Platters",
+     "label": "Home Accents",
      "product_ids": [
-      "6538749476998",
-      "6852551245958",
-      "7271437140102",
-      "5196351078534",
-      "6581928525958",
-      "7582854054022",
-      "7438068908166",
-      "7454485053574"
+      "7576164106374",
+      "7537232248966",
+      "6595613163654",
+      "6595613229190",
+      "6595613327494",
+      "7454485774470",
+      "7391747506310",
+      "7229606232198"
      ],
      "why": {
-      "6538749476998": [
+      "7576164106374": [
        "occasion_tag:housewarming",
        "bestseller",
        "prior_tag"
       ],
-      "6852551245958": [
+      "7537232248966": [
        "occasion_tag:housewarming",
        "bestseller",
        "prior_tag"
       ],
-      "7271437140102": [
+      "6595613163654": [
        "occasion_tag:housewarming",
        "prior_tag"
       ],
-      "5196351078534": [
+      "6595613229190": [
        "occasion_tag:housewarming",
        "prior_tag"
       ],
-      "6581928525958": [
+      "6595613327494": [
        "occasion_tag:housewarming",
        "prior_tag"
       ],
-      "7582854054022": [
+      "7454485774470": [
+       "occasion_tag:housewarming",
+       "prior_tag"
+      ],
+      "7391747506310": [
        "occasion_tag:housewarming",
        "bestseller"
       ],
-      "7438068908166": [
-       "occasion_tag:housewarming",
-       "bestseller"
-      ],
-      "7454485053574": [
+      "7229606232198": [
        "occasion_tag:housewarming"
       ]
      }
@@ -909,11 +909,12 @@
       "7728573350022",
       "7728574431366",
       "7271437369478",
-      "7576164106374",
+      "6538749476998",
       "6601425911942",
       "7728573939846",
       "7728574005382",
       "7290198884486",
+      "7728573284486",
       "7728574824582",
       "7426322727046",
       "7254920069254",
@@ -921,12 +922,11 @@
       "7334953746566",
       "5215841288326",
       "6927012692102",
-      "6538749640838",
       "6581928296582",
       "5196254052486",
       "5196249071750",
-      "7537231790214",
-      "6551797727366"
+      "6551797727366",
+      "6581928263814"
      ],
      "why": {
       "5215840239750": [
@@ -959,7 +959,7 @@
        "bestseller",
        "prior_tag"
       ],
-      "7576164106374": [
+      "6538749476998": [
        "occasion_tag:housewarming",
        "bestseller",
        "prior_tag"
@@ -983,6 +983,11 @@
        "occasion_tag:housewarming",
        "bestseller",
        "prior_tag"
+      ],
+      "7728573284486": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "new_arrival"
       ],
       "7728574824582": [
        "occasion_tag:housewarming",
@@ -1016,9 +1021,6 @@
        "occasion_tag:housewarming",
        "prior_tag"
       ],
-      "6538749640838": [
-       "occasion_tag:housewarming"
-      ],
       "6581928296582": [
        "occasion_tag:housewarming"
       ],
@@ -1030,12 +1032,12 @@
        "occasion_tag:housewarming",
        "prior_tag"
       ],
-      "7537231790214": [
-       "occasion_tag:housewarming"
-      ],
       "6551797727366": [
        "occasion_tag:housewarming",
        "prior_tag"
+      ],
+      "6581928263814": [
+       "occasion_tag:housewarming"
       ]
      }
     },
@@ -1091,8 +1093,8 @@
     }
    ],
    "pool": {
-    "filtered": 700,
-    "on_occasion": 156,
+    "filtered": 698,
+    "on_occasion": 155,
     "past": 8
    }
   },
@@ -1428,8 +1430,8 @@
       "7500119212166",
       "5196140314758",
       "7454486069382",
-      "7454486036614",
-      "7454485741702"
+      "7454485741702",
+      "6897630085254"
      ],
      "why": {
       "6914331869318": [
@@ -1456,11 +1458,11 @@
        "occasion_tag:festive",
        "prior_tag"
       ],
-      "7454486036614": [
+      "7454485741702": [
        "occasion_tag:festive",
        "prior_tag"
       ],
-      "7454485741702": [
+      "6897630085254": [
        "occasion_tag:festive",
        "prior_tag"
       ]
@@ -1479,9 +1481,9 @@
       "5196418809990",
       "5215840567430",
       "7426322104454",
+      "6601425617030",
       "15402020765830",
       "7728574005382",
-      "6601425617030",
       "5196415205510",
       "6581929083014",
       "7492612915334",
@@ -1489,11 +1491,11 @@
       "7426321580166",
       "5215841288326",
       "7426321973382",
-      "6897630085254",
-      "7426321744006",
-      "6793275048070",
+      "6865633312902",
+      "7492613013638",
       "7454485774470",
-      "6538749476998"
+      "6538749476998",
+      "6821058642054"
      ],
      "why": {
       "5215840239750": [
@@ -1531,6 +1533,10 @@
        "occasion_tag:festive",
        "prior_tag"
       ],
+      "6601425617030": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
       "15402020765830": [
        "occasion_tag:festive",
        "prior_tag",
@@ -1540,10 +1546,6 @@
        "occasion_tag:festive",
        "prior_tag",
        "new_arrival"
-      ],
-      "6601425617030": [
-       "occasion_tag:festive",
-       "prior_tag"
       ],
       "5196415205510": [
        "occasion_tag:festive",
@@ -1570,15 +1572,11 @@
        "occasion_tag:festive",
        "prior_tag"
       ],
-      "6897630085254": [
+      "6865633312902": [
        "occasion_tag:festive",
        "prior_tag"
       ],
-      "7426321744006": [
-       "occasion_tag:festive",
-       "prior_tag"
-      ],
-      "6793275048070": [
+      "7492613013638": [
        "occasion_tag:festive",
        "prior_tag"
       ],
@@ -1589,13 +1587,17 @@
       "6538749476998": [
        "occasion_tag:festive",
        "prior_tag"
+      ],
+      "6821058642054": [
+       "occasion_tag:festive",
+       "prior_tag"
       ]
      }
     }
    ],
    "pool": {
-    "filtered": 700,
-    "on_occasion": 91,
+    "filtered": 698,
+    "on_occasion": 93,
     "past": 0
    }
   },
@@ -1722,6 +1724,58 @@
     },
     {
      "kind": "occasion_category",
+     "label": "Kurtas",
+     "product_ids": [
+      "7664335650950",
+      "7664335913094",
+      "15401643868294",
+      "7741536141446",
+      "7697159651462",
+      "7741536108678",
+      "7664335552646",
+      "7741536075910"
+     ],
+     "why": {
+      "7664335650950": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664335913094": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "15401643868294": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741536141446": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697159651462": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741536108678": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7664335552646": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741536075910": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ]
+     }
+    },
+    {
+     "kind": "occasion_category",
      "label": "Shirts",
      "product_ids": [
       "7697158537350",
@@ -1774,58 +1828,6 @@
      }
     },
     {
-     "kind": "occasion_category",
-     "label": "Kurtas",
-     "product_ids": [
-      "7664335650950",
-      "7664335913094",
-      "15401643868294",
-      "7741536141446",
-      "7697159651462",
-      "7741536108678",
-      "7664335552646",
-      "7741536075910"
-     ],
-     "why": {
-      "7664335650950": [
-       "occasion_tag:evening",
-       "prior_tag",
-       "new_arrival"
-      ],
-      "7664335913094": [
-       "occasion_tag:evening",
-       "prior_tag",
-       "new_arrival"
-      ],
-      "15401643868294": [
-       "occasion_tag:evening",
-       "prior_tag",
-       "new_arrival"
-      ],
-      "7741536141446": [
-       "occasion_tag:evening",
-       "prior_tag",
-       "new_arrival"
-      ],
-      "7697159651462": [
-       "occasion_tag:evening",
-       "new_arrival"
-      ],
-      "7741536108678": [
-       "occasion_tag:evening",
-       "new_arrival"
-      ],
-      "7664335552646": [
-       "occasion_tag:evening",
-       "new_arrival"
-      ],
-      "7741536075910": [
-       "occasion_tag:evening",
-       "new_arrival"
-      ]
-     }
-    },
-    {
      "kind": "occasion",
      "label": "",
      "product_ids": [
@@ -1833,26 +1835,26 @@
       "7697183080582",
       "7697158996102",
       "7741535912070",
-      "7741535092870",
       "7697182883974",
+      "7741535092870",
       "7741536862342",
       "7741537616006",
       "7741679042694",
       "7741537157254",
+      "15401644228742",
       "7426316566662",
-      "7652879630470",
+      "7697159979142",
       "7741536731270",
       "7697183309958",
-      "7741534994566",
       "7537228775558",
+      "7664335192198",
       "7697182949510",
       "7741537845382",
       "7741536665734",
       "7741537190022",
       "7741535322246",
-      "7652879466630",
-      "7741536927878",
-      "7741535879302"
+      "7652879630470",
+      "7741536927878"
      ],
      "why": {
       "7664335356038": [
@@ -1873,13 +1875,13 @@
        "prior_tag",
        "new_arrival"
       ],
+      "7697182883974": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
       "7741535092870": [
        "occasion_tag:evening",
        "prior_tag",
-       "new_arrival"
-      ],
-      "7697182883974": [
-       "occasion_tag:evening",
        "new_arrival"
       ],
       "7741536862342": [
@@ -1900,11 +1902,16 @@
        "occasion_tag:evening",
        "new_arrival"
       ],
+      "15401644228742": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
       "7426316566662": [
        "occasion_tag:evening",
        "prior_tag"
       ],
-      "7652879630470": [
+      "7697159979142": [
        "occasion_tag:evening",
        "new_arrival"
       ],
@@ -1916,12 +1923,12 @@
        "occasion_tag:evening",
        "new_arrival"
       ],
-      "7741534994566": [
-       "occasion_tag:evening",
-       "new_arrival"
-      ],
       "7537228775558": [
        "occasion_tag:evening"
+      ],
+      "7664335192198": [
+       "occasion_tag:evening",
+       "new_arrival"
       ],
       "7697182949510": [
        "occasion_tag:evening",
@@ -1944,17 +1951,12 @@
        "occasion_tag:evening",
        "new_arrival"
       ],
-      "7652879466630": [
+      "7652879630470": [
        "occasion_tag:evening",
        "new_arrival"
       ],
       "7741536927878": [
        "occasion_tag:evening",
-       "new_arrival"
-      ],
-      "7741535879302": [
-       "occasion_tag:evening",
-       "prior_tag",
        "new_arrival"
       ]
      }
@@ -2014,7 +2016,7 @@
     }
    ],
    "pool": {
-    "filtered": 995,
+    "filtered": 990,
     "on_occasion": 92,
     "past": 179
    }
@@ -2138,21 +2140,18 @@
      "label": "Blouses",
      "product_ids": [
       "15401644359814",
-      "7492613636230",
       "7492613570694",
       "7492613734534",
       "7265600274566",
       "15403121672326",
       "7492613767302",
-      "7590535790726"
+      "7590535790726",
+      "7492613701766"
      ],
      "why": {
       "15401644359814": [
        "occasion_tag:wedding",
        "new_arrival"
-      ],
-      "7492613636230": [
-       "occasion_tag:wedding"
       ],
       "7492613570694": [
        "occasion_tag:wedding"
@@ -2171,6 +2170,9 @@
        "occasion_tag:wedding"
       ],
       "7590535790726": [
+       "occasion_tag:wedding"
+      ],
+      "7492613701766": [
        "occasion_tag:wedding"
       ]
      }
@@ -2246,7 +2248,8 @@
       "7265600307334",
       "7741539451014",
       "7741539909766",
-      "7492613701766",
+      "15401643999366",
+      "7492613668998",
       "7454488100998",
       "7265600635014",
       "7576168267910",
@@ -2256,7 +2259,6 @@
       "7426319515782",
       "15401643966598",
       "7426316861574",
-      "15401643999366",
       "7741537845382",
       "7492613374086",
       "7492613308550",
@@ -2296,7 +2298,12 @@
        "prior_tag",
        "new_arrival"
       ],
-      "7492613701766": [
+      "15401643999366": [
+       "occasion_tag:wedding",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7492613668998": [
        "occasion_tag:wedding"
       ],
       "7454488100998": [
@@ -2331,11 +2338,6 @@
       ],
       "7426316861574": [
        "occasion_tag:wedding"
-      ],
-      "15401643999366": [
-       "occasion_tag:wedding",
-       "prior_tag",
-       "new_arrival"
       ],
       "7741537845382": [
        "occasion_tag:wedding",
@@ -2419,9 +2421,9 @@
     }
    ],
    "pool": {
-    "filtered": 995,
+    "filtered": 990,
     "on_occasion": 83,
-    "past": 134
+    "past": 136
    }
   },
   {
@@ -2834,7 +2836,7 @@
      "score": 45
     },
     {
-     "product_id": "7728573776006",
+     "product_id": "7728573055110",
      "reason_code": "FALLBACK_NON_OCCASION",
      "why": [
       "bestseller",
@@ -2898,49 +2900,45 @@
     },
     {
      "kind": "occasion_category",
-     "label": "Plates",
+     "label": "Bowls",
      "product_ids": [
-      "7652880351366",
-      "7728573382790",
-      "7728573448326",
-      "7652880515206",
-      "7652880253062",
-      "6821776523398",
-      "7271436189830",
-      "7271436517510"
+      "7728573776006",
+      "7492613013638",
+      "6538749378694",
+      "7652880318598",
+      "7551228477574",
+      "6538749509766",
+      "7576163156102",
+      "5196351504518"
      ],
      "why": {
-      "7652880351366": [
+      "7728573776006": [
        "bestseller",
        "prior_tag",
        "new_arrival"
       ],
-      "7728573382790": [
+      "7492613013638": [
        "bestseller",
-       "prior_tag",
-       "new_arrival"
+       "prior_tag"
       ],
-      "7728573448326": [
+      "6538749378694": [
        "bestseller",
-       "prior_tag",
-       "new_arrival"
+       "prior_tag"
       ],
-      "7652880515206": [
-       "bestseller",
-       "prior_tag",
-       "new_arrival"
-      ],
-      "7652880253062": [
+      "7652880318598": [
        "bestseller",
        "new_arrival"
       ],
-      "6821776523398": [
+      "7551228477574": [
        "bestseller"
       ],
-      "7271436189830": [
+      "6538749509766": [
        "bestseller"
       ],
-      "7271436517510": [
+      "7576163156102": [
+       "bestseller"
+      ],
+      "5196351504518": [
        "bestseller"
       ]
      }
@@ -2986,7 +2984,7 @@
     }
    ],
    "pool": {
-    "filtered": 128,
+    "filtered": 131,
     "on_occasion": 0,
     "past": 0
    }
@@ -3334,10 +3332,10 @@
       "7500119212166",
       "7454486003846",
       "7454486069382",
-      "7454486036614",
       "7454485741702",
       "6897630085254",
-      "6632508293254"
+      "6632508293254",
+      "6914331869318"
      ],
      "why": {
       "5196140314758": [
@@ -3356,10 +3354,6 @@
        "occasion_tag:festive",
        "prior_tag"
       ],
-      "7454486036614": [
-       "occasion_tag:festive",
-       "prior_tag"
-      ],
       "7454485741702": [
        "occasion_tag:festive",
        "prior_tag"
@@ -3371,6 +3365,10 @@
       "6632508293254": [
        "occasion_tag:festive",
        "prior_tag"
+      ],
+      "6914331869318": [
+       "occasion_tag:festive",
+       "prior_tag"
       ]
      }
     },
@@ -3379,7 +3377,7 @@
      "label": "",
      "product_ids": [
       "5196353142918",
-      "6540636782726",
+      "7492613013638",
       "6538749476998",
       "7492613341318",
       "7271437369478",
@@ -3388,8 +3386,8 @@
       "7728573874310",
       "6821058478214",
       "7426322104454",
+      "7728573284486",
       "15402020765830",
-      "6601425617030",
       "7492613275782",
       "5196415205510",
       "6581929083014",
@@ -3399,17 +3397,18 @@
       "7492613177478",
       "5215841288326",
       "7426321973382",
-      "6914331869318",
-      "7426321744006",
-      "7426321383558"
+      "6538749575302",
+      "6540636782726",
+      "7608570577030"
      ],
      "why": {
       "5196353142918": [
        "occasion_tag:festive",
        "prior_tag"
       ],
-      "6540636782726": [
+      "7492613013638": [
        "occasion_tag:festive",
+       "bestseller",
        "prior_tag"
       ],
       "6538749476998": [
@@ -3446,15 +3445,16 @@
        "occasion_tag:festive",
        "prior_tag"
       ],
+      "7728573284486": [
+       "occasion_tag:festive",
+       "bestseller",
+       "new_arrival"
+      ],
       "15402020765830": [
        "occasion_tag:festive",
        "bestseller",
        "prior_tag",
        "new_arrival"
-      ],
-      "6601425617030": [
-       "occasion_tag:festive",
-       "prior_tag"
       ],
       "7492613275782": [
        "occasion_tag:festive",
@@ -3492,16 +3492,17 @@
        "occasion_tag:festive",
        "prior_tag"
       ],
-      "6914331869318": [
+      "6538749575302": [
        "occasion_tag:festive",
        "prior_tag"
       ],
-      "7426321744006": [
+      "6540636782726": [
        "occasion_tag:festive",
        "prior_tag"
       ],
-      "7426321383558": [
+      "7608570577030": [
        "occasion_tag:festive",
+       "bestseller",
        "prior_tag"
       ]
      }
@@ -3517,7 +3518,7 @@
       "6595613360262",
       "7454485774470",
       "6701989068934",
-      "7728574824582"
+      "7492612980870"
      ],
      "why": {
       "7426322563206": [
@@ -3556,19 +3557,18 @@
        "goes_with:throw",
        "prior_tag"
       ],
-      "7728574824582": [
+      "7492612980870": [
+       "occasion_tag:festive",
        "goes_with:throw",
-       "bestseller",
-       "prior_tag",
-       "new_arrival"
+       "bestseller"
       ]
      }
     }
    ],
    "pool": {
-    "filtered": 746,
-    "on_occasion": 102,
-    "past": 149
+    "filtered": 744,
+    "on_occasion": 104,
+    "past": 146
    }
   },
   {
@@ -3875,7 +3875,6 @@
       "7576167284870",
       "7728574300294",
       "7652882612358",
-      "7741539483782",
       "5196418580614",
       "7741538828422",
       "5196329812102",
@@ -3898,11 +3897,6 @@
       "7652882612358": [
        "occasion_tag:birthday",
        "bestseller",
-       "new_arrival"
-      ],
-      "7741539483782": [
-       "occasion_tag:birthday",
-       "goes_with:stole",
        "new_arrival"
       ],
       "5196418580614": [
@@ -3947,7 +3941,7 @@
       "7697159716998",
       "7664339943558",
       "7741538730118",
-      "7537234346118",
+      "7741539483782",
       "7576167972998",
       "7741539057798"
      ],
@@ -3979,10 +3973,10 @@
        "goes_with:stole",
        "new_arrival"
       ],
-      "7537234346118": [
+      "7741539483782": [
        "occasion_tag:birthday",
        "goes_with:stole",
-       "bestseller"
+       "new_arrival"
       ],
       "7576167972998": [
        "occasion_tag:birthday",
@@ -3997,9 +3991,9 @@
     }
    ],
    "pool": {
-    "filtered": 106,
-    "on_occasion": 34,
-    "past": 32
+    "filtered": 105,
+    "on_occasion": 33,
+    "past": 31
    }
   },
   {
@@ -4125,59 +4119,6 @@
     },
     {
      "kind": "occasion_category",
-     "label": "Shirts",
-     "product_ids": [
-      "7741535191174",
-      "7697158537350",
-      "7741535027334",
-      "7741535060102",
-      "7697158439046",
-      "7741534994566",
-      "7697183047814",
-      "7664335192198"
-     ],
-     "why": {
-      "7741535191174": [
-       "occasion_tag:evening",
-       "prior_tag",
-       "new_arrival"
-      ],
-      "7697158537350": [
-       "occasion_tag:evening",
-       "prior_tag",
-       "new_arrival"
-      ],
-      "7741535027334": [
-       "occasion_tag:evening",
-       "prior_tag",
-       "new_arrival"
-      ],
-      "7741535060102": [
-       "occasion_tag:evening",
-       "prior_tag",
-       "new_arrival"
-      ],
-      "7697158439046": [
-       "occasion_tag:evening",
-       "prior_tag",
-       "new_arrival"
-      ],
-      "7741534994566": [
-       "occasion_tag:evening",
-       "new_arrival"
-      ],
-      "7697183047814": [
-       "occasion_tag:evening",
-       "new_arrival"
-      ],
-      "7664335192198": [
-       "occasion_tag:evening",
-       "new_arrival"
-      ]
-     }
-    },
-    {
-     "kind": "occasion_category",
      "label": "Kurtas",
      "product_ids": [
       "7664335650950",
@@ -4229,33 +4170,86 @@
      }
     },
     {
+     "kind": "occasion_category",
+     "label": "Shirts",
+     "product_ids": [
+      "7741535191174",
+      "7697158537350",
+      "7741535027334",
+      "7741535060102",
+      "7697158439046",
+      "7697183047814",
+      "7741534929030",
+      "7664335192198"
+     ],
+     "why": {
+      "7741535191174": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697158537350": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741535027334": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741535060102": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697158439046": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697183047814": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741534929030": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7664335192198": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ]
+     }
+    },
+    {
      "kind": "occasion",
      "label": "",
      "product_ids": [
       "7664335356038",
       "7652879466630",
       "7697158930566",
-      "7741535879302",
-      "7741535092870",
+      "7697183113350",
       "7741536206982",
+      "7741535092870",
       "7697182949510",
       "7741537845382",
       "7741536698502",
       "7741537157254",
+      "15401644228742",
       "7697158635654",
-      "7697183080582",
+      "7697159979142",
       "7741536895110",
       "7697183277190",
-      "7741534929030",
       "7334950273158",
+      "7697158471814",
       "7741536862342",
       "7741537616006",
       "7741536665734",
       "7741537190022",
       "7426316566662",
-      "7697158733958",
-      "7741537091718",
-      "7697183113350"
+      "7697183080582",
+      "7741537091718"
      ],
      "why": {
       "7664335356038": [
@@ -4271,18 +4265,17 @@
        "occasion_tag:evening",
        "new_arrival"
       ],
-      "7741535879302": [
+      "7697183113350": [
        "occasion_tag:evening",
-       "prior_tag",
+       "new_arrival"
+      ],
+      "7741536206982": [
+       "occasion_tag:evening",
        "new_arrival"
       ],
       "7741535092870": [
        "occasion_tag:evening",
        "prior_tag",
-       "new_arrival"
-      ],
-      "7741536206982": [
-       "occasion_tag:evening",
        "new_arrival"
       ],
       "7697182949510": [
@@ -4303,12 +4296,17 @@
        "occasion_tag:evening",
        "new_arrival"
       ],
+      "15401644228742": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
       "7697158635654": [
        "occasion_tag:evening",
        "prior_tag",
        "new_arrival"
       ],
-      "7697183080582": [
+      "7697159979142": [
        "occasion_tag:evening",
        "new_arrival"
       ],
@@ -4320,12 +4318,12 @@
        "occasion_tag:evening",
        "new_arrival"
       ],
-      "7741534929030": [
-       "occasion_tag:evening",
-       "new_arrival"
-      ],
       "7334950273158": [
        "occasion_tag:evening"
+      ],
+      "7697158471814": [
+       "occasion_tag:evening",
+       "new_arrival"
       ],
       "7741536862342": [
        "occasion_tag:evening",
@@ -4348,15 +4346,11 @@
        "occasion_tag:evening",
        "prior_tag"
       ],
-      "7697158733958": [
+      "7697183080582": [
        "occasion_tag:evening",
        "new_arrival"
       ],
       "7741537091718": [
-       "occasion_tag:evening",
-       "new_arrival"
-      ],
-      "7697183113350": [
        "occasion_tag:evening",
        "new_arrival"
       ]
@@ -4417,7 +4411,7 @@
     }
    ],
    "pool": {
-    "filtered": 995,
+    "filtered": 990,
     "on_occasion": 92,
     "past": 179
    }
@@ -4807,14 +4801,13 @@
      "score": 30
     },
     {
-     "product_id": "7652880384134",
+     "product_id": "6821058117766",
      "reason_code": "NEW_USER_PRIOR",
      "why": [
       "prior_tag",
-      "new_arrival",
       "new_user"
      ],
-     "score": 30
+     "score": 20
     },
     {
      "product_id": "6821058183302",
@@ -4924,10 +4917,10 @@
       "7652880285830",
       "7652880515206",
       "7728573382790",
+      "7728573055110",
       "7454484955270",
       "7375640789126",
-      "7229605019782",
-      "6538749608070"
+      "7229605019782"
      ],
      "why": {
       "7728573448326": [
@@ -4946,6 +4939,10 @@
        "prior_tag",
        "new_arrival"
       ],
+      "7728573055110": [
+       "prior_tag",
+       "new_arrival"
+      ],
       "7454484955270": [
        "prior_tag"
       ],
@@ -4954,9 +4951,6 @@
       ],
       "7229605019782": [
        "prior_tag"
-      ],
-      "6538749608070": [
-       "prior_tag"
       ]
      }
     },
@@ -4964,17 +4958,17 @@
      "kind": "occasion",
      "label": "",
      "product_ids": [
-      "7426321744006",
+      "7063291265158",
       "6841448628358",
       "7728574759046",
-      "7664338927750",
-      "6776773935238",
+      "6538749608070",
       "7652881301638",
+      "7664338927750",
       "7664338468998",
       "7728573776006",
-      "7652880482438",
-      "7728573743238",
       "7652880908422",
+      "7728573743238",
+      "7652880482438",
       "7652880416902",
       "7728573546630",
       "7664338370694",
@@ -4990,7 +4984,7 @@
       "5196249071750"
      ],
      "why": {
-      "7426321744006": [
+      "7063291265158": [
        "prior_tag"
       ],
       "6841448628358": [
@@ -5000,14 +4994,14 @@
        "prior_tag",
        "new_arrival"
       ],
-      "7664338927750": [
-       "prior_tag",
-       "new_arrival"
-      ],
-      "6776773935238": [
+      "6538749608070": [
        "prior_tag"
       ],
       "7652881301638": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664338927750": [
        "prior_tag",
        "new_arrival"
       ],
@@ -5019,7 +5013,7 @@
        "prior_tag",
        "new_arrival"
       ],
-      "7652880482438": [
+      "7652880908422": [
        "prior_tag",
        "new_arrival"
       ],
@@ -5027,7 +5021,7 @@
        "prior_tag",
        "new_arrival"
       ],
-      "7652880908422": [
+      "7652880482438": [
        "prior_tag",
        "new_arrival"
       ],
@@ -5081,7 +5075,7 @@
     }
    ],
    "pool": {
-    "filtered": 324,
+    "filtered": 325,
     "on_occasion": 0,
     "past": 0
    }
@@ -5102,7 +5096,7 @@
    "one per class",
    "2 per family"
   ],
-  "snapshot_id": "2026-10-29-67819ca378f4",
+  "snapshot_id": "2026-11-01-cdda17faae52",
   "cost": 0
  }
 }

@@ -4,8 +4,8 @@
   {
    "file": "catalog.json",
    "url": "https://www.nicobar.com/products.json?limit=250",
-   "fetched_at": "2026-10-29T12:01:07.000Z",
-   "sha256": "4e8b29ed3f2ceaaad44bcb4e65101cda7ede0360f97648f0aa62b20f43a94fcf"
+   "fetched_at": "2026-11-01T09:43:13.000Z",
+   "sha256": "5a0bb44abb9989bbebd1ef06d6a256be1e4888d332d053fb83f1ac296281ab7c"
   },
   {
    "file": "pages/the-brass-story.html",
