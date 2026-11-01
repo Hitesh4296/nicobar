@@ -22,5 +22,25 @@
     "hosting"
    ]
   }
- ]
+ ],
+ "brand_lines": {
+  "default": "F1",
+  "keys": {
+   "hosting": "B2"
+  },
+  "lines": [
+   {
+    "id": "F1",
+    "text": "Rooted in India, and inspired by journeys across the Indian Ocean.",
+    "source": "nicobar.com footer",
+    "fetched_at": "2026-10-31"
+   },
+   {
+    "id": "B2",
+    "text": "Having people over is kind of our favourite thing.",
+    "source": "nicobar.com/collections/serene-valley-home",
+    "fetched_at": "2026-10-29"
+   }
+  ]
+ }
 }

@@ -1,7 +1,11 @@
 // lane gen: expand, renderEmail. Test 7.
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import quotes from '../../config/quotes.json' with { type: 'json' };
+import { readPromptDir } from '../../scripts/prompt-dir.ts';
+import { validateVersion } from '../../src/lib/config/index.ts';
 import { expand } from '../../src/lib/render/expand.ts';
-import { renderEmail } from '../../src/lib/render/email.ts';
+import { brandLine, renderEmail } from '../../src/lib/render/email.ts';
 import { imagePaths } from '../../src/lib/render/index.ts';
 import type { Catalog, Envelope, Product } from '../../src/contracts/types.ts';
 import { fxCatalog, fxEnvelope } from '../fakes/index.ts';
@@ -52,6 +56,33 @@ describe('expand', () => {
     expect(expand({ subject: 3, body: null }, 'email', env, cat).reader_text).toBe('');
     expect(expand({ sections: 'x' }, 'landing_page', env, cat).fields).toEqual([]);
     expect(expand({ sections: [null, { type: 'nope' }, { type: 'product_grid', items: 7 }, { type: 'pairing', slots: 'p1', line: 'L' }] }, 'landing_page', env, cat).reader_text).toBe('L');
+  });
+});
+
+describe('the brand line is code\'s (R128)', () => {
+  const html = (key: string | null) => { const e = { ...env, occasion_key: key }; return renderEmail(expand(email, 'email', e, cat), cat, e); };
+  const F1 = 'Rooted in India, and inspired by journeys across the Indian Ocean.';
+  it('F1 by default, for a null key too; B2 for hosting; each with its source as small text', () => {
+    for (const k of [null, 'wedding', 'birthday', 'festive']) { expect(html(k)).toContain(F1); expect(html(k)).toContain('<small>From nicobar.com footer</small>'); }
+    expect(html('hosting')).toContain('Having people over is kind of our favourite thing.');
+    expect(html('hosting')).toContain('From nicobar.com/collections/serene-valley-home');
+    expect(html('hosting')).not.toContain(F1);
+  });
+  it('only F1 and B2 ship', () => expect(quotes.brand_lines.lines.map((l) => l.id)).toEqual(['F1', 'B2']));
+  it('sits outside the fields, so no word limit or judge counts it, and adds no link', () => {
+    const d = expand(email, 'email', env, cat);
+    expect(JSON.stringify(d)).not.toContain(F1);
+    expect(brandLine(null).id).toBe('F1');
+    expect(html(null).match(/<a\b/g)!.length).toBe(renderEmail(d, cat, env).match(/<a\b/g)!.length);
+    expect(html(null).indexOf(F1)).toBeLessThan(html(null).indexOf('<img'));
+  });
+  it('prompt v2 gives the model no route to F1 and bars scene words as the reader\'s event; v1 stays as it ran', () => {
+    const role = readFileSync('config/prompt/v2/role.md', 'utf8');
+    expect(role).not.toContain('Rooted in India');
+    expect(role).toMatch(/mehendi, poolside, sangeet/);
+    expect(readFileSync('config/prompt/v1/role.md', 'utf8')).toContain('Rooted in India');
+    const v = { id: 'v2', kind: 'prompt', content: readPromptDir('config/prompt/v2') } as never;
+    expect(validateVersion(v).ok).toBe(true);
   });
 });
 

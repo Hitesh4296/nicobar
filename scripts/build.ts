@@ -163,6 +163,9 @@ function main() {
     wrangler(['d1', 'migrations', 'apply', 'nicobar'], persist);
     wrangler(['d1', 'execute', 'nicobar', '--command', `INSERT OR IGNORE INTO snapshots (id, fetched_at, product_rows, usable_rows, synthetic) VALUES ('${id}', '${report.fetched_at}', ${report.product_rows}, ${report.usable_rows}, 0)`], persist);
     for (const f of Object.keys(files)) wrangler(['r2', 'object', 'put', `nicobar/snapshots/${id}/${f}`, '--file', join(dir, f)], persist);
+    // What the Start a run page offers: a Worker cannot read data/.
+    wrangler(['r2', 'object', 'put', 'nicobar/inputs/customers.synthetic.tsv', '--file', 'data/customers.with-c20.synthetic.tsv'], persist);
+    wrangler(['r2', 'object', 'put', 'nicobar/inputs/recommendations.synthetic.json', '--file', 'data/recommendations.synthetic.json'], persist);
   }
   console.log(`snapshot ${id}: ${report.product_rows} rows, ${report.usable_rows} usable, ${dir}${process.argv.includes('--publish') ? ', published locally' : ''}`);
 }

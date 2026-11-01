@@ -1,16 +1,19 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import capJson from '../../config/cap.json' with { type: 'json' };
 import { sha256Hex } from '../../src/lib/config/bundle.ts';
+import { onlyCustomer } from '../../src/lib/ingest.ts';
+import { resetRunKeyAttempts } from '../../src/worker/run-key.ts';
 import { routes } from '../../src/worker/routes/runs.ts';
 import { ACTOR, SNAP, db, env, fakeLlm, migrate, runRow, seedRun, uid, useFakes } from './run-fx.ts';
 
 const TSV = 'fake tsv';
 const RECS = '{ "rows": [] }\n';          // raw bytes: whitespace counts in the hash
 beforeAll(migrate);
-beforeEach(() => { useFakes(); fakeLlm(); });
+beforeEach(() => { useFakes(); fakeLlm(); resetRunKeyAttempts(); });
 
-const post = (path: string, body: unknown, params: Record<string, string> = {}, e = env) => routes.find((r) => r.path === path)!.handler({
-  req: new Request('https://x.test/', { method: 'POST', body: typeof body === 'string' ? body : JSON.stringify(body) }), env: e, exec: {} as ExecutionContext, actor: ACTOR, params });
+const KEY = 'test-run-key-9f3a';
+const post = (path: string, body: unknown, params: Record<string, string> = {}, e: typeof env = env, key: string | null = KEY) => routes.find((r) => r.path === path)!.handler({
+  req: new Request('https://x.test/', { method: 'POST', headers: key === null ? {} : { 'x-run-key': key }, body: typeof body === 'string' ? body : JSON.stringify(body) }), env: { RUN_KEY: KEY, ...e }, exec: {} as ExecutionContext, actor: ACTOR, params });
 
 async function preview(over: object = {}) {
   await seedRun(uid('seed'));          // the snapshot row
@@ -22,6 +25,42 @@ async function preview(over: object = {}) {
 }
 const body = async (over: object = {}, pv: object = {}) => ({ run_id: uid('p'), stage: 'isolation', snapshot_id: SNAP, customers_name: 'customers.fx.synthetic.tsv', customers_tsv: TSV,
   customers_synthetic: true, recs_json: RECS, preview_sha256: await preview(pv), ...over });
+
+describe('the run key', () => {
+  const rows = async () => (await db.prepare('SELECT count(*) AS n FROM runs').first<{ n: number }>())!.n;
+  beforeEach(resetRunKeyAttempts);
+  it('wrong or missing key: 403, no run row, no model call, and the key is not echoed', async () => {
+    const calls = fakeLlm(); const b = await body(); const before = await rows();
+    for (const k of ['nope', null]) {
+      const r = await post('/api/runs', b, {}, env, k);
+      expect(r.status).toBe(403);
+      expect(await r.text()).not.toContain('nope');
+    }
+    expect(await rows()).toBe(before);
+    expect(calls).toHaveLength(0);
+  });
+  it('no RUN_KEY set: locked, even for an empty key', async () => {
+    const b = await body();
+    expect((await post('/api/runs', b, {}, { ...env, RUN_KEY: undefined } as never, '')).status).toBe(403);
+  });
+  it('the right key starts; a sixth wrong try is 429 even with the right key', async () => {
+    expect((await post('/api/runs', await body())).status).toBe(201);
+    for (let i = 0; i < 5; i++) expect((await post('/api/runs', {}, {}, env, 'x')).status).toBe(403);
+    expect((await post('/api/runs', await body())).status).toBe(429);
+  });
+  it('only cuts the file and must match the preview built on that cut', async () => {
+    const tsv = 'id\tname\nc01\ta\nc02\tb\n', cut = onlyCustomer(tsv, 'c01');
+    expect(cut).toBe('id\tname\nc01\ta\n');
+    const sha = await sha256Hex(cut);
+    const id = uid('only');
+    const ok = await post('/api/runs', await body({ run_id: id, customers_tsv: tsv, only: 'c01' }, { customers_sha256: sha }));
+    expect(ok.status).toBe(201);
+    const run = await db.prepare('SELECT customers_sha256 FROM runs WHERE id = ?').bind(id).first<{ customers_sha256: string }>();
+    expect(run!.customers_sha256).toBe(sha);
+    expect((await post('/api/runs', await body({ customers_tsv: tsv, only: 'c01' }))).status).toBe(409);   // the preview was of the whole file
+    expect((await post('/api/runs', await body({ customers_tsv: tsv, only: 'zz' }))).status).toBe(400);
+  });
+});
 
 describe('POST /api/runs', () => {
   it('pins activeVersions ids once, sets cap from the preview, starts an instance', async () => {

@@ -11,7 +11,7 @@ import jev from '../config/jev.json' with { type: 'json' };
 import type { Lib } from '../src/contracts/lib.ts';
 import type { AnthropicRequest, CapConfig, Catalog, Envelope, Pinned, Plan, Prices, PromptFiles, RunFormat, Rung, Usage } from '../src/contracts/types.ts';
 import { buildRequest, partsOf, toModelJson } from '../src/lib/gen/index.ts';
-import { readPromptDir } from './prompt-dir.ts';
+import { PROMPT_DIR, readPromptDir } from './prompt-dir.ts';
 
 export interface Inputs { customers: string; recs: string; keys: string; shapes: string; cat: Catalog }   // raw text: the hashes are of the bytes
 export interface Deps {
@@ -39,10 +39,10 @@ export function planAll(o: Common, run_id: string, d: Deps): { pinned: Pinned; p
   const { customers, recs, keys, shapes, cat } = d.inputs;
   const pinned: Pinned = { snapshot_id: cat.snapshot_id, customers_sha256: sha256Hex(customers), recs_sha256: sha256Hex(recs), shapes_sha256: sha256Hex(shapes),
     run_date: new Date().toISOString().slice(0, 10), prompt_version: o.promptId, voice_guide_version: o.promptId, jev_model: jev.model, jev_config_version: jev.version, format: o.format };
-  const rows = d.lib.parseRecs(JSON.parse(recs)).rows;
+  const file = d.lib.parseRecs(JSON.parse(recs)), rows = file.rows;
   const rowKeys = d.lib.parseRowKeys(JSON.parse(keys));
   const plans = d.lib.ingestTsv(customers).map((item) =>
-    ({ ...d.lib.planCustomer(item, rows.find((r) => r.customer_id === item.key) ?? null, rowKeys, cat, pinned, JSON.parse(shapes)), run_id }));
+    ({ ...d.lib.planCustomer(item, rows.find((r) => r.customer_id === item.key) ?? null, rowKeys, cat, pinned, JSON.parse(shapes)), run_id, ...(file.generated_by ? { generated_by: { ranking: file.generated_by } } : {}) }));
   return { pinned, plans };
 }
 
@@ -119,7 +119,7 @@ export function parseCli(argv: string[]) {
     label: { type: 'string' }, format: { type: 'string' }, rung: { type: 'string' } } });
   const limitUsd = Number(v['limit-usd']);
   if (!(limitUsd > 0)) throw new Error('--limit-usd <n> is required, above 0');
-  const promptDir = v['prompt-dir'] ?? 'config/prompt/v1';
+  const promptDir = v['prompt-dir'] ?? PROMPT_DIR;
   const promptId = basename(promptDir);
   const format = (v.format ?? 'both') as RunFormat;
   if (!['both', 'email', 'landing_page'].includes(format)) throw new Error(`bad --format ${format}`);

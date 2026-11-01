@@ -1,6 +1,13 @@
 {
  "_label": "Hand-set by the data session, labelled synthetic: judgement, no behaviour data. A real recommender replaces data/recommendations.synthetic.json by contract; this file then goes.",
- "version": "ranking/v1",
+ "version": "ranking/v2",
+ "weights": {
+  "occasion": 100,
+  "season": 20,
+  "bestseller": 15,
+  "new": 10,
+  "past": 10
+ },
  "tiers": [
   "occasion",
   "row_fit",

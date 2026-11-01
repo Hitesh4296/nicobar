@@ -38,16 +38,24 @@ export interface OccasionMap { version: string; default: MapRow; quote_labels: R
 export interface Customer { customer_id: string; first_name: string|null; occasion: string|null; new_user: boolean; note_words?: string[] }
 export type IngestResult = { key: string; status: 'ok'; record: Customer }
                   | { key: string; status: 'invalid'|'duplicate'; errors: string[] };
-export interface RecPick { product_id: string; reason_code: ReasonCode; why?: string[] }   // why: signal names (R127), shown to a reviewer, never to the model
+export interface RecPick { product_id: string; reason_code: ReasonCode; why?: string[]; score?: number }   // why: signal names (R127), shown to a reviewer, never to the model
 export type MoreKind = 'occasion'|'occasion_category'|'past_purchase';
 export interface MoreSection { kind: MoreKind; label: string; product_ids: string[]; why?: Record<string,string[]> }   // why by product id
-export interface RecRow { customer_id: string; picks: RecPick[]; more?: MoreSection[] }
-export interface RecFile { version: 'recommendations/v1'; synthetic: boolean; as_of: string; snapshot_id: string; rule: string; rows: RecRow[] }
+export interface Weights { occasion: number; season: number; bestseller: number; new: number; past: number }
+export interface PoolCounts { filtered: number; on_occasion: number; past: number }   // how many products passed the filter, and how many of those carry each signal
+export interface WriteBy { model: string|null; setting: string|null; prompt_version: string|null; prompt_sha256: string|null; prompt_files: string[]; schema: string|null; attempt: number; request_sha256: string|null;
+  tokens: { input: number|null; output: number|null; cached: number|null; cache_written: number|null }; stop_reason: string|null; cost: number|null; written_by_model: string[]; written_by_code: string[] }
+export interface CheckBy { validator_version: string|null; ran: number; failed: number }
+export interface JudgeBy { model: string|null; config_version: string|null; questions: string[]; gate: number|null; flagged: string[]; can_block: false }
+export interface GeneratedBy { ranking: RankingBy|null; write: WriteBy|null; checks: CheckBy|null; judge: JudgeBy|null }   // read from stored rows; a value nobody stored is null
+export interface RankingBy { method: 'tiers'|'weighted'; version: string; weights: Weights; rules: string[]; snapshot_id: string; cost: 0 }
+export interface RecRow { customer_id: string; picks: RecPick[]; more?: MoreSection[]; pool?: PoolCounts }
+export interface RecFile { version: 'recommendations/v1'; synthetic: boolean; as_of: string; snapshot_id: string; rule: string; rows: RecRow[]; generated_by?: RankingBy }
 export type RowKeys = Record<string, { key: string|null }>;   // data/row_keys.synthetic.json, §3 spec
 export interface ShapesFile { version: string; default: 'open'; shapes: { id: Shape; re: string; flags: string; job: string }[] }
 
 // ---- plan ----
-export interface Pick { slot: Slot; product_id: string; reason_code: ReasonCode; group: Group; why?: string[] }
+export interface Pick { slot: Slot; product_id: string; reason_code: ReasonCode; group: Group; why?: string[]; score?: number }
 export interface Pinned { snapshot_id: string; customers_sha256: string; recs_sha256: string; shapes_sha256: string; run_date: string;
   prompt_version: string; voice_guide_version: string; jev_model: string; jev_config_version: string; format: RunFormat }
 export interface Admission { setting: string; input_tokens: number; est_1_usd: number; commit_usd: number;
@@ -55,7 +63,7 @@ export interface Admission { setting: string; input_tokens: number; est_1_usd: n
 export interface PlanMore { kind: MoreKind; heading: string; product_ids: string[]; why?: Record<string,string[]> }   // absent on a plan with none, and on every plan stored before R123
 export interface Plan { run_id: string; customer_id: string; created_at: string; pinned: Pinned;
   display_name: string|null; occasion: string|null; occasion_key: string|null; shape: Shape|null; new_user: boolean;
-  format: RunFormat; picks: Pick[]; more?: PlanMore[]; signals: Signal[]; admission: Admission|null;
+  format: RunFormat; picks: Pick[]; more?: PlanMore[]; pool?: PoolCounts; generated_by?: { ranking: RankingBy }; signals: Signal[]; admission: Admission|null;
   outcome: {kind:'ready'}|{kind:'failed';code:FailedCode}|{kind:'skipped';code:SkippedCode} }
 // signals, set only when new_user: 'occasion' if occasion is non-null; 'season_prior' if any pick is NEW_USER_PRIOR.
 
@@ -89,7 +97,9 @@ export interface AdmissionResult { per: Record<string,Admission>; admitted: {key
 export interface PlanPreview { customers_sha256: string; recs_sha256: string; snapshot_id: string; prompt_version: string; prompt_sha256: string; format: RunFormat;
   start_rung: string; cap_sha256: string; jev_reserve_usd: number; sum_commit_usd: number; plans: Plan[] }
 export type StagesFile = Record<Stage,{ expected_usd: number; runs: number }>;
-export interface QuotesFile { version: string; quotes: { id: string; text: string; slug: string; source: string; fetched_at: string; labels: string[] }[] }
+export interface BrandLine { id: string; text: string; source: string; fetched_at: string }
+export interface QuotesFile { version: string; quotes: { id: string; text: string; slug: string; source: string; fetched_at: string; labels: string[] }[];
+  brand_lines: { default: string; keys: Record<string,string>; lines: BrandLine[] } }
 export interface PriorTagsFile { tags: string[] }
 export interface SeasonFile { as_of: string; excluded_subcategories: string[] }
 
@@ -121,4 +131,4 @@ export interface JevOutcome { status: JevStatus; reason: string|null; model: str
 // ---- worker env: vars and secrets ----
 // Env comes from `wrangler types`. DEV_* and secrets are absent from wrangler.jsonc on purpose.
 export type AppEnv = Env & { DEV_MODE?: string; DEV_ACTOR?: string; DEV_FAULT?: string; ACCESS_AUD?: string;
-  ANTHROPIC_API_KEY?: string; ANTHROPIC_BASE_URL?: string; JEV_API_KEY?: string };
+  ANTHROPIC_API_KEY?: string; ANTHROPIC_BASE_URL?: string; JEV_API_KEY?: string; RUN_KEY?: string };

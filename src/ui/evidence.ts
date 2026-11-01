@@ -1,6 +1,7 @@
 // What each step of a customer's story holds, read from stored rows only. Every value is escaped here; a field nobody stored reads "not recorded".
-import type { CheckResult, Envelope, JevConfig, ModelJson, Part, Plan, ReasonCode, RunFormat, Usage } from '../contracts/types.ts';
+import type { CheckResult, Envelope, Format, GeneratedBy, JevConfig, ModelJson, Part, Plan, ReasonCode, RunFormat, Usage } from '../contracts/types.ts';
 import { CAP, PRICES, capCustomer, rungOf } from '../lib/cost/index.ts';
+import { schemaId } from '../lib/gen/index.ts';
 import { flaggedQuestions } from '../lib/jev/index.ts';
 import { countMore, readCards } from '../lib/render/catalog.ts';
 import { PART_NAME, QUESTION_NAMES, checkName, explainBlocks, failed, highlight } from './checks.ts';
@@ -54,7 +55,7 @@ export function planEvidence(c: CustomerData): string {
   const picks = (p.picks ?? []).map((k) => {
     const card = cards.get(k.slot), src = card && new URL(card.src);
     const image = src ? `<img src="${esc(src.origin + src.pathname)}?width=80" alt="${esc(card!.title)}" width="40" height="50" loading="lazy">` : '<span></span>';
-    return `<div class="pick">${image}<div>${esc(card?.title ?? `Product ${k.product_id}, title not stored`)}<small>${esc(k.why?.map(plainSignal).join(' · ') ?? WHY_PICKED[k.reason_code] ?? NONE)}</small></div></div>`;
+    return `<div class="pick">${image}<div>${esc(card?.title ?? `Product ${k.product_id}, title not stored`)}<small>${esc(k.why?.map(plainSignal).join(' · ') ?? WHY_PICKED[k.reason_code] ?? NONE)}${k.score === undefined ? '' : ` · Score ${esc(k.score)}`}</small></div></div>`;
   }).join('');
   const rails = (p.more ?? []).map((m) => `${m.heading}: ${m.product_ids.length} ${m.product_ids.length === 1 ? 'product' : 'products'}${m.why ? ` (${railWhy(m.why)})` : ''}`).join('; ');
   return details('What was chosen, and why', `${picks}${kv([['Occasion key', p.occasion_key], ['Shape', p.shape], ['New customer', p.new_user ? 'Yes' : 'No'], ['Extra rails', rails || 'None'], ['Dropped', NONE]])}`);
@@ -156,6 +157,42 @@ export function eventEvidence(events: EventIn[], title: string): string {
   if (!events.length) return '';
   return details(title, events.map((e) => kv([['Who', e.actor_email ?? 'The system'], ['When', e.at.slice(0, 19).replace('T', ' ')], ['Content hash', e.content_sha256 ?? NONE], ...(e.note ? [['Note', e.note] as [string, unknown]] : [])])).join(''));
 }
+
+const PROMPT_FILES = ['role.md', 'voice-card.md', 'email.md', 'landing-v2.md', 'task.md', 'retry.md'];
+const MODEL_FIELDS: Record<Format, string[]> = { email: ['subject', 'preheader', 'body'], landing_page: ['sections'] };
+
+/** The one source for `generated_by`, screens and JSON alike. Only stored rows: a value nobody stored is null. Read at view time, because Jev answers after the draft row is hashed. */
+export function generatedBy(c: CustomerData, run: RunIn, d: DraftIn | undefined = c.drafts.at(-1)): GeneratedBy {
+  const ranking = c.plan?.generated_by?.ranking ?? null;
+  if (!d) return { ranking, write: null, checks: null, judge: null };
+  const n = d.version, g = c.gens?.find((x) => x.attempt === n), cost = c.costs.find((x) => x.attempt === n), env = envelopeOf(d), j = c.jev.find((x) => x.attempt === n);
+  const u = parse<Usage>(g?.usage_json), carried = env?.carried_part ?? null, format = c.plan?.format ?? run.format ?? null;
+  const parts = (format === 'both' ? ['email', 'landing_page'] as Format[] : format ? [format] : []).filter((p) => p !== carried);
+  const written = parts.length === 2 ? 'both' : parts[0];
+  const code = ['titles', 'images', 'links', 'rails', ...(d.email?.includes('data-brand-line') ? ['brand line'] : [])];
+  return { ranking,
+    write: g || cost ? { model: env?.model ?? d.model ?? null, setting: cost?.setting ?? env?.setting ?? null, prompt_version: env?.prompt_version ?? run.prompt_version ?? null, prompt_sha256: run.prompt_sha256 ?? null, prompt_files: PROMPT_FILES,
+      schema: written ? schemaId(written) : null, attempt: n, request_sha256: cost?.request_sha256 ?? null, tokens: { input: u?.input_tokens ?? null, output: u?.output_tokens ?? null, cached: u?.cache_read_input_tokens ?? null, cache_written: u?.cache_creation_input_tokens ?? null },
+      stop_reason: g?.stop_reason ?? null, cost: cost?.charged_usd ?? null, written_by_model: parts.flatMap((p) => MODEL_FIELDS[p]), written_by_code: code } : null,
+    checks: { validator_version: d.validator_version ?? null, ran: checksOf(d).length, failed: failed(checksOf(d)).length },
+    judge: j ? { model: run.jev?.model ?? null, config_version: run.jev_config_version ?? null, questions: Object.keys(run.jev?.j3 ?? {}), gate: run.jev?.flag_gate ?? null, flagged: c.flags, can_block: false } : null };
+}
+
+const orNone = (v: unknown) => v ?? NONE;
+/** The same blocks in a line each. */
+export function madeByLines(g: GeneratedBy): [string, string][] {
+  const { ranking: r, write: w, checks: k, judge: j } = g;
+  return [['Ranking', r ? `${r.method}, ${r.version}, cost $0` : NONE],
+    ['Write', w ? `${orNone(w.model)}, ${orNone(w.setting)}, prompt ${orNone(w.prompt_version)} ${w.prompt_sha256?.slice(0, 6) ?? ''}, attempt ${w.attempt}, ${count(w.tokens.output)} tokens out, ${money(w.cost)}` : NONE],
+    ['Checks', k ? `${k.ran} ran, ${k.failed} failed, ${orNone(k.validator_version)}` : NONE],
+    ['Judge', j ? `${orNone(j.model)}, ${j.flagged.length} flagged, cannot block` : NONE]];
+}
+export const madeByLine = (g: GeneratedBy) => madeByLines(g).map(([k, v]) => `${k}: ${v}`).join(' · ');
+
+export const jsonLinks = (run_id: string, customer?: string) => {
+  const href = `/review/runs/${encodeURIComponent(run_id)}.json${customer ? `?customer=${encodeURIComponent(customer)}` : ''}`;
+  return `<p class="note"><a href="${esc(href)}">View JSON</a> · <a href="${esc(href)}" download="${esc(`${run_id}${customer ? `-${customer}` : ''}.json`)}">Download</a></p>`;
+};
 
 const sum = (xs: number[]) => xs.reduce((a, b) => a + b, 0);
 

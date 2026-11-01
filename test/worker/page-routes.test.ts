@@ -30,6 +30,29 @@ beforeAll(async () => {
 });
 beforeEach(() => { fxDraftStates.clear(); flags.list = []; });
 
+describe('the run as JSON', () => {
+  const doc = async (q = '') => { const r = await go(`/review/runs/fx-run.json${q}`); return { status: r.status, type: r.headers.get('content-type'), body: await r.json() as any }; };
+  it('serves one document, and ?customer= one slice', async () => {
+    const all = await doc();
+    expect(all.status).toBe(200);
+    expect(all.type).toContain('application/json');
+    expect(all.body.run.id).toBe('fx-run');
+    expect(all.body.customers.length).toBeGreaterThan(1);
+    const one = await doc('?customer=c16');
+    expect(one.body.customers.map((c: any) => c.customer_id)).toEqual(['c16']);
+  });
+  it('404s an unknown run or customer', async () => {
+    expect((await go('/review/runs/nope.json')).status).toBe(404);
+    expect((await doc('?customer=zz')).status).toBe(404);
+  });
+  it('is guarded like the review pages', async () => {
+    const r = await go('/review/runs/fx-run.json', undefined, { DEV_MODE: undefined, DEV_ACTOR: undefined, ACCESS_AUD: 'a', TEAM_DOMAIN: 'https://t.test' });
+    expect(r.status).toBe(403);
+    expect((await go('/review', undefined, { DEV_MODE: undefined, DEV_ACTOR: undefined, ACCESS_AUD: 'a', TEAM_DOMAIN: 'https://t.test' })).status).toBe(403);
+  });
+  it('the timeline links to it', async () => expect((await page('/review/runs/fx-run')).html).toContain('View JSON'));
+});
+
 describe('test 2: no script runs in the frame', () => {
   it('one iframe, sandbox empty, srcdoc only', async () => {
     const { html } = await page(`/review/${encodeURIComponent(C16)}`);

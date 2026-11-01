@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import ranking from '../../config/ranking.json' with { type: 'json' };
 import type { Catalog, Product, RecRow } from '../../src/contracts/types.ts';
 import { parseRecs } from '../../src/lib/recs.ts';
-import { rankAll, rankConfig, rankCustomer, readCustomers, signalsOf, type RankConfig, type RankCustomer } from '../../src/lib/rank/index.ts';
+import { changeOf, checkWeights, rankAll, rankConfig, rankCustomer, rankingBy, readCustomers, scoreOf, signalsOf, type RankConfig, type RankCustomer } from '../../src/lib/rank/index.ts';
 import { planEvidence } from '../../src/ui/evidence.ts';
 import type { CustomerData } from '../../src/ui/timeline.ts';
 import { heldoutCatalog, snapshotCatalog } from '../../scripts/eval.ts';
@@ -157,13 +157,63 @@ describe('why', () => {
   });
 });
 
+describe('weights (R128)', () => {
+  const w = ranking.weights;
+  it('scores the sum of what matched, the occasion once', () => {
+    expect(scoreOf(['occasion_tag:wedding', 'fitted_class', 'goes_with:shirt', 'prior_tag', 'new_arrival'], w)).toBe(140);
+    expect(scoreOf(['fallback'], w)).toBe(0);
+    expect(scoreOf(['bestseller'], w)).toBe(15);
+  });
+  it('refuses past at or over occasion, a zero occasion, and a bad or unknown weight', () => {
+    expect(() => checkWeights({ ...w, past: 100 })).toThrow(/past/);
+    expect(() => checkWeights({ ...w, past: 101 })).toThrow(/past/);
+    expect(() => checkWeights({ ...w, occasion: 0, past: 0 })).toThrow(/occasion/);
+    expect(() => checkWeights({ ...w, season: -1 })).toThrow(/season/);
+    expect(() => checkWeights({ ...w, typo: 3 } as never)).toThrow(/unknown/);
+    expect(() => rankConfig({ ...ranking, weights: { ...w, past: 500 } }, keys, hand)).toThrow(/past/);
+    expect(checkWeights(w)).toBe(w);
+  });
+  it('the hero guard holds whatever the weights: an off-occasion product with a big score does not take p1', () => {
+    const season = product({ class: ['Bags'], prior_tags: ['x'] }), tagged = product({ class: ['Studs'], occasion_keys: ['wedding'] });
+    const r = rankCustomer({ ...shirt, note: null }, catalog([season, tagged]), x, { ...w, season: 500 });
+    expect(ids(r)).toEqual([tagged.id, season.id]);
+  });
+  it('a weight moves a weighted row, and the hand and new-user rows stay pinned', () => {
+    const a = product({ class: ['Studs'], occasion_keys: ['wedding'], prior_tags: ['x'] }), b = product({ class: ['Hoops'], occasion_keys: ['wedding'], badges: ['New'] });
+    const one = { ...x, rows: { x: { ...x.rows.x, picks: 1 } } };
+    expect(ids(rankCustomer({ ...shirt, note: null }, catalog([a, b]), one, w))).toEqual([a.id]);
+    expect(ids(rankCustomer({ ...shirt, note: null }, catalog([a, b]), one, { ...w, new: 30 }))).toEqual([b.id]);
+    const past = product({ handle: 'pin-a', class: ['Socks'] }), fit = product({ handle: 'pin-b', class: ['Bags'] });
+    const c = { ...cfg, rows: { x: { type: 'wear' as const, picks: 2, key: null, pool: 'trip', hand: ['pin-a', 'pin-b'] } }, pools: { trip: ['Bags'] } };
+    expect(ids(rankCustomer(shirt, catalog([past, fit]), c, { ...w, past: 90 }))).toEqual([fit.id, past.id]);
+  });
+  it('every pick carries score and why, and the row its filter counts', () => {
+    const r = rankCustomer(shirt, catalog([product({ class: ['Chains'], occasion_keys: ['wedding'], badges: ['New'] })]), x);
+    expect(r.picks[0].score).toBe(120);
+    expect(r.pool).toEqual({ filtered: 1, on_occasion: 1, past: 1 });
+    expect(() => parseRecs({ version: 'recommendations/v1', synthetic: true, as_of: 'x', snapshot_id: 'y', rule: 'z', rows: [r], generated_by: rankingBy(cfg, 'y') })).not.toThrow();
+    expect(() => parseRecs({ version: 'recommendations/v1', synthetic: true, as_of: 'x', snapshot_id: 'y', rule: 'z', rows: [{ ...r, pool: { filtered: 'a' } }] })).toThrow(/pool/);
+  });
+  it('says what a change costs: unchanged, sections only, or picks and order', () => {
+    const k = (id: string) => ({ product_id: id }) as never, rail = (ids: string[]) => ({ kind: 'occasion', heading: 'H', product_ids: ids }) as never;
+    const stored = { picks: [k('1'), k('2')], more: [rail(['3', '4'])] };
+    expect(changeOf(stored, stored).kind).toBe('unchanged');
+    expect(changeOf(stored, { ...stored, more: [rail(['4', '3'])] })).toEqual({ kind: 'sections', rails: ['H'] });
+    expect(changeOf(stored, { ...stored, picks: [k('2'), k('1')] }).kind).toBe('picks');
+    expect(changeOf(stored, { ...stored, picks: [k('1'), k('9')] }).kind).toBe('picks');
+  });
+});
+
 describe.skipIf(!real)('on the real snapshot', () => {
   const rows = real ? rankAll(customers, real, cfg) : [];
   const get = (c: string) => rows.find((r) => r.customer_id === c)!;
   const masc = (p: Product) => p.category.includes('Men') || p.gender === 'male';
   const fem = (p: Product) => p.category.includes('Women') || p.gender === 'female';
-  it("c01's four picks are the owner's anchor", () =>
-    expect(new Set(ids(get('c01')))).toEqual(new Set(['7492613243014', '7492613406854', '7576166793350', '7652882841734'])));
+  const ANCHOR = ['7492613243014', '7492613406854', '7576166793350', '7652882841734'];
+  it("c01's four picks, in order, are the owner's anchor", () => expect(ids(get('c01'))).toEqual(ANCHOR));
+  // The weighted sum takes p3 and p4 from the unscored fill order. Open for the owner: when this passes, `.fails` fails and the tier path can go.
+  it.fails('the weighted path holds that anchor at the default weights', () =>
+    expect(ids(rankCustomer(customers[0], real!, cfg, cfg.weights))).toEqual(ANCHOR));
   it('c20 keeps its rule', () => {
     expect(get('c20').picks.every((p) => p.reason_code === 'NEW_USER_PRIOR')).toBe(true);
     expect(get('c20').picks.map((p) => real!.rows.get(p.product_id)!.handle)).toEqual(ranking.new_user_picks);

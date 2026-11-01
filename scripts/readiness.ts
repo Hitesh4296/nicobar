@@ -10,6 +10,7 @@ import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { startStub } from './stub-llm.ts';
 import type { Call, StubOptions } from './stub-llm.ts';
+const READINESS_KEY = 'readiness-only';   // a throwaway server's key, never a real one
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 export const OUT = join(ROOT, 'out/readiness');
@@ -96,7 +97,7 @@ function killTree(p: ChildProcess) { live.delete(p); try { process.kill(-p.pid!,
 const url = (path: string) => `http://127.0.0.1:${PORT}${path}`;
 async function up(state: string, fault?: string): Promise<ChildProcess> {
   // --env-file: an empty file stops wrangler loading .dev.vars, so no real key can reach this run [verified 2026-11-01]
-  const vars = { DEV_MODE: '1', DEV_ACTOR: 'readiness@local', ANTHROPIC_API_KEY: 'stub', ANTHROPIC_BASE_URL: `http://127.0.0.1:${STUB_PORT}`, ...(fault ? { DEV_FAULT: fault } : {}) };
+  const vars = { DEV_MODE: '1', DEV_ACTOR: 'readiness@local', RUN_KEY: READINESS_KEY, ANTHROPIC_API_KEY: 'stub', ANTHROPIC_BASE_URL: `http://127.0.0.1:${STUB_PORT}`, ...(fault ? { DEV_FAULT: fault } : {}) };
   const log = openSync(join(OUT, `wrangler-${++logs}-${fault ?? 'plain'}.log`.replace(':', '-')), 'w');
   const dev = spawn('npx', ['wrangler', 'dev', '--port', String(PORT), '--persist-to', state, '--env-file', join(OUT, 'empty.env'),
     ...Object.entries(vars).flatMap(([k, v]) => ['--var', `${k}:${v}`])], { cwd: TREE, stdio: ['ignore', log, log], detached: true });
@@ -108,7 +109,7 @@ async function up(state: string, fault?: string): Promise<ChildProcess> {
 const sql = (state: string, command: string): any[] => JSON.parse(execFileSync('npx', ['wrangler', 'd1', 'execute', 'nicobar', '--local', '--persist-to', state, '--json', '--command', command],
   { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }))[0].results;
 const q = (s: string) => `'${s.replaceAll("'", "''")}'`;
-const post = (path: string, body: unknown) => fetch(url(path), { method: 'POST', headers: { 'content-type': 'application/json', origin: url('').replace(/\/$/, '') }, body: JSON.stringify(body) });
+const post = (path: string, body: unknown) => fetch(url(path), { method: 'POST', headers: { 'content-type': 'application/json', 'x-run-key': READINESS_KEY, origin: url('').replace(/\/$/, '') }, body: JSON.stringify(body) });
 async function done(state: string, id: string, want = ['done', 'stopped']) {
   for (let i = 0; i < POLL_S / 2; i++) { const s = sql(state, `SELECT status FROM runs WHERE id=${q(id)}`)[0]?.status; if (want.includes(s)) return s; await sleep(2000); }
   throw new Error(`run ${id} not finished in ${POLL_S}s`);
@@ -146,13 +147,13 @@ const runBody = (id: string, stage: string, f: Input, preview_sha256: string) =>
 
 /** scripts/preview.ts's CLI reads data/ only, so its `preview()` runs here on these inputs. Writes each preview to `state`'s R2 with no server up. Also measures S. */
 async function previewAll(f: Record<string, Input>, state: string) {
-  const [{ getPlatformProxy }, ingest, recs, plan, check, cost, catalog, gen, { preview }, { makeClient, planAll }, { readPromptDir }] = await Promise.all([import('wrangler'), import('../src/lib/ingest.ts'),
+  const [{ getPlatformProxy }, ingest, recs, plan, check, cost, catalog, gen, { preview }, { makeClient, planAll }, { PROMPT_DIR, PROMPT_ID, readPromptDir }] = await Promise.all([import('wrangler'), import('../src/lib/ingest.ts'),
     import('../src/lib/recs.ts'), import('../src/lib/plan.ts'), import('../src/lib/check/index.ts'), import('../src/lib/cost/index.ts'), import('../src/lib/catalog/index.ts'), import('../src/lib/gen/index.ts'),
     import('./preview.ts'), import('./draft-one.ts'), import('./prompt-dir.ts')]);
   const read = (p: string) => readFileSync(join(ROOT, p), 'utf8');
   const proxy = await getPlatformProxy<any>({ configPath: join(ROOT, 'wrangler.jsonc'), persist: { path: join(state, 'v3') } });
   try {
-    const prompt = readPromptDir(join(ROOT, 'config/prompt/v1'));
+    const prompt = readPromptDir(join(ROOT, PROMPT_DIR));
     const base = { lib: { ...ingest, ...recs, ...plan, ...check, ...cost }, client: makeClient({ ANTHROPIC_BASE_URL: `http://127.0.0.1:${STUB_PORT}` }), log: () => {}, prices: json(join(ROOT, 'config/prices.json')),
       rungs: json(join(ROOT, 'config/rungs.json')), cap: json(join(TREE, 'config/cap.json')), put: (k: string, t: string) => proxy.env.BUCKET.put(k, t) };
     const inputsOf = (i: Input) => ({ customers: readFileSync(i.tsv, 'utf8'), recs: readFileSync(i.recs, 'utf8'), keys: read('data/row_keys.synthetic.json'), shapes: read('config/shapes.json') });
@@ -161,7 +162,7 @@ async function previewAll(f: Record<string, Input>, state: string) {
     const S: Record<string, number> = {};
     for (const format of ['both', 'email', 'landing_page'] as const) {
       const d = { ...base, inputs: { ...inputsOf(f.isolation!), cat } } as any;
-      const { pinned, plans } = planAll({ prompt, promptId: 'v1', format }, 'measure', d);
+      const { pinned, plans } = planAll({ prompt, promptId: PROMPT_ID, format }, 'measure', d);
       const { max_tokens: _omit, ...body } = gen.buildRequest(plans.find((p: any) => p.outcome.kind === 'ready')!, pinned, cat, base.rungs[0], prompt);
       S[format] = Math.ceil(JSON.stringify({ ...body, messages: [] }).length / 4);
     }
@@ -170,7 +171,7 @@ async function previewAll(f: Record<string, Input>, state: string) {
     base.cap = json(capPath);
     const out: Record<string, string> = {};
     for (const [name, i] of Object.entries(f)) {
-      const r = await preview({ prompt, promptId: 'v1', format: i.format as any }, { ...base, inputs: { ...inputsOf(i), cat } } as any);
+      const r = await preview({ prompt, promptId: PROMPT_ID, format: i.format as any }, { ...base, inputs: { ...inputsOf(i), cat } } as any);
       out[name] = r.sha256;
       console.log(`preview ${name}: ${r.sha256.slice(0, 12)} commit $${r.body.sum_commit_usd.toFixed(4)} ${JSON.stringify(Object.fromEntries(r.body.plans.map((p: any) => [p.customer_id.slice(0, 12), p.admission?.code ?? p.admission?.action ?? p.outcome.code])))}`);
     }

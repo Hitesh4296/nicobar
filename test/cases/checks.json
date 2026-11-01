@@ -9,7 +9,7 @@
   "known_gap": "the case PASSES today although the draft is bad; it documents a residual. If a rule change closes the gap, flip the expectation and remove known_gap"
  },
  "check_ids": "C0 C1 C2 C3 C4 C5 C6 C7 C8 C8d C8d-x C8n C8o C2.L1-L7 C3.L (hard); C8c OUR SOFT SPACED_DASH (warn)",
- "count": 124,
+ "count": 125,
  "families": {
   "brand-claim": 3,
   "c4-negative": 14,
@@ -4507,6 +4507,38 @@
     "verdict": "pass"
    },
    "reference_fired": [],
+   "reference_warn": [],
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ]
+  },
+  {
+   "id": "EORDER-1",
+   "family": "order",
+   "title": "email names p2 before p1; the cards show p1 first (R128)",
+   "format": "email",
+   "picks": [
+    "saanjh-shawl-chartreuse",
+    "marpeta-dupatta-cotton-silk",
+    "ibex-trousers-sand"
+   ],
+   "plan_occasion_key": "diwali",
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p2} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p1} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand."
+    }
+   },
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C2.E1"
+    ]
+   },
    "reference_warn": [],
    "plan_occasion": "Diwali at home",
    "plan_shape": "home",

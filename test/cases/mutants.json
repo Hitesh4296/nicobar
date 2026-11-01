@@ -1,5 +1,5 @@
 {
- "count": 27,
+ "count": 29,
  "rule": "a mutant is a deliberately broken rule set. Run the whole case suite under each; a mutant is killed when at least one case changes verdict from its baseline. A survivor fails the build.",
  "baseline": "all cases in checks.json, blind-drafts.json, image-gate-and-links.json, injection.json, layout.json",
  "retired": [
@@ -344,6 +344,24 @@
    "why_it_matters": "every wide catalog would fail",
    "killed_by": [
     "MORE-01"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M28",
+   "rule_change": "the hero may be any pick",
+   "why_it_matters": "the model overrides the ranking, as 12 of 19 voice-mvxfzle7 drafts did",
+   "killed_by": [
+    "HERO-1"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M29",
+   "rule_change": "email tokens may run in any order",
+   "why_it_matters": "the words and the cards disagree on what leads",
+   "killed_by": [
+    "EORDER-1"
    ],
    "status": "killed"
   }

@@ -8,10 +8,11 @@ import type { JevConfig, PlanPreview, Stage, StagesFile } from '../../contracts/
 import { sha256Hex } from '../../lib/config/bundle.ts';
 import { RUNGS, capRun } from '../../lib/cost/index.ts';
 import { activeVersions } from '../../lib/config/index.ts';
-import { ingestTsv } from '../../lib/ingest.ts';
+import { ingestTsv, onlyCustomer } from '../../lib/ingest.ts';
 import { parseRecs } from '../../lib/recs.ts';
 import { seam } from '../../lib/state/index.ts';
 import { isStub } from '../../ui/shell.ts';
+import { checkRunKey } from '../run-key.ts';
 import type { Ctx, Route } from './list.ts';
 
 const L = () => seam.lib ?? { ingestTsv, parseRecs, activeVersions };
@@ -27,21 +28,40 @@ const json = async (c: Ctx): Promise<Record<string, unknown> | null> => {
   } catch { return null; }
 };
 
-/** Body: `{run_id, stage, snapshot_id, customers_name, customers_tsv, customers_synthetic, recs_json, preview_sha256}`. Both files travel as their exact bytes, because the preview hashes the bytes. Format and start rung come from the preview. */
+/** Header `x-run-key`. Body: `{run_id, stage, snapshot_id, customers_name, customers_tsv, customers_synthetic, recs_json, preview_sha256, only?}`. `only` cuts the file to one customer, and the preview must have been built on that cut. Both files travel as their exact bytes, because the preview hashes the bytes. Format and start rung come from the preview. */
 async function create(c: Ctx): Promise<Response> {
-  const { env } = c; const db = env.DB;
+  const denied = await keyDenied(c.env, c.req.headers.get('x-run-key'));
+  if (denied) return denied;
   const b = await json(c);
   if (!b) return bad('body');
+  return createRun(c, b);
+}
+
+/** A 403 or 429 before anything else is read, so a wrong key reaches no model, no bucket and no row. */
+export async function keyDenied(env: Ctx['env'], given: unknown): Promise<Response | null> {
+  const r = await checkRunKey(env, given);
+  return r === 'ok' ? null : r === 'limited' ? fail(429, 'TOO_MANY_TRIES') : fail(403, 'FORBIDDEN', 'run key');
+}
+
+/** The key has passed. Shared by POST /api/runs and the Start a run form. */
+export async function createRun(c: Ctx, b: Record<string, unknown>): Promise<Response> {
+  const { env } = c; const db = env.DB;
   if ('cap_run_usd' in b) return bad('cap_run_usd is computed, never sent');
-  const { run_id, stage, snapshot_id, customers_name, customers_tsv, customers_synthetic, recs_json, preview_sha256 } = b;
+  const { run_id, stage, snapshot_id, customers_name, customers_synthetic, recs_json, preview_sha256, only } = b;
+  let customers_tsv = b.customers_tsv;
   if (typeof run_id !== 'string' || !/^[A-Za-z0-9_-]{1,64}$/.test(run_id)) return bad('run_id');
   if (env.ANTHROPIC_BASE_URL && !isStub(run_id)) return bad('a run on a stub base URL needs a stub- run id, so the page can label it');
   if (typeof stage !== 'string' || !(stage in stages)) return bad('stage');
   if (typeof snapshot_id !== 'string' || typeof customers_name !== 'string' || typeof customers_tsv !== 'string'
     || typeof customers_synthetic !== 'boolean' || typeof preview_sha256 !== 'string' || !/^[0-9a-z-]+$/.test(preview_sha256) || typeof recs_json !== 'string') return bad('fields');
   if (customers_name.includes('.synthetic.') !== customers_synthetic) return bad('customers_synthetic disagrees with the file name');
+  if (only !== undefined) {
+    if (typeof only !== 'string') return bad('only');
+    try { customers_tsv = onlyCustomer(customers_tsv, only); } catch { return bad('only'); }
+  }
+  const tsv = customers_tsv as string;
   try {
-    if (L().ingestTsv(customers_tsv).length === 0) return bad('no rows');
+    if (L().ingestTsv(tsv).length === 0) return bad('no rows');
     L().parseRecs(JSON.parse(recs_json));
   } catch (e) {
     if (e instanceof NotBuilt) throw e;
@@ -59,7 +79,7 @@ async function create(c: Ctx): Promise<Response> {
   const obj = await env.BUCKET.get(`previews/${preview_sha256}.json`);
   if (!obj) return stale('no preview');
   const p = JSON.parse(await obj.text()) as PlanPreview;
-  const customers_sha256 = await sha256Hex(customers_tsv); const recs_sha256 = await sha256Hex(recs_json);
+  const customers_sha256 = await sha256Hex(tsv); const recs_sha256 = await sha256Hex(recs_json);
   const same: [string, unknown, unknown][] = [['customers', p.customers_sha256, customers_sha256], ['recs', p.recs_sha256, recs_sha256], ['snapshot', p.snapshot_id, snapshot_id],
     ['prompt_version', p.prompt_version, active.prompt.id], ['prompt_sha256', p.prompt_sha256, active.prompt.sha256], ['cap', p.cap_sha256, await sha256Hex(JSON.stringify(capJson))]];
   const off = same.find(([, a, b2]) => a !== b2);
@@ -69,7 +89,7 @@ async function create(c: Ctx): Promise<Response> {
   const { ceiling_usd, cap_run_usd } = capRun(p);
   const s = stages[stage as Stage];
   const customers_r2_key = `customers/${customers_sha256}.tsv`;
-  await Promise.all([env.BUCKET.put(customers_r2_key, customers_tsv), env.BUCKET.put(`recs/${recs_sha256}.json`, recs_json)]);
+  await Promise.all([env.BUCKET.put(customers_r2_key, tsv), env.BUCKET.put(`recs/${recs_sha256}.json`, recs_json)]);
   const creator = c.actor.kind === 'system' ? 'system' : c.actor.email;
   const res = await db.prepare(`INSERT OR IGNORE INTO runs (id, instance_id, stage, format, snapshot_id, run_date, customers_sha256, customers_r2_key, customers_synthetic, recs_sha256,
     setting, prompt_version, voice_guide_version, shapes_sha256, jev_model, jev_config_version, jev_reserve_usd, cap_run_usd, ceiling_usd, preview_sha256, expected_usd, status, created_by, created_at)

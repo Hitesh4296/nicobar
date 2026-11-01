@@ -10,7 +10,7 @@ import { LISTS } from '../../contracts/lists.ts';
 import { stem } from '../catalog/strip.ts';
 import type { Catalog, CheckResult, Envelope, Format, Part, Plan, Product, RenderedJson, Rules, Slot } from '../../contracts/types.ts';
 
-export const VALIDATOR_VERSION = 'check-v2';
+export const VALIDATOR_VERSION = 'check-v3';
 
 /** Every string leaf the model writes as prose. test/node/check.test.ts walks the schemas against this (L-11). */
 export const PROSE: Record<Format, string[]> = {
@@ -246,6 +246,11 @@ const landingOnly: Rule[] = [
     const s = ctx.model.sections;
     if (s[0].type !== 'hero' || s.filter((x: any) => x.type === 'hero').length !== 1) fail('HERO');
   }],
+  // The ranking decides what leads, on the page as in the catalog: R128, 12 of 19 voice-mvxfzle7 drafts led with another pick.
+  ['C2.L8', 'hard', (ctx, fail) => {
+    const hero = ctx.model.sections.find((x: any) => x.type === 'hero');
+    if (hero && hero.slot !== 'p1') fail('HERO_NOT_P1', 'sections[0].slot', `hero must be p1, found ${hero.slot}`);
+  }],
   ['C2.L2', 'hard', (ctx, fail) => {
     const shown = shownSlots(ctx.model.sections).sort(), want = [...ctx.slots].sort();
     if (shown.join() !== want.join()) fail('SLOTS_SHOWN', 'sections', `${shown} vs ${want}`);
@@ -306,6 +311,11 @@ const landingOnly: Rule[] = [
 ];
 
 const emailOnly: Rule[] = [
+  // renderEmail shows the cards p1, p2, p3, so the words run in that order too.
+  ['C2.E1', 'hard', (ctx, fail) => {
+    const used = tokensIn(ctx.model.body);
+    if (used.join() !== [...used].sort().join()) fail('EMAIL_ORDER', 'body', used.join(' '));
+  }],
   ['C3', 'hard', (ctx, fail) => {
     const n = words(ctx.fields.find((f) => f.name === 'body')!.expanded);
     if (n > 120) fail('OVER_WORDS', 'body', String(n));

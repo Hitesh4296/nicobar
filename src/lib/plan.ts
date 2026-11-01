@@ -11,10 +11,10 @@ const displayName = (first: string | null) =>
 
 function resolvePicks(rec: RecRow, cat: Catalog, format: RunFormat): Pick[] | FailedCode {
   const picks: Pick[] = [];
-  for (const [i, { product_id, reason_code, why }] of rec.picks.entries()) {
+  for (const [i, { product_id, reason_code, why, score }] of rec.picks.entries()) {
     const p = cat.rows.get(product_id);
     if (!p || p.excluded_reason !== null || picks.some((k) => k.product_id === product_id)) return 'INVALID_PICK';
-    picks.push({ slot: `p${i + 1}` as Slot, product_id, reason_code, group: groupOf(p.category), ...(why ? { why } : {}) });
+    picks.push({ slot: `p${i + 1}` as Slot, product_id, reason_code, group: groupOf(p.category), ...(why ? { why } : {}), ...(score === undefined ? {} : { score }) });
   }
   return picks.length < MIN_PICKS[format] ? 'TOO_FEW_CANDIDATES' : picks;
 }
@@ -59,7 +59,7 @@ export function planCustomer(item: IngestResult, rec: RecRow | null, keys: RowKe
   const picks = typeof result === 'string' ? [] : result;
   const more = rec && typeof result !== 'string' ? resolveMore(rec, item.record, cat) : [];
   return { ...base, display_name: displayName(first_name), occasion, occasion_key: keys[customer_id]?.key ?? null, shape: computeShape(occasion, s), new_user,
-    picks, ...(more.length ? { more } : {}), signals: signalsOf(new_user, occasion, picks), outcome: typeof result === 'string' ? { kind: 'failed', code: result as FailedCode } : { kind: 'ready' } };
+    picks, ...(more.length ? { more } : {}), ...(rec?.pool ? { pool: rec.pool } : {}), signals: signalsOf(new_user, occasion, picks), outcome: typeof result === 'string' ? { kind: 'failed', code: result as FailedCode } : { kind: 'ready' } };
 }
 
 /** The counts for report.json: rows with a null key, and ids the table does not hold. */

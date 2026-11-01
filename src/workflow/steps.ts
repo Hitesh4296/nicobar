@@ -109,7 +109,7 @@ export async function prep(env: AppEnv, run_id: string, key: string): Promise<'r
   const [recs, cat] = await Promise.all([recsOf(env, run), L().loadCatalog(env, run.snapshot_id)]);
   const keys = L().parseRowKeys(rowKeys);
   const rec = recs.rows.find((r) => r.customer_id === key) ?? null;
-  let plan: Plan = { ...L().planCustomer(item, rec, keys, cat, pinnedOf(run), shapes as ShapesFile), run_id, customer_id: key, created_at: new Date().toISOString() };
+  let plan: Plan = { ...L().planCustomer(item, rec, keys, cat, pinnedOf(run), shapes as ShapesFile), run_id, customer_id: key, created_at: new Date().toISOString(), ...(recs.generated_by ? { generated_by: { ranking: recs.generated_by } } : {}) };
   if (plan.outcome.kind === 'ready' && catalogFails(run, plan, cat)) plan = { ...plan, outcome: { kind: 'failed', code: 'INVALID_PICK' } };
   const failed = plan.outcome.kind === 'failed' ? plan.outcome.code : null;
   await runBatch(env.DB, [{ expectOne: true, stmt: env.DB.prepare(`INSERT INTO plans (run_id, customer_id, plan_json, occasion_key, shape, new_user, format, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`)
@@ -119,7 +119,7 @@ export async function prep(env: AppEnv, run_id: string, key: string): Promise<'r
 }
 
 type Retry = { failed: Format[]; checks: CheckResult[] };
-const countTokens = async (env: AppEnv, req: AnthropicRequest) => (await client(env).messages.countTokens(
+export const countTokens = async (env: AppEnv, req: AnthropicRequest) => (await client(env).messages.countTokens(
   { model: req.model, system: req.system, messages: req.messages, ...(req.thinking ? { thinking: req.thinking } : {}), output_config: req.output_config } as never)).input_tokens;
 
 export async function estimate(env: AppEnv, run_id: string, key: string): Promise<number> {

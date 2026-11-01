@@ -13,6 +13,7 @@ export const PROMPT_SCHEMAS: object[] = [emailSchema, landingSchema];
 const REQUEST_SCHEMA: Record<RunFormat, object> = { both: bothSchema, email: emailSchema, landing_page: landingSchema };
 const REFS: Record<string, Record<string, any>> = { [emailSchema.$id]: emailSchema, [landingSchema.$id]: landingSchema };
 
+export const schemaId = (f: RunFormat): string => (REQUEST_SCHEMA[f] as { $id: string }).$id;
 export const partsOf = (f: RunFormat): Format[] => (f === 'both' ? ['email', 'landing_page'] : [f]);
 const formatOf = (parts: Format[]): RunFormat => (parts.length === 1 ? parts[0] : 'both');
 

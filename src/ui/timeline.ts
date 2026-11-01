@@ -1,7 +1,7 @@
 // The job as stages. Reads only what units, plans, drafts, cost_events, draft_events and jev_events hold: a time nobody stored reads "not recorded", never a guess.
 import type { CheckResult, JevConfig, Plan, RunFormat } from '../contracts/types.ts';
 import { explainBlocks, failed, jevNotRun, PART_NAME, QUESTION_NAMES, checkName, stoppedLine } from './checks.ts';
-import { capEvidence, checkEvidence, checksOf, details, EVIDENCE_CSS, eventEvidence, judgeEvidence, kv, modelOf, planEvidence, renderEvidence, retryEvidence, secs, titlesOf, totals, usd, writeEvidence } from './evidence.ts';
+import { capEvidence, checkEvidence, checksOf, details, generatedBy, jsonLinks, madeByLines, EVIDENCE_CSS, eventEvidence, judgeEvidence, kv, modelOf, planEvidence, renderEvidence, retryEvidence, secs, titlesOf, totals, usd, writeEvidence } from './evidence.ts';
 import { esc } from './nb.ts';
 import { isStub } from './shell.ts';
 
@@ -45,7 +45,7 @@ export interface GenIn { customer_id: string; attempt: number; result_type: stri
 export interface JevIn { customer_id: string; attempt: number; status: string; reason: string | null; charged_usd: number | null; at: string; answers_json?: string | null; input_tokens?: number | null; ms?: number | null }
 export interface EventIn { draft_id: string; from_status: string | null; to_status: string; actor_email: string | null; at: string; note: string | null; content_sha256?: string }
 export interface CustomerData { unit: UnitIn; plan: Plan | null; plan_at: string | null; drafts: DraftIn[]; costs: CostIn[]; jev: JevIn[]; events: EventIn[]; flags: string[]; gens?: GenIn[]; budgetLeft?: number | null }
-export interface RunIn { id: string; status: string; jev_disabled_reason: string | null; spent_usd?: number; cap_run_usd?: number; setting?: string; prompt_version?: string; format?: RunFormat; pool_usd?: number; jev_reserve_usd?: number; jev_config_version?: string; jev?: JevConfig | null }
+export interface RunIn { id: string; status: string; jev_disabled_reason: string | null; stage?: string; snapshot_id?: string; prompt_sha256?: string | null; spent_usd?: number; cap_run_usd?: number; setting?: string; prompt_version?: string; format?: RunFormat; pool_usd?: number; jev_reserve_usd?: number; jev_config_version?: string; jev?: JevConfig | null }
 
 type State = 'passed' | 'failed' | 'retried' | 'skipped' | 'waiting' | 'not reached';
 export interface Stage { name: string; state: State; what: string; why: string; usd: number | null; at: string | null; html?: string }
@@ -195,7 +195,7 @@ export function customerTimeline(c: CustomerData, run: RunIn, css = TIMELINE_CSS
   const { title, sub } = headline(c);
   const rows = storyRows(c, run).map((s) => `<li>${dot(s.state).replace('role=', 'data-s role=')}<div><b>${esc(s.name)}</b><small>${esc(s.sub)}</small></div>`
     + `<div><p>${esc(s.text)}</p>${s.why ? `<p class="note">${esc(s.why)}</p>` : ''}${s.html ?? ''}${s.ev ?? ''}</div><div class="cost">${usd3(s.usd)}${s.timed === false ? '' : `<small>${esc(clock(s.at))}</small>`}${s.took === undefined ? '' : `<small>${s.took === null ? 'Time taken not recorded' : `Took ${secs(s.took)}`}</small>`}</div></li>`).join('');
-  return `${css}<p class="eyebrow">${esc(c.unit.customer_id)} · ${esc(label(c))}</p><p class="big">${esc(title)}</p><p>${esc(sub)}</p><ol class="story">${rows}</ol><p class="note">A clock time is the moment a step was recorded. Write and Judge also show how long they took; older runs read "not recorded".</p>`;
+  return `${css}<p class="eyebrow">${esc(c.unit.customer_id)} · ${esc(label(c))}</p><p class="big">${esc(title)}</p><p>${esc(sub)}</p><ol class="story">${rows}</ol>${details('How each step was made', kv(madeByLines(generatedBy(c, run))))}${jsonLinks(run.id, c.unit.customer_id)}<p class="note">A clock time is the moment a step was recorded. Write and Judge also show how long they took; older runs read "not recorded".</p>`;
 }
 
 const paidBy = (c: CustomerData) => [...c.costs, ...c.jev].reduce((t, x) => t + (x.charged_usd ?? 0), 0);
@@ -251,7 +251,7 @@ export function runTimeline(run: RunIn, customers: CustomerData[]): string {
   }).join('');
   const stub = isStub(run.id) ? 'stub run, nothing billed' : 'real model';
   const foot = stopped ? `${stopped} ${stopped === 1 ? 'customer' : 'customers'} stopped alone and the other ${customers.length - stopped} finished. Open a row below for why.` : 'No customer stopped.';
-  return `${TIMELINE_CSS}<p class="eyebrow">Run · ${esc(run.id)} · ${stub}, ${customers.length} customers</p><h1>What the job did, and why each step exists</h1>${top}${strip(stripped)}<p class="note">${esc(foot)}</p>${stageDetail(all)}`
+  return `${TIMELINE_CSS}<p class="eyebrow">Run · ${esc(run.id)} · ${stub}, ${customers.length} customers</p><h1>What the job did, and why each step exists</h1>${jsonLinks(run.id)}${top}${strip(stripped)}<p class="note">${esc(foot)}</p>${stageDetail(all)}`
     + `<p class="eyebrow" style="margin-top:48px">Run · per customer</p><p class="big">The same steps, one row per customer</p><div class="tl-scroll">${head}${rows}</div>`
     + `<p class="note">Green passed · Red failed · Amber waiting for a person · Dash did not run. Open a row for its full story.</p>`;
 }

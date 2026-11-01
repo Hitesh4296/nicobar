@@ -14,7 +14,7 @@ export type CheckId = (typeof CHECK_IDS)[number];   // plus 'J3-*', flag only
 
 /** Route error codes. */
 export type ErrorCode = 'WRONG_STATE' | 'HASH_MISMATCH' | 'CHECKS_FAILED' | 'STALE_PICK' | 'SNAPSHOT_TOO_OLD'
-  | 'PREVIEW_STALE' | 'RUN_ID_REUSED' | ConfigError | 'BAD_INPUT' | 'FORBIDDEN' | 'MISSING_CONFIG' | 'NOT_FOUND' | 'NOT_BUILT' | 'CATALOG_MISSING' | 'INTERNAL_ERROR';
+  | 'PREVIEW_STALE' | 'RUN_ID_REUSED' | ConfigError | 'BAD_INPUT' | 'FORBIDDEN' | 'TOO_MANY_TRIES' | 'MISSING_CONFIG' | 'NOT_FOUND' | 'NOT_BUILT' | 'CATALOG_MISSING' | 'INTERNAL_ERROR';
 
 export class NotBuilt extends Error {
   code = 'NOT_BUILT' as const;

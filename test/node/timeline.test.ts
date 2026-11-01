@@ -1,6 +1,12 @@
 // The job as a timeline: a strip for the run, the same stages per customer, nothing invented where nothing is stored.
 import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
 import { customerTimeline, runTimeline, stagesOf, STAGES, type CustomerData } from '../../src/ui/timeline.ts';
+import { generatedBy, madeByLine } from '../../src/ui/evidence.ts';
+import { runJson } from '../../src/ui/run-json.ts';
+import { ingestTsv } from '../../src/lib/ingest.ts';
+import { planCustomer } from '../../src/lib/plan.ts';
+import { fxCatalog, fxPinned } from '../fakes/index.ts';
 import { renderEvals } from '../../src/ui/demo/index.ts';
 import cases from '../../reports/cases.json' with { type: 'json' };
 
@@ -115,6 +121,58 @@ describe('every step opens to its evidence', () => {
   const stopped: CustomerData = { ...failedC, gens: [gen(1), gen(2)] };
 
   const text = (h: string) => h.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+
+  describe('generated_by and the run document', () => {
+    const ranking = { method: 'tiers', version: 'ranking/v2', weights: { occasion: 100, season: 20, bestseller: 15, new: 10, past: 10 }, rules: ['x'], snapshot_id: 's', cost: 0 };
+    const proven = { ...passed, plan: { ...passed.plan, generated_by: { ranking }, pool: { filtered: 46, on_occasion: 11, past: 17 }, picks: [{ slot: 'p1', product_id: '1', reason_code: 'OCCASION_MATCH', group: 'wear', why: ['occasion_tag:wedding'], score: 100 }] } } as CustomerData;
+    const shaRun = { ...(jevRun as object), prompt_sha256: 'abcdef123456', prompt_version: 'v2', jev_config_version: 'jev-v1', stage: 'voice', snapshot_id: 's', spent_usd: 0.05 } as never;
+    it('builds every block from stored rows, and the judge can never block', () => {
+      const g = generatedBy(proven, shaRun);
+      expect(g.ranking).toEqual(ranking);
+      expect(g.write).toMatchObject({ model: 'claude-sonnet-5-5', prompt_version: 'v7', prompt_sha256: 'abcdef123456', attempt: 1, request_sha256: 'reqhash1', written_by_model: ['subject', 'preheader', 'body', 'sections'] });
+      expect(g.checks!.failed).toBe(0);
+      expect(g.judge).toMatchObject({ config_version: 'jev-v1', flagged: ['pressure'], can_block: false, gate: 0.5 });
+    });
+    it('a value nobody stored is null, never guessed', () => {
+      const g = generatedBy({ ...passed, plan: { ...passed.plan }, gens: [], jev: [] } as CustomerData, run as never);
+      expect(g.ranking).toBeNull();
+      expect(g.judge).toBeNull();
+      expect(g.write!.tokens.input).toBeNull();
+      expect(g.write!.prompt_sha256).toBeNull();
+      const none = runJson(run as never, [{ ...failedC, plan: null, drafts: [], costs: [], jev: [] }]);
+      expect(none.customers[0]).toMatchObject({ filter_counts: null, input: null, generated_by: { ranking: null, write: null, checks: null, judge: null } });
+    });
+    it('the timeline shows it closed, with the JSON links, and a customer link keeps the slice', () => {
+      const h = customerTimeline(proven, shaRun);
+      expect(h).toContain('<details class="ev"><summary>How each step was made</summary>');
+      expect(text(h)).toContain('tiers, ranking/v2, cost $0');
+      expect(h).toContain('href="/review/runs/r.json?customer=c04"');
+      expect(runTimeline(shaRun, [proven])).toContain('href="/review/runs/r.json"');
+      expect(madeByLine(generatedBy(proven, shaRun))).toMatch(/^Ranking: tiers.*Write: .*abcdef.*Checks: .*Judge: .*cannot block$/);
+    });
+    it('the document has the agreed shape, the same blocks as the screens, and attempts with failed checks', () => {
+      const d = runJson(shaRun, [proven, stopped]);
+      expect(d.run).toMatchObject({ id: 'r', stage: 'voice', ranking_version: 'ranking/v2', weights: ranking.weights, prompt_version: 'v2', snapshot_id: 's', spent: 0.05, cap: 1 });
+      expect(d.customers[0].generated_by).toEqual(generatedBy(proven, shaRun));
+      expect(d.customers[0]).toMatchObject({ filter_counts: { filtered: 46 }, picks: [{ slot: 'p1', score: 100, why: ['occasion_tag:wedding'] }], final_status: { unit: 'drafted', draft: 'approved' } });
+      expect(d.customers[1].attempts[1]).toMatchObject({ attempt: 2, status: 'failed', failed_checks: [{ id: 'C7', part: 'landing_page', code: 'UNGROUNDED_COUNT' }] });
+    });
+    it('holds no raw note and no last name, on the real plan path', () => {
+      const tsv = readFileSync('data/customers.with-c20.synthetic.tsv', 'utf8');
+      const rows = tsv.split('\n').slice(1).filter(Boolean).map((l) => l.split('\t'));
+      const [item] = ingestTsv(tsv).filter((i) => i.key === 'c01');
+      const us = fxCatalog().usable, picks = us.slice(0, 4).map((p) => ({ product_id: p.id, reason_code: 'OCCASION_MATCH' as const }));
+      const more = [{ kind: 'past_purchase' as const, label: 'shirt', product_ids: [us[4].id] }];
+      const plan = planCustomer(item, { customer_id: 'c01', picks, more }, {}, fxCatalog(), fxPinned, { version: 'x', default: 'open', shapes: [] });
+      const body = JSON.stringify(runJson(shaRun, [{ ...proven, plan }]));
+      expect(plan.more?.[0].heading).toBe('To go with your shirt');
+      expect(body).toContain('Meera');
+      const c01 = rows.find((r) => r[0] === 'c01')!;
+      expect(body).not.toContain(c01[2]);          // last name
+      for (const r of rows) if (r[4]) { expect(body).not.toContain(r[4].trim()); expect(body).not.toContain('Jaipur'); }
+      expect(body).not.toContain('message_json');
+    });
+  });
 
   it('a passed customer shows every step, closed', () => {
     const h = customerTimeline(passed, jevRun), t = text(h);

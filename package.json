@@ -21,7 +21,8 @@
     "config": "node scripts/config.ts",
     "demo": "node scripts/demo.ts",
     "batch": "node scripts/batch.ts",
-    "rank": "node scripts/rank.ts"
+    "rank": "node scripts/rank.ts",
+    "run-json": "node scripts/run-json.ts"
   },
   "devDependencies": {
     "@cloudflare/vitest-plugin": "1.4.11",

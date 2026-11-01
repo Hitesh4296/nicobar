@@ -9,7 +9,7 @@
   "spec": "a stated property",
   "live": "stage F"
  },
- "count": 63,
+ "count": 64,
  "cases": [
   {
    "id": "GOOD-c18",
@@ -190,12 +190,12 @@
    "customer_id": "c07",
    "format": "landing_page",
    "picks": [
-    "kachnar-napkin-rings-set-of-4",
+    "phool-cake-stand",
     "hibiscus-candle-holder",
     "buransh-straight-mug",
     "alam-cookie-tray-with-tong",
     "anar-incense-set-anglesey",
-    "phool-cake-stand"
+    "kachnar-napkin-rings-set-of-4"
    ],
    "plan_occasion": "Diwali at home",
    "plan_occasion_key": "festive",
@@ -207,7 +207,7 @@
      "sections": [
       {
        "type": "hero",
-       "slot": "p6",
+       "slot": "p1",
        "heading": "A table for Diwali at home",
        "line": "Tiered in green glass with a polished gold rim, made for festive feasts."
       },
@@ -215,7 +215,7 @@
        "type": "product_grid",
        "items": [
         {
-         "slot": "p1",
+         "slot": "p6",
          "caption": "Crafted in iron with a matte gold finish."
         },
         {
@@ -309,11 +309,11 @@
    "customer_id": "c10",
    "format": "landing_page",
    "picks": [
-    "meher-earrings-gold",
+    "mukayu-city-tote-red-pink",
     "windowpane-checks-scarf-dark-blue",
     "alphabet-s-charm-black-gold-1",
     "darbaar-balis-gold",
-    "mukayu-city-tote-red-pink"
+    "meher-earrings-gold"
    ],
    "plan_occasion": "Jaipur weekend",
    "plan_occasion_key": "resort",
@@ -325,7 +325,7 @@
      "sections": [
       {
        "type": "hero",
-       "slot": "p5",
+       "slot": "p1",
        "heading": "For a Jaipur weekend",
        "line": "Printed cotton canvas with leather trims, for days that move from one place to the next."
       },
@@ -337,7 +337,7 @@
          "note": "Soft and breathable, folded in first"
         },
         {
-         "slot": "p1",
+         "slot": "p5",
          "note": "For the evening, kept in the side pocket"
         },
         {
@@ -1203,12 +1203,12 @@
    "customer_id": "c07",
    "format": "landing_page",
    "picks": [
-    "kachnar-napkin-rings-set-of-4",
+    "phool-cake-stand",
     "hibiscus-candle-holder",
     "buransh-straight-mug",
     "alam-cookie-tray-with-tong",
     "anar-incense-set-anglesey",
-    "phool-cake-stand"
+    "kachnar-napkin-rings-set-of-4"
    ],
    "plan_occasion": "Diwali at home",
    "plan_occasion_key": "festive",
@@ -1220,7 +1220,7 @@
      "sections": [
       {
        "type": "hero",
-       "slot": "p6",
+       "slot": "p1",
        "heading": "A table for Diwali at home",
        "line": "Tiered in green glass with a polished gold rim, made for festive feasts."
       },
@@ -1228,7 +1228,7 @@
        "type": "product_grid",
        "items": [
         {
-         "slot": "p1",
+         "slot": "p6",
          "caption": "Crafted in iron with a matte gold finish."
         },
         {
@@ -1953,10 +1953,10 @@
    "customer_id": "c18",
    "format": "landing_page",
    "picks": [
-    "matchbox-laptop-sleeve-multicolor",
+    "nova-charm-black-red",
     "hana-spec-case-charcoal",
     "starfly-socks-black-white",
-    "nova-charm-black-red"
+    "matchbox-laptop-sleeve-multicolor"
    ],
    "plan_occasion": "Work trip to Singapore",
    "plan_occasion_key": "smart",
@@ -1968,7 +1968,7 @@
      "sections": [
       {
        "type": "hero",
-       "slot": "p4",
+       "slot": "p1",
        "heading": "For the flight out",
        "line": "Crafted in eucalyptus leather, small enough to clip onto a tote or a keyring."
       },
@@ -1984,7 +1984,7 @@
          "note": "Light and breathable from morning to night"
         },
         {
-         "slot": "p1",
+         "slot": "p4",
          "note": "Flat in the side pocket"
         }
        ]
@@ -3057,11 +3057,11 @@
    "customer_id": "c10",
    "format": "landing_page",
    "picks": [
-    "meher-earrings-gold",
+    "mukayu-city-tote-red-pink",
     "windowpane-checks-scarf-dark-blue",
     "alphabet-s-charm-black-gold-1",
     "darbaar-balis-gold",
-    "mukayu-city-tote-red-pink"
+    "meher-earrings-gold"
    ],
    "plan_occasion": "Jaipur weekend",
    "plan_occasion_key": "resort",
@@ -3073,7 +3073,7 @@
      "sections": [
       {
        "type": "hero",
-       "slot": "p5",
+       "slot": "p1",
        "heading": "For a Jaipur weekend",
        "line": "Printed cotton canvas with leather trims, for days that move from one place to the next."
       },
@@ -3089,7 +3089,7 @@
          "note": "Soft and breathable, folded in first"
         },
         {
-         "slot": "p1",
+         "slot": "p5",
          "note": "For the evening, kept in the side pocket"
         },
         {
@@ -3205,6 +3205,74 @@
    "expect": {
     "finished_units_repeat_calls": 0,
     "in_flight_attempt_2_calls_max": "GEN_CONCURRENCY"
+   }
+  },
+  {
+   "id": "HERO-1",
+   "name": "hero leads with p2, the model overriding the ranking (R128)",
+   "kind": "draft",
+   "expect": {
+    "verdict": "fail",
+    "fails_any": [
+     "C2.L8"
+    ]
+   },
+   "customer_id": "c07",
+   "format": "landing_page",
+   "picks": [
+    "hibiscus-candle-holder",
+    "phool-cake-stand",
+    "buransh-straight-mug",
+    "alam-cookie-tray-with-tong",
+    "anar-incense-set-anglesey",
+    "kachnar-napkin-rings-set-of-4"
+   ],
+   "plan_occasion": "Diwali at home",
+   "plan_occasion_key": "festive",
+   "plan_shape": "home",
+   "new_user": false,
+   "draft": {
+    "landing_page": {
+     "occasion_key": "festive",
+     "sections": [
+      {
+       "type": "hero",
+       "slot": "p2",
+       "heading": "A table for Diwali at home",
+       "line": "Tiered in green glass with a polished gold rim, made for festive feasts."
+      },
+      {
+       "type": "product_grid",
+       "items": [
+        {
+         "slot": "p6",
+         "caption": "Crafted in iron with a matte gold finish."
+        },
+        {
+         "slot": "p1",
+         "caption": "Shaped like the hibiscus flower, in iron with a gold finish."
+        },
+        {
+         "slot": "p3",
+         "caption": "Pink rhododendron across a deep green base, in stoneware."
+        },
+        {
+         "slot": "p4",
+         "caption": "Stoneware with a pleasing weight, and a tong alongside."
+        }
+       ]
+      },
+      {
+       "type": "quote",
+       "quote_id": "E4"
+      },
+      {
+       "type": "feature",
+       "slot": "p5",
+       "line": "Cast in aluminium and plated in brass, with sticks that fill the air with a juicy tang of blackcurrant."
+      }
+     ]
+    }
    }
   }
  ],

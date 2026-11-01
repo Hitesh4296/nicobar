@@ -9,6 +9,8 @@ import { flagRow } from '../../ui/agents/index.ts';
 import { shell } from '../../ui/shell.ts';
 import { draftPage, plansPage, runsPage } from '../../ui/review.ts';
 import type { DraftView, EventRow, RunRow, UnitView } from '../../ui/review.ts';
+import { generatedBy, madeByLine } from '../../ui/evidence.ts';
+import { runJson } from '../../ui/run-json.ts';
 import { customerTimeline, runTimeline } from '../../ui/timeline.ts';
 import type { CostIn, CustomerData, DraftIn, EventIn, GenIn, JevIn, RunIn, UnitIn } from '../../ui/timeline.ts';
 import type { Ctx, Route } from './list.ts';
@@ -35,7 +37,7 @@ async function runs(c: Ctx): Promise<Response> {
     const list = (await db.prepare('SELECT id, stage, created_at, status, snapshot_id, jev_disabled_reason FROM runs ORDER BY created_at DESC, id').all<RunRow>()).results;
     const want = new URL(c.req.url).searchParams.get('run');
     const run = list.find((r) => r.id === want) ?? list[0] ?? null;
-    if (!run) return html(runsPage([], null, null, [], deployed));
+    if (!run) return html(runsPage([], null, null, [], deployed, false, !!c.env.RUN_KEY));
     const report = await runReport(db, run.id);
     const units = (await db.prepare(`SELECT u.customer_id, u.status, u.code, p.plan_json FROM units u LEFT JOIN plans p ON p.run_id = u.run_id AND p.customer_id = u.customer_id
       WHERE u.run_id = ? ORDER BY u.customer_id`).bind(run.id).all<{ customer_id: string; status: UnitStatus; code: string | null; plan_json: string | null }>()).results;
@@ -47,7 +49,7 @@ async function runs(c: Ctx): Promise<Response> {
       return { customer_id: u.customer_id, status: u.status, code: u.code, plan: parseJson<Plan>(u.plan_json),
         draft: d ? { id: d.id, status: d.status, checks: JSON.parse(d.checks_json) as CheckResult[] } : null, flags: d ? await flagsOf(c.env, d.id) : null };
     }));
-    return html(runsPage(list, run, report, views, deployed));
+    return html(runsPage(list, run, report, views, deployed, false, !!c.env.RUN_KEY));
   } catch (e) {
     if (e instanceof NotBuilt) throw e;
     console.error(JSON.stringify({ step: 'review', status: 'error', code: 'INTERNAL_ERROR' }));
@@ -56,15 +58,16 @@ async function runs(c: Ctx): Promise<Response> {
 }
 
 /** The run with its pinned Jev config, so the gates shown are the ones that judged it. No config reads "not recorded". */
-async function runIn(env: AppEnv, id: string): Promise<RunIn | null> {
-  const run = await env.DB.prepare('SELECT id, status, jev_disabled_reason, spent_usd, cap_run_usd, jev_reserve_usd, setting, prompt_version, format, pool_usd, jev_config_version FROM runs WHERE id = ?').bind(id).first<RunIn>();
+export async function runIn(env: AppEnv, id: string): Promise<RunIn | null> {
+  const run = await env.DB.prepare('SELECT id, stage, snapshot_id, status, jev_disabled_reason, spent_usd, cap_run_usd, jev_reserve_usd, setting, prompt_version, format, pool_usd, jev_config_version FROM runs WHERE id = ?').bind(id).first<RunIn>();
   if (!run) return null;
   const jev = await loadVersion(env.DB, run.jev_config_version as string, BUNDLE).then((v) => v.content as JevConfig, () => null);
-  return { ...run, jev };
+  const prompt_sha256 = await loadVersion(env.DB, run.prompt_version as string, BUNDLE).then((v) => v.sha256, () => null);
+  return { ...run, jev, prompt_sha256 };
 }
 
 /** One run's recorded trail, per customer. `only` narrows it to one customer for the draft page. */
-async function trail(env: AppEnv, run: RunIn, only: string | null = null): Promise<CustomerData[]> {
+export async function trail(env: AppEnv, run: RunIn, only: string | null = null): Promise<CustomerData[]> {
   const run_id = run.id;
   const db = env.DB;
   const rows = async <T>(sql: string) => (await db.prepare(sql).bind(run_id, only).all<T>()).results;
@@ -93,6 +96,16 @@ async function timeline(c: Ctx): Promise<Response> {
   const run = await runIn(c.env, id);
   if (!run) return fail(404, 'NOT_FOUND', 'review run');
   return html(shell(`Timeline · ${run.id}`, '/review', `<p><a class="btn" href="/review?run=${encodeURIComponent(run.id)}">Back to the run</a></p>${runTimeline(run, await trail(c.env, run))}`));
+}
+
+/** One run as one document. Guarded by the same `authenticate` as every /review page. */
+async function runDoc(c: Ctx): Promise<Response> {
+  const run = await runIn(c.env, idOf(c));
+  if (!run) return fail(404, 'NOT_FOUND', 'review run');
+  const only = new URL(c.req.url).searchParams.get('customer');
+  const customers = await trail(c.env, run, only);
+  if (only && !customers.length) return fail(404, 'NOT_FOUND', 'review customer');
+  return Response.json(runJson(run, customers), { headers: { 'content-security-policy': CSP } });
 }
 
 async function plans(c: Ctx): Promise<Response> {
@@ -129,7 +142,7 @@ async function draft(c: Ctx): Promise<Response> {
     hash_now: await contentSha256(row.envelope_json, row.model_json, row.rendered_json) };
   return html(draftPage(view, parseJson<Plan>(planRow?.plan_json ?? null), flags, (flags ?? []).map((f) => rowFor(f, id)).join(''), events.results, {
     part: q.get('part'), width: q.get('width') === '390' ? 390 : 1200, confirm: q.get('confirm') === 'release', done: q.get('done'), refused: q.get('refused'),
-    prev: siblings.results[at - 1]?.id ?? null, next: siblings.results[at + 1]?.id ?? null, jev, timeline: run && mine ? customerTimeline(mine, run) : null }));
+    prev: siblings.results[at - 1]?.id ?? null, next: siblings.results[at + 1]?.id ?? null, jev, timeline: run && mine ? customerTimeline(mine, run) : null, madeBy: run && mine ? madeByLine(generatedBy(mine, run, mine.drafts.find((x) => x.id === id))) : null }));
 }
 
 const EDGES: Record<string, Edge> = { approve: 'E4', reject: 'E5', revoke: 'E6', release: 'E7' };
@@ -175,6 +188,7 @@ async function released(c: Ctx): Promise<Response> {
 export const routes: Route[] = [
   { method: 'GET', path: '/review', handler: runs },
   { method: 'GET', path: '/review/runs/:id/plans', handler: plans },
+  { method: 'GET', path: '/review/runs/:id.json', handler: runDoc },
   { method: 'GET', path: '/review/runs/:id', handler: timeline },
   { method: 'GET', path: '/review/:id', handler: draft },
   { method: 'POST', path: '/api/drafts/:id/:action(approve|reject|revoke|release)', origin: true, handler: act },

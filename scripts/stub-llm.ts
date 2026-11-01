@@ -50,8 +50,8 @@ function landing(r: Req) {
   if (r.shape === 'trip') sections = [hero(slots[0]!), { type: 'packing_list', items: slots.slice(1).map((slot) => ({ slot, note: 'Goes in the bag early' })) }, story];
   else if (r.shape === 'gift') sections = [hero(slots[0]!), story, { type: 'feature', slot: slots[1], line: 'Kept for later in the day, when there is time to open something slowly and look at it.' }, ...fill(slots.slice(2))];
   else if (r.shape === 'wedding') {
-    const a = r.picks.find((p) => r.picks.filter((q) => q.group === p.group).length > 1)!;
-    const pair = r.picks.filter((p) => p.group === a.group).slice(0, 2).map((p) => p.slot);
+    const others = r.picks.slice(1), a = others.find((p) => others.filter((q) => q.group === p.group).length > 1)!;
+    const pair = others.filter((p) => p.group === a.group).slice(0, 2).map((p) => p.slot);
     const rest = slots.filter((s) => !pair.includes(s));
     sections = [hero(rest[0]!), { type: 'pairing', slots: pair, line: 'One for the first hour, and one for the hour the day turns into a long evening.' }, story, ...(rest.length > 1 ? fill(rest.slice(1)) : [])];
   } else sections = [hero(slots[0]!), story, ...fill(slots.slice(1))];

@@ -8,7 +8,7 @@ const REDO = 'This draft cannot go out as written. Rerun this customer, or rejec
 const READ = 'Read the words in place. Approve if they still sound like Nicobar; reject with a note if not.';
 
 export const CHECK_NAMES: Record<string, string> = {
-  C0: 'Unusual characters', C1: 'Draft format', C2: 'Product placeholders', 'C2.L1': 'Page opening', 'C2.L2': 'Every product shown once', 'C2.L3': 'Product name placement',
+  C0: 'Unusual characters', C1: 'Draft format', C2: 'Product placeholders', 'C2.L1': 'Page opening', 'C2.L8': 'Hero is not the first-ranked product', 'C2.E1': 'Email order differs from the ranking', 'C2.L2': 'Every product shown once', 'C2.L3': 'Product name placement',
   'C2.L4': 'Page sections', 'C2.L5': 'Quote fits the occasion', 'C2.L6': 'Page layout for the occasion', 'C2.L7': 'Paired products', C3: 'Email over 120 words', 'C3.L': 'Landing page over 120 words',
   C4: 'Discount or pressure language', C5: 'Link or long number', C6: 'Wrong occasion', C7: 'Claim not on the product page', C8: 'Names a product not chosen', C8c: 'Unknown capitalised word',
   C8d: 'Made-up name', 'C8d-x': 'Made-up name beside a product', C8n: 'Mentions a past purchase', C8o: 'Names an occasion the customer does not have', LONG_SENTENCE: 'Long sentence',
@@ -24,6 +24,8 @@ export const WHY_OF: Record<string, Plain> = {
   C1: { why: 'The model did not return a draft in the required format, so nothing else could be checked.', next: REDO },
   C2: { why: 'The email must carry each chosen product through its placeholder, exactly once and in the body.', next: REDO },
   'C2.L1': { why: 'The landing page must open with one hero section.', next: REDO },
+  'C2.L8': { why: 'The ranking chose the first product, and the page must lead with it.', next: REDO },
+  'C2.E1': { why: 'The email must name its products in ranked order, the order the cards show.', next: REDO },
   'C2.L2': { why: 'The landing page must show every chosen product exactly once.', next: REDO },
   'C2.L3': { why: 'A product name appears twice or in a place that may not hold one.', next: REDO },
   'C2.L4': { why: 'The page has too many sections of one type, or two text sections in a row.', next: REDO },

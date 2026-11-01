@@ -10,6 +10,13 @@ export class BadCustomerFile extends Error {
   code = 'BAD_INPUT' as const;
 }
 
+/** The file cut to one customer: the header and that row, as bytes, so the preview hashes what the run reads. Throws on an id it does not hold. */
+export function onlyCustomer(tsv: string, id: string): string {
+  const lines = tsv.split('\n'), row = lines.find((l) => l.split('\t')[0] === id);
+  if (!row || row === lines[0]) throw new Error(`no customer ${id}`);
+  return `${lines[0]}\n${row}\n`;
+}
+
 export function ingestTsv(text: string): IngestResult[] {
   const lines = text.split('\n');
   if (lines.at(-1) === '') lines.pop();

@@ -195,6 +195,8 @@ export const PATCHES: Record<string, [string, string][]> = {
   M25: [['const t = fold(text), head = C8N_HEAD[customer_id];', 'const t = fold(text), head = undefined as RegExp | undefined;']],
   M26: [["const more = part === 'email' ? [] : moreProducts;", 'const more = moreProducts;']],
   M27: [["const more = part === 'email' ? [] : moreProducts;", 'const more: Product[] = [];']],
+  M28: [["if (hero && hero.slot !== 'p1') fail(", 'if (hero && hero.slot === null) fail(']],
+  M29: [["if (used.join() !== [...used].sort().join()) fail('EMAIL_ORDER'", "if (used === null) fail('EMAIL_ORDER'"]],
   M21: [["case 'packing_list': return s.items.map((it: any, j: number) => field(`${at}.items[${j}].note`, it.note, [it.slot]));", "case 'packing_list': return [];"]],
 };
 

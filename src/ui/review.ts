@@ -49,8 +49,9 @@ function unitRow(u: UnitView): string {
     + `<td>${checks.filter((c) => c.pass).length}/${checks.length}</td><td class="${flagged ? 'warn' : ''}">${flagged ?? '—'}</td><td>${pill(state)}</td></tr>`;
 }
 
-export function runsPage(runs: RunRow[], run: RunRow | null, report: RunReport | null, units: UnitView[], deployed: boolean, failed = false): string {
-  const demo = deployed ? banner('Demo data', 'This link holds a seeded run. Nothing here reaches a customer.') : '';
+export function runsPage(runs: RunRow[], run: RunRow | null, report: RunReport | null, units: UnitView[], deployed: boolean, failed = false, runKey = false): string {
+  const demo = deployed ? banner('Demo data', 'This link holds a seeded run. Nothing here reaches a customer.')
+    : runKey ? '<p><a class="btn primary" href="/review/start">Start a run</a></p>' : banner('Runs are locked', 'No run key is set on this server, so no run can start.', 'warn');
   if (failed) return shell('Runs', '/review', `${demo}${emptyCard("Couldn't load this run", "The database didn't answer. Try again. No state was changed.")}`);
   if (!run || !report) return shell('Runs', '/review', `${demo}${emptyCard('No runs yet', 'Preview a plan, then start a run.')}`);
   const n = (k: string) => report.counts[k] ?? 0;
@@ -65,7 +66,7 @@ export function runsPage(runs: RunRow[], run: RunRow | null, report: RunReport |
     + (run.jev_disabled_reason ? banner('Jev off', `Draft flags did not run for this run: ${run.jev_disabled_reason}. Code checks still applied.`, 'warn') : '')
     + `<p class="runs">${runs.map((r) => `<a href="/review?run=${encodeURIComponent(r.id)}"${r.id === run.id ? ' aria-current="true"' : ''}>${esc(r.id)} · ${esc(r.stage)}</a>`).join('')}</p>`
     + `<div class="top"><div><p class="eyebrow">Runs · ${esc(run.stage)} · ${esc(run.status)} · snapshot ${esc(report.snapshot_fetched_at.slice(0, 10))}</p><h1>${esc(run.id)}</h1></div>`
-    + `<div><a class="btn" href="/review/runs/${encodeURIComponent(run.id)}">Timeline</a> <a class="btn" href="/review/runs/${encodeURIComponent(run.id)}/plans">Plans</a></div></div>`
+    + `<div><a class="btn" href="/review/runs/${encodeURIComponent(run.id)}">Timeline</a> <a class="btn" href="/review/runs/${encodeURIComponent(run.id)}/plans">Plans</a> <a class="btn" href="/review/runs/${encodeURIComponent(run.id)}.json">View JSON</a></div></div>`
     + `<div class="metrics">${metrics.map(([k, v, c]) => `<div><span>${esc(k)}</span><b class="${c ?? ''}">${esc(v)}</b></div>`).join('')}</div>`
     + (live ? emptyCard('Run in progress', `${units.filter((u) => ['drafted', 'failed', 'skipped'].includes(u.status)).length} of ${units.length} done. This page updates on refresh.`) : '')
     + `<p class="note">Showing ${units.length} of ${units.length}.${firstCode ? ` ${esc(firstCode.customer_id)} stopped with ${esc(firstCode.code ?? firstCode.status)}. The other customers carried on.` : ''}${split ? ` Format: ${split}.` : ''} Ceiling ${usd(report.ceiling_usd)}.</p>`
@@ -158,7 +159,7 @@ function publishDialog(d: DraftView, name: string): string {
 
 const DONE: Record<string, string> = { approved: 'Approved. Nothing is sent.', rejected: 'Rejected. Final for this run.', in_review: 'Approval revoked. Back in review.', released: 'Published. Not sent.' };
 
-export interface DraftOpts { part: string | null; width: number; confirm: boolean; done: string | null; refused: string | null; prev: string | null; next: string | null; jev?: { status: string; reason: string | null } | null; timeline?: string | null }
+export interface DraftOpts { part: string | null; width: number; confirm: boolean; done: string | null; refused: string | null; prev: string | null; next: string | null; jev?: { status: string; reason: string | null } | null; timeline?: string | null; madeBy?: string | null }
 
 export function draftPage(d: DraftView, plan: Plan | null, flags: FlagView[] | null, flagRows: string, events: EventRow[], o: DraftOpts): string {
   const name = plan?.display_name ? capital(plan.display_name) : d.customer_id;
@@ -197,6 +198,7 @@ export function draftPage(d: DraftView, plan: Plan | null, flags: FlagView[] | n
     + `<h2>Picks and sources</h2>${picks || '<p class="note">No picks in the stored catalog.</p>'}${moreCount ? `<p class="note">${moreCount} more items in the stored catalog.</p>` : ''}${quoteRows}`
     + `<h2>Provenance</h2><div class="row"><span>Snapshot</span><span>${esc(d.snapshot_id)}, ${esc(d.envelope.snapshot_fetched_at?.slice(0, 10))}</span></div><div class="row"><span>Model</span><span>${esc(d.model)}</span></div>`
     + `<div class="row"><span>Prompt · voice</span><span>${esc(d.envelope.prompt_version)} · ${esc(d.envelope.voice_guide_version)}</span></div><div class="row"><span>Hash</span><span>${hash6(d.content_sha256)}</span></div>`
+    + (o.madeBy ? `<div class="row"><span>Made by</span><span>${esc(o.madeBy)}</span></div>` : '')
     + `<h2>History</h2>${events.map((e) => `<div class="row"><span>${esc(e.from_status ?? '∅')} → ${esc(e.to_status)}${e.note ? `: ${esc(e.note)}` : ''}</span><span>${esc(actorName(e.actor_email))}, ${esc(e.at)}</span></div>`).join('')}`
     + `<details><summary><h2 style="display:inline-block">Raw model output</h2></summary><pre>${esc(d.model_json)}</pre></details></aside></div>`
     + (o.confirm && d.status === 'approved' ? publishDialog(d, name) : '');
