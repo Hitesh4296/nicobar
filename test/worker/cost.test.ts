@@ -14,8 +14,8 @@ const est = (key: string, input_tokens: number): Estimate => ({ key, format: 'bo
 beforeAll(migrate);
 
 describe('callWorst', () => {
-  it('the measured worst call, $0.1021, at U_design_max, 8,250 max_tokens', () => {
-    expect(callWorst(1719, 8250, 'both', cap, sonnet)).toBeCloseTo(0.1021, 4);
+  it('the measured worst call, $0.1055, at U_design_max, 8,250 max_tokens', () => {
+    expect(callWorst(2583, 8250, 'both', cap, sonnet)).toBeCloseTo(0.1055, 4);
   });
   it('prices the one model it is handed', () => {
     expect(callWorst(1000, 1000, 'both', cap, onePrice(prices, 'claude-haiku-5-5'))).toBeLessThan(callWorst(1000, 1000, 'both', cap, sonnet) / 10);
@@ -25,7 +25,7 @@ describe('callWorst', () => {
 describe('admitAll', () => {
   it('admits within budget, commit = 2 × est_1, prefix at the write rate', () => {
     const r = admitAll([est('a', cap.S.both + 338)], cap, rungs, START, null, prices);
-    const est1 = (6453 * 2.5 + 338 * 2 + 3000 * 10) / 1e6;
+    const est1 = (7152 * 2.5 + 338 * 2 + 3000 * 10) / 1e6;
     expect(r.per.a.action).toBe('admit');
     expect(r.per.a.est_1_usd).toBeCloseTo(est1, 9);
     expect(r.per.a.commit_usd).toBeCloseTo(2 * est1, 9);

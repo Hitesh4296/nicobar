@@ -13,14 +13,16 @@
      "reason_code": "OCCASION_MATCH",
      "why": [
       "occasion_tag:wedding"
-     ]
+     ],
+     "score": 100
     },
     {
      "product_id": "7492613406854",
      "reason_code": "OCCASION_MATCH",
      "why": [
       "occasion_tag:wedding"
-     ]
+     ],
+     "score": 100
     },
     {
      "product_id": "7576166793350",
@@ -28,7 +30,8 @@
      "why": [
       "goes_with:shirt",
       "fallback"
-     ]
+     ],
+     "score": 10
     },
     {
      "product_id": "7652882841734",
@@ -36,7 +39,8 @@
      "why": [
       "new_arrival",
       "fallback"
-     ]
+     ],
+     "score": 10
     }
    ],
    "more": [
@@ -151,7 +155,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 46,
+    "on_occasion": 11,
+    "past": 17
+   }
   },
   {
    "customer_id": "c02",
@@ -164,7 +173,8 @@
       "goes_with:kurta",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 120
     },
     {
      "product_id": "7652883038342",
@@ -174,7 +184,8 @@
       "goes_with:kurta",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 120
     },
     {
      "product_id": "7576166793350",
@@ -183,7 +194,8 @@
       "fitted_class",
       "goes_with:kurta",
       "hand_set"
-     ]
+     ],
+     "score": 110
     },
     {
      "product_id": "7652883103878",
@@ -193,7 +205,8 @@
       "goes_with:kurta",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 120
     }
    ],
    "more": [
@@ -330,7 +343,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 26,
+    "on_occasion": 26,
+    "past": 23
+   }
   },
   {
    "customer_id": "c03",
@@ -342,7 +360,8 @@
       "fitted_class",
       "goes_with:stole",
       "hand_set"
-     ]
+     ],
+     "score": 110
     },
     {
      "product_id": "7652882481286",
@@ -351,7 +370,8 @@
       "fitted_class",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 110
     },
     {
      "product_id": "7652882382982",
@@ -362,7 +382,8 @@
       "prior_tag",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 140
     },
     {
      "product_id": "7652882350214",
@@ -372,7 +393,8 @@
       "goes_with:stole",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 120
     }
    ],
    "more": [
@@ -462,7 +484,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 22,
+    "on_occasion": 22,
+    "past": 16
+   }
   },
   {
    "customer_id": "c04",
@@ -475,7 +502,8 @@
       "bestseller",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 145
     },
     {
      "product_id": "6538751115398",
@@ -484,7 +512,8 @@
       "occasion_tag:birthday",
       "bestseller",
       "prior_tag"
-     ]
+     ],
+     "score": 135
     },
     {
      "product_id": "7576166432902",
@@ -493,7 +522,8 @@
       "occasion_tag:birthday",
       "bestseller",
       "prior_tag"
-     ]
+     ],
+     "score": 135
     },
     {
      "product_id": "7537232248966",
@@ -502,7 +532,8 @@
       "occasion_tag:birthday",
       "bestseller",
       "prior_tag"
-     ]
+     ],
+     "score": 135
     },
     {
      "product_id": "7652881268870",
@@ -511,7 +542,8 @@
       "occasion_tag:birthday",
       "bestseller",
       "new_arrival"
-     ]
+     ],
+     "score": 125
     },
     {
      "product_id": "7652882972806",
@@ -520,7 +552,8 @@
       "occasion_tag:birthday",
       "bestseller",
       "new_arrival"
-     ]
+     ],
+     "score": 125
     }
    ],
    "more": [
@@ -626,7 +659,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 80,
+    "on_occasion": 23,
+    "past": 0
+   }
   },
   {
    "customer_id": "c05",
@@ -639,7 +677,8 @@
       "bestseller",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 145
     },
     {
      "product_id": "7728573874310",
@@ -649,7 +688,8 @@
       "bestseller",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 145
     },
     {
      "product_id": "7728573579398",
@@ -659,7 +699,8 @@
       "bestseller",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 145
     },
     {
      "product_id": "7728573382790",
@@ -669,7 +710,8 @@
       "bestseller",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 145
     },
     {
      "product_id": "7728574759046",
@@ -679,7 +721,8 @@
       "bestseller",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 145
     },
     {
      "product_id": "15402020601990",
@@ -689,7 +732,8 @@
       "bestseller",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 145
     }
    ],
    "more": [
@@ -1043,7 +1087,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 700,
+    "on_occasion": 156,
+    "past": 8
+   }
   },
   {
    "customer_id": "c06",
@@ -1055,7 +1104,8 @@
       "fitted_class",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 110
     },
     {
      "product_id": "7652882907270",
@@ -1065,7 +1115,8 @@
       "goes_with:shirt",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 120
     },
     {
      "product_id": "7652882710662",
@@ -1074,7 +1125,8 @@
       "fitted_class",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 110
     },
     {
      "product_id": "7652882415750",
@@ -1084,7 +1136,8 @@
       "goes_with:shirt",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 120
     }
    ],
    "more": [
@@ -1194,7 +1247,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 26,
+    "on_occasion": 26,
+    "past": 13
+   }
   },
   {
    "customer_id": "c07",
@@ -1206,7 +1264,8 @@
       "occasion_tag:festive",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     },
     {
      "product_id": "7728573448326",
@@ -1215,7 +1274,8 @@
       "occasion_tag:festive",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     },
     {
      "product_id": "15402020733062",
@@ -1224,7 +1284,8 @@
       "occasion_tag:festive",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     },
     {
      "product_id": "7728573481094",
@@ -1233,7 +1294,8 @@
       "occasion_tag:festive",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     },
     {
      "product_id": "7728573874310",
@@ -1242,7 +1304,8 @@
       "occasion_tag:festive",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     },
     {
      "product_id": "7728574431366",
@@ -1251,7 +1314,8 @@
       "occasion_tag:festive",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     }
    ],
    "more": [
@@ -1526,7 +1590,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 700,
+    "on_occasion": 91,
+    "past": 0
+   }
   },
   {
    "customer_id": "c08",
@@ -1539,7 +1608,8 @@
       "goes_with:dress",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 140
     },
     {
      "product_id": "7697158832262",
@@ -1548,7 +1618,8 @@
       "occasion_tag:evening",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     },
     {
      "product_id": "7664335224966",
@@ -1557,7 +1628,8 @@
       "occasion_tag:evening",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     },
     {
      "product_id": "7741536338054",
@@ -1566,7 +1638,8 @@
       "occasion_tag:evening",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     },
     {
      "product_id": "7741537747078",
@@ -1575,7 +1648,8 @@
       "occasion_tag:evening",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     },
     {
      "product_id": "7697158635654",
@@ -1584,7 +1658,8 @@
       "occasion_tag:evening",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     }
    ],
    "more": [
@@ -1935,7 +2010,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 995,
+    "on_occasion": 92,
+    "past": 179
+   }
   },
   {
    "customer_id": "c09",
@@ -1948,7 +2028,8 @@
       "goes_with:slip",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 140
     },
     {
      "product_id": "15401644589190",
@@ -1958,7 +2039,8 @@
       "goes_with:slip",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 140
     },
     {
      "product_id": "15401644097670",
@@ -1968,7 +2050,8 @@
       "goes_with:slip",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 140
     },
     {
      "product_id": "7492613275782",
@@ -1976,7 +2059,8 @@
      "why": [
       "occasion_tag:wedding",
       "goes_with:slip"
-     ]
+     ],
+     "score": 110
     },
     {
      "product_id": "7265600700550",
@@ -1984,7 +2068,8 @@
      "why": [
       "occasion_tag:wedding",
       "goes_with:slip"
-     ]
+     ],
+     "score": 110
     },
     {
      "product_id": "15401643835526",
@@ -1993,7 +2078,8 @@
       "occasion_tag:wedding",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     }
    ],
    "more": [
@@ -2322,7 +2408,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 995,
+    "on_occasion": 83,
+    "past": 134
+   }
   },
   {
    "customer_id": "c10",
@@ -2335,7 +2426,8 @@
       "goes_with:weekender",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 140
     },
     {
      "product_id": "7652882940038",
@@ -2345,7 +2437,8 @@
       "goes_with:weekender",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 140
     },
     {
      "product_id": "7652883333254",
@@ -2354,7 +2447,8 @@
       "fitted_class",
       "goes_with:weekender",
       "new_arrival"
-     ]
+     ],
+     "score": 120
     },
     {
      "product_id": "7652882972806",
@@ -2363,7 +2457,8 @@
       "fitted_class",
       "goes_with:weekender",
       "new_arrival"
-     ]
+     ],
+     "score": 120
     },
     {
      "product_id": "7652883169414",
@@ -2372,7 +2467,8 @@
       "fitted_class",
       "goes_with:weekender",
       "new_arrival"
-     ]
+     ],
+     "score": 120
     }
    ],
    "more": [
@@ -2505,7 +2601,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 26,
+    "on_occasion": 26,
+    "past": 25
+   }
   },
   {
    "customer_id": "c11",
@@ -2516,7 +2617,8 @@
      "why": [
       "occasion_tag:wedding",
       "goes_with:wrap"
-     ]
+     ],
+     "score": 110
     },
     {
      "product_id": "7492613275782",
@@ -2524,14 +2626,16 @@
      "why": [
       "occasion_tag:wedding",
       "goes_with:wrap"
-     ]
+     ],
+     "score": 110
     },
     {
      "product_id": "7492613177478",
      "reason_code": "OCCASION_MATCH",
      "why": [
       "occasion_tag:wedding"
-     ]
+     ],
+     "score": 100
     },
     {
      "product_id": "7652882415750",
@@ -2539,7 +2643,8 @@
      "why": [
       "new_arrival",
       "fallback"
-     ]
+     ],
+     "score": 10
     },
     {
      "product_id": "7652882677894",
@@ -2548,7 +2653,8 @@
       "goes_with:wrap",
       "new_arrival",
       "fallback"
-     ]
+     ],
+     "score": 20
     },
     {
      "product_id": "7652882579590",
@@ -2556,7 +2662,8 @@
      "why": [
       "new_arrival",
       "fallback"
-     ]
+     ],
+     "score": 10
     }
    ],
    "more": [
@@ -2637,7 +2744,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 46,
+    "on_occasion": 11,
+    "past": 22
+   }
   },
   {
    "customer_id": "c12",
@@ -2649,7 +2761,8 @@
       "bestseller",
       "new_arrival",
       "fallback"
-     ]
+     ],
+     "score": 25
     },
     {
      "product_id": "7652882612358",
@@ -2658,7 +2771,8 @@
       "bestseller",
       "new_arrival",
       "fallback"
-     ]
+     ],
+     "score": 25
     },
     {
      "product_id": "7652882579590",
@@ -2667,7 +2781,8 @@
       "bestseller",
       "new_arrival",
       "fallback"
-     ]
+     ],
+     "score": 25
     },
     {
      "product_id": "7728573874310",
@@ -2677,7 +2792,8 @@
       "prior_tag",
       "new_arrival",
       "fallback"
-     ]
+     ],
+     "score": 45
     },
     {
      "product_id": "7652880547974",
@@ -2687,7 +2803,8 @@
       "prior_tag",
       "new_arrival",
       "fallback"
-     ]
+     ],
+     "score": 45
     },
     {
      "product_id": "7728573579398",
@@ -2697,7 +2814,8 @@
       "prior_tag",
       "new_arrival",
       "fallback"
-     ]
+     ],
+     "score": 45
     }
    ],
    "more": [
@@ -2839,7 +2957,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 128,
+    "on_occasion": 0,
+    "past": 0
+   }
   },
   {
    "customer_id": "c13",
@@ -2852,7 +2975,8 @@
       "goes_with:shirt",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 120
     },
     {
      "product_id": "6959137587334",
@@ -2861,7 +2985,8 @@
       "fitted_class",
       "prior_tag",
       "hand_set"
-     ]
+     ],
+     "score": 120
     },
     {
      "product_id": "7652882284678",
@@ -2872,7 +2997,8 @@
       "prior_tag",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 140
     },
     {
      "product_id": "7652882317446",
@@ -2883,7 +3009,8 @@
       "prior_tag",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 140
     }
    ],
    "more": [
@@ -2988,7 +3115,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 22,
+    "on_occasion": 22,
+    "past": 10
+   }
   },
   {
    "customer_id": "c14",
@@ -3002,7 +3134,8 @@
       "bestseller",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 155
     },
     {
      "product_id": "5196418580614",
@@ -3012,7 +3145,8 @@
       "goes_with:throw",
       "bestseller",
       "prior_tag"
-     ]
+     ],
+     "score": 145
     },
     {
      "product_id": "7728573481094",
@@ -3022,7 +3156,8 @@
       "bestseller",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 145
     },
     {
      "product_id": "7728573939846",
@@ -3032,7 +3167,8 @@
       "bestseller",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 145
     },
     {
      "product_id": "7728573448326",
@@ -3042,7 +3178,8 @@
       "bestseller",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 145
     },
     {
      "product_id": "7728574431366",
@@ -3052,7 +3189,8 @@
       "bestseller",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 145
     }
    ],
    "more": [
@@ -3399,7 +3537,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 746,
+    "on_occasion": 102,
+    "past": 149
+   }
   },
   {
    "customer_id": "c15",
@@ -3413,7 +3556,8 @@
       "prior_tag",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 140
     },
     {
      "product_id": "7652883267718",
@@ -3422,7 +3566,8 @@
       "fitted_class",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 110
     },
     {
      "product_id": "7652882972806",
@@ -3432,7 +3577,8 @@
       "goes_with:shirt",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 120
     },
     {
      "product_id": "7652883071110",
@@ -3442,7 +3588,8 @@
       "goes_with:shirt",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 120
     }
    ],
    "more": [
@@ -3551,7 +3698,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 26,
+    "on_occasion": 26,
+    "past": 13
+   }
   },
   {
    "customer_id": "c16",
@@ -3565,7 +3717,8 @@
       "bestseller",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 155
     },
     {
      "product_id": "7697159716998",
@@ -3575,7 +3728,8 @@
       "goes_with:stole",
       "bestseller",
       "new_arrival"
-     ]
+     ],
+     "score": 135
     },
     {
      "product_id": "7697174298758",
@@ -3585,7 +3739,8 @@
       "goes_with:stole",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 140
     },
     {
      "product_id": "7741540040838",
@@ -3595,7 +3750,8 @@
       "bestseller",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 145
     },
     {
      "product_id": "7652880547974",
@@ -3605,7 +3761,8 @@
       "bestseller",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 145
     },
     {
      "product_id": "7741539975302",
@@ -3615,7 +3772,8 @@
       "bestseller",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 145
     }
    ],
    "more": [
@@ -3810,7 +3968,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 106,
+    "on_occasion": 34,
+    "past": 32
+   }
   },
   {
    "customer_id": "c17",
@@ -3823,7 +3986,8 @@
       "goes_with:dress",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 140
     },
     {
      "product_id": "7697158832262",
@@ -3832,7 +3996,8 @@
       "occasion_tag:evening",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     },
     {
      "product_id": "7741537747078",
@@ -3841,7 +4006,8 @@
       "occasion_tag:evening",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     },
     {
      "product_id": "7741535912070",
@@ -3850,7 +4016,8 @@
       "occasion_tag:evening",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     },
     {
      "product_id": "7741536338054",
@@ -3859,7 +4026,8 @@
       "occasion_tag:evening",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     },
     {
      "product_id": "7664335224966",
@@ -3868,7 +4036,8 @@
       "occasion_tag:evening",
       "prior_tag",
       "new_arrival"
-     ]
+     ],
+     "score": 130
     }
    ],
    "more": [
@@ -4219,7 +4388,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 995,
+    "on_occasion": 92,
+    "past": 179
+   }
   },
   {
    "customer_id": "c18",
@@ -4230,7 +4404,8 @@
      "why": [
       "fitted_class",
       "hand_set"
-     ]
+     ],
+     "score": 100
     },
     {
      "product_id": "7652882940038",
@@ -4241,7 +4416,8 @@
       "prior_tag",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 140
     },
     {
      "product_id": "7652883136646",
@@ -4251,7 +4427,8 @@
       "goes_with:kurta",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 120
     },
     {
      "product_id": "7652883333254",
@@ -4260,7 +4437,8 @@
       "fitted_class",
       "new_arrival",
       "hand_set"
-     ]
+     ],
+     "score": 110
     }
    ],
    "more": [
@@ -4401,7 +4579,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 26,
+    "on_occasion": 26,
+    "past": 23
+   }
   },
   {
    "customer_id": "c19",
@@ -4412,7 +4595,8 @@
      "why": [
       "occasion_tag:wedding",
       "goes_with:scarf"
-     ]
+     ],
+     "score": 110
     },
     {
      "product_id": "7492613275782",
@@ -4420,7 +4604,8 @@
      "why": [
       "occasion_tag:wedding",
       "goes_with:scarf"
-     ]
+     ],
+     "score": 110
     },
     {
      "product_id": "7652882514054",
@@ -4429,7 +4614,8 @@
       "prior_tag",
       "new_arrival",
       "fallback"
-     ]
+     ],
+     "score": 30
     },
     {
      "product_id": "7652882677894",
@@ -4438,7 +4624,8 @@
       "goes_with:scarf",
       "new_arrival",
       "fallback"
-     ]
+     ],
+     "score": 20
     },
     {
      "product_id": "7652882579590",
@@ -4447,7 +4634,8 @@
       "goes_with:scarf",
       "new_arrival",
       "fallback"
-     ]
+     ],
+     "score": 20
     }
    ],
    "more": [
@@ -4542,7 +4730,12 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 46,
+    "on_occasion": 11,
+    "past": 23
+   }
   },
   {
    "customer_id": "c20",
@@ -4553,7 +4746,8 @@
      "why": [
       "prior_tag",
       "new_user"
-     ]
+     ],
+     "score": 20
     },
     {
      "product_id": "7652881498246",
@@ -4562,7 +4756,8 @@
       "prior_tag",
       "new_arrival",
       "new_user"
-     ]
+     ],
+     "score": 30
     },
     {
      "product_id": "15402020765830",
@@ -4571,7 +4766,8 @@
       "prior_tag",
       "new_arrival",
       "new_user"
-     ]
+     ],
+     "score": 30
     },
     {
      "product_id": "7652880351366",
@@ -4580,7 +4776,8 @@
       "prior_tag",
       "new_arrival",
       "new_user"
-     ]
+     ],
+     "score": 30
     },
     {
      "product_id": "7652880384134",
@@ -4589,7 +4786,8 @@
       "prior_tag",
       "new_arrival",
       "new_user"
-     ]
+     ],
+     "score": 30
     },
     {
      "product_id": "6821058183302",
@@ -4597,7 +4795,8 @@
      "why": [
       "prior_tag",
       "new_user"
-     ]
+     ],
+     "score": 20
     }
    ],
    "more": [
@@ -4853,7 +5052,31 @@
       ]
      }
     }
-   ]
+   ],
+   "pool": {
+    "filtered": 324,
+    "on_occasion": 0,
+    "past": 0
+   }
   }
- ]
+ ],
+ "generated_by": {
+  "method": "tiers",
+  "version": "ranking/v2",
+  "weights": {
+   "occasion": 100,
+   "season": 20,
+   "bestseller": 15,
+   "new": 10,
+   "past": 10
+  },
+  "rules": [
+   "hero fits the occasion",
+   "one per class",
+   "2 per family",
+   "fallback order Scarves, Pouches, Bags"
+  ],
+  "snapshot_id": "2026-10-29-67819ca378f4",
+  "cost": 0
+ }
 }

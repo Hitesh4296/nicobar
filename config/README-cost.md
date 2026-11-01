@@ -1,6 +1,6 @@
 # Cost configuration: sources and status
 
-Four files, typed in `src/contracts/types.ts` (`Prices`, `Rung`, `CapConfig`, `StagesFile`). US dollars per million tokens. Every format key is `both`, `email`, `landing_page`. JSON cannot carry comments, so the sources are here. `cap.json`'s S, U and the `sonnet-default` `both` E_out are measured on 2026-11-01 (real `count_tokens` and 21 real calls on prompt v1: S 6,453, suffix 770 to 1,375, output mean 2,961, max 4,035). Email and landing S are derived from count_tokens, not from a cached call. Every other token figure is still `[assume]`.
+Four files, typed in `src/contracts/types.ts` (`Prices`, `Rung`, `CapConfig`, `StagesFile`). US dollars per million tokens. Every format key is `both`, `email`, `landing_page`. JSON cannot carry comments, so the sources are here. `cap.json`'s S, U and the `sonnet-default` `both` E_out are measured on 2026-11-01 (real `count_tokens` on prompt v2 and one real call: S 7,152, suffix 770 to 2,066; output mean 2,961, max 4,035 from 21 calls on v1). Email and landing S are derived from count_tokens, not from a cached call. Every other token figure is still `[assume]`.
 
 ## `prices.json` `[verified 2026-11-01]`
 

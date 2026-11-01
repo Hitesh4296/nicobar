@@ -47,7 +47,7 @@ describe('demo', () => {
     expect(a.admitted).toHaveLength(2);
   });
   it('without it the real cap skips them: why the count is needed', () => {
-    const a = admitAll([{ key: 'a', format: 'both', rung: r[0]!.id, input_tokens: 9000 }], cap as unknown as CapConfig, r, r[0]!.id, null, prices as Prices);
+    const a = admitAll([{ key: 'a', format: 'both', rung: r[0]!.id, input_tokens: 12000 }], cap as unknown as CapConfig, r, r[0]!.id, null, prices as Prices);
     expect(a.per.a).toMatchObject({ action: 'skip', code: 'OVER_CAP' });
   });
   it('no key can reach the demo server: .dev.vars is off, the base URL is the stub', () => {

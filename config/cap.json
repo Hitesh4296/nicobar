@@ -1,19 +1,19 @@
 {
-  "sha256": "90476f2bcf4f45556e176a354baa573759f3a86df97ac453d4dc3937f27c1835",
+  "sha256": "252f8644068fc818cc7d142a1d7cd7d20047193924e7220170dabb3b244b648e",
   "S": {
-    "both": 6453,
-    "email": 4884,
-    "landing_page": 6121
+    "both": 7152,
+    "email": 5583,
+    "landing_page": 6820
   },
   "U_design_max": {
-    "both": 1719,
-    "email": 1719,
-    "landing_page": 1719
+    "both": 2583,
+    "email": 2583,
+    "landing_page": 2583
   },
   "U_hard": {
-    "both": 34380,
-    "email": 34380,
-    "landing_page": 34380
+    "both": 51660,
+    "email": 51660,
+    "landing_page": 51660
   },
   "E_out": {
     "sonnet-between_tools": {
