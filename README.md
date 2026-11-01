@@ -100,7 +100,7 @@ The catalogue is real: 2,165 usable products out of 8,940 non-gift-card rows, fr
 | Sending email, public pages | `released` marks content as cleared and serves it to a signed-in reviewer. There is no send route |
 | Message Batches API | Designed and priced, not built. The saving is real at volume; at 20 customers it adds crash-recovery code for cents |
 | Downgrade on cap | A customer over the cap is skipped and logged. No rung has passed the eval, so downgrading would ship untested copy |
-| Live checks against nicobar.com | Snapshot is frozen. See [ADR 0002](docs/adr/0002-frozen-snapshot.md) |
+| Live checks against nicobar.com | Snapshot is frozen, last refrozen 2026-11-01. See [ADR 0002](docs/adr/0002-frozen-snapshot.md) |
 | Vector search, learned recommender | The ranking engine is rules on catalogue tags. A real recommender can replace its file by contract |
 | Queues, Durable Objects | Workflows steps cover the batch. Each extra component needs an acceptance line to serve |
 | Product prices | Never rendered. The snapshot has no currency field and the model never sees a price |

@@ -45,3 +45,6 @@ Real sends. A send needs today's availability, so B or C returns first, with `FR
 ## Decision
 
 A. One polite pull, frozen on 2026-10-29, cached, no request at build or run time.
+
+## Update 2026-11-01
+Re-pulled on the owner's word and refrozen at 2026-11-01, id `2026-11-01-cdda17faae52`, 2,165 usable. The decision stands: no run fetches the site.
