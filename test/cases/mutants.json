@@ -1,5 +1,5 @@
 {
- "count": 25,
+ "count": 27,
  "rule": "a mutant is a deliberately broken rule set. Run the whole case suite under each; a mutant is killed when at least one case changes verdict from its baseline. A survivor fails the build.",
  "baseline": "all cases in checks.json, blind-drafts.json, image-gate-and-links.json, injection.json, layout.json",
  "retired": [
@@ -326,6 +326,24 @@
    "why_it_matters": "a paraphrase of the past item passes, as on held-out v1",
    "killed_by": [
     "C8n-v2-01"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M26",
+   "rule_change": "more products join the pool on email too",
+   "why_it_matters": "an email could link past the picks",
+   "killed_by": [
+    "MORE-03"
+   ],
+   "status": "killed"
+  },
+  {
+   "id": "M27",
+   "rule_change": "more products never join the pool",
+   "why_it_matters": "every wide catalog would fail",
+   "killed_by": [
+    "MORE-01"
    ],
    "status": "killed"
   }

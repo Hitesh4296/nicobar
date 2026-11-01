@@ -412,6 +412,7 @@ export function validateRendered(r: RenderedJson, envelope: Envelope, cat: Catal
   const out: CheckResult[] = [];
   const picks = plan.picks.map((p) => ({ slot: p.slot, product: cat.rows.get(p.product_id) }));
   const known = picks.flatMap((p) => (p.product ? [p.product] : []));
+  const moreProducts = (plan.more ?? []).flatMap((s) => s.product_ids).flatMap((id) => cat.rows.get(id) ?? []);
   const slotMap = (a: { slot: Slot; product_id: string }[]) => a.map((p) => `${p.slot}=${p.product_id}`).join();
   const mapOk = slotMap(envelope.picks) === slotMap(plan.picks) && known.length === plan.picks.length;
   for (const part of ['email', 'landing_page', 'catalog'] as Part[]) {
@@ -421,12 +422,20 @@ export function validateRendered(r: RenderedJson, envelope: Envelope, cat: Catal
     const fail = (id: 'X1' | 'X2' | 'X3' | 'X4', code: string, detail?: string) => (fails[id] ??= []).push([code, detail]);
     if (!mapOk) fail('X1', 'SLOT_MAP');
     const product = (s: string | undefined) => picks.find((p) => p.slot === s)?.product;
+    const more = part === 'email' ? [] : moreProducts;   // catalog and landing only: email stays picks
+    const pool = [...known, ...more];
     const shown = new Set<string>();
     for (const img of tags(html, 'img')) {
       const slot = attr(img, 'data-slot'), src = attr(img, 'src') ?? '', alt = attr(img, 'alt');
-      const reason = imageGate(src, known);
+      const reason = imageGate(src, pool);
       if (reason) fail('X2', reason, src);
       if (!alt?.trim()) fail('X4', 'NO_ALT', slot);
+      const moreId = attr(img, 'data-more'), m = more.find((p) => p.id === moreId);
+      if (m) {
+        if (!reason && imageGate(src, [m])) fail('X1', 'IMAGE_MISMATCH', moreId);
+        if (alt?.trim() && alt !== m.title) fail('X1', 'TITLE_MISMATCH', moreId);
+        continue;
+      }
       const p = product(slot);
       if (!p) { fail('X1', 'UNKNOWN_SLOT', slot); continue; }
       shown.add(slot!);
@@ -440,9 +449,11 @@ export function validateRendered(r: RenderedJson, envelope: Envelope, cat: Catal
       let u: URL | null = null;
       try { u = new URL(href); } catch { /* refused below */ }
       const handle = u?.protocol === 'https:' && u.host === 'www.nicobar.com' && !u.username && !u.search ? /^\/products\/([^/]+)$/.exec(u.pathname)?.[1] : undefined;
-      if (!known.some((p) => p.handle === handle)) { fail('X3', 'HREF_NOT_OF_PICKS', href); continue; }
+      if (!pool.some((p) => p.handle === handle)) { fail('X3', 'HREF_NOT_OF_PICKS', href); continue; }
       const p = product(attr(a, 'data-slot'));   // ponytail: only `<img data-slot>` is contract; a link is tied to its card when the renderer marks it
       if (p && p.handle !== handle) fail('X1', 'LINK_MISMATCH', attr(a, 'data-slot'));
+      const m = more.find((x) => x.id === attr(a, 'data-more'));
+      if (m && m.handle !== handle) fail('X1', 'LINK_MISMATCH', attr(a, 'data-more'));
     }
     for (const id of ['X1', 'X2', 'X3', 'X4'] as const) {
       if (!fails[id]) out.push({ id, part, severity: 'hard', pass: true });

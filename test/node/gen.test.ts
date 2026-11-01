@@ -34,6 +34,8 @@ describe('1 prefix byte-identical', () => {
       buildRequest(fxPlan('fx-retry'), fxPinned, cat, rung, prompt, { failed: ['email'], checks: [fail('C3', 'email')] }),
     ];
     for (const v of variants) expect(v.system).toEqual(base.system);
+    const more = [{ kind: 'occasion' as const, heading: 'More for Diwali', product_ids: [cat.usable[0].id] }];
+    expect(JSON.stringify(buildRequest({ ...fxPlan('fx-both'), more }, fxPinned, cat, rung, prompt))).toBe(JSON.stringify(base));   // `more` never reaches the model
     expect((base.system[0] as { cache_control: unknown }).cache_control).toEqual({ type: 'ephemeral' });
   });
   it('joins as the prompt README says', () => {

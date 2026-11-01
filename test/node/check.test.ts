@@ -142,7 +142,7 @@ describe('test 8: every case and mutant', () => {
     expect(out.filter((o) => !o.ok).map((o) => `${o.file}:${o.id} ${o.why}`)).toEqual([]);
     expect(out.length).toBeGreaterThanOrEqual(171);
     const mutants = await runMutants(cat, out);
-    expect(mutants).toHaveLength(25);
+    expect(mutants).toHaveLength(27);
     expect(mutants.filter((m) => !m.killed).map((m) => m.id)).toEqual([]);
   }, 300_000);
 });

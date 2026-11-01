@@ -2,7 +2,7 @@
 import shapes from '../../config/shapes.json' with { type: 'json' };
 import quotes from '../../config/quotes.json' with { type: 'json' };
 import type { CheckResult, DraftStatus, Envelope, FlagView, ModelJson, Part, Plan, RenderedJson, RunFormat, RunReport, Stage, UnitStatus } from '../contracts/types.ts';
-import { readCards } from '../lib/render/catalog.ts';
+import { countMore, readCards } from '../lib/render/catalog.ts';
 import { esc } from './nb.ts';
 import { banner, emptyCard, isStub, shell } from './shell.ts';
 
@@ -162,6 +162,7 @@ export function draftPage(d: DraftView, plan: Plan | null, flags: FlagView[] | n
   const href = (p: string, w: number) => `${draftHref(d.id)}?part=${p}&amp;width=${w}`;
   const LABEL: Record<Part, string> = { email: 'Email', landing_page: 'Landing page', catalog: 'Catalog' };
   const cards = readCards(d.rendered.catalog ?? '');
+  const moreCount = countMore(d.rendered.catalog ?? '');
   const reason = new Map(plan?.picks.map((p) => [p.slot as string, p.reason_code]));
   const titles = new Map(cards.map((c) => [c.slot, c.title]));
   const rule = shapeRule(plan?.shape ?? null);
@@ -187,7 +188,7 @@ export function draftPage(d: DraftView, plan: Plan | null, flags: FlagView[] | n
     + `${d.status === 'released' ? `<p class="note">Stored, not sent. ${tabs.map((p) => `<a href="/released/${encodeURIComponent(d.id)}?part=${p}">${LABEL[p]}</a>`).join(' · ')}</p>` : ''}`
     + `<h2>Checks</h2>${checkRows(d.checks, flags)}`
     + (flagRows ? `<h2>Jev flags</h2>${flagRows}` : '')
-    + `<h2>Picks and sources</h2>${picks || '<p class="note">No picks in the stored catalog.</p>'}${quoteRows}`
+    + `<h2>Picks and sources</h2>${picks || '<p class="note">No picks in the stored catalog.</p>'}${moreCount ? `<p class="note">${moreCount} more items in the stored catalog.</p>` : ''}${quoteRows}`
     + `<h2>Provenance</h2><div class="row"><span>Snapshot</span><span>${esc(d.snapshot_id)}, ${esc(d.envelope.snapshot_fetched_at?.slice(0, 10))}</span></div><div class="row"><span>Model</span><span>${esc(d.model)}</span></div>`
     + `<div class="row"><span>Prompt · voice</span><span>${esc(d.envelope.prompt_version)} · ${esc(d.envelope.voice_guide_version)}</span></div><div class="row"><span>Hash</span><span>${hash6(d.content_sha256)}</span></div>`
     + `<h2>History</h2>${events.map((e) => `<div class="row"><span>${esc(e.from_status ?? '∅')} → ${esc(e.to_status)}${e.note ? `: ${esc(e.note)}` : ''}</span><span>${esc(actorName(e.actor_email))}, ${esc(e.at)}</span></div>`).join('')}`

@@ -103,7 +103,7 @@ describe('test 2: 19 rows and the traps', () => {
     expect(r[18].key).toBe('c19');
   });
   it('blank last name is valid; lower-case first names stay raw on Customer', () => {
-    expect(c(4)).toEqual({ customer_id: 'c05', first_name: 'Riya', occasion: 'Housewarming', new_user: false });
+    expect(c(4)).toMatchObject({ customer_id: 'c05', first_name: 'Riya', occasion: 'Housewarming', new_user: false });
     expect(c(7).first_name).toBe('ishaan');
   });
   it('display name: upper only a wholly lower token, keep S and Leela, blank is null', () => {
@@ -233,14 +233,15 @@ describe('test 5b: signals', () => {
   });
 });
 
-describe('test 6: last_name and the note stop at ingest', () => {
+describe('test 6: last_name stops at ingest; the note stops as words, and never reaches a plan (R123)', () => {
   it('absent from every output, good rows and bad', () => {
     const r = ingestTsv(`${HEADER}a\tAsha\tSECRETLAST\tGoa\tBought the SECRETNOTE.\nb\tRia\tSECRETLAST\nc\tSECRETLAST\tSECRETNOTE\na b\tx\ty\n`);
     const plans = r.map((i) => plan(i, null));
-    for (const out of [JSON.stringify(r), JSON.stringify(plans)]) {
-      expect(out).not.toContain('SECRETLAST');
-      expect(out).not.toContain('SECRETNOTE');
-    }
+    expect(JSON.stringify(r)).not.toContain('SECRETLAST');
+    expect(JSON.stringify(r)).not.toContain('Bought the');
+    const out = JSON.stringify(plans).toLowerCase();
+    expect(out).not.toContain('secretlast');
+    expect(out).not.toContain('secretnote');
   });
 });
 

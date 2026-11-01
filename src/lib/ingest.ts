@@ -1,4 +1,4 @@
-// customers/v2. last_name and the note stop here: neither enters a result, and no error quotes a row.
+// customers/v2. last_name stops here. The note stops here as words only, for planCustomer's past_purchase test; it enters no plan, and no error quotes a row.
 import type { IngestResult } from '../contracts/types.ts';
 
 const HEADER = 'customer_id\tfirst_name\tlast_name\toccasion\tpast_purchase_note';
@@ -29,6 +29,7 @@ export function ingestTsv(text: string): IngestResult[] {
     if (seen.get(r[0])! > 1) return { key: row, status: 'duplicate', errors: ['repeated customer_id'] };
     const new_user = NO_HISTORY.has(note.toLowerCase()) || /no (purchase|order|history)/i.test(note);
     if (!occ && !new_user) return { key: customer_id, status: 'invalid', errors: ['blank occasion'] };
-    return { key: customer_id, status: 'ok', record: { customer_id, first_name: first || null, occasion: occ || null, new_user } };
+    return { key: customer_id, status: 'ok', record: { customer_id, first_name: first || null, occasion: occ || null, new_user,
+      ...(new_user ? {} : { note_words: note.toLowerCase().match(/[a-z]+/g) ?? [] }) } };
   });
 }

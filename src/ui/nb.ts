@@ -87,12 +87,23 @@ const firstImage = (p: Product): Image | undefined => [...p.images].sort((a, b) 
  * The only image tag on a customer page. `data-slot` is imagePaths' contract; alt is the title (X4).
  * ponytail: width and height are the 4:5 ratio of 2,179 of 2,180 first images, because `Image` carries no snapshot size. Add when the type does.
  */
-export function pickImg(p: Product, slot: string, px: number, lazy = true): string {
+export function pickImg(p: Product, slot: string, px: number, lazy = true, mark = 'data-slot'): string {
   const img = firstImage(p);
   if (!img) return '';
   const src = new URL(img.src);
   src.searchParams.set('width', String(px));
-  return `<img data-slot="${esc(slot)}" src="${esc(src)}" alt="${esc(p.title)}" width="${px}" height="${Math.round(px * 1.25)}"${lazy ? ' loading="lazy"' : ''}>`;
+  return `<img ${mark}="${esc(slot)}" src="${esc(src)}" alt="${esc(p.title)}" width="${px}" height="${Math.round(px * 1.25)}"${lazy ? ' loading="lazy"' : ''}>`;
+}
+
+/** Code-set sections after the picks, on catalog and landing only. `data-more`, not `data-slot`: no slot, no model token, no reason code, no price. */
+export function moreSections(more: Plan['more'], cat: Catalog): string {
+  return (more ?? []).map((s) => {
+    const cards = s.product_ids.map((id) => {
+      const p = cat.rows.get(id);
+      return p ? `<a class="nb-card" data-more="${esc(id)}" href="${esc(p.url)}">${pickImg(p, id, 800, true, 'data-more')}<span class="nb-title">${esc(p.title)}</span></a>` : '';
+    }).join('');
+    return `<section class="nb-section"><h2 class="nb-h2" style="margin-bottom:16px">${esc(s.heading)}</h2><div class="nb-grid">${cards}</div></section>`;
+  }).join('');
 }
 
 export const pickProduct = (slot: unknown, picks: { slot: string; product_id: string }[], cat: Catalog): Product | undefined => {
