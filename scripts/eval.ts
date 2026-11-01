@@ -38,7 +38,8 @@ export function planFor(c: Case, cat: Catalog): { plan: Plan; envelope: Envelope
   const pinned = { snapshot_id: cat.snapshot_id, customers_sha256: 'x', recs_sha256: 'x', shapes_sha256: 'x', run_date: '2026-11-01',
     prompt_version: 'v1', voice_guide_version: 'v1', jev_model: 'x', jev_config_version: 'x', format };
   const plan: Plan = { run_id: 'eval', customer_id, created_at: 'x', pinned, display_name: null, occasion, occasion_key, shape,
-    new_user: !!c.new_user, format, picks, signals: [], admission: null, outcome: { kind: 'ready' } };
+    new_user: !!c.new_user, format, picks, ...(c.more ? { more: [{ kind: 'occasion' as const, heading: 'More for the occasion', product_ids: (c.more as string[]).map((h) => PICKS[h].id) }] } : {}),
+    signals: [], admission: null, outcome: { kind: 'ready' } };
   const envelope: Envelope = { customer_id, run_id: 'eval', format, picks: picks.map(({ slot, product_id }) => ({ slot, product_id })), occasion_key,
     shape, snapshot_id: cat.snapshot_id, snapshot_fetched_at: cat.fetched_at, model: 'x', setting: 'x', prompt_version: 'v1', voice_guide_version: 'v1',
     validator_version: real.VALIDATOR_VERSION, carried_from: null, carried_part: null, display_name: null } as Envelope;
@@ -87,6 +88,8 @@ function tamper(r: RenderedJson, c: Case): RenderedJson {
   let h = r[part] as string;
   if (c.tamper?.src) h = swapImage(h, c.slot, c.tamper.src);
   if (c.tamper?.alt !== undefined) { const t = imgTag(h, c.slot); h = h.replace(t, t.replace(/\balt="[^"]*"/, `alt="${c.tamper.alt}"`)); }
+  if (c.tamper?.more_src) h = h.replace(/(data-more="[^"]*" src=")[^"]*/, `$1${c.tamper.more_src}`);
+  if (c.tamper?.add_href) h += `<a href="${c.tamper.add_href}">x</a>`;
   if (c.id === 'X1-01') h = swapImage(h, 'p2', imgSrc(h, 'p1'));
   if (c.id === 'X3-01') h = h.replace(/href="[^"]*"/, 'href="https://www.nicobar.com/products/hornbill-shirt-indigo"');
   if (c.id === 'X3-02') h = h.replace(/href="https:\/\/www\.nicobar\.com\//, 'href="https://www.nicobar.com.evil.io/');
@@ -190,6 +193,8 @@ export const PATCHES: Record<string, [string, string][]> = {
   M23: [['return noun && cue ? [`${noun[0]} + ${cue[0]}`] : [];', 'return noun ? [noun[0]] : [];']],
   M24: [['const C4 = LISTS.c4.patterns.map(', "const C4 = LISTS.c4.patterns.filter((p) => p.id <= 'c4.086').map("]],
   M25: [['const t = fold(text), head = C8N_HEAD[customer_id];', 'const t = fold(text), head = undefined as RegExp | undefined;']],
+  M26: [["const more = part === 'email' ? [] : moreProducts;", 'const more = moreProducts;']],
+  M27: [["const more = part === 'email' ? [] : moreProducts;", 'const more: Product[] = [];']],
   M21: [["case 'packing_list': return s.items.map((it: any, j: number) => field(`${at}.items[${j}].note`, it.note, [it.slot]));", "case 'packing_list': return [];"]],
 };
 

@@ -34,11 +34,14 @@ export interface OccasionMap { version: string; default: MapRow; quote_labels: R
   values: Record<string,Record<string,MapRow>> }
 
 // ---- inputs ----
-export interface Customer { customer_id: string; first_name: string|null; occasion: string|null; new_user: boolean }
+// note_words: lowercase words of the note, only to test a past_purchase label. plan.ts reads them and never copies them onto Plan (R123).
+export interface Customer { customer_id: string; first_name: string|null; occasion: string|null; new_user: boolean; note_words?: string[] }
 export type IngestResult = { key: string; status: 'ok'; record: Customer }
                   | { key: string; status: 'invalid'|'duplicate'; errors: string[] };
 export interface RecPick { product_id: string; reason_code: ReasonCode }
-export interface RecRow { customer_id: string; picks: RecPick[] }
+export type MoreKind = 'occasion'|'occasion_category'|'past_purchase';
+export interface MoreSection { kind: MoreKind; label: string; product_ids: string[] }
+export interface RecRow { customer_id: string; picks: RecPick[]; more?: MoreSection[] }
 export interface RecFile { version: 'recommendations/v1'; synthetic: boolean; as_of: string; snapshot_id: string; rule: string; rows: RecRow[] }
 export type RowKeys = Record<string, { key: string|null }>;   // data/row_keys.synthetic.json, §3 spec
 export interface ShapesFile { version: string; default: 'open'; shapes: { id: Shape; re: string; flags: string; job: string }[] }
@@ -49,9 +52,10 @@ export interface Pinned { snapshot_id: string; customers_sha256: string; recs_sh
   prompt_version: string; voice_guide_version: string; jev_model: string; jev_config_version: string; format: RunFormat }
 export interface Admission { setting: string; input_tokens: number; est_1_usd: number; commit_usd: number;
   action: 'admit'|'skip'|'stop'; code?: SkippedCode }
+export interface PlanMore { kind: MoreKind; heading: string; product_ids: string[] }   // absent on a plan with none, and on every plan stored before R123
 export interface Plan { run_id: string; customer_id: string; created_at: string; pinned: Pinned;
   display_name: string|null; occasion: string|null; occasion_key: string|null; shape: Shape|null; new_user: boolean;
-  format: RunFormat; picks: Pick[]; signals: Signal[]; admission: Admission|null;
+  format: RunFormat; picks: Pick[]; more?: PlanMore[]; signals: Signal[]; admission: Admission|null;
   outcome: {kind:'ready'}|{kind:'failed';code:FailedCode}|{kind:'skipped';code:SkippedCode} }
 // signals, set only when new_user: 'occasion' if occasion is non-null; 'season_prior' if any pick is NEW_USER_PRIOR.
 

@@ -1,10 +1,10 @@
 // Boards C1–C7, 3.1–3.3. Total over untrusted model output: what cannot render renders nothing, and validate names it.
 import quotes from '../../../config/quotes.json' with { type: 'json' };
 import type { Catalog, Envelope, ExpandedDraft, Plan, Product } from '../../contracts/types.ts';
-import { customerPage, esc, eyebrow, pickImg, pickProduct } from '../../ui/nb.ts';
+import { customerPage, esc, eyebrow, moreSections, pickImg, pickProduct } from '../../ui/nb.ts';
 
 type Section = Record<string, unknown>;
-type Who = Pick<Plan, 'display_name' | 'occasion'>;
+type Who = Pick<Plan, 'display_name' | 'occasion' | 'more'>;
 const list = (v: unknown): Section[] => (Array.isArray(v) ? v.filter((x) => x && typeof x === 'object') as Section[] : []);
 
 const VIEW = (p: Product, slot: unknown) => `<a class="nb-link" data-slot="${esc(slot)}" href="${esc(p.url)}"><span>View on nicobar.com</span></a>`;
@@ -62,5 +62,5 @@ export function renderLanding(d: ExpandedDraft, cat: Catalog, envelope: Envelope
   };
 
   const main = list(d.model.sections).map(section).join('');
-  return customerPage(title || 'Nicobar', main);
+  return customerPage(title || 'Nicobar', main + moreSections(who?.more, cat));
 }

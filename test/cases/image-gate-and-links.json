@@ -9,7 +9,7 @@
   "known_gap": "the case PASSES today although the draft is bad; it documents a residual. If a rule change closes the gap, flip the expectation and remove known_gap"
  },
  "check_ids": "C0 C1 C2 C3 C4 C5 C6 C7 C8 C8d C8d-x (hard); C8c OUR SOFT SPACED_DASH (warn)",
- "count": 23,
+ "count": 26,
  "note": "X2 is a unit test of the gate on URLs; X1 and X3 tamper with a rendered page. A foreign image can only reach the page through a renderer or snapshot bug, so these are tripwires.",
  "cases": [
   {
@@ -361,6 +361,106 @@
    "depends_on": [
     "config/lists/c8o.json"
    ]
+  },
+  {
+   "id": "MORE-01",
+   "family": "links",
+   "layer": "rendered",
+   "title": "more products render on the catalog and pass",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand."
+    }
+   },
+   "expect": "pass",
+   "expect_check": "X3",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ],
+   "more": [
+    "veranda-tea-set",
+    "dhaara-fruit-bowl"
+   ]
+  },
+  {
+   "id": "MORE-02",
+   "family": "image-gate",
+   "layer": "rendered",
+   "title": "a foreign image inside a more section on the catalog",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand."
+    }
+   },
+   "expect": "fail",
+   "expect_check": "X2",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ],
+   "more": [
+    "veranda-tea-set",
+    "dhaara-fruit-bowl"
+   ],
+   "part": "catalog",
+   "tamper": {
+    "more_src": "https://cdn.shopify.com/s/files/1/0270/5129/4854/files/NBI050553_1.jpg?v=1"
+   }
+  },
+  {
+   "id": "MORE-03",
+   "family": "links",
+   "layer": "rendered",
+   "title": "a link to a more product in the email, which stays picks only",
+   "format": "email",
+   "picks": [
+    "marpeta-dupatta-cotton-silk",
+    "saanjh-shawl-chartreuse",
+    "ibex-trousers-sand"
+   ],
+   "draft": {
+    "email": {
+     "occasion_key": "diwali",
+     "subject": "Evenings for the festive table",
+     "preheader": "A dupatta, a shawl and trousers for wedding lunches and Diwali evenings.",
+     "body": "The festive table, and the evenings around it. {p1} is made in metallic tissue, free-size and light enough to layer over any festive kurta. Wear it over teal, purple or pink for wedding lunches and Diwali evenings. {p2} is woven in 100% wool, with gota flowers and leaves worked into the corners. Saanjh means dusk, and the colour is meant to glow like it. {p3} is 100% linen in a bottom weight, piece dyed in a natural beige called sand."
+    }
+   },
+   "expect": "fail",
+   "expect_check": "X3",
+   "plan_occasion": "Diwali at home",
+   "plan_shape": "home",
+   "depends_on": [
+    "config/lists/c8o.json"
+   ],
+   "more": [
+    "veranda-tea-set",
+    "dhaara-fruit-bowl"
+   ],
+   "tamper": {
+    "add_href": "https://www.nicobar.com/products/veranda-tea-set"
+   }
   }
  ]
 }
