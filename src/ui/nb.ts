@@ -87,7 +87,7 @@ const roundLogo = (h: number, style = `color:${C.ink}`) => `<img src="${esc(LOGO
 
 export function customerPage(title: string, main: string, frame?: { head: string; foot: string }): string {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${esc(title)}</title>`
-    + `<style>${NB_CSS}</style></head><body class="nb">${frame?.head ?? `<header class="nb-head">${roundLogo(56)}<span class="nb-note">A note for you, not a public page</span></header>`}`
+    + `<style>${NB_CSS}</style></head><body class="nb">${frame?.head ?? `<header class="nb-head">${roundLogo(56)}<span class="nb-note">A demo with synthetic customers</span></header>`}`
     + `<main>${main}</main>${frame?.foot ?? NB_FOOT}</body></html>`;
 }
 
