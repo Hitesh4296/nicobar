@@ -1,4 +1,4 @@
-// R143: landing.* serves released parts of the published run and nothing else; nicobar.* stays behind Access.
+// R143, R144: landing.* serves every released draft and nothing else; nicobar.* stays behind Access.
 import { applyD1Migrations, env } from 'cloudflare:test';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { contentSha256 } from '../../src/contracts/lib.ts';
@@ -54,7 +54,7 @@ describe('landing host: the three parts', () => {
     expect(csp).toMatch(/^sandbox;/);
     expect(csp).toContain("script-src 'none'");
     expect(r.headers.get('x-robots-tag')).toContain('noindex');
-    expect(r.headers.get('cache-control')).toBe('no-store');   // a revoke bites on the next load
+    expect(r.headers.get('cache-control')).toBe('no-store');
     const html = await r.text();
     expect(html).toContain('nb-packing');
     expect(html).toMatch(/<body[^>]*><p [^>]*>[^<]*demo[^<]*synthetic customers/i);
@@ -115,7 +115,7 @@ describe('landing host: released only, and state does not leak', () => {
   });
 });
 
-describe('landing host: the published run', () => {
+describe('landing host: across runs', () => {
   const copyDraft = (run: string) => clone('drafts', `id = '${ID}'`, { id: `${run}:c02:v1`, run_id: run });
   it('a stub run never publishes, however new', async () => {
     await newRun('stub-new');
@@ -124,11 +124,17 @@ describe('landing host: the published run', () => {
     expect((await land('/c02')).status).toBe(200);
     await dropRun('stub-new');
   });
-  it('a newer real run with a released draft replaces the old one, whole', async () => {
+  it('a release in a newer run leaves other customers served', async () => {
     await newRun('run-new');
     await clone('drafts', `id = '${ID}'`, { id: 'run-new:c03:v1', run_id: 'run-new', customer_id: 'c03' });
-    expect((await land('/c02')).status).toBe(404);
+    expect((await land('/c02')).status).toBe(200);
     expect((await land('/c03')).status).toBe(200);
+    await dropRun('run-new');
+  });
+  it("a customer's newer release replaces their older one", async () => {
+    await newRun('run-new');
+    await clone('drafts', `id = '${ID}'`, { id: 'run-new:c02:v1', run_id: 'run-new', released_at: '2999-01-01T00:00:00Z', model_json: 'stub' });   // bad hash: 404 only if this row was chosen
+    expect((await land('/c02')).status).toBe(404);
     await dropRun('run-new');
     expect((await land('/c02')).status).toBe(200);
   });

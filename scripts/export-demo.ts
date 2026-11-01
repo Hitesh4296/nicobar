@@ -1,14 +1,12 @@
 // Builds out/demo/seed.sql for the link. Local only: it works on a copy of the local D1 state and never reaches Cloudflare.
 // `node scripts/export-demo.ts`. Applying the file is a separate step, on the owner's word.
-import { execFileSync, spawn } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const DB = 'nicobar';
-export const SEED_ACTOR = 'seed-demo@local';
-export const O5 = { released: 2, approved: 1 };       // the rest stay in_review
 export const SEED_TABLES = ['snapshots', 'runs', 'units', 'plans', 'drafts', 'draft_events', 'cost_events', 'jev_events', 'generations', 'config_versions'];
 export const RESET_TABLES = [...SEED_TABLES, 'jev_dismissals'];      // starts empty on the link, live; the reset clears it
 export const MAX_STATEMENT = 100_000;                 // D1 limits page [verified 2026-11-01]
@@ -50,31 +48,18 @@ export function pinsRefusal(f: Selected['f'], active: { id: string; kind: string
   });
 }
 
-/** Sorted, so a reseed picks the same customers. Each step is a real POST; a refusal stops the export. */
-export async function driveToO5(ids: string[], post: (id: string, action: 'approve' | 'release') => Promise<{ status: number; body: string }>): Promise<void> {
-  const want = O5.released + O5.approved;
-  if (ids.length < want) throw new Error(`refused: ${ids.length} drafts in review, O5 needs ${want}`);
-  const sorted = [...ids].sort();
-  const step = async (id: string, action: 'approve' | 'release') => {
-    const r = await post(id, action);
-    if (r.status !== 200) throw new Error(`${action} ${id}: ${r.status} ${r.body}`);
-  };
-  for (const id of sorted.slice(0, want)) await step(id, 'approve');
-  for (const id of sorted.slice(0, O5.released)) await step(id, 'release');
-}
-
 /** What the read-only link reads. Customer and recs files stay home: only a run reads them, the link cannot run, and they hold last names. */
 export const r2Keys = (snapshot: string | string[]) => {
   const ids = [snapshot].flat(), keys = (files: string[]) => ids.flatMap((id) => files.map((f) => `snapshots/${id}/${f}.json`));
   return { required: keys(['catalog', 'rules']), optional: keys(['report', 'detail', 'vocabulary']) };
 };
 
-/** Run on the copy, so `d1 export` holds nothing else. F keeps its rows; isolation keeps `runs`, `units`. */
-export function pruneSql(fId: string, isolationId: string): string {
-  const f = lit(fId), both = `${f}, ${lit(isolationId)}`;
-  return [`DELETE FROM runs WHERE id NOT IN (${both});`, `DELETE FROM units WHERE run_id NOT IN (${both});`,
-    `DELETE FROM draft_events WHERE draft_id NOT IN (SELECT id FROM drafts WHERE run_id = ${f});`,
-    ...['plans', 'drafts', 'cost_events', 'jev_events', 'generations'].map((t) => `DELETE FROM ${t} WHERE run_id <> ${f};`),
+/** Run on the copy, so `d1 export` holds nothing else. F and every run with a release keep their rows; isolation keeps `runs`, `units`. */
+export function pruneSql(fId: string, isolationId: string, published: string[] = []): string {
+  const kept = [...new Set([fId, ...published])].map(lit).join(', '), all = `${kept}, ${lit(isolationId)}`;
+  return [`DELETE FROM runs WHERE id NOT IN (${all});`, `DELETE FROM units WHERE run_id NOT IN (${all});`,
+    `DELETE FROM draft_events WHERE draft_id NOT IN (SELECT id FROM drafts WHERE run_id IN (${kept}));`,
+    ...['plans', 'drafts', 'cost_events', 'jev_events', 'generations'].map((t) => `DELETE FROM ${t} WHERE run_id NOT IN (${kept});`),
     'DELETE FROM snapshots WHERE id NOT IN (SELECT snapshot_id FROM runs);',
     `DELETE FROM config_versions WHERE status <> 'active' AND id NOT IN (SELECT prompt_version FROM runs UNION SELECT voice_guide_version FROM runs UNION SELECT jev_config_version FROM runs UNION SELECT catalog_version FROM runs WHERE catalog_version IS NOT NULL UNION SELECT ranking_version FROM runs WHERE ranking_version IS NOT NULL);`,
   ].join('\n');
@@ -182,7 +167,8 @@ export function damagedCells(cfg: string): string[] {
 /** Destroys rows in `cfg`'s state, so `cfg` must be the copy. The leak scan runs before chunking, which could split a name. */
 export function exportFromCopy(cfg: string, runs: Selected, customersTsv: string, exempt: string[]): Seed {
   const dir = resolve(cfg, '..');
-  writeFileSync(join(dir, 'prune.sql'), pruneSql(runs.f.id, runs.isolation.id));
+  const published = query<{ run_id: string }>(cfg, `SELECT DISTINCT run_id FROM drafts WHERE status = 'released' AND run_id NOT LIKE 'stub-%'`).map((r) => r.run_id);
+  writeFileSync(join(dir, 'prune.sql'), pruneSql(runs.f.id, runs.isolation.id, published));
   wrangler(cfg, 'd1', 'execute', DB, '--local', '--file', join(dir, 'prune.sql'));
   const damaged = damagedCells(cfg);
   if (damaged.length) throw new Error(`refused: d1 export would change these cells: ${damaged.join('; ')}`);
@@ -208,26 +194,6 @@ export function exportR2(cfg: string, outDir: string): { key: string; bytes: num
   return out;
 }
 
-async function driveOnCopy(cfg: string, draftIds: string[]): Promise<void> {
-  const port = 8798, base = `http://127.0.0.1:${port}`;
-  const dev = spawn(join(ROOT, 'node_modules/.bin/wrangler'), ['dev', '-c', cfg, '--persist-to', join(resolve(cfg, '..'), '.wrangler/state'), '--port', String(port), '--var', 'DEV_MODE:1', '--var', `DEV_ACTOR:${SEED_ACTOR}`],
-    { stdio: 'ignore', detached: true, env: { ...process.env, WRANGLER_SEND_METRICS: 'false' } });
-  try {
-    let up = false;
-    for (let i = 0; i < 60 && !up; i++) {
-      up = (await fetch(`${base}/review`).catch(() => null))?.status === 200;
-      if (!up) await new Promise((ok) => setTimeout(ok, 500));
-    }
-    if (!up) throw new Error('local worker did not start');
-    await driveToO5(draftIds, async (id, action) => {
-      const res = await fetch(`${base}/api/drafts/${encodeURIComponent(id)}/${action}`, { method: 'POST', headers: { Origin: base } });
-      return { status: res.status, body: await res.text() };
-    });
-  } finally {
-    process.kill(-dev.pid!);
-  }
-}
-
 async function main(): Promise<void> {
   const state = join(ROOT, '.wrangler/state');
   if (!existsSync(state)) throw new Error('no local D1 state');
@@ -237,14 +203,12 @@ async function main(): Promise<void> {
     cpSync(state, join(work, '.wrangler/state'), { recursive: true });
     const config = JSON.parse(readFileSync(join(ROOT, 'wrangler.jsonc'), 'utf8'));
     const cfg = join(work, 'wrangler.jsonc');
-    // Sits beside the copy, so every wrangler call below reads the copy's state. No .dev.vars here, so no key reaches this server.
+    // Sits beside the copy, so every wrangler call below reads the copy's state.
     writeFileSync(cfg, JSON.stringify({ ...config, build: undefined, main: join(ROOT, config.main), env: undefined,
       d1_databases: config.d1_databases.map((d: object) => ({ ...d, migrations_dir: join(ROOT, 'migrations') })) }));
     const runs = selectRuns(cfg);
     const refusals = pinsRefusal(runs.f, query<{ id: string; kind: string }>(cfg, `SELECT id, kind FROM config_versions WHERE status = 'active'`));
     if (refusals.length) throw new Error(refusals.join('; '));
-    const ids = query<{ id: string }>(cfg, `SELECT id FROM drafts WHERE run_id = '${runs.f.id.replaceAll("'", "''")}' AND status = 'in_review'`).map((r) => r.id);
-    await driveOnCopy(cfg, ids);
     const seed = exportFromCopy(cfg, runs, readFileSync(join(ROOT, 'data/customers.nicobar.tsv'), 'utf8'), []);
     writeFileSync(join(ROOT, 'out/demo/seed.sql'), seed.sql);
     console.log(`out/demo/seed.sql: ${seed.statements.length} statements, ${bytes(seed.sql)} bytes, largest ${seed.largest}, cap ${MAX_STATEMENT}`);

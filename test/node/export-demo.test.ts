@@ -6,39 +6,11 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { HOSTS } from '../../scripts/predeploy-check.ts';
-import { fakeLib, fxDraftStates } from '../fakes/index.ts';
-import { MAX_STATEMENT, O5, RESET_TABLES, SEED_ACTOR, buildSeed, driveToO5, exportFromCopy, leakErrors, pinsRefusal, pruneSql, query, r2Keys, selectRuns,
+import { MAX_STATEMENT, RESET_TABLES, buildSeed, exportFromCopy, leakErrors, pinsRefusal, pruneSql, query, r2Keys, selectRuns,
   wrangler } from '../../scripts/export-demo.ts';
 
 const ROOT = resolve(import.meta.dirname, '../..');
 const TSV = readFileSync(join(ROOT, 'data/customers.nicobar.tsv'), 'utf8');
-
-describe('O5 by POSTs only', () => {
-  const edge = { approve: 'E4', release: 'E7' } as const;
-  const post = async (id: string, action: 'approve' | 'release') => {
-    const r = await fakeLib.transition({} as never, id, edge[action], { kind: 'dev', email: SEED_ACTOR, sub: `dev:${SEED_ACTOR}` });
-    return { status: r.ok ? 200 : r.http, body: JSON.stringify(r) };
-  };
-  const ids = Array.from({ length: 20 }, (_, i) => `run:c${String(i + 1).padStart(2, '0')}:v1`);
-
-  it('reaches 17 in_review, 1 approved, 2 released', async () => {
-    fxDraftStates.clear();
-    await driveToO5([...ids].reverse(), post);
-    const states = ids.map((id) => fxDraftStates.get(id) ?? 'in_review');
-    expect(states.filter((s) => s === 'released')).toHaveLength(O5.released);
-    expect(states.filter((s) => s === 'approved')).toHaveLength(O5.approved);
-    expect(states.filter((s) => s === 'in_review')).toHaveLength(17);
-    expect(fxDraftStates.get(ids[0])).toBe('released');       // sorted, so a reseed picks the same three
-  });
-  it('a refused POST stops the export', async () => {
-    fxDraftStates.clear();
-    fxDraftStates.set(ids[0], 'released');
-    await expect(driveToO5(ids, post)).rejects.toThrow(/409/);
-  });
-  it('refuses too few drafts instead of a partial seed', async () => {
-    await expect(driveToO5(ids.slice(0, 2), post)).rejects.toThrow(/drafts/);
-  });
-});
 
 describe('active versions must equal the pins of F', () => {
   const f = { id: 'run-f', prompt_version: 'v2', jev_config_version: 'jev-v1' };
@@ -265,4 +237,5 @@ describe('fixture export through real local wrangler (tests 4, 4a, 4b, seed twic
     expect(() => exportFromCopy(mixed, selectRuns(mixed), TSV, [])).toThrow(/drafts\.rendered_json: 1/);
   }, 60_000);
   it('prune keeps both runs by id, quoted', () => expect(pruneSql("a'b", 'c')).toContain("'a''b'"));
+  it('prune keeps the drafts of every run with a release', () => expect(pruneSql('f', 'i', ['v'])).toContain("DELETE FROM drafts WHERE run_id NOT IN ('f', 'v');"));
 });
