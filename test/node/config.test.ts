@@ -38,6 +38,8 @@ describe('test 5: any DEV_* fails the pre-deploy check', () => {
   it('passes a filled config', () => expect(predeployErrors(cfg())).toEqual([]));
   it('refuses an empty TEAM_DOMAIN and an empty database_id', () => {
     const c = cfg();
+    delete c.env.demo.vars.PUBLIC_DEMO;
+    c.env.demo.vars.DEPLOYED = '1';
     c.env.demo.vars.TEAM_DOMAIN = '';
     c.env.demo.d1_databases[0].database_id = '';
     expect(predeployErrors(c)).toEqual(['env.demo must set TEAM_DOMAIN', 'env.demo must set a D1 database_id']);
@@ -65,6 +67,7 @@ describe('test 5: any DEV_* fails the pre-deploy check', () => {
   }
   it('refuses env.demo without DEPLOYED=1', () => {
     const c = cfg();
+    delete c.env.demo.vars.PUBLIC_DEMO;
     delete c.env.demo.vars.DEPLOYED;
     expect(predeployErrors(c)).toContain('env.demo must set DEPLOYED=1');
   });

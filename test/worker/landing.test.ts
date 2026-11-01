@@ -145,6 +145,24 @@ describe('landing host: across runs', () => {
   });
 });
 
+describe('nicobar host: public demo', () => {
+  const PLATFORM = 'https://nicobar.x.test', open = { DEV_MODE: undefined, DEV_ACTOR: undefined, PUBLIC_DEMO: '1' };
+  const write = (headers: object = {}) => hit(`${PLATFORM}/api/drafts/${encodeURIComponent('fx-run:c16:v1')}/reject`, { method: 'POST', headers: { Origin: PLATFORM, ...headers } }, open);
+  const status = () => e.DB.prepare('SELECT status FROM drafts WHERE id = ?').bind('fx-run:c16:v1').first('status');
+  it('reads with no login', async () => expect((await hit(`${PLATFORM}/review`, undefined, open)).status).toBe(200));
+  it('a write with no key or a wrong key is 401 and changes nothing', async () => {
+    const r = await write();
+    expect(r.status).toBe(401);
+    expect(r.headers.get('www-authenticate')).toContain('Basic');
+    expect((await write({ Authorization: `Basic ${btoa('x:wrong')}` })).status).toBe(401);
+    expect(await status()).toBe('in_review');
+  });
+  it('the run key as the Basic password gets past the gate', async () => {
+    const r = await hit(`${PLATFORM}/api/drafts/no-such/reject`, { method: 'POST', headers: { Origin: PLATFORM, Authorization: `Basic ${btoa(`x:${e.RUN_KEY}`)}` } }, open);
+    expect(r.status).not.toBe(401);
+  });
+});
+
 describe('nicobar host: fails closed', () => {
   const PLATFORM = 'https://nicobar.x.test';
   const prod = { DEV_MODE: undefined, DEV_ACTOR: undefined, DEPLOYED: '1', ACCESS_AUD: 'a', TEAM_DOMAIN: 'https://t.test' };
