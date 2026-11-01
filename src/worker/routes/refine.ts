@@ -1,10 +1,10 @@
 // The Refine ranking page. Preview is a GET: it ranks in memory and writes nothing. Save and activate answer 503 on the link, and activating passes the run key first, as Start a run does.
 import rowKeys from '../../../data/row_keys.synthetic.json' with { type: 'json' };
 import shapes from '../../../config/shapes.json' with { type: 'json' };
-import { BASE_WEIGHTS, liveConfig } from '../../lib/rank/live.ts';
+import { BASE_WEIGHTS, liveConfig, overridden } from '../../lib/rank/live.ts';
 import { WEIGHTS, changeOf, rankAll, readCustomers } from '../../lib/rank/index.ts';
 import { loadCatalog } from '../../lib/catalog/index.ts';
-import { ConfigErr, activateVersion, listVersions, saveVersion, validateRank } from '../../lib/config/index.ts';
+import { ConfigErr, activateVersion, activeCatalog, listVersions, saveVersion, validateRank } from '../../lib/config/index.ts';
 import { ingestTsv, onlyCustomer } from '../../lib/ingest.ts';
 import { planCustomer } from '../../lib/plan.ts';
 import { parseRecs, parseRowKeys } from '../../lib/recs.ts';
@@ -19,13 +19,13 @@ const RANK = (v: ConfigVersion) => v.kind === 'rank';
 const read = (get: (k: string) => string | null | undefined) => Object.fromEntries(WEIGHTS.map((k) => [k, Number(get(k) ?? NaN)])) as unknown as Weights;
 const refused = (w: Weights) => { const r = validateRank(w); return r.ok ? null : `${r.failures[0].detail.charAt(0).toUpperCase()}${r.failures[0].detail.slice(1)}`.replace('Past must', 'Past purchase must'); };
 
-async function inputs(env: Ctx['env']) {
+export async function inputs(env: Ctx['env']) {
   const [t, r] = await Promise.all([env.BUCKET.get('inputs/customers.synthetic.tsv'), env.BUCKET.get('inputs/recommendations.synthetic.json')]);
   return t && r ? { tsv: await t.text(), recs: await r.text() } : null;
 }
 
 /** Plans from a recs row, so headings and failures are what a run would get. */
-const plansOf = (tsv: string, recs: RecRow[], cat: Catalog) => new Map(ingestTsv(tsv).map((item) => [item.key, planCustomer(item, recs.find((r) => r.customer_id === item.key) ?? null, parseRowKeys(rowKeys), cat, BOTH, shapes as ShapesFile)]));
+export const plansOf = (tsv: string, recs: RecRow[], cat: Catalog) => new Map(ingestTsv(tsv).map((item) => [item.key, planCustomer(item, recs.find((r) => r.customer_id === item.key) ?? null, parseRowKeys(rowKeys), cat, BOTH, shapes as ShapesFile)]));
 
 /** Each customer's newest stored plan from a finished real run, with that run's first-try estimate. A one-customer pilot must not hide the full run before it. */
 async function stored(db: D1Database) {
@@ -37,10 +37,11 @@ async function stored(db: D1Database) {
 async function preview(env: Ctx['env'], files: { tsv: string; recs: string }, only: string, w: Weights, active: ConfigVersion | undefined): Promise<PreviewView> {
   const tsv = only ? onlyCustomer(files.tsv, only) : files.tsv;
   const { snapshot_id } = parseRecs(JSON.parse(files.recs));
-  const cat = await loadCatalog(env, snapshot_id), customers = readCustomers(tsv), last = await stored(env.DB);
-  const next = plansOf(tsv, rankAll(customers, cat, liveConfig('preview', w)), cat);
+  const catalog = await activeCatalog(env.DB), { cat, cfg } = overridden(await loadCatalog(env, snapshot_id), liveConfig('preview', w), catalog);
+  const customers = readCustomers(tsv), last = await stored(env.DB);
+  const next = plansOf(tsv, rankAll(customers, cat, cfg), cat);
   const missing = customers.filter((c) => !last.has(c.customer_id));
-  const base = missing.length ? plansOf(tsv, rankAll(missing, cat, liveConfig('active', active ? active.content as Weights : BASE_WEIGHTS)), cat) : null;
+  const base = missing.length ? plansOf(tsv, rankAll(missing, cat, { ...cfg, weights: active ? active.content as Weights : BASE_WEIGHTS }), cat) : null;
   const view = (p: Plan['picks']): PreviewPick[] => p.map(({ product_id, score, why }) => ({ product_id, score, why, title: cat.rows.get(product_id)?.title ?? 'Not in this snapshot' }));
   const known = [...last.values()].flatMap((r) => (r.usd === null ? [] : [r.usd])), mean = known.length ? known.reduce((a, b) => a + b, 0) / known.length : null;
   const rows = [...next.entries()].map(([id, after]): PreviewRow => {

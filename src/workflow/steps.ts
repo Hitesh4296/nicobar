@@ -7,6 +7,7 @@ import season from '../../config/season.json' with { type: 'json' };
 import { BUNDLE } from '../lib/config/bundle.ts';
 import type { Lib } from '../contracts/lib.ts';
 import { loadCatalog } from '../lib/catalog/index.ts';
+import { applyCatalog } from '../lib/catalog/override.ts';
 import { VALIDATOR_VERSION, validate } from '../lib/check/index.ts';
 import { loadVersion } from '../lib/config/index.ts';
 import { ingestTsv } from '../lib/ingest.ts';
@@ -18,7 +19,7 @@ import { renderAll } from '../lib/render/index.ts';
 import { buildRequest, partsOf, retryParts, toModelJson } from '../lib/gen/index.ts';
 import { CAP, PRICES, RUNGS, admitAll, est1, onePrice, retryGate, rungOf, settle, settleAtEstimate, settleUnbilled } from '../lib/cost/index.ts';
 import { checkRendered, e1Event, insertDraft, insertUnits, moveUnit, runBatch, seam, transition } from '../lib/state/index.ts';
-import type { Admission, AnthropicRequest, AppEnv, Catalog, CheckResult, DraftRow, DraftStatus, Envelope, Estimate, Format, Guarded, IngestResult, JevConfig, JevOutcome, ModelDraft, ModelJson,
+import type { Admission, AnthropicRequest, AppEnv, Catalog, CatalogOverride, CheckResult, DraftRow, DraftStatus, Envelope, Estimate, Format, Guarded, IngestResult, JevConfig, JevOutcome, ModelDraft, ModelJson,
   Pinned, Plan, PromptFiles, RecFile, RenderedJson, ResultType, RunFormat, Rung, ShapesFile, Stage, UnitStatus, Usage } from '../contracts/types.ts';
 
 // Named imports, not contracts/lib.ts: the Worker entry reaches this file, and that module evaluates every module at load.
@@ -29,7 +30,7 @@ const PAUSE_MS = 15 * 60_000;              // past the step timeout: readiness k
 
 export interface RunRow { id: string; instance_id: string; stage: Stage; format: RunFormat; snapshot_id: string; run_date: string; customers_sha256: string; customers_r2_key: string;
   recs_sha256: string; setting: string; prompt_version: string; voice_guide_version: string; shapes_sha256: string; jev_model: string; jev_config_version: string; jev_reserve_usd: number;
-  jev_disabled_reason: string | null; cap_run_usd: number; spent_usd: number; committed_usd: number; status: string }
+  jev_disabled_reason: string | null; cap_run_usd: number; spent_usd: number; committed_usd: number; status: string; catalog_version?: string | null }
 
 export const log = (o: { run_id: string; key?: string; step: string; status: string; code?: string; ms?: number; est_usd?: number; charged_usd?: number; spent_usd?: number; cap_run_usd?: number }) => console.log(JSON.stringify(o));
 
@@ -106,7 +107,9 @@ export async function prep(env: AppEnv, run_id: string, key: string): Promise<'r
   await prompt(env, run);                  // a tampered version fails here, this unit alone
   const item = (await customers(env, run)).find((i) => i.key === key);
   if (!item) throw new Error(`key not in the file: ${key}`);
-  const [recs, cat] = await Promise.all([recsOf(env, run), L().loadCatalog(env, run.snapshot_id)]);
+  const [recs, base] = await Promise.all([recsOf(env, run), L().loadCatalog(env, run.snapshot_id)]);
+  // Only the plan reads usability, so only prep needs the pinned overrides. Every later step reads rows, which hold every product.
+  const cat = run.catalog_version ? applyCatalog(base, (await L().loadVersion(env.DB, run.catalog_version, BUNDLE)).content as CatalogOverride) : base;
   const keys = L().parseRowKeys(rowKeys);
   const rec = recs.rows.find((r) => r.customer_id === key) ?? null;
   let plan: Plan = { ...L().planCustomer(item, rec, keys, cat, pinnedOf(run), shapes as ShapesFile), run_id, customer_id: key, created_at: new Date().toISOString(), ...(recs.generated_by ? { generated_by: { ranking: recs.generated_by } } : {}) };

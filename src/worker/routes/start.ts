@@ -3,15 +3,16 @@ import rowKeys from '../../../data/row_keys.synthetic.json' with { type: 'json' 
 import capJson from '../../../config/cap.json' with { type: 'json' };
 import shapes from '../../../config/shapes.json' with { type: 'json' };
 import stagesJson from '../../../config/stages.json' with { type: 'json' };
-import type { CapConfig, JevConfig, Pinned, PromptFiles, RunFormat, ShapesFile } from '../../contracts/types.ts';
+import type { CapConfig, CatalogOverride, JevConfig, Pinned, PromptFiles, RunFormat, ShapesFile } from '../../contracts/types.ts';
 import { sha256Hex } from '../../lib/config/bundle.ts';
-import { activeRank, activeVersions } from '../../lib/config/index.ts';
+import { activeCatalog, activeRank, activeVersions } from '../../lib/config/index.ts';
 import { PRICES, RUNGS, capRun } from '../../lib/cost/index.ts';
 import { loadCatalog } from '../../lib/catalog/index.ts';
+import { applyCatalog } from '../../lib/catalog/override.ts';
 import { ingestTsv, onlyCustomer } from '../../lib/ingest.ts';
 import { planCustomer } from '../../lib/plan.ts';
 import { previewBody } from '../../lib/preview.ts';
-import { rankedRecs } from '../../lib/rank/live.ts';
+import { BASE_WEIGHTS, rankedRecs } from '../../lib/rank/live.ts';
 import { parseRecs, parseRowKeys } from '../../lib/recs.ts';
 import { seam } from '../../lib/state/index.ts';
 import { esc } from '../../ui/nb.ts';
@@ -35,10 +36,10 @@ async function inputs(env: Ctx['env']) {
 
 /** The published file, ranked again at the active version when there is one. Preview and start both come here, so the hash the run checks holds. */
 async function liveRecs(env: Ctx['env'], files: { tsv: string; recs: string }): Promise<string> {
-  const rank = await activeRank(env.DB);
-  if (!rank) return files.recs;
+  const [rank, catalog] = [await activeRank(env.DB), await activeCatalog(env.DB)];
+  if (!rank && !catalog) return files.recs;
   const base = L().parseRecs(JSON.parse(files.recs));
-  return rankedRecs(base, files.tsv, await L().loadCatalog(env, base.snapshot_id), rank);
+  return rankedRecs(base, files.tsv, await L().loadCatalog(env, base.snapshot_id), rank ?? { id: 'rank-v1', content: BASE_WEIGHTS }, catalog);
 }
 
 async function start(c: Ctx): Promise<Response> {
@@ -56,7 +57,8 @@ async function start(c: Ctx): Promise<Response> {
   const tsv = only ? onlyCustomer(files.tsv, only) : files.tsv;
   const recs_json = await liveRecs(env, files);
   const recs = L().parseRecs(JSON.parse(recs_json));
-  const cat = await L().loadCatalog(env, recs.snapshot_id);
+  const base = await L().loadCatalog(env, recs.snapshot_id), catalog = await activeCatalog(env.DB);
+  const cat = catalog ? applyCatalog(base, catalog.content as CatalogOverride) : base;
   const active = await L().activeVersions(env.DB);
   const rung = RUNGS[0];
   const pinned: Pinned = { snapshot_id: cat.snapshot_id, customers_sha256: await sha256Hex(tsv), recs_sha256: await sha256Hex(recs_json), shapes_sha256: await sha256Hex(JSON.stringify(shapes)), run_date: new Date().toISOString().slice(0, 10),

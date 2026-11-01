@@ -92,6 +92,25 @@ describe('POST /api/runs', () => {
       expect(await r.text()).toContain('active is rank-v1');
     } finally { await db.exec(`DELETE FROM config_versions WHERE kind = 'rank'`); }
   });
+  it('pins the catalog version, and refuses a file off the active one, either way', async () => {
+    const dev = { kind: 'dev', email: 'a@b', sub: 'dev:a@b' } as const;
+    const file = (catalog_version?: string) => useFakes({ parseRecs: () => ({ generated_by: { version: 'x', catalog_version } }) as never });
+    file('catalog-v1');
+    const early = await post('/api/runs', await body());                     // nothing active yet, so a pinned file is off it
+    expect(early.status).toBe(409);
+    expect(await early.text()).toContain('active is none');
+    await saveVersion(db, 'catalog', null, { rules_off: ['BUNDLE'], enabled: [], disabled: [] }, 'n', dev);
+    await activateVersion(db, 'catalog-v1', dev);
+    try {
+      const b = await body();
+      expect((await post('/api/runs', b)).status).toBe(201);
+      expect(await runRow(b.run_id)).toMatchObject({ catalog_version: 'catalog-v1' });
+      file();
+      const r = await post('/api/runs', await body());
+      expect(r.status).toBe(409);
+      expect(await r.text()).toContain('active is catalog-v1');
+    } finally { await db.exec(`DELETE FROM config_versions WHERE kind = 'catalog'`); }
+  });
   it('a run on a stub base URL must say so in its id, so the page can label it', async () => {
     const stubbed = { ...env, ANTHROPIC_BASE_URL: 'http://127.0.0.1:8788' };
     expect((await post('/api/runs', await body(), {}, stubbed)).status).toBe(400);

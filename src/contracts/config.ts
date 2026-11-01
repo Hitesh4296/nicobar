@@ -1,9 +1,12 @@
 // Config versions.
 import type { JevConfig, Stage, Weights } from './types.ts';
 
-export type ConfigKind = 'prompt'|'jev'|'rank';  export type ConfigStatus = 'draft'|'active'|'retired';
+/** Rule switches and item ids, on top of a snapshot. Immutable once saved. */
+export interface CatalogOverride { rules_off: string[]; enabled: string[]; disabled: string[] }
+
+export type ConfigKind = 'prompt'|'jev'|'rank'|'catalog';  export type ConfigStatus = 'draft'|'active'|'retired';
 export interface PromptFiles { role: string; voice_card: string; email: string; landing: string; task: string; retry: string }
-export interface ConfigVersion { id: string; kind: ConfigKind; parent_id: string|null; content: PromptFiles|JevConfig|Weights; sha256: string;
+export interface ConfigVersion { id: string; kind: ConfigKind; parent_id: string|null; content: PromptFiles|JevConfig|Weights|CatalogOverride; sha256: string;
   base_sha256: string; voice_guide_version: string|null; status: ConfigStatus; note: string; created_by: string; created_at: string;
   activated_by: string|null; activated_at: string|null }
 export interface ConfigFailure { rule: string; file?: string; detail: string }

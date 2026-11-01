@@ -21,7 +21,7 @@ function customer(c: CustomerData, run: RunIn) {
 export function runJson(run: RunIn, customers: CustomerData[]) {
   const ranking = customers.find((c) => c.plan?.generated_by)?.plan?.generated_by?.ranking ?? null;
   const has = (k: 'email' | 'landing' | 'catalog') => customers.filter((c) => { const d = c.drafts.at(-1); return typeof d?.[k] === 'string'; }).length;
-  return { run: { id: run.id, stage: run.stage ?? null, status: run.status, spent: run.spent_usd ?? null, cap: run.cap_run_usd ?? null, ranking_version: ranking?.version ?? null, weights: ranking?.weights ?? null,
+  return { run: { id: run.id, stage: run.stage ?? null, status: run.status, spent: run.spent_usd ?? null, cap: run.cap_run_usd ?? null, ranking_version: ranking?.version ?? null, catalog_version: ranking?.catalog_version ?? null, weights: ranking?.weights ?? null,
     prompt_version: run.prompt_version ?? null, snapshot_id: run.snapshot_id ?? null, rendered_totals: { customers: customers.length, email: has('email'), landing_page: has('landing'), catalog: has('catalog') } },
     customers: customers.map((c) => customer(c, run)) };
 }
