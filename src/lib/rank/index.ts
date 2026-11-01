@@ -7,23 +7,25 @@ export interface RankCustomer { customer_id: string; occasion: string|null; note
 export interface RankRow { type: 'wear'|'gift'|'home'|'new_user'; picks: number; key: string|null; pool?: string; recipient?: 'him'|'her'; note_gender?: 'f'; everyday_pool?: boolean; hand?: string[] }
 export interface RankConfig {
   version: string; weights: Weights;
-  limits: { family_cap: number; family_cap_max: number; rail: number; occasion_rail: number; category_rails: number; category_min: number };
+  limits: { family_cap: number; family_cap_max: number; rail: number; occasion_rail: number; category_rails: number; category_min: number; min_occasion_in_past_rail: number };
   barred: { class: string[]; subcategory: string[]; handle_words: string[] };
-  gift_keys: string[]; fresh_badge: string; pools: Record<string, string[]>; plurals: Record<string, string>;
+  gift_keys: string[]; home_rail_keys: string[]; fresh_badge: string; pools: Record<string, string[]>; plurals: Record<string, string>;
   complements: Record<string, { class: string }[]>; new_user_picks: string[]; rows: Record<string, RankRow>;
 }
 type RankingFile = Omit<RankConfig, 'rows'> & { rows: Record<string, unknown> };
 type Key = (number|string)[];
 
-export const WEIGHTS = ['occasion', 'season', 'bestseller', 'new', 'past'] as const;
+export const WEIGHTS = ['occasion', 'season', 'bestseller', 'new', 'past', 'push_down'] as const;
 
-/** Refuses weights that could lift a past purchase over the occasion. R128: this holds for any saved weights. */
+/** Refuses weights that could lift a past purchase over the occasion. R128: this holds for any saved weights, a pushed-down occasion product included. */
 export function checkWeights(w: Weights): Weights {
-  for (const k of WEIGHTS) if (!Number.isFinite(w[k]) || w[k] < 0) throw new Error(`rank: weight ${k} must be a number, 0 or above`);
-  if (Object.keys(w).length !== 5) throw new Error('rank: unknown weight');
+  const push = w.push_down ?? 0;
+  for (const k of WEIGHTS) { const v = k === 'push_down' ? push : w[k]; if (!Number.isFinite(v) || v < 0) throw new Error(`rank: weight ${k} must be a number, 0 or above`); }
+  if (Object.keys(w).some((k) => !(WEIGHTS as readonly string[]).includes(k))) throw new Error('rank: unknown weight');
   if (w.occasion === 0) throw new Error('rank: the occasion weight cannot be 0');
   if (w.past >= w.occasion) throw new Error('rank: past must stay below occasion');
   if (w.season + w.bestseller + w.new + w.past >= w.occasion) throw new Error('rank: occasion must outweigh the other four together');
+  if (w.season + w.bestseller + w.new + w.past + push >= w.occasion) throw new Error('rank: occasion must still outweigh the other four together after the push down');
   return w;
 }
 
@@ -56,6 +58,9 @@ const neutral = (p: Product) => (gendered(p) ? p.gender === 'any' : p.gender !==
 
 const barred = (p: Product, cfg: RankConfig) => cfg.barred.class.some((k) => p.class.includes(k)) || cfg.barred.subcategory.some((k) => p.subcategory.includes(k)) || cfg.barred.handle_words.some((w) => p.handle.includes(w));
 
+/** A gender-free wear row whose occasion also reaches the home shelf. */
+const homeRail = (row: RankRow, cfg: RankConfig) => row.type === 'wear' && !row.pool && !row.note_gender && row.key !== null && cfg.home_rail_keys.includes(row.key);
+
 /** Tier 2. A row's gender comes only from its note or stated recipient, and a both-tagged product is out of a single-gender row. */
 function fits(p: Product, row: RankRow, cfg: RankConfig): boolean {
   if (row.type === 'new_user') return p.prior_tags.length > 0 && neutral(p);
@@ -66,7 +71,8 @@ function fits(p: Product, row: RankRow, cfg: RankConfig): boolean {
     if (!row.recipient) return !gendered(p) && neutral(p);   // No stated gender, so no lean either way.
     return p.gift_recipient.includes(row.recipient) && !(row.recipient === 'him' ? fem(p) : masc(p));
   }
-  return !home(p) && (neutral(p) || (row.note_gender === 'f' && fem(p) && !masc(p)));
+  if (home(p)) return homeRail(row, cfg) && p.occasion_keys.includes(row.key!) && !gendered(p) && neutral(p);
+  return neutral(p) || (row.note_gender === 'f' && fem(p) && !masc(p));
 }
 
 /** The note's noun, when the table knows it. A gift was never theirs to pair with. */
@@ -86,6 +92,7 @@ export function signalsOf(c: RankCustomer, p: Product, row: RankRow, cfg: RankCo
   if (p.is_bestseller_gift && (row.type === 'gift' || (row.key !== null && cfg.gift_keys.includes(row.key)))) out.push('bestseller');
   if (p.prior_tags.length) out.push('prior_tag');
   if (p.badges.includes(cfg.fresh_badge)) out.push('new_arrival');
+  if (p.push_down) out.push('push_down');
   return out;
 }
 
@@ -93,7 +100,7 @@ const isTier1 = (s: string[]) => s.some((x) => x.startsWith('occasion_tag') || x
 const isPast = (s: string[]) => s.some((x) => x.startsWith('goes_with'));
 /** The sum of the matched signals. A product counts for the occasion once, by tag or by fitted class. */
 export function scoreOf(s: string[], w: Weights): number {
-  return (isTier1(s) ? w.occasion : 0) + (s.includes('prior_tag') ? w.season : 0) + (s.includes('bestseller') ? w.bestseller : 0) + (s.includes('new_arrival') ? w.new : 0) + (isPast(s) ? w.past : 0);
+  return (isTier1(s) ? w.occasion : 0) + (s.includes('prior_tag') ? w.season : 0) + (s.includes('bestseller') ? w.bestseller : 0) + (s.includes('new_arrival') ? w.new : 0) + (isPast(s) ? w.past : 0) - (s.includes('push_down') ? w.push_down ?? 0 : 0);
 }
 const compare = (a: Key, b: Key) => { for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return a[i] < b[i] ? -1 : 1; return 0; };
 
@@ -123,8 +130,8 @@ export function poolOf(c: RankCustomer, cat: Pick<Catalog, 'usable'>, cfg: RankC
 }
 
 function choosePicks(row: RankRow, x: RowPool, cfg: RankConfig): Product[] {
-  const cand = x.sorted(x.gated);
   const fits1 = (p: Product) => isTier1(x.signals.get(p.id)!);
+  const cand = x.sorted(x.gated.filter((p) => row.type !== 'wear' || !home(p)));   // On a wear row, home is for the rails: a wedding email does not sell mugs.
   const pastOnly = (p: Product) => !fits1(p) && isPast(x.signals.get(p.id)!);
   // The hero guard: an occasion product when one exists, and never a past-only one.
   const head = cand.some(fits1) ? cand.findIndex(fits1) : cand.findIndex((p) => !pastOnly(p));
@@ -177,7 +184,7 @@ function chooseMore(c: RankCustomer, row: RankRow, picks: Product[], x: RowPool,
     const cand = open(x.past);
     const first = roundRobin(cand.filter((p) => isTier1(x.signals.get(p.id)!)), rail, x);
     const ps = [...first, ...roundRobin(cand.filter((p) => !first.includes(p) && !isTier1(x.signals.get(p.id)!)), rail - first.length, x)];
-    if (ps.length) section('past_purchase', word, ps);
+    if (first.length >= cfg.limits.min_occasion_in_past_rail) section('past_purchase', word, ps);
   }
 
   const left = open(row.pool || row.everyday_pool || row.type === 'new_user' ? x.gated : tagged);
@@ -185,8 +192,14 @@ function chooseMore(c: RankCustomer, row: RankRow, picks: Product[], x: RowPool,
   for (const p of left) if (cl(p)) depth.set(cl(p), [...(depth.get(cl(p)) ?? []), p]);   // an enabled product with no class has no section of its own
   const order = [...depth].filter(([, v]) => v.length >= category_min).sort((a, b) => b[1].length - a[1].length || (a[0] < b[0] ? -1 : 1));
   const chosen: string[] = [];
-  for (const [k, v] of order) if (chosen.length < category_rails && !chosen.some((q) => family(depth.get(q)![0]) === family(v[0]))) chosen.push(k);
-  for (const [k] of order) if (chosen.length < category_rails && !chosen.includes(k)) chosen.push(k);
+  const fill = (rails: typeof order) => {
+    for (const [k, v] of rails) if (chosen.length < category_rails && !chosen.some((q) => family(depth.get(q)![0]) === family(v[0]))) chosen.push(k);
+    for (const [k] of rails) if (chosen.length < category_rails && !chosen.includes(k)) chosen.push(k);
+  };
+  // On a wear row, home rails only take the slots wear leaves.
+  const homeRow = (v: Product[]) => row.type === 'wear' && home(v[0]);
+  fill(order.filter(([, v]) => !homeRow(v)));
+  fill(order.filter(([, v]) => homeRow(v)));
   for (const k of chosen) section('occasion_category', plural(k, cfg), roundRobin(depth.get(k)!, rail, x));
 
   const rest = open(tagged);

@@ -76,7 +76,7 @@ function normalise(p: Raw, unknown: Set<string>): Product {
     badges: vals(p.tags, 'badge_'), is_bestseller_gift: p.tags.includes('Best_gift'), available,
     variants: p.variants.map((v) => ({ id: String(v.id), sku: v.sku || null, title: v.title, option1: v.option1, option2: v.option2, price: v.price, available: v.available })),
     images: p.images.map((i) => ({ src: i.src, src_canonical: i.src.split('?')[0], position: i.position, variant_ids: i.variant_ids.map(String) })),
-    excluded_reason: excluded_reasons[0] ?? null, excluded_reasons, published_at: p.published_at ?? null,
+    excluded_reason: excluded_reasons[0] ?? null, excluded_reasons, published_at: p.published_at ?? null, push_down: p.tags.includes('push_down'),
     content_sha256: sha256(JSON.stringify(p, (k, v) => (k === 'updated_at' ? undefined : v))) };
 }
 

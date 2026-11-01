@@ -132,6 +132,7 @@ describe('one product', () => {
     expect(h).toContain(IMG.src.replace('?v=1', ''));
     expect(h).toMatch(/customers/);
     expect(h).toContain('2026-09-01');
+    expect(h).toContain('Pushed down by the site');
   });
   it('an unknown id is a 404 page', async () => { expect((await hit('GET', '/review/catalog/404404')).status).toBe(404); });
 });

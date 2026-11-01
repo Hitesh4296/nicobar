@@ -5,14 +5,15 @@ import type { ConfigVersion, Pick as PlanPick, Weights } from '../../contracts/t
 import { diffBlock, esc, shell, table, tag } from './index.ts';
 
 const FIELDS: [keyof Weights, string, string][] = [['occasion', 'Occasion', 'The product is tagged for this occasion, or fits this kind of trip'], ['season', 'Season', 'In the current season on the site'],
-  ['bestseller', 'Bestseller', "A gift bestseller on the site; counts on gift rows only"], ['new', 'New', 'New on the site'], ['past', 'Past purchase', 'Goes with something they bought']];
+  ['bestseller', 'Bestseller', "A gift bestseller on the site; counts on gift rows only"], ['new', 'New', 'New on the site'], ['past', 'Past purchase', 'Goes with something they bought'], ['push_down', 'Push down', "A penalty on products with the site's push_down tag. 0 turns it off"]];
 const GUARDS = [['The first product fits the occasion', 'The email and page lead with it, so no score can put an off-occasion product there.'], ['A past purchase never leads', 'The occasion comes first. Past-only products may follow, never open.'],
   ['One product per kind', 'Keeps the row varied.'], ['At most two from one family', 'Keeps a row from being all jewellery while the pool allows it.'], ['No mixing of men\'s and women\'s products', 'A row follows what the customer told us, and only that.'],
-  ['Past purchase stays below occasion, and occasion is above 0', 'A save that breaks this is refused.'], ['Set rows do not move', 'Six travel and scene customers and the new customer have set picks. Weights reorder only their sections.']];
+  ['Past purchase stays below occasion, and occasion is above 0', 'A save that breaks this is refused.'], ['Occasion outweighs the rest together, push down included', 'A pushed-down occasion product still ranks over anything off the occasion. A save that breaks this is refused.'], ['Set rows do not move', 'Six travel and scene customers and the new customer have set picks. Weights reorder only their sections.']];
 
 export type PreviewPick = Pick<PlanPick, 'product_id'|'score'|'why'> & { title: string };
 export interface PreviewRow { customer_id: string; occasion: string|null; kind: 'unchanged'|'sections'|'picks'; before: PreviewPick[]; after: PreviewPick[]; from: string; usd: number|null }
-export interface PreviewView { rows: PreviewRow[]; basedOn: string; usd: number|null; unpriced: number }
+export interface PushMove { customer_id: string; kind: 'sections'|'picks'; out: string[]; in: string[] }
+export interface PreviewView { rows: PreviewRow[]; basedOn: string; usd: number|null; unpriced: number; moved: PushMove[]; push_down: number }
 export interface RefineView { weights: Weights; versions: ConfigVersion[]; customers: string[]; only: string; note: string; error: string|null; preview: PreviewView|null; deployed: boolean; locked: boolean }
 
 const CSS = `<style>.w{display:grid;grid-template-columns:140px minmax(0,1fr) 96px;gap:16px;align-items:center;border-bottom:1px solid var(--line);padding:8px 0}.w small{display:block;color:var(--soft);font-size:14px;line-height:20px}.w input{margin:0}.w input[type=range]{padding:0;border:0;accent-color:var(--ink)}
@@ -21,18 +22,26 @@ select{padding:10px;border:1px solid var(--line);font:inherit;background:#fff}.p
 const SCRIPT = `<script>for(const r of document.querySelectorAll('.w')){const[a,b]=r.querySelectorAll('input');a.oninput=()=>{b.value=a.value};b.oninput=()=>{a.value=b.value}}</script>`;
 
 const money = (n: number) => `$${n.toFixed(4)}`;
-const pretty = (w: Weights) => FIELDS.map(([k, label]) => `${label}: ${w[k]}`).join('\n');
+const pretty = (w: Weights) => FIELDS.map(([k, label]) => `${label}: ${w[k] ?? 0}`).join('\n');
 const WORD = { unchanged: 'Unchanged', sections: 'Sections only', picks: 'Picks changed, needs a redraft' };
 
 const pick = (p: PreviewPick) => `<p class="pk">${esc(p.title)}${p.score === undefined ? '' : ` · ${esc(p.score)}`}<small>${esc((p.why ?? []).map(plainSignal).join(' · '))}</small></p>`;
+
+/** Against the same weights with push down at 0, so it names what the penalty alone does. */
+function pushBlock(p: PreviewView): string {
+  if (!p.push_down) return '<h3>Moved by push down</h3><p class="fine">Push down is off.</p>';
+  if (!p.moved.length) return '<h3>Moved by push down</h3><p class="fine">No customer moves.</p>';
+  const list = (xs: string[]) => esc(xs.join(' · ')) || '<span class="fine">None</span>';
+  return `<h3>Moved by push down</h3>${table(['Customer', 'Result', 'Out of the picks', 'Into the picks'], p.moved.map((m) => [`<strong>${esc(m.customer_id)}</strong>`, esc(WORD[m.kind]), list(m.out), list(m.in)]))}`;
+}
 
 function previewBlock(p: PreviewView): string {
   const n = (k: PreviewRow['kind']) => p.rows.filter((r) => r.kind === k).length;
   const cost = p.usd === null ? 'not stored' : money(p.usd);
   const rows = p.rows.map((r) => [`<strong>${esc(r.customer_id)}</strong><br>${esc(r.occasion ?? '')}`, esc(WORD[r.kind]), r.kind === 'picks' ? r.before.map(pick).join('') : '<span class="fine">Same picks</span>', r.after.map(pick).join(''), r.kind === 'picks' ? (r.usd === null ? 'not stored' : money(r.usd)) : '$0']);
-  return `<h2>Preview</h2><div class="metrics"><div><b>${n('unchanged')}</b>Unchanged</div><div><b>${n('sections')}</b>Sections only</div><div><b>${n('picks')}</b>Picks changed</div><div><b>${cost}</b>Estimated redraft</div></div>
+  return `<h2>Preview</h2><div class="metrics"><div><b>${n('unchanged')}</b>Unchanged</div><div><b>${n('sections')}</b>Sections only</div><div><b>${n('picks')}</b>Picks changed</div><div><b>${cost}</b>Estimated redraft</div><div><b>${p.moved.length}</b>Moved by push down</div></div>
 <p class="fine">${esc(p.basedOn)}${p.unpriced ? ` ${p.unpriced} changed customers have no stored estimate and are not in the total.` : ''} Nothing was saved and nothing was spent.</p>
-${table(['Customer', 'Result', 'Before', 'After, with score', 'Redraft'], rows)}`;
+${table(['Customer', 'Result', 'Before', 'After, with score', 'Redraft'], rows)}${pushBlock(p)}`;
 }
 
 function history(vs: ConfigVersion[]): string {
@@ -57,7 +66,7 @@ function activate(vs: ConfigVersion[], locked: boolean): string {
 export function refinePage(p: RefineView): string {
   const ro = p.deployed ? ' disabled' : '';
   const active = p.versions.find((v) => v.status === 'active');
-  const fields = FIELDS.map(([k, label, hint]) => `<div class="w"><label for="w-${k}">${label}<small>${esc(hint)}</small></label><input type="range" min="0" max="200" step="1" value="${esc(p.weights[k])}" aria-label="${label} slider"${ro}><input id="w-${k}" type="number" name="${k}" min="0" step="1" value="${esc(p.weights[k])}"${ro}></div>`).join('');
+  const fields = FIELDS.map(([k, label, hint]) => `<div class="w"><label for="w-${k}">${label}<small>${esc(hint)}</small></label><input type="range" min="0" max="200" step="1" value="${esc(p.weights[k] ?? 0)}" aria-label="${label} slider"${ro}><input id="w-${k}" type="number" name="${k}" min="0" step="1" value="${esc(p.weights[k] ?? 0)}"${ro}></div>`).join('');
   const choose = `<label>Customer <select name="only"><option value="">All</option>${p.customers.map((id) => `<option${id === p.only ? ' selected' : ''}>${esc(id)}</option>`).join('')}</select></label>`;
   const form = `<form method="get" action="/review/agents/refine">${fields}${p.deployed ? '' : `${choose}<button class="primary" name="preview" value="1">Preview</button><span class="fine">Free. Saves nothing.</span>
 <label>Note, to save<input name="note" value="${esc(p.note)}" placeholder="What changed, and why"></label><button formmethod="post" formaction="/review/agents/refine/save">Save draft</button>`}</form>`;

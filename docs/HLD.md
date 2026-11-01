@@ -47,7 +47,7 @@ flowchart LR
 | D1 | The record: runs, units, plans, drafts, every cost, Jev and approval event, prompt versions |
 | R2 | Immutable by hash or snapshot id: catalogue, customer file, recommendation file, previews |
 | Library (`src/lib/`) | Pure code: ingest, plan, request building, checks, rendering, cost, state edges |
-| Ranking engine (`src/lib/rank/`, `npm run rank`) | Offline, no model. Writes the recommendations file from the snapshot and `config/ranking.json`. Filter, weighted score, fixed guards. Occasion must outweigh the other four signals together, and the hero must fit the occasion |
+| Ranking engine (`src/lib/rank/`, `npm run rank`) | Offline, no model. Writes the recommendations file from the snapshot and `config/ranking.json`. Filter, weighted score, fixed guards. Occasion must outweigh the other four signals together, with room for the `push_down` penalty, and the hero must fit the occasion |
 | `config/` | Schemas, check lists, cost tables. Bundled. Prompts are imported into D1 as versions |
 
 Not used: Queues, Durable Objects, Agents SDK, Vectorize, KV, the Batches API, and the store's cart, checkout or order tools.

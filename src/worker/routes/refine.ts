@@ -8,7 +8,7 @@ import { ConfigErr, activateVersion, activeCatalog, listVersions, saveVersion, v
 import { ingestTsv, onlyCustomer } from '../../lib/ingest.ts';
 import { planCustomer } from '../../lib/plan.ts';
 import { parseRecs, parseRowKeys } from '../../lib/recs.ts';
-import { refinePage, type PreviewPick, type PreviewRow, type PreviewView } from '../../ui/agents/refine.ts';
+import { refinePage, type PreviewPick, type PreviewRow, type PreviewView, type PushMove } from '../../ui/agents/refine.ts';
 import { checkRunKey } from '../run-key.ts';
 import type { Catalog, ConfigVersion, Pinned, Plan, RecRow, ShapesFile, Weights } from '../../contracts/types.ts';
 import type { Ctx, Route } from './list.ts';
@@ -16,7 +16,8 @@ import type { Ctx, Route } from './list.ts';
 const BOTH = { format: 'both', run_date: '' } as Pinned;
 const html = (body: string, status = 200) => new Response(body, { status, headers: { 'content-type': 'text/html; charset=utf-8' } });
 const RANK = (v: ConfigVersion) => v.kind === 'rank';
-const read = (get: (k: string) => string | null | undefined) => Object.fromEntries(WEIGHTS.map((k) => [k, Number(get(k) ?? NaN)])) as unknown as Weights;
+/** A link from a version saved before R138 has no push_down: it means none. */
+const read = (get: (k: string) => string | null | undefined) => Object.fromEntries(WEIGHTS.map((k) => [k, Number(get(k) ?? (k === 'push_down' ? 0 : NaN))])) as unknown as Weights;
 const refused = (w: Weights) => { const r = validateRank(w); return r.ok ? null : `${r.failures[0].detail.charAt(0).toUpperCase()}${r.failures[0].detail.slice(1)}`.replace('Past must', 'Past purchase must'); };
 
 export async function inputs(env: Ctx['env']) {
@@ -40,6 +41,7 @@ async function preview(env: Ctx['env'], files: { tsv: string; recs: string }, on
   const catalog = await activeCatalog(env.DB), { cat, cfg } = overridden(await loadCatalog(env, snapshot_id), liveConfig('preview', w), catalog);
   const customers = readCustomers(tsv), last = await stored(env.DB);
   const next = plansOf(tsv, rankAll(customers, cat, cfg), cat);
+  const off = plansOf(tsv, rankAll(customers, cat, { ...cfg, weights: { ...w, push_down: 0 } }), cat);
   const missing = customers.filter((c) => !last.has(c.customer_id));
   const base = missing.length ? plansOf(tsv, rankAll(missing, cat, { ...cfg, weights: active ? active.content as Weights : BASE_WEIGHTS }), cat) : null;
   const view = (p: Plan['picks']): PreviewPick[] => p.map(({ product_id, score, why }) => ({ product_id, score, why, title: cat.rows.get(product_id)?.title ?? 'Not in this snapshot' }));
@@ -52,7 +54,12 @@ async function preview(env: Ctx['env'], files: { tsv: string; recs: string }, on
   const usd = priced.length || !redraft.length ? priced.reduce((t, r) => t + r.usd!, 0) : null;
   const runs = [...new Set(rows.flatMap((r) => r.from || []))], held = rows.filter((r) => r.from).length;
   const basedOn = `${held ? `${held} of ${rows.length} compared with their latest finished run (${runs.join(', ')})` : 'No finished run holds these customers'}${held < rows.length ? `; the others with ${active?.id ?? 'the shipped weights'}` : ''}.${mean === null ? '' : ' Redraft estimates are the stored first-try estimates, or their average where none is stored.'}`;
-  return { rows, basedOn, usd, unpriced: redraft.length - priced.length };
+  const title = (id: string) => cat.rows.get(id)?.title ?? 'Not in this snapshot';
+  const moved = [...next.entries()].flatMap(([id, after]): PushMove[] => {
+    const was = off.get(id)!, kind = changeOf(was, after).kind, a = was.picks.map((p) => p.product_id), b = after.picks.map((p) => p.product_id);
+    return kind === 'unchanged' ? [] : [{ customer_id: id, kind, out: a.filter((x) => !b.includes(x)).map(title), in: b.filter((x) => !a.includes(x)).map(title) }];
+  });
+  return { rows, basedOn, usd, unpriced: redraft.length - priced.length, moved, push_down: w.push_down ?? 0 };
 }
 
 interface Form { weights?: Weights; only?: string; note?: string; error?: string; preview?: PreviewView | null; status?: number }

@@ -20,7 +20,7 @@ const rows = [1, 2, 3, 4, 5].map((n) => product(n, { occasion_keys: ['wedding'],
 const CAT = { snapshot_id: 'snap', fetched_at: 't', rows: new Map(rows.map((p) => [p.id, p])), by_sku: new Map(), usable: rows, rules: { title_cores: [], distinctive_cores: [], nouns: [], handles: [] } } as unknown as Catalog;
 vi.mock('../../src/lib/catalog/index.ts', () => ({ loadCatalog: async () => CAT }));
 
-const W: Weights = { occasion: 100, season: 20, bestseller: 15, new: 10, past: 10 };
+const W: Weights = { occasion: 100, season: 20, bestseller: 15, new: 10, past: 10, push_down: 15 };
 const dev: Actor = { kind: 'dev', email: 'a@b', sub: 'dev:a@b' };
 const KEY = 'test-run-key-9f3a';
 const TSV = "customer_id\tfirst_name\tlast_name\toccasion\tpast_purchase_note\nc01\tMeera\tDas\tSister's wedding\tBought the indigo travel shirt last spring.\n";
@@ -96,7 +96,7 @@ describe('preview', () => {
   it('writes nothing: no row, no object', async () => {
     await seeded();
     const rowsBefore = await count(), objs = await objects();
-    const r = await hit('GET', `/review/agents/refine${qs({ ...W, season: 60 }, '&preview=1')}`);
+    const r = await hit('GET', `/review/agents/refine${qs({ ...W, season: 60, push_down: 0 }, '&preview=1')}`);
     expect(r.status).toBe(200);
     expect(await r.text()).toMatch(/Unchanged.*Sections only.*Picks changed/s);
     expect(await count()).toBe(rowsBefore);
@@ -104,7 +104,7 @@ describe('preview', () => {
   });
   it('shows before and after with score and why, escaped, in plain words', async () => {
     await seeded();
-    const h = await (await hit('GET', `/review/agents/refine${qs({ ...W, past: 1, season: 0, bestseller: 0, new: 90 }, '&preview=1&only=c01')}`)).text();
+    const h = await (await hit('GET', `/review/agents/refine${qs({ ...W, past: 1, season: 0, bestseller: 0, new: 90, push_down: 0 }, '&preview=1&only=c01')}`)).text();
     expect(h).toContain('Picks changed');
     expect(h).toContain('Piece &#60;5&#62;');
     expect(h).toContain('New on the site');
@@ -130,6 +130,24 @@ describe('preview', () => {
     const h = await (await hit('GET', `/review/agents/refine${qs(W, '&preview=1')}`)).text();
     expect(h).toContain('real-1');
     expect(h).not.toContain('stub-later');
+  });
+  it('names who the push down moves, against the same weights with it off (R138)', async () => {
+    const pushed = rows.slice(0, 3);
+    for (const p of pushed) p.push_down = true;
+    try {
+      await seeded();
+      const h = await (await hit('GET', `/review/agents/refine${qs({ ...W, push_down: 15 }, '&preview=1&only=c01')}`)).text();
+      expect(h).toContain('Moved by push down');
+      expect(h.slice(h.lastIndexOf('Moved by push down'))).toContain('<strong>c01</strong>');
+      expect(await (await hit('GET', `/review/agents/refine${qs({ ...W, push_down: 0 }, '&preview=1&only=c01')}`)).text()).toContain('Push down is off');
+    } finally { for (const p of pushed) delete p.push_down; }
+  });
+  it('shows the sixth weight, and a version saved with five loads with it at 0', async () => {
+    await seeded();
+    const { push_down: _, ...five } = W;
+    const h = await (await hit('GET', `/review/agents/refine${qs(five)}`)).text();
+    expect(h).toMatch(/id="w-push_down"[^>]*value="0"/);
+    expect((await hit('GET', `/review/agents/refine${qs(five, '&preview=1&only=c01')}`)).status).toBe(200);
   });
   it('refuses bad weights and does not rank', async () => {
     await seeded();
@@ -166,7 +184,7 @@ describe('activation needs the run key', () => {
     await saveVersion(db, 'rank', null, W, 'seed', dev);
     expect((await hit('POST', '/api/config/rank-v1/activate')).status).toBe(200);
     await db.exec('DELETE FROM config_versions');
-    await saveVersion(db, 'rank', null, { ...W, new: 40 }, 'not the defaults', dev);
+    await saveVersion(db, 'rank', null, { ...W, new: 30 }, 'not the defaults', dev);
     expect((await hit('POST', '/api/config/rank-v1/activate')).status).toBe(403);
   });
   it('no RUN_KEY on the server: locked', async () => {
@@ -181,7 +199,7 @@ describe('on the link', () => {
   const link = { DEPLOYED: '1' };
   it('reads, with no form to save or activate and nothing ranked', async () => {
     await seeded();
-    const h = await (await hit('GET', `/review/agents/refine${qs({ ...W, season: 60 }, '&preview=1')}`, link)).text();
+    const h = await (await hit('GET', `/review/agents/refine${qs({ ...W, season: 60, push_down: 0 }, '&preview=1')}`, link)).text();
     expect(h).toContain('rank-v1');
     expect(h).not.toMatch(/Save draft|type="password"|<script|Picks changed/);
   });

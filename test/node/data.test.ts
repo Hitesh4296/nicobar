@@ -32,6 +32,10 @@ describe('test 1: snapshot from samples/site', () => {
   it('rebuilds the snapshot the recommendations pin', () => {
     expect(s.catalog.snapshot_id).toBe(JSON.parse(readFileSync('data/recommendations.synthetic.json', 'utf8')).snapshot_id);
   });
+  it('carries the site push_down tag on the row, and the hash does not move for it', () => {
+    expect(s.catalog.rows.filter((p) => p.push_down).length).toBe(readSamples().products.filter((p) => p.tags.includes('push_down')).length);
+    expect(s.catalog.rows.filter((p) => !p.excluded_reason && p.push_down).length).toBe(882);
+  });
   it('2,165 usable, stage by stage (LLD usable filter, right-hand column)', () => {
     expect(s.report.stages).toEqual({ after_hidden_and_bundle: 2275, after_season: 2206, after_class: 2190, usable: 2165 });
     expect(s.catalog.rows.filter((p) => p.excluded_reason === null)).toHaveLength(2165);

@@ -107,8 +107,8 @@ describe('applyCatalog', () => {
   });
 });
 
-const CFG: RankConfig = { version: 'rank-v1', weights: { occasion: 100, season: 20, bestseller: 15, new: 10, past: 10 }, limits: { family_cap: 2, family_cap_max: 6, rail: 8, occasion_rail: 24, category_rails: 3, category_min: 3 },
-  barred: ranking.barred, gift_keys: [], fresh_badge: 'New', pools: {}, plurals: {}, complements: {}, new_user_picks: [], rows: { c1: { type: 'wear', picks: 4, key: 'wedding' }, c2: { type: 'wear', picks: 2, key: 'wedding', hand: ['h-1', 'h-2'] }, c3: { type: 'new_user', picks: 2, key: null } } };
+const CFG: RankConfig = { version: 'rank-v1', weights: { occasion: 100, season: 20, bestseller: 15, new: 10, past: 10 }, limits: { family_cap: 2, family_cap_max: 6, rail: 8, occasion_rail: 24, category_rails: 3, category_min: 3, min_occasion_in_past_rail: 3 },
+  barred: ranking.barred, gift_keys: [], home_rail_keys: [], fresh_badge: 'New', pools: {}, plurals: {}, complements: {}, new_user_picks: [], rows: { c1: { type: 'wear', picks: 4, key: 'wedding' }, c2: { type: 'wear', picks: 2, key: 'wedding', hand: ['h-1', 'h-2'] }, c3: { type: 'new_user', picks: 2, key: null } } };
 const C1 = { customer_id: 'c1', occasion: 'Wedding', note: null };
 const occ = (id: string, over: Partial<Product> = {}) => product(id, { occasion_keys: ['wedding'], ...over });
 const ranked = (rows: Product[], o: Partial<typeof EMPTY>, c = C1) => { const a = applyCatalog(cat(rows), O(o)); return rankCustomer(c, a, rankConfigFor(CFG, a)); };

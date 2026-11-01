@@ -26,7 +26,8 @@ export interface Product { id: string; handle: string; title: string; url: strin
   colours: string[]; gender: 'female'|'male'|'any'|null; design_group: string|null; badges: string[];
   is_bestseller_gift: boolean; available: boolean; variants: Variant[]; images: Image[];
   excluded_reason: string|null; content_sha256: string;
-  excluded_reasons?: string[] /* every rule it fails, first = excluded_reason */; published_at?: string|null }
+  excluded_reasons?: string[] /* every rule it fails, first = excluded_reason */; published_at?: string|null;
+  push_down?: boolean /* the site's push_down tag; absent on a snapshot built before R138 */ }
 export interface Rules { title_cores: string[]; distinctive_cores: string[]; nouns: string[]; handles: string[] }
 export interface Catalog { snapshot_id: string; fetched_at: string; rows: Map<string,Product>; by_sku: Map<string,string>;
   usable: Product[]; rules: Rules }
@@ -42,7 +43,7 @@ export type IngestResult = { key: string; status: 'ok'; record: Customer }
 export interface RecPick { product_id: string; reason_code: ReasonCode; why?: string[]; score?: number }   // why: signal names (R127), shown to a reviewer, never to the model
 export type MoreKind = 'occasion'|'occasion_category'|'past_purchase';
 export interface MoreSection { kind: MoreKind; label: string; product_ids: string[]; why?: Record<string,string[]> }   // why by product id
-export interface Weights { occasion: number; season: number; bestseller: number; new: number; past: number }
+export interface Weights { occasion: number; season: number; bestseller: number; new: number; past: number; push_down?: number }   // push_down is a penalty; a version saved before R138 has none and ranks with none
 export interface PoolCounts { filtered: number; on_occasion: number; past: number }   // how many products passed the filter, and how many of those carry each signal
 export interface WriteBy { model: string|null; setting: string|null; prompt_version: string|null; prompt_sha256: string|null; prompt_files: string[]; schema: string|null; attempt: number; request_sha256: string|null;
   tokens: { input: number|null; output: number|null; cached: number|null; cache_written: number|null }; stop_reason: string|null; cost: number|null; written_by_model: string[]; written_by_code: string[] }

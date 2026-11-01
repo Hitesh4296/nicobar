@@ -6,7 +6,8 @@
   "season": 20,
   "bestseller": 15,
   "new": 10,
-  "past": 10
+  "past": 10,
+  "push_down": 15
  },
  "limits": {
   "family_cap": 2,
@@ -14,7 +15,8 @@
   "rail": 8,
   "occasion_rail": 24,
   "category_rails": 3,
-  "category_min": 3
+  "category_min": 3,
+  "min_occasion_in_past_rail": 3
  },
  "barred": {
   "class": [
@@ -32,6 +34,9 @@
  "gift_keys": [
   "birthday",
   "housewarming"
+ ],
+ "home_rail_keys": [
+  "wedding"
  ],
  "fresh_badge": "New",
  "pools": {

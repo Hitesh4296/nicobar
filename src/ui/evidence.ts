@@ -36,7 +36,7 @@ export const kv = (pairs: [string, unknown][]) => `<dl class="ev-kv">${pairs.map
 const table = (head: string[], rows: string[][]) => `<table class="tl-table"><thead><tr>${head.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((x) => `<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
 
 const OCCASION_WORD: Record<string, string> = { wedding: 'weddings', birthday: 'birthdays', festive: 'festive days', evening: 'evenings', resort: 'holidays', smart: 'smart days', housewarming: 'housewarmings', hosting: 'hosting', everyday: 'every day' };
-const SIGNAL: Record<string, string> = { fitted_class: 'Fits this occasion', row_fit: 'Fits this customer', bestseller: "Bestseller, by the site's gift tag", prior_tag: 'In the current season', new_arrival: 'New on the site', fallback: 'No occasion tag', hand_set: 'Set by hand', new_user: 'New-customer pick' };
+const SIGNAL: Record<string, string> = { fitted_class: 'Fits this occasion', row_fit: 'Fits this customer', bestseller: "Bestseller, by the site's gift tag", prior_tag: 'In the current season', new_arrival: 'New on the site', push_down: 'Pushed down by the site', fallback: 'No occasion tag', hand_set: 'Set by hand', new_user: 'New-customer pick' };
 /** Signal names from the ranker in reviewer's words. No model text ever passes here. */
 export function plainSignal(s: string): string {
   const [name, word] = s.split(':');

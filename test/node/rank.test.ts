@@ -209,6 +209,99 @@ describe('weights (R128)', () => {
   });
 });
 
+describe('push_down (R138)', () => {
+  const w = ranking.weights, none = { ...shirt, note: null };
+  const one = { ...x, rows: { x: { ...x.rows.x, picks: 1 } } };
+  it('takes the weight off a product the site tags, and 0 turns it off', () => {
+    expect(scoreOf(['occasion_tag:wedding', 'push_down'], w)).toBe(w.occasion - 15);
+    expect(scoreOf(['occasion_tag:wedding', 'push_down'], { ...w, push_down: 0 })).toBe(w.occasion);
+    expect(signalsOf(none, product({ push_down: true }), x.rows.x, x)).toContain('push_down');
+    expect(signalsOf(none, product({}), x.rows.x, x)).not.toContain('push_down');
+  });
+  it('orders a pushed product after its equal, and not at 0', () => {
+    const classes = ['Studs', 'Hoops', 'Danglers', 'Bags'];
+    for (const pushed of classes) {   // Each takes a turn, so the hash cannot be what puts it last.
+      const ps = classes.map((k) => product({ class: [k], occasion_keys: ['wedding'], push_down: k !== pushed }));
+      expect(rankCustomer(none, catalog(ps), one).picks[0].product_id).toBe(ps[classes.indexOf(pushed)].id);
+    }
+  });
+  it('the check on the positive signals is unchanged', () => {
+    const pos = { season: 20, bestseller: 15, new: 10, past: 10 };
+    expect(() => checkWeights({ occasion: 56, ...pos, push_down: 0 })).not.toThrow();
+    expect(() => checkWeights({ occasion: 55, ...pos, push_down: 0 })).toThrow(/outweigh/);
+  });
+  it('occasion still wins at the largest push down the check allows, at any position', () => {
+    expect(() => checkWeights({ ...w, push_down: 45 })).toThrow(/outweigh/);
+    expect(() => checkWeights({ ...w, push_down: -1 })).toThrow(/push_down/);
+    const top = { ...w, push_down: 44 };
+    checkWeights(top);
+    const off = product({ class: ['Chains'], prior_tags: ['x'], badges: ['New'], is_bestseller_gift: true });
+    const tagged = product({ class: ['Studs'], occasion_keys: ['birthday'], push_down: true });
+    const r = rankCustomer(shirt, catalog([off, tagged]), { ...cfg, gift_keys: ['birthday'], rows: { x: { type: 'wear' as const, picks: 2, key: 'birthday' } } }, top);
+    expect(r.picks[0].score).toBeGreaterThan(r.picks[1].score!);
+    expect(ids(r)).toEqual([tagged.id, off.id]);
+  });
+  it('a version saved before it, with five weights, still reads and ranks with no penalty', () => {
+    const { push_down: _, ...five } = w;
+    expect(checkWeights(five)).toBe(five);
+    expect(scoreOf(['occasion_tag:wedding', 'push_down'], five)).toBe(w.occasion);
+  });
+  it('the file it writes names the signal', () => {
+    const r = rankCustomer(none, catalog([product({ occasion_keys: ['wedding'], push_down: true })]), x);
+    expect(() => parseRecs({ version: 'recommendations/v1', synthetic: true, as_of: 'x', snapshot_id: 'y', rule: 'z', rows: [r] })).not.toThrow();
+  });
+});
+
+describe('home and gift products on a gender-free wedding row (R138)', () => {
+  const none = { ...shirt, note: null }, room = (k: string, over: Partial<Product> = {}) => product({ category: ['House & Home'], class: [k], occasion_keys: ['wedding'], ...over });
+  const wed = (over = {}) => ({ ...cfg, rows: { x: { type: 'wear' as const, picks: 2, key: 'wedding', ...over } } });
+  const railed = (r: RecRow) => (r.more ?? []).flatMap((s) => s.product_ids);
+  it('reach the rails and stay out of the picks while wear fits', () => {
+    const studs = product({ class: ['Studs'], occasion_keys: ['wedding'] }), hoops = product({ class: ['Hoops'], occasion_keys: ['wedding'] });
+    const mug = room('Mugs', { badges: ['New'], prior_tags: ['x'] });   // The bigger score, so only the rule keeps it out.
+    const r = rankCustomer(none, catalog([mug, studs, hoops]), wed());
+    expect(ids(r).sort()).toEqual([studs.id, hoops.id].sort());
+    expect(railed(r)).toContain(mug.id);
+  });
+  it('never take a pick: the row falls back to wear', () => {
+    const studs = product({ class: ['Studs'], occasion_keys: ['wedding'] }), bag = product({ class: ['Bags'], prior_tags: ['x'] }), mug = room('Mugs');
+    expect(ids(rankCustomer(none, catalog([bag, mug, studs]), wed()))).toEqual([studs.id, bag.id]);
+    expect(rankCustomer(none, catalog([mug]), wed()).picks).toEqual([]);
+  });
+  it('rails go wear first, deepest home after, and no wear rail is dropped for a home rail', () => {
+    const wear = (k: string, n: number) => Array.from({ length: n }, () => product({ class: [k], category: ['Jewellery'], occasion_keys: ['wedding'] }));
+    const home = (k: string, sub: string, n: number) => Array.from({ length: n }, () => room(k, { subcategory: [sub] }));
+    const lead = product({ class: ['Hoops'], category: ['Jewellery'], occasion_keys: ['wedding'], prior_tags: ['x'] });
+    const r = rankCustomer(none, catalog([lead, ...wear('Studs', 3), ...wear('Chains', 3), ...home('Mugs', 'A', 7), ...home('Plates', 'B', 6)]), { ...wed({ picks: 1 }) });
+    expect(r.more?.filter((s) => s.kind === 'occasion_category').map((s) => s.label).slice(2)).toEqual(['Mugs']);
+  });
+  it('need the occasion tag, and stay gender-free', () => {
+    const studs = product({ class: ['Studs'], occasion_keys: ['wedding'] }), plain = room('Mugs', { occasion_keys: [] }), hers = room('Plates', { gender: 'female' }), his = room('Trays', { gender: 'male' }), mens = room('Bowls', { category: ['House & Home', 'Men'], gender: 'any' });
+    const r = rankCustomer(none, catalog([studs, plain, hers, his, mens]), wed());
+    expect([...ids(r), ...railed(r)]).toEqual([studs.id]);
+  });
+  it('do not reach a row with a stated gender, a pool, or another occasion', () => {
+    const studs = product({ class: ['Studs'], category: ['Women'], gender: 'female', occasion_keys: ['wedding'] }), mug = room('Mugs');
+    expect(rankCustomer(none, catalog([studs, mug]), wed({ note_gender: 'f' as const })).pool?.filtered).toBe(1);
+    const evening = product({ class: ['Studs'], occasion_keys: ['evening'] }), lamp = room('Lamps', { occasion_keys: ['evening'] });
+    expect(rankCustomer(none, catalog([evening, lamp]), wed({ key: 'evening' })).pool?.filtered).toBe(1);
+    expect(rankCustomer(none, catalog([mug]), { ...wed({ pool: 'trip' }) }).pool?.filtered).toBe(0);
+  });
+});
+
+describe('the past rail needs the occasion (R138)', () => {
+  const rail = (n: number) => {
+    const fit = ['Chains', 'Bracelets', 'Scarves'].slice(0, n).map((k) => product({ class: [k], occasion_keys: ['wedding'] }));
+    const hero = product({ class: ['Studs'], occasion_keys: ['wedding'], prior_tags: ['x'] }), rest = ['Socks', 'Caps'].map((k) => product({ class: [k] }));
+    return rankCustomer(shirt, catalog([hero, ...fit, ...rest]), { ...x, rows: { x: { ...x.rows.x, picks: 1 } } }).more?.find((s) => s.kind === 'past_purchase');
+  };
+  it('shows at the limit, hides under it, and follows the config value', () => {
+    expect(rail(3)?.product_ids.length).toBe(5);
+    expect(rail(2)).toBeUndefined();
+    expect(ranking.limits.min_occasion_in_past_rail).toBe(3);
+  });
+});
+
 describe.skipIf(!real)('on the real snapshot', () => {
   const rows = real ? rankAll(customers, real, cfg) : [];
   const get = (c: string) => rows.find((r) => r.customer_id === c)!;
@@ -225,6 +318,22 @@ describe.skipIf(!real)('on the real snapshot', () => {
       expect(ps.every((p) => p.excluded_reason === null && p.available)).toBe(true);
       expect(ps.some(masc) && ps.some(fem), r.customer_id).toBe(false);
     }
+  });
+  it('the site tag reaches the catalog row', () => expect(real!.usable.filter((p) => p.push_down).length).toBe(882));
+  it('c01 keeps its anchor, gains home rails, and loses the socks and caps', () => {
+    const r = get('c01'), all = (r.more ?? []).flatMap((s) => s.product_ids).map((i) => real!.rows.get(i)!);
+    expect(all.some((p) => p.category.includes('House & Home'))).toBe(true);
+    expect(r.more?.filter((s) => s.kind === 'occasion_category').slice(0, 2).map((s) => s.label)).toEqual(['Statement Necklaces', 'Studs']);
+    expect(r.more?.some((s) => s.kind === 'past_purchase')).toBe(false);
+    expect(all.some((p) => ['Socks', 'Caps'].includes(p.class[0]))).toBe(false);
+  });
+  it('every home product on a gender-free wedding row carries the tag, and the rows with a stated gender gain none', () => {
+    for (const c of ['c01', 'c11', 'c19']) {
+      const r = get(c), ps = [...ids(r), ...(r.more ?? []).flatMap((s) => s.product_ids)].map((i) => real!.rows.get(i)!);
+      expect(ps.filter((p) => p.category.includes('House & Home')).every((p) => p.occasion_keys.includes('wedding')), c).toBe(true);
+      expect(ids(r).some((i) => real!.rows.get(i)!.category.includes('House & Home')), c).toBe(false);
+    }
+    for (const r of [get('c08'), get('c09'), get('c17')]) expect([...ids(r), ...(r.more ?? []).flatMap((s) => s.product_ids)].some((i) => real!.rows.get(i)!.category.includes('House & Home'))).toBe(false);
   });
   it('the past rail keeps its size on thin rows', () => {
     for (const c of ['c06', 'c13', 'c15']) expect(get(c).more?.at(-1)?.kind).toBe('past_purchase');

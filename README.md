@@ -84,7 +84,7 @@ Neither needs a key or anything beyond `npm ci`. Both results are committed in `
 |---|---|
 | `data/customers.nicobar.tsv` | **Real**, as supplied. 19 rows, verbatim |
 | `data/customers.with-c20.synthetic.tsv` | The run input: those 19 rows plus a `c20` row with four blank fields. The supplied list had no `c20` row, so it is labelled synthetic. Nothing was invented for it |
-| `data/recommendations.synthetic.json` | Picks per customer, written by the internal ranking engine (`npm run rank`). Filter, then weighted score, then fixed guards, from `config/ranking.json` and the version active on the Refine page. Occasion must outweigh the other four signals together, and the hero must fit the occasion |
+| `data/recommendations.synthetic.json` | Picks per customer, written by the internal ranking engine (`npm run rank`). Filter, then weighted score, then fixed guards, from `config/ranking.json` and the version active on the Refine page. Occasion must outweigh the other four signals together, with room for the `push_down` penalty, and the hero must fit the occasion. The past rail shows only with at least `min_occasion_in_past_rail` occasion products in it |
 | `data/hand_table.synthetic.json` | Hand-set picks merged into that file: `c02`, `c03`, `c06`, `c13`, `c15`, `c18` |
 | `data/row_keys.synthetic.json` | Occasion key per customer. Keys only, no guessed gender |
 | `test/fixtures/isolation/*.synthetic.*` | Customers built to fail one at a time |
