@@ -218,7 +218,8 @@ describe('draft page reads no catalog', () => {
   });
   it('failed draft names its check', async () => {
     const { html } = await page(`/review/${encodeURIComponent('fx-run:c18:v1')}`);
-    expect(html).toContain('fail · C4');
+    expect(html).toContain('Discount or pressure language');
+    expect(html).not.toContain('fail · C4');
     expect(html).not.toMatch(/\/approve"/);
   });
   it('unknown draft → 404', async () => expect((await go('/review/nope')).status).toBe(404));

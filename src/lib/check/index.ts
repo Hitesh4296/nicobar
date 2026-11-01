@@ -360,6 +360,9 @@ export function c8nHits(text: string, customer_id: string): string[] {
   return [...(C8N[customer_id] ?? []).filter((re) => re.test(t)).map((re) => re.source), ...echoes];
 }
 
+/** Every check id the two validators can write. The review pages name all of these. */
+export const RULE_IDS: string[] = ['C1', ...[...anyPart, ...landingOnly, ...emailOnly].map(([id]) => id), 'X1', 'X2', 'X3', 'X4'];
+
 export function validate(model_json: string, envelope: Envelope, cat: Catalog, plan: Plan): CheckResult[] {
   const parts = partsOf(plan);
   const { failures, model } = c1(model_json, parts);

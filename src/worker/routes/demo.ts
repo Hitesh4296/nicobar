@@ -1,5 +1,6 @@
+import { reviewFlags } from '../../lib/config/index.ts';
 import { renderEvals, renderPublished, renderSpend } from '../../ui/demo/index.ts';
-import type { PublishedRow, SpendRow } from '../../ui/demo/index.ts';
+import type { PublishedRow, RealDraft, SpendRow } from '../../ui/demo/index.ts';
 import { reports } from '../../ui/demo/reports.ts';
 import type { Ctx, Route } from './list.ts';
 
@@ -22,8 +23,24 @@ async function published({ env }: Ctx): Promise<Response> {
   return html(renderPublished(rows.results));
 }
 
+/** The latest real run for the Evals page. No database, no section: the rest of the page is files. */
+async function evals({ env }: Ctx): Promise<Response> {
+  try {
+    const run = await env.DB.prepare(`SELECT id FROM runs WHERE id NOT LIKE 'stub-%' ORDER BY created_at DESC, id LIMIT 1`).first<{ id: string }>();
+    if (!run) return html(renderEvals(reports));
+    const rows = (await env.DB.prepare(`SELECT id, customer_id, version, model_json, json_extract(rendered_json, '$.catalog') AS catalog, checks_json FROM drafts WHERE run_id = ? ORDER BY customer_id, version`)
+      .bind(run.id).all<Omit<RealDraft, 'checks' | 'flags'> & { checks_json: string }>()).results;
+    const flagged = (id: string) => reviewFlags(env, id).then((f) => f.filter((x) => x.flagged && !x.dismissal).map((x) => x.question)).catch(() => []);
+    const drafts = await Promise.all(rows.map(async ({ checks_json, ...r }) => ({ ...r, checks: JSON.parse(checks_json), flags: await flagged(r.id) })));
+    return html(renderEvals(reports, drafts, run.id));
+  } catch {
+    console.error(JSON.stringify({ step: 'evals', status: 'error', code: 'INTERNAL_ERROR' }));
+    return html(renderEvals(reports));
+  }
+}
+
 export const routes: Route[] = [
   { method: 'GET', path: '/review/spend', handler: spend },
   { method: 'GET', path: '/review/published', handler: published },
-  { method: 'GET', path: '/review/evals', handler: () => html(renderEvals(reports)) },
+  { method: 'GET', path: '/review/evals', handler: evals },
 ];

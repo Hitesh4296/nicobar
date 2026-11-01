@@ -3,8 +3,10 @@ import shapes from '../../config/shapes.json' with { type: 'json' };
 import quotes from '../../config/quotes.json' with { type: 'json' };
 import type { CheckResult, DraftStatus, Envelope, FlagView, ModelJson, Part, Plan, RenderedJson, RunFormat, RunReport, Stage, UnitStatus } from '../contracts/types.ts';
 import { countMore, readCards } from '../lib/render/catalog.ts';
+import { CHECK_GROUPS, explainBlocks, jevNotRun, stoppedLine } from './checks.ts';
 import { esc } from './nb.ts';
 import { banner, emptyCard, isStub, shell } from './shell.ts';
+import { capital } from './timeline.ts';
 
 const STUB = banner('Stub draft', 'Written by the local stub, not a model. The copy is generic on purpose: it shows the path, not the voice. The real checks, approval and publish still apply.', 'warn');
 
@@ -63,7 +65,7 @@ export function runsPage(runs: RunRow[], run: RunRow | null, report: RunReport |
     + (run.jev_disabled_reason ? banner('Jev off', `Draft flags did not run for this run: ${run.jev_disabled_reason}. Code checks still applied.`, 'warn') : '')
     + `<p class="runs">${runs.map((r) => `<a href="/review?run=${encodeURIComponent(r.id)}"${r.id === run.id ? ' aria-current="true"' : ''}>${esc(r.id)} · ${esc(r.stage)}</a>`).join('')}</p>`
     + `<div class="top"><div><p class="eyebrow">Runs · ${esc(run.stage)} · ${esc(run.status)} · snapshot ${esc(report.snapshot_fetched_at.slice(0, 10))}</p><h1>${esc(run.id)}</h1></div>`
-    + `<a class="btn" href="/review/runs/${encodeURIComponent(run.id)}/plans">Plans</a></div>`
+    + `<div><a class="btn" href="/review/runs/${encodeURIComponent(run.id)}">Timeline</a> <a class="btn" href="/review/runs/${encodeURIComponent(run.id)}/plans">Plans</a></div></div>`
     + `<div class="metrics">${metrics.map(([k, v, c]) => `<div><span>${esc(k)}</span><b class="${c ?? ''}">${esc(v)}</b></div>`).join('')}</div>`
     + (live ? emptyCard('Run in progress', `${units.filter((u) => ['drafted', 'failed', 'skipped'].includes(u.status)).length} of ${units.length} done. This page updates on refresh.`) : '')
     + `<p class="note">Showing ${units.length} of ${units.length}.${firstCode ? ` ${esc(firstCode.customer_id)} stopped with ${esc(firstCode.code ?? firstCode.status)}. The other customers carried on.` : ''}${split ? ` Format: ${split}.` : ''} Ceiling ${usd(report.ceiling_usd)}.</p>`
@@ -83,27 +85,30 @@ export function plansPage(run_id: string, plans: Plan[], admissions: Record<stri
 function stepper(status: DraftStatus, checks: CheckResult[]): string {
   const STEPS = [['draft', 'Drafted'], ['in_review', 'In review'], ['approved', 'Approved'], ['released', 'Published']] as const;
   if (status === 'failed' || status === 'rejected') {
-    const parts = [...new Set(checks.filter((c) => c.severity === 'hard' && !c.pass).map((c) => c.part.replace('_', ' ')))].join(', ');
-    return `<p class="step"><span class="done">✓ Drafted</span><span class="bad">${status === 'failed' ? `Failed: CHECKS_FAILED${parts ? `, ${esc(parts)}` : ''}` : 'Rejected. Final for this run.'}</span></p>`;
+    return `<p class="step"><span class="done">✓ Drafted</span><span class="bad">${status === 'failed' ? esc(stoppedLine(checks)) : 'Rejected. Final for this run.'}</span></p>`;
   }
   const at = STEPS.findIndex(([s]) => s === status);
   return `<p class="step">${STEPS.map(([, l], i) => (i < at ? `<span class="done">✓ ${l}</span>` : i === at ? `<span class="now">${l}</span>` : `<span class="next">${l}</span>`)).join('')}</p>`;
 }
 
-const NAMED: [string, string[]][] = [['Made-up product', ['C2', 'C8', 'C8d', 'C8d-x']], ['Image on nicobar.com', ['X2']], ['Discount phrase', ['C4']], ['Under 120 words', ['C3', 'C3.L']], ['Past item not echoed', ['C8n']]];
+const notRun = (checks: CheckResult[], ids: string[]) => (checks.some((c) => c.id === 'C1' && !c.pass) ? 'Not run: the draft failed its format check first, so nothing after it ran.'
+  : ids.every((id) => id.startsWith('X')) ? 'Not run: the page could not be built, so it was never checked.' : 'Not run: this draft has no stored result for it.');
 
-function checkRows(checks: CheckResult[], flags: FlagView[] | null): string {
+function jevRow(d: DraftView, flags: FlagView[] | null, jev: DraftOpts['jev']): [string, string] {
+  if (d.hard_failures > 0) return ['Not run: a draft that fails a check is not sent to Jev.', 'soft'];
+  if (flags === null) return ['Not run: Jev is not built into this environment.', 'soft'];
+  if (!flags.length) return [jevNotRun(jev?.reason), 'soft'];
+  const flagged = flags.filter((f) => f.flagged && !f.dismissal).length;
+  return [`${flagged} flags`, flagged ? 'warn' : 'pass'];
+}
+
+function checkRows(d: DraftView, flags: FlagView[] | null, jev: DraftOpts['jev']): string {
   const row = (name: string, value: string, cls: string) => `<div class="row"><span>${esc(name)}</span><span class="${cls}">${esc(value)}</span></div>`;
-  const named = NAMED.map(([name, ids]) => {
-    const mine = checks.filter((c) => ids.includes(c.id));
-    const bad = mine.find((c) => !c.pass && c.severity === 'hard');
-    return bad ? row(name, `fail · ${bad.id}`, 'fail') : mine.length ? row(name, 'pass', 'pass') : row(name, 'not run', 'soft');
+  const named = CHECK_GROUPS.map(([name, ids]) => {
+    const mine = d.checks.filter((c) => ids.includes(c.id));
+    return mine.some((c) => !c.pass && c.severity === 'hard') ? row(name, 'Failed, see below', 'fail') : mine.length ? row(name, 'Passed', 'pass') : row(name, notRun(d.checks, ids), 'soft');
   });
-  const known = NAMED.flatMap(([, ids]) => ids);
-  const others = checks.filter((c) => !c.pass && !known.includes(c.id)).map((c) => row(c.detail ? `${c.id}: ${c.detail}` : c.id, c.severity === 'hard' ? 'fail' : c.severity, c.severity === 'hard' ? 'fail' : 'warn'));
-  const flagged = flags?.filter((f) => f.flagged && !f.dismissal).length;
-  const jev = flags === null ? row('Jev: quiet, specific', 'not run', 'soft') : row('Jev: quiet, specific', `${flagged} flags`, flagged ? 'warn' : 'pass');
-  return [...named, ...others, jev].join('');
+  return [...named, row('Jev: quiet, specific', ...jevRow(d, flags, jev))].join('');
 }
 
 function outline(d: DraftView, shape: string | null, titles: Map<string, string>): string {
@@ -153,10 +158,10 @@ function publishDialog(d: DraftView, name: string): string {
 
 const DONE: Record<string, string> = { approved: 'Approved. Nothing is sent.', rejected: 'Rejected. Final for this run.', in_review: 'Approval revoked. Back in review.', released: 'Published. Not sent.' };
 
-export interface DraftOpts { part: string | null; width: number; confirm: boolean; done: string | null; refused: string | null; prev: string | null; next: string | null }
+export interface DraftOpts { part: string | null; width: number; confirm: boolean; done: string | null; refused: string | null; prev: string | null; next: string | null; jev?: { status: string; reason: string | null } | null; timeline?: string | null }
 
 export function draftPage(d: DraftView, plan: Plan | null, flags: FlagView[] | null, flagRows: string, events: EventRow[], o: DraftOpts): string {
-  const name = plan?.display_name ?? d.customer_id;
+  const name = plan?.display_name ? capital(plan.display_name) : d.customer_id;
   const tabs = (['email', 'landing_page', 'catalog'] as const).filter((p) => d.rendered[p] !== null && d.rendered[p] !== undefined);
   const part = tabs.find((p) => p === o.part) ?? tabs.find((p) => p === 'landing_page') ?? tabs[0];
   const href = (p: string, w: number) => `${draftHref(d.id)}?part=${p}&amp;width=${w}`;
@@ -181,12 +186,13 @@ export function draftPage(d: DraftView, plan: Plan | null, flags: FlagView[] | n
     : emptyCard('Nothing rendered', 'This draft stored no page.');
   const body = `${banners}<div class="top"><div><p class="eyebrow">${esc(d.run_id)} · ${esc(d.customer_id)} · shape ${esc(plan?.shape ?? 'none')}</p>`
     + `<h1>${esc(name)}${plan?.occasion ? `, ${esc(plan.occasion)}` : ''}</h1></div><div>${o.prev ? `<a class="btn" href="${draftHref(o.prev)}">Previous</a> ` : ''}${o.next ? `<a class="btn" href="${draftHref(o.next)}">Next</a>` : ''}</div></div>`
+    + (o.timeline ? `<details${d.status === 'failed' ? ' open' : ''}><summary><h2 style="display:inline-block">What happened to this customer, step by step</h2></summary>${o.timeline}</details>` : '')
     + `<div class="draft"><div><div class="tabs"><div>${tabs.map((p) => `<a href="${href(p, o.width)}"${p === part ? ' aria-current="page"' : ''}>${LABEL[p]}</a>`).join('')}</div>`
     + `<div>${[390, 1200].map((w) => `<a href="${href(part ?? 'catalog', w)}"${w === o.width ? ' aria-current="true"' : ''}>${w === 390 ? 'Phone 390' : 'Desktop 1200'}</a>`).join('')}</div></div>`
     + `${frame}${outline(d, plan?.shape ?? null, titles)}<p class="note">Shape ${esc(plan?.shape ?? 'none')}: ${rule ? `/${esc(rule.re)}/${esc(rule.flags)}, ${esc(rule.job)}` : 'no rule matched'}.</p></div>`
     + `<aside>${stepper(d.status, d.checks)}${actions(d)}`
     + `${d.status === 'released' ? `<p class="note">Stored, not sent. ${tabs.map((p) => `<a href="/released/${encodeURIComponent(d.id)}?part=${p}">${LABEL[p]}</a>`).join(' · ')}</p>` : ''}`
-    + `<h2>Checks</h2>${checkRows(d.checks, flags)}`
+    + `<h2>Checks</h2>${checkRows(d, flags, o.jev)}${explainBlocks(d.checks, model, titles)}`
     + (flagRows ? `<h2>Jev flags</h2>${flagRows}` : '')
     + `<h2>Picks and sources</h2>${picks || '<p class="note">No picks in the stored catalog.</p>'}${moreCount ? `<p class="note">${moreCount} more items in the stored catalog.</p>` : ''}${quoteRows}`
     + `<h2>Provenance</h2><div class="row"><span>Snapshot</span><span>${esc(d.snapshot_id)}, ${esc(d.envelope.snapshot_fetched_at?.slice(0, 10))}</span></div><div class="row"><span>Model</span><span>${esc(d.model)}</span></div>`

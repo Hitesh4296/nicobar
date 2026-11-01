@@ -5,8 +5,11 @@ import type { AppEnv, CheckResult, DraftStatus, Edge, Envelope, FlagView, Plan, 
 import { reviewFlags } from '../../lib/config/index.ts';
 import { runReport, transition } from '../../lib/state/index.ts';
 import { flagRow } from '../../ui/agents/index.ts';
+import { shell } from '../../ui/shell.ts';
 import { draftPage, plansPage, runsPage } from '../../ui/review.ts';
 import type { DraftView, EventRow, RunRow, UnitView } from '../../ui/review.ts';
+import { customerTimeline, runTimeline } from '../../ui/timeline.ts';
+import type { CostIn, CustomerData, DraftIn, EventIn, JevIn, RunIn, UnitIn } from '../../ui/timeline.ts';
 import type { Ctx, Route } from './list.ts';
 
 // srcdoc inherits this, so the frame has two locks: sandbox="" and script-src 'none'.
@@ -51,6 +54,33 @@ async function runs(c: Ctx): Promise<Response> {
   }
 }
 
+/** One run's recorded trail, per customer. `only` narrows it to one customer for the draft page. */
+async function trail(env: AppEnv, run_id: string, only: string | null = null): Promise<CustomerData[]> {
+  const db = env.DB;
+  const rows = async <T>(sql: string) => (await db.prepare(sql).bind(run_id, only).all<T>()).results;
+  const mine = 'run_id = ?1 AND (?2 IS NULL OR customer_id = ?2)';
+  const [units, plans, drafts, costs, jev, events] = await Promise.all([
+    rows<UnitIn>(`SELECT customer_id, status, code, error_detail FROM units WHERE ${mine} ORDER BY customer_id`),
+    rows<{ customer_id: string; plan_json: string; created_at: string }>(`SELECT customer_id, plan_json, created_at FROM plans WHERE ${mine}`),
+    rows<DraftIn>(`SELECT id, customer_id, version, status, hard_failures, model_json, json_extract(rendered_json, '$.catalog') AS catalog, checks_json, envelope_json FROM drafts WHERE ${mine} ORDER BY customer_id, version`),
+    rows<CostIn>(`SELECT customer_id, attempt, action, call_state, input_tokens, est_usd, commit_usd, charged_usd, reason, at FROM cost_events WHERE ${mine}`),
+    rows<JevIn>(`SELECT customer_id, attempt, status, reason, charged_usd, at FROM jev_events WHERE ${mine}`),
+    rows<EventIn>(`SELECT e.draft_id, e.from_status, e.to_status, e.actor_email, e.at, e.note FROM draft_events e JOIN drafts d ON d.id = e.draft_id WHERE d.run_id = ?1 AND (?2 IS NULL OR d.customer_id = ?2) ORDER BY e.id`)]);
+  return Promise.all(units.map(async (unit) => {
+    const key = unit.customer_id, plan = plans.find((p) => p.customer_id === key), mineD = drafts.filter((d) => d.customer_id === key), last = mineD.at(-1);
+    const flags = last ? (await flagsOf(env, last.id))?.filter((f) => f.flagged && !f.dismissal).map((f) => f.question) ?? [] : [];
+    return { unit, plan: parseJson<Plan>(plan?.plan_json ?? null), plan_at: plan?.created_at ?? null, drafts: mineD, costs: costs.filter((x) => x.customer_id === key), jev: jev.filter((x) => x.customer_id === key),
+      events: events.filter((e) => mineD.some((d) => d.id === e.draft_id)), flags };
+  }));
+}
+
+async function timeline(c: Ctx): Promise<Response> {
+  const id = idOf(c);
+  const run = await c.env.DB.prepare('SELECT id, status, jev_disabled_reason, spent_usd, cap_run_usd FROM runs WHERE id = ?').bind(id).first<RunIn>();
+  if (!run) return fail(404, 'NOT_FOUND', 'review run');
+  return html(shell(`Timeline · ${run.id}`, '/review', `<p><a class="btn" href="/review?run=${encodeURIComponent(run.id)}">Back to the run</a></p>${runTimeline(run, await trail(c.env, run.id))}`));
+}
+
 async function plans(c: Ctx): Promise<Response> {
   const id = idOf(c);
   const db = c.env.DB;
@@ -71,18 +101,21 @@ async function draft(c: Ctx): Promise<Response> {
   let row: DraftDb | null;
   try { row = await db.prepare('SELECT * FROM drafts WHERE id = ?').bind(id).first<DraftDb>(); } catch { return fail(500, 'INTERNAL_ERROR', 'review draft'); }
   if (!row) return fail(404, 'NOT_FOUND', 'review draft');
-  const [planRow, events, siblings, flags] = await Promise.all([
+  const [planRow, events, siblings, flags, jev] = await Promise.all([
     db.prepare('SELECT plan_json FROM plans WHERE run_id = ? AND customer_id = ?').bind(row.run_id, row.customer_id).first<{ plan_json: string }>(),
     db.prepare('SELECT from_status, to_status, actor_kind, actor_email, at, note FROM draft_events WHERE draft_id = ? ORDER BY id').bind(id).all<EventRow>(),
     db.prepare('SELECT id FROM drafts WHERE run_id = ? ORDER BY customer_id, version').bind(row.run_id).all<{ id: string }>(),
-    flagsOf(c.env, id)]);
+    flagsOf(c.env, id),
+    db.prepare('SELECT status, reason FROM jev_events WHERE run_id = ? AND customer_id = ? AND attempt = ?').bind(row.run_id, row.customer_id, row.version).first<{ status: string; reason: string | null }>()]);
+  const run = await db.prepare('SELECT id, status, jev_disabled_reason, spent_usd, cap_run_usd FROM runs WHERE id = ?').bind(row.run_id).first<RunIn>();
+  const [mine] = run ? await trail(c.env, row.run_id, row.customer_id) : [];
   const q = new URL(c.req.url).searchParams;
   const at = siblings.results.findIndex((s) => s.id === id);
   const view: DraftView = { ...row, envelope: JSON.parse(row.envelope_json) as Envelope, rendered: JSON.parse(row.rendered_json) as RenderedJson, checks: JSON.parse(row.checks_json) as CheckResult[],
     hash_now: await contentSha256(row.envelope_json, row.model_json, row.rendered_json) };
   return html(draftPage(view, parseJson<Plan>(planRow?.plan_json ?? null), flags, (flags ?? []).map((f) => rowFor(f, id)).join(''), events.results, {
     part: q.get('part'), width: q.get('width') === '390' ? 390 : 1200, confirm: q.get('confirm') === 'release', done: q.get('done'), refused: q.get('refused'),
-    prev: siblings.results[at - 1]?.id ?? null, next: siblings.results[at + 1]?.id ?? null }));
+    prev: siblings.results[at - 1]?.id ?? null, next: siblings.results[at + 1]?.id ?? null, jev, timeline: run && mine ? customerTimeline(mine, run) : null }));
 }
 
 const EDGES: Record<string, Edge> = { approve: 'E4', reject: 'E5', revoke: 'E6', release: 'E7' };
@@ -128,6 +161,7 @@ async function released(c: Ctx): Promise<Response> {
 export const routes: Route[] = [
   { method: 'GET', path: '/review', handler: runs },
   { method: 'GET', path: '/review/runs/:id/plans', handler: plans },
+  { method: 'GET', path: '/review/runs/:id', handler: timeline },
   { method: 'GET', path: '/review/:id', handler: draft },
   { method: 'POST', path: '/api/drafts/:id/:action(approve|reject|revoke|release)', origin: true, handler: act },
   { method: 'GET', path: '/released/:id', handler: released },

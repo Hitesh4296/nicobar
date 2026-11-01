@@ -71,6 +71,15 @@ describe('screens', () => {
     for (const l of readiness.lines) expect(html).toMatch(new RegExp(`<td>${l.id}</td>.*?<td>${l.verdict}</td>`));
     for (const n of evalReport.named_failures) expect(html).toContain(n.label);
   });
+  it('timeline: a run loads per customer, names escaped; an unknown run is 404', async () => {
+    await db.prepare(`INSERT INTO units (run_id, customer_id, status, code, billed_attempts) VALUES ('run-f', 'c01', 'failed', 'CHECKS_FAILED', 1)`).run();
+    const { status, html } = await get('/review/runs/run-f');
+    expect(status).toBe(200);
+    expect(html).toContain('&lt;b&gt;Meera&lt;/b&gt;');
+    expect(html).not.toContain('<b>Meera');
+    expect(html).toContain('Cap check');
+    expect((await get('/review/runs/nope')).status).toBe(404);
+  });
   it('published: a stub run is labelled, a real one is not', async () => {
     const { html } = await get('/review/published');
     expect(html.match(/<td>[^<]*<code>c05<\/code> · stub draft/)).not.toBeNull();

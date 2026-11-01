@@ -51,7 +51,7 @@ export const countTokens = async (client: Anthropic, req: AnthropicRequest) => {
   return (await client.messages.countTokens(body as never)).input_tokens;
 };
 
-const charged = (u: Usage, p: Prices['models'][string]) =>
+export const charged = (u: Usage, p: Prices['models'][string]) =>
   (u.input_tokens * p.in + (u.cache_creation_input_tokens ?? 0) * p.write_5m + (u.cache_read_input_tokens ?? 0) * p.read + u.output_tokens * p.out) / 1e6;
 
 export async function draftOne(o: Options, d: Deps): Promise<{ spent_usd: number; stopped: boolean; written: string[] }> {
