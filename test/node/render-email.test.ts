@@ -170,8 +170,8 @@ describe('the letter: frame, pairing and the one landing link (R132)', () => {
     expect(h).not.toMatch(/\/released\//);
   });
   it('resolves on /released to the right draft; review shows it labelled and dead', () => {
-    const h = landingLink(all().email!, 'https://x.test', 'run:c01:v2');
-    expect(h).toContain('href="https://x.test/released/run%3Ac01%3Av2?part=landing_page"');
+    const h = landingLink(all().email!, 'https://x.test/c01');
+    expect(h).toContain('href="https://x.test/c01"');
     expect(h).not.toContain(`href="${LANDING_HREF}"`);
     const v = emailPreview(all().email!);
     expect(v).toContain('Live after release');

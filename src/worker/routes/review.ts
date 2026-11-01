@@ -17,7 +17,7 @@ import type { CostIn, CustomerData, DraftIn, EventIn, GenIn, JevIn, RunIn, UnitI
 import type { Ctx, Route } from './list.ts';
 
 // srcdoc inherits this, so the frame has two locks: sandbox="" and script-src 'none'.
-const CSP = "default-src 'none'; script-src 'none'; img-src https://cdn.shopify.com; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'";
+export const CSP = "default-src 'none'; script-src 'none'; img-src https://cdn.shopify.com; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'";
 // Dynamic: lib.ts binds every module, and a route file must not fail to load under a test's partial vi.mock of one of them.
 const contentSha256 = async (e: string, m: string, r: string) => (await import('../../contracts/lib.ts')).contentSha256(e, m, r);
 const html = (body: string, status = 200) => new Response(body, { status, headers: { 'content-type': 'text/html; charset=utf-8', 'content-security-policy': CSP } });
@@ -177,13 +177,15 @@ const PARTS = ['email', 'landing_page', 'catalog'] as const;
 async function released(c: Ctx): Promise<Response> {
   const part = PARTS.find((p) => p === new URL(c.req.url).searchParams.get('part'));
   if (!part) return fail(400, 'BAD_INPUT', 'part');
-  const row = await c.env.DB.prepare('SELECT status, approved_sha256, envelope_json, model_json, rendered_json FROM drafts WHERE id = ?').bind(idOf(c)).first<DraftDb>();
+  const row = await c.env.DB.prepare('SELECT customer_id, status, approved_sha256, envelope_json, model_json, rendered_json FROM drafts WHERE id = ?').bind(idOf(c)).first<DraftDb>();
   if (!row) return fail(404, 'NOT_FOUND', 'released');
   if (row.status !== 'released') return fail(409, 'WRONG_STATE', row.status);
   if (await contentSha256(row.envelope_json, row.model_json, row.rendered_json) !== row.approved_sha256) return fail(409, 'HASH_MISMATCH');
   const body = (JSON.parse(row.rendered_json) as RenderedJson)[part];
   if (body === null) return fail(404, 'NOT_FOUND', part);
-  const page = part === 'email' ? landingLink(body, c.env.PUBLIC_ORIGIN || new URL(c.req.url).origin, idOf(c)) : body;   // after the hash: the stored email stays as approved
+  // After the hash: the stored email stays as approved. No PUBLIC_ORIGIN means local, with no landing host to point at.
+  const to = c.env.PUBLIC_ORIGIN ? `${c.env.PUBLIC_ORIGIN}/${encodeURIComponent(row.customer_id)}` : `${new URL(c.req.url).origin}/released/${encodeURIComponent(idOf(c))}?part=landing_page`;
+  const page = part === 'email' ? landingLink(body, to) : body;
   return new Response(page, { headers: { 'content-type': 'text/html; charset=utf-8', 'content-security-policy': `sandbox; ${CSP}` } });
 }
 

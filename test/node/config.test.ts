@@ -31,6 +31,7 @@ describe('test 5: any DEV_* fails the pre-deploy check', () => {
   const cfg = () => {
     const c = JSON.parse(readFileSync('wrangler.jsonc', 'utf8'));
     c.env.demo.vars.TEAM_DOMAIN = 'https://t.cloudflareaccess.com';
+    c.env.demo.vars.ACCESS_AUD = 'aud';
     c.env.demo.d1_databases[0].database_id = 'demo-db';
     return c;
   };

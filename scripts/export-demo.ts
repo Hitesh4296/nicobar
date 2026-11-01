@@ -1,7 +1,7 @@
 // Builds out/demo/seed.sql for the link. Local only: it works on a copy of the local D1 state and never reaches Cloudflare.
 // `node scripts/export-demo.ts`. Applying the file is a separate step, on the owner's word.
 import { execFileSync, spawn } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -9,12 +9,12 @@ const ROOT = resolve(import.meta.dirname, '..');
 const DB = 'nicobar';
 export const SEED_ACTOR = 'seed-demo@local';
 export const O5 = { released: 2, approved: 1 };       // the rest stay in_review
-export const SEED_TABLES = ['snapshots', 'runs', 'units', 'plans', 'drafts', 'draft_events', 'cost_events', 'jev_events', 'config_versions'];
+export const SEED_TABLES = ['snapshots', 'runs', 'units', 'plans', 'drafts', 'draft_events', 'cost_events', 'jev_events', 'generations', 'config_versions'];
 export const RESET_TABLES = [...SEED_TABLES, 'jev_dismissals'];      // starts empty on the link, live; the reset clears it
 export const MAX_STATEMENT = 100_000;                 // D1 limits page [verified 2026-11-01]
 const CHUNK_BYTES = 90_000;                           // literal bytes; leaves room for the UPDATE around it
 const LARGE_VALUE = 10_000;
-const KEYS: Record<string, string[]> = { drafts: ['id'], plans: ['run_id', 'customer_id'], config_versions: ['id'] };   // the tables that hold long text
+const KEYS: Record<string, string[]> = { drafts: ['id'], plans: ['run_id', 'customer_id'], config_versions: ['id'], generations: ['run_id', 'customer_id', 'attempt'] };   // the tables that hold long text
 
 // Seen in the frozen site cache 2026-11-01. Alone these prove nothing; beside the first name they still fail.
 const SITE_WORDS = new Set(['Das', 'Singh', 'lal', 'Palace', 'Patel']);
@@ -63,14 +63,20 @@ export async function driveToO5(ids: string[], post: (id: string, action: 'appro
   for (const id of sorted.slice(0, O5.released)) await step(id, 'release');
 }
 
+/** What the read-only link reads. Customer and recs files stay home: only a run reads them, the link cannot run, and they hold last names. */
+export const r2Keys = (snapshot: string | string[]) => {
+  const ids = [snapshot].flat(), keys = (files: string[]) => ids.flatMap((id) => files.map((f) => `snapshots/${id}/${f}.json`));
+  return { required: keys(['catalog', 'rules']), optional: keys(['report', 'detail', 'vocabulary']) };
+};
+
 /** Run on the copy, so `d1 export` holds nothing else. F keeps its rows; isolation keeps `runs`, `units`. */
 export function pruneSql(fId: string, isolationId: string): string {
   const f = lit(fId), both = `${f}, ${lit(isolationId)}`;
   return [`DELETE FROM runs WHERE id NOT IN (${both});`, `DELETE FROM units WHERE run_id NOT IN (${both});`,
     `DELETE FROM draft_events WHERE draft_id NOT IN (SELECT id FROM drafts WHERE run_id = ${f});`,
-    ...['plans', 'drafts', 'cost_events', 'jev_events'].map((t) => `DELETE FROM ${t} WHERE run_id <> ${f};`),
+    ...['plans', 'drafts', 'cost_events', 'jev_events', 'generations'].map((t) => `DELETE FROM ${t} WHERE run_id <> ${f};`),
     'DELETE FROM snapshots WHERE id NOT IN (SELECT snapshot_id FROM runs);',
-    `DELETE FROM config_versions WHERE id NOT IN (SELECT prompt_version FROM runs UNION SELECT voice_guide_version FROM runs UNION SELECT jev_config_version FROM runs UNION SELECT catalog_version FROM runs WHERE catalog_version IS NOT NULL);`,
+    `DELETE FROM config_versions WHERE status <> 'active' AND id NOT IN (SELECT prompt_version FROM runs UNION SELECT voice_guide_version FROM runs UNION SELECT jev_config_version FROM runs UNION SELECT catalog_version FROM runs WHERE catalog_version IS NOT NULL UNION SELECT ranking_version FROM runs WHERE ranking_version IS NOT NULL);`,
   ].join('\n');
 }
 
@@ -188,6 +194,20 @@ export function exportFromCopy(cfg: string, runs: Selected, customersTsv: string
   return buildSeed(exported);
 }
 
+/** Copies out of local R2 for the parent to upload. A required file missing refuses; a snapshot older than a side file just lacks it. */
+export function exportR2(cfg: string, outDir: string): { key: string; bytes: number }[] {
+  const { required, optional } = r2Keys(query<{ id: string }>(cfg, 'SELECT id FROM snapshots').map((s) => s.id));
+  const get = (key: string) => {
+    const file = join(outDir, key);
+    mkdirSync(resolve(file, '..'), { recursive: true });
+    wrangler(cfg, 'r2', 'object', 'get', `${DB}/${key}`, '--local', '--file', file);
+    return { key, bytes: statSync(file).size };
+  };
+  const out = required.map(get);
+  for (const key of optional) { try { out.push(get(key)); } catch { console.warn(`absent, not shipped: ${key}`); } }
+  return out;
+}
+
 async function driveOnCopy(cfg: string, draftIds: string[]): Promise<void> {
   const port = 8798, base = `http://127.0.0.1:${port}`;
   const dev = spawn(join(ROOT, 'node_modules/.bin/wrangler'), ['dev', '-c', cfg, '--persist-to', join(resolve(cfg, '..'), '.wrangler/state'), '--port', String(port), '--var', 'DEV_MODE:1', '--var', `DEV_ACTOR:${SEED_ACTOR}`],
@@ -227,7 +247,10 @@ async function main(): Promise<void> {
     await driveOnCopy(cfg, ids);
     const seed = exportFromCopy(cfg, runs, readFileSync(join(ROOT, 'data/customers.nicobar.tsv'), 'utf8'), []);
     writeFileSync(join(ROOT, 'out/demo/seed.sql'), seed.sql);
-    console.log(`out/demo/seed.sql: ${seed.statements.length} statements, largest ${seed.largest} bytes, cap ${MAX_STATEMENT}`);
+    console.log(`out/demo/seed.sql: ${seed.statements.length} statements, ${bytes(seed.sql)} bytes, largest ${seed.largest}, cap ${MAX_STATEMENT}`);
+    const files = exportR2(cfg, join(ROOT, 'out/demo/r2'));
+    writeFileSync(join(ROOT, 'out/demo/r2-keys.txt'), `${files.map((f) => f.key).join('\n')}\n`);
+    console.log(`out/demo/r2: ${files.length} files, ${files.reduce((t, f) => t + f.bytes, 0)} bytes`);
   } finally {
     rmSync(work, { recursive: true, force: true });
   }

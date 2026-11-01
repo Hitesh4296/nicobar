@@ -25,9 +25,8 @@ export function pairBody(raw: string, shown: string[]): { opening: string[]; slo
   return { opening: first ? [first, ...rest] : rest, slots };
 }
 
-/** The stored href holds neither origin nor id, so the approved hash needs neither. `/released` calls this after the hash check. */
-export const landingLink = (html: string, origin: string, id: string): string =>
-  html.replaceAll(`href="${LANDING_HREF}"`, `href="${esc(`${origin}/released/${encodeURIComponent(id)}?part=landing_page`)}"`);
+/** The stored href holds neither origin nor id, so the approved hash needs neither. The serving route calls this after the hash check. */
+export const landingLink = (html: string, url: string): string => html.replaceAll(`href="${LANDING_HREF}"`, `href="${esc(url)}"`);
 
 /** Review only: the same button, dead, and saying why. Model text is escaped, so neither string can come from it. */
 export const emailPreview = (html: string): string => html.replace(` href="${LANDING_HREF}"`, '')

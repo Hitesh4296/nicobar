@@ -184,7 +184,7 @@ describe('/released', () => {
     const hash = await contentSha256(before!.envelope_json, before!.model_json, rendered);
     await e.DB.prepare('UPDATE drafts SET rendered_json = ?, approved_sha256 = ?, content_sha256 = ? WHERE id = ?').bind(rendered, hash, hash, id).run();
     const path = `/released/${encodeURIComponent(id)}?part=email`;
-    expect(await (await go(path, undefined, { PUBLIC_ORIGIN: 'https://pub.test' })).text()).toContain('href="https://pub.test/released/fx-run%3Ac02%3Av1?part=landing_page"');
+    expect(await (await go(path, undefined, { PUBLIC_ORIGIN: 'https://pub.test' })).text()).toContain('href="https://pub.test/c02"');
     expect(await (await go(path)).text()).toContain(`href="${ORIGIN}/released/fx-run%3Ac02%3Av1?part=landing_page"`);
     await e.DB.prepare('UPDATE drafts SET rendered_json = ?, approved_sha256 = ?, content_sha256 = ? WHERE id = ?').bind(before!.rendered_json, before!.approved_sha256, before!.approved_sha256, id).run();
   });

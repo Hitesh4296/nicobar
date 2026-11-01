@@ -5,8 +5,9 @@ import { cpSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { beforeAll, describe, expect, it } from 'vitest';
+import { HOSTS } from '../../scripts/predeploy-check.ts';
 import { fakeLib, fxDraftStates } from '../fakes/index.ts';
-import { MAX_STATEMENT, O5, RESET_TABLES, SEED_ACTOR, buildSeed, driveToO5, exportFromCopy, leakErrors, pinsRefusal, pruneSql, query, selectRuns,
+import { MAX_STATEMENT, O5, RESET_TABLES, SEED_ACTOR, buildSeed, driveToO5, exportFromCopy, leakErrors, pinsRefusal, pruneSql, query, r2Keys, selectRuns,
   wrangler } from '../../scripts/export-demo.ts';
 
 const ROOT = resolve(import.meta.dirname, '../..');
@@ -49,12 +50,18 @@ describe('active versions must equal the pins of F', () => {
 });
 
 describe('test 2: a DEV_* var fails the pre-deploy command', () => {
-  const run = (vars: object) => {
+  const CLEAN = { workers_dev: false, preview_urls: false, routes: HOSTS.map((pattern) => ({ pattern, custom_domain: true })), d1_databases: [{ database_id: 'x' }],
+    vars: { DEPLOYED: '1', TEAM_DOMAIN: 'https://t.test', ACCESS_AUD: 'aud', PUBLIC_ORIGIN: 'https://landing.hiteshnarwal.in' } };
+  const run = (vars: object, over: object = {}) => {
     const dir = mkdtempSync(join(tmpdir(), 'predeploy-'));
-    writeFileSync(join(dir, 'wrangler.jsonc'), JSON.stringify({ env: { demo: { vars: { DEPLOYED: '1', TEAM_DOMAIN: 'https://t.test', ...vars }, d1_databases: [{ database_id: 'x' }] } } }));
+    writeFileSync(join(dir, 'wrangler.jsonc'), JSON.stringify({ env: { demo: { ...CLEAN, ...over, vars: { ...CLEAN.vars, ...vars } } } }));
     return spawnSync(process.execPath, [join(ROOT, 'scripts/predeploy-check.ts')], { cwd: dir, encoding: 'utf8' });
   };
   it('clean passes', () => expect(run({}).status).toBe(0));
+  it('no AUD fails', () => expect(run({ ACCESS_AUD: '' }).stderr).toContain('ACCESS_AUD'));
+  it('a wrong public origin fails', () => expect(run({ PUBLIC_ORIGIN: 'https://nicobar.hiteshnarwal.in' }).stderr).toContain('PUBLIC_ORIGIN'));
+  it('workers.dev on fails: that host is outside Access', () => expect(run({}, { workers_dev: true }).stderr).toContain('workers_dev'));
+  it('a missing custom domain fails', () => expect(run({}, { routes: [] }).stderr).toContain('landing.hiteshnarwal.in'));
   for (const v of ['DEV_MODE', 'DEV_ACTOR', 'DEV_FAULT', 'DEV_ANYTHING']) {
     it(`${v} exits 1`, () => { const r = run({ [v]: 'x' }); expect(r.status).toBe(1); expect(r.stderr).toContain(v); });
   }
@@ -112,14 +119,21 @@ describe('test 4a: statement cap', () => {
     expect(buildSeed(`PRAGMA defer_foreign_keys=TRUE;\n${s}`).statements.at(-1)).toBe(s);
   });
   it('a table outside the list is refused', () => {
-    expect(() => buildSeed(`INSERT INTO "generations" ("run_id") VALUES('r');`)).toThrow(/generations/);
+    expect(() => buildSeed(`INSERT INTO "ledger_manual" ("id") VALUES(1);`)).toThrow(/ledger_manual/);
     expect(() => buildSeed('DROP TABLE drafts;')).toThrow(/unexpected/);
   });
   it('opens with DELETE of every seeded table, jev_dismissals and config_versions named', () => {
     const { sql } = buildSeed('');
     expect(RESET_TABLES).toEqual(expect.arrayContaining(['jev_dismissals', 'config_versions', 'snapshots', 'runs', 'units', 'plans', 'drafts',
-      'draft_events', 'cost_events', 'jev_events']));
+      'draft_events', 'cost_events', 'jev_events', 'generations']));
     expect(sql.trim().split('\n')).toEqual(RESET_TABLES.map((t) => `DELETE FROM "${t}";`));
+  });
+});
+
+describe('R2 for the link', () => {
+  it('each seeded snapshot: the two the Worker cannot start without, then the side files, and no customer file', () => {
+    expect(r2Keys(['s1'])).toEqual({ required: ['snapshots/s1/catalog.json', 'snapshots/s1/rules.json'],
+      optional: ['snapshots/s1/report.json', 'snapshots/s1/detail.json', 'snapshots/s1/vocabulary.json'] });
   });
 });
 
@@ -149,6 +163,7 @@ const unitSql = (run: string, c: string) => `INSERT INTO units (run_id, customer
 function draftSql(run: string, c: string, rendered: string) {
   const env = '{"customer_id":"it\'s","x":"a\\nb"}', model = 'line one\nline two\r\nthree';
   return `INSERT INTO plans (run_id, customer_id, plan_json, created_at) VALUES (${q(run)}, ${q(c)}, '{}', 't');
+INSERT INTO generations (run_id, customer_id, attempt, result_type, message_json) VALUES (${q(run)}, ${q(c)}, 1, 'answered', ${q(`{"gen":"${run}"}`)});
 INSERT INTO cost_events (run_id, customer_id, attempt, setting, action, call_state, at) VALUES (${q(run)}, ${q(c)}, 1, 's', 'admit', 'estimated', 't');
 INSERT INTO jev_events (run_id, customer_id, attempt, model_requested, status, reason, basis_usd, at) VALUES (${q(run)}, ${q(c)}, 1, 'j', 'below_gate', 'x', 0, 't');
 INSERT INTO draft_events (draft_id, to_status, actor_kind, at, content_sha256, edge_nonce) VALUES (${q(`${run}:${c}:v1`)}, 'in_review', 'system', 't', 'h', 'n');
@@ -192,6 +207,8 @@ describe('fixture export through real local wrangler (tests 4, 4a, 4b, seed twic
       draftSql('run-f', 'c01', big), draftSql('run-f', 'c02', '{"email":"small"}'), draftSql('run-iso', 'c20-x', '{}'), draftSql('run-voice', 'c01', '{"email":"voice-only-row"}'),
       draftSql('fx-run', 'fx-both', '{"email":"fixture-only-row"}'),
       version('v1', 'prompt', 'retired'), version('v2', 'prompt', 'active'), version('v9', 'prompt', 'draft').replace("'a', 'b', 't');", 'NULL, NULL, NULL);'), version('jev-v1', 'jev', 'active'),
+      version('rank-v1', 'rank', 'retired'), version('rank-v2', 'rank', 'active'), version('catalog-v1', 'catalog', 'retired'), version('catalog-v9', 'catalog', 'retired'),
+      `UPDATE runs SET ranking_version = 'rank-v1', catalog_version = 'catalog-v1' WHERE id = 'run-f';`,
     ].join('\n'));
     const runs = selectRuns(source);
     expect(runs).toMatchObject({ f: { id: 'run-f' }, isolation: { id: 'run-iso' } });
@@ -210,11 +227,15 @@ describe('fixture export through real local wrangler (tests 4, 4a, 4b, seed twic
   });
   it('isolation keeps runs and units only', () => {
     expect(query(target, `SELECT COUNT(*) AS n FROM units WHERE run_id = 'run-iso'`)).toEqual([{ n: 1 }]);
-    for (const t of ['plans', 'drafts', 'cost_events', 'jev_events']) expect(query(target, `SELECT COUNT(*) AS n FROM ${t} WHERE run_id = 'run-iso'`)).toEqual([{ n: 0 }]);
+    for (const t of ['plans', 'drafts', 'cost_events', 'jev_events', 'generations']) expect(query(target, `SELECT COUNT(*) AS n FROM ${t} WHERE run_id = 'run-iso'`)).toEqual([{ n: 0 }]);
     expect(query(target, `SELECT COUNT(*) AS n FROM draft_events WHERE draft_id LIKE 'run-iso%'`)).toEqual([{ n: 0 }]);
   });
-  it('config_versions holds only what the seeded runs pin', () => {
-    expect(query<{ id: string }>(target, 'SELECT id FROM config_versions ORDER BY id').map((r) => r.id)).toEqual(['jev-v1', 'v2']);
+  it('config_versions holds what the seeded runs pin and what is active, nothing else', () => {
+    expect(query<{ id: string }>(target, 'SELECT id FROM config_versions ORDER BY id').map((r) => r.id)).toEqual(['catalog-v1', 'jev-v1', 'rank-v1', 'rank-v2', 'v2']);
+  });
+  it('generations ship for the F run, and no other', () => {
+    expect(query<{ run_id: string; message_json: string }>(target, 'SELECT run_id, message_json FROM generations ORDER BY customer_id')).toEqual([
+      { run_id: 'run-f', message_json: '{"gen":"run-f"}' }, { run_id: 'run-f', message_json: '{"gen":"run-f"}' }]);
   });
   it('seed applied twice reproduces every content_sha256 and clears dismissals', () => {
     const dump = () => query<Record<string, string>>(target, 'SELECT id, envelope_json, model_json, rendered_json, content_sha256 FROM drafts ORDER BY id');

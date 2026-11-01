@@ -12,9 +12,11 @@
   "workflows": [{ "binding": "RUN_WORKFLOW", "name": "nicobar-run", "class_name": "RunWorkflow" }],
   "env": {
     "demo": {
-      "workers_dev": true,
-      "vars": { "FRESH_FOR_RELEASE_H": "8760", "GEN_CONCURRENCY": "4", "TEAM_DOMAIN": "", "PUBLIC_ORIGIN": "", "DEPLOYED": "1" },
-      "d1_databases": [{ "binding": "DB", "database_name": "nicobar-demo", "database_id": "", "migrations_dir": "migrations" }],
+      "workers_dev": false,
+      "preview_urls": false,
+      "routes": [{ "pattern": "nicobar.hiteshnarwal.in", "custom_domain": true }, { "pattern": "landing.hiteshnarwal.in", "custom_domain": true }],
+      "vars": { "FRESH_FOR_RELEASE_H": "8760", "GEN_CONCURRENCY": "4", "TEAM_DOMAIN": "", "ACCESS_AUD": "", "PUBLIC_ORIGIN": "https://landing.hiteshnarwal.in", "DEPLOYED": "1" },
+      "d1_databases": [{ "binding": "DB", "database_name": "nicobar-demo", "database_id": "4cffd7f7-34a4-449a-af6f-0972275f30de", "migrations_dir": "migrations" }],
       "r2_buckets": [{ "binding": "BUCKET", "bucket_name": "nicobar-demo" }]
     }
   }

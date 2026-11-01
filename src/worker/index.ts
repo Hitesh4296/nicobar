@@ -2,6 +2,7 @@ import { CatalogMissing, NotBuilt } from '../contracts/codes.ts';
 import type { ErrorCode } from '../contracts/codes.ts';
 import type { AppEnv } from '../contracts/types.ts';
 import { authenticate, sameOrigin } from './auth.ts';
+import { landing } from './routes/landing.ts';
 import { match } from './routes/list.ts';
 
 export { RunWorkflow } from '../workflow/run.ts';
@@ -10,6 +11,7 @@ const fail = (http: number, code: ErrorCode, detail?: string) => Response.json({
 
 export default {
   async fetch(req, env, exec) {
+    if (new URL(req.url).hostname.startsWith('landing.')) return landing(req, env);
     const auth = await authenticate(req, env);
     if ('http' in auth) return fail(auth.http, auth.code);
     const hit = match(req.method, new URL(req.url).pathname);
