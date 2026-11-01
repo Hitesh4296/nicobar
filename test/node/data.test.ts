@@ -32,6 +32,14 @@ describe('test 1: snapshot from samples/site', () => {
   it('rebuilds the snapshot the recommendations pin', () => {
     expect(s.catalog.snapshot_id).toBe(JSON.parse(readFileSync('data/recommendations.synthetic.json', 'utf8')).snapshot_id);
   });
+  it('holds filter values and collection places on each row, and neither the usable count nor the hash moves for them', () => {
+    const c = buildSnapshot({ ...readSamples(), collections: { 'all-women': ['nobody', '7492613243014'] } });
+    expect(c.catalog.rows.find((p) => p.id === '7492613243014')?.merch_rank).toEqual({ 'all-women': 2 });
+    expect(c.catalog.rows.filter((p) => !p.excluded_reason).length).toBe(2165);
+    expect(c.catalog.snapshot_id).toBe('2026-11-01-cdda17faae52');
+    expect(c.vocabulary.occasion.map((v) => v.value)).toContain('Wedding');
+    expect(JSON.stringify(c.vocabulary)).not.toMatch(/metafield_sync|sync-product|Size_Guide|Product_Variant|apparel_product/);
+  });
   it('carries the site push_down tag on the row, and the hash does not move for it', () => {
     expect(s.catalog.rows.filter((p) => p.push_down).length).toBe(readSamples().products.filter((p) => p.tags.includes('push_down')).length);
     expect(s.catalog.rows.filter((p) => !p.excluded_reason && p.push_down).length).toBe(882);

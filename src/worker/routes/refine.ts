@@ -16,8 +16,8 @@ import type { Ctx, Route } from './list.ts';
 const BOTH = { format: 'both', run_date: '' } as Pinned;
 const html = (body: string, status = 200) => new Response(body, { status, headers: { 'content-type': 'text/html; charset=utf-8' } });
 const RANK = (v: ConfigVersion) => v.kind === 'rank';
-/** A link from a version saved before R138 has no push_down: it means none. */
-const read = (get: (k: string) => string | null | undefined) => Object.fromEntries(WEIGHTS.map((k) => [k, Number(get(k) ?? (k === 'push_down' ? 0 : NaN))])) as unknown as Weights;
+/** A link from a version saved before R138 or R140 lacks a weight: it means none. */
+const read = (get: (k: string) => string | null | undefined) => Object.fromEntries(WEIGHTS.map((k) => [k, Number(get(k) ?? (k === 'push_down' || k === 'merchandising' ? 0 : NaN))])) as unknown as Weights;
 const refused = (w: Weights) => { const r = validateRank(w); return r.ok ? null : `${r.failures[0].detail.charAt(0).toUpperCase()}${r.failures[0].detail.slice(1)}`.replace('Past must', 'Past purchase must'); };
 
 export async function inputs(env: Ctx['env']) {

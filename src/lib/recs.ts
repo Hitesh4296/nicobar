@@ -10,7 +10,7 @@ const KINDS: MoreKind[] = ['occasion', 'occasion_category', 'past_purchase'];
 const LABEL: Record<MoreKind, RegExp> = { occasion: /^$/, occasion_category: /^[A-Z][A-Za-z &-]{0,39}$/, past_purchase: /^[a-z]+$/ };
 
 // The why strings reach a reviewer's screen, so only these shapes pass.
-const WHY = /^(occasion_tag:[a-z]+|goes_with:[a-z]+|fitted_class|row_fit|bestseller|prior_tag|new_arrival|push_down|fallback|hand_set|new_user)$/;
+const WHY = /^(occasion_tag:[a-z]+|goes_with:[a-z]+|merch:[a-z-]+:[0-9]+|query_match|fitted_class|row_fit|bestseller|prior_tag|new_arrival|push_down|fallback|hand_set|new_user)$/;
 const okWhy = (v: unknown) => Array.isArray(v) && v.length > 0 && v.length <= 8 && v.every((s) => typeof s === 'string' && WHY.test(s));
 
 /** The label reaches a heading, so it is bounded here. Whether it fits the customer is plan.ts's. */

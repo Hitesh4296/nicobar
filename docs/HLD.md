@@ -47,8 +47,8 @@ flowchart LR
 | D1 | The record: runs, units, plans, drafts, every cost, Jev and approval event, and prompt, Jev, ranking and catalog versions |
 | R2 | Immutable by hash or snapshot id: catalogue, customer file, recommendation file, previews |
 | Library (`src/lib/`) | Pure code: ingest, plan, request building, checks, rendering, cost, state edges |
-| Ranking engine (`src/lib/rank/`, `npm run rank`) | No model. Writes the recommendations file from the snapshot and `config/ranking.json`, offline, or inside the Worker at Start a run at the active version. Filter, weighted score, fixed guards. Occasion must outweigh the other four signals together, with room for the `push_down` penalty, and the hero must fit the occasion |
-| Catalog viewer (`/review/catalog`) | Every snapshot row with its rules. An override is saved as a version, and the ranking reads the active one. It never edits the snapshot |
+| Ranking engine (`src/lib/rank/`, `npm run rank`) | Offline, no model. Writes the recommendations file from the snapshot and `config/ranking.json`. Filter, weighted score, fixed guards. The pool comes from the customer's saved queries where one survives the gates, otherwise from the row rules. Occasion, or a primary query match, must outweigh the other signals together, `merchandising` included, with room for the `push_down` penalty, and the hero must fit the occasion |
+| Search (`src/lib/search/`, `GET /api/products`, `/review/search`) | Filter search over real tags. A model picks each customer's queries once (`npm run plan-queries`, saved to `data/queries.synthetic.json`, pinned). Code drops unknown values and unstated gender, relaxes empty queries, and refuses thin ones. Ranking then orders the results; scoring stays code |
 | `config/` | Schemas, check lists, cost tables. Bundled. Prompts are imported into D1 as versions |
 
 Not used: Queues, Durable Objects, Agents SDK, Vectorize, KV, the Batches API, and the store's cart, checkout or order tools.

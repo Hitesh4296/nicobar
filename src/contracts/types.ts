@@ -27,7 +27,7 @@ export interface Product { id: string; handle: string; title: string; url: strin
   is_bestseller_gift: boolean; available: boolean; variants: Variant[]; images: Image[];
   excluded_reason: string|null; content_sha256: string;
   excluded_reasons?: string[] /* every rule it fails, first = excluded_reason */; published_at?: string|null;
-  push_down?: boolean /* the site's push_down tag; absent on a snapshot built before R138 */ }
+  push_down?: boolean /* the site's push_down tag; absent on a snapshot built before R138 */; merch_rank?: Record<string, number> /* 1-based position in each site collection that holds it, R140 */; facets?: Record<string, string[]> /* filter values by family, R141; absent before that */ }
 export interface Rules { title_cores: string[]; distinctive_cores: string[]; nouns: string[]; handles: string[] }
 export interface Catalog { snapshot_id: string; fetched_at: string; rows: Map<string,Product>; by_sku: Map<string,string>;
   usable: Product[]; rules: Rules }
@@ -43,14 +43,14 @@ export type IngestResult = { key: string; status: 'ok'; record: Customer }
 export interface RecPick { product_id: string; reason_code: ReasonCode; why?: string[]; score?: number }   // why: signal names (R127), shown to a reviewer, never to the model
 export type MoreKind = 'occasion'|'occasion_category'|'past_purchase';
 export interface MoreSection { kind: MoreKind; label: string; product_ids: string[]; why?: Record<string,string[]> }   // why by product id
-export interface Weights { occasion: number; season: number; bestseller: number; new: number; past: number; push_down?: number }   // push_down is a penalty; a version saved before R138 has none and ranks with none
+export interface Weights { occasion: number; season: number; bestseller: number; new: number; past: number; merchandising?: number; push_down?: number }   // push_down is a penalty; a version saved before R138 or R140 lacks that key and ranks at 0 for it
 export interface PoolCounts { filtered: number; on_occasion: number; past: number }   // how many products passed the filter, and how many of those carry each signal
 export interface WriteBy { model: string|null; setting: string|null; prompt_version: string|null; prompt_sha256: string|null; prompt_files: string[]; schema: string|null; attempt: number; request_sha256: string|null;
   tokens: { input: number|null; output: number|null; cached: number|null; cache_written: number|null }; stop_reason: string|null; cost: number|null; written_by_model: string[]; written_by_code: string[] }
 export interface CheckBy { validator_version: string|null; ran: number; failed: number }
 export interface JudgeBy { model: string|null; config_version: string|null; questions: string[]; gate: number|null; flagged: string[]; can_block: false }
 export interface GeneratedBy { ranking: RankingBy|null; write: WriteBy|null; checks: CheckBy|null; judge: JudgeBy|null }   // read from stored rows; a value nobody stored is null
-export interface RankingBy { method: 'tiers'|'weights'; version: string; weights: Weights; rules: string[]; snapshot_id: string; cost: 0; catalog_version?: string }
+export interface RankingBy { method: 'tiers'|'weights'; version: string; weights: Weights; rules: string[]; snapshot_id: string; cost: 0; catalog_version?: string; queries?: { model: string; prompt_sha256: string; date: string } }
 export interface RecRow { customer_id: string; picks: RecPick[]; more?: MoreSection[]; pool?: PoolCounts }
 export interface RecFile { version: 'recommendations/v1'; synthetic: boolean; as_of: string; snapshot_id: string; rule: string; rows: RecRow[]; generated_by?: RankingBy }
 export type RowKeys = Record<string, { key: string|null }>;   // data/row_keys.synthetic.json, §3 spec

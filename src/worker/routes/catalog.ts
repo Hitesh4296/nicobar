@@ -18,7 +18,7 @@ const list = (v: string | null | undefined) => [...new Set((v ?? '').split(',').
 const back = (fetched_at: string, months: number) => { const d = new Date(fetched_at); d.setUTCMonth(d.getUTCMonth() - months); return d.getTime(); };
 const when = (p: { published_at?: string | null }) => (p.published_at ? Date.parse(p.published_at) : 0);
 
-async function snapshotId(env: AppEnv, recs: string | null): Promise<string | null> {
+export async function snapshotId(env: AppEnv, recs: string | null): Promise<string | null> {
   if (recs) return parseRecs(JSON.parse(recs)).snapshot_id;
   return (await env.DB.prepare('SELECT id FROM snapshots WHERE synthetic = 0 ORDER BY fetched_at DESC LIMIT 1').first<{ id: string }>())?.id ?? null;
 }
@@ -95,7 +95,7 @@ async function render(c: Ctx, f: Form = {}): Promise<Response> {
 
 // ponytail: one snapshot's side file held per isolate; a second snapshot replaces it.
 let held: { id: string; detail: Record<string, { tags: string[]; text: string }> } | null = null;
-async function sideFile(env: AppEnv, id: string) {
+export async function sideFile(env: AppEnv, id: string) {
   if (held?.id === id) return held.detail;
   const detail = await (await env.BUCKET.get(`snapshots/${id}/detail.json`))?.json<Record<string, { tags: string[]; text: string }>>();
   if (detail) held = { id, detail };
