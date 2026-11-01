@@ -177,17 +177,17 @@ describe('J3 rows', () => {
 });
 
 describe('test 9: a unit with no draft row shows its code and no link', () => {
-  it('code shown, no link for that row', async () => {
+  it('reason shown, no link for that row', async () => {
     const { html } = await page('/review?run=fx-run');
     const row = html.split('<tr').find((r) => r.startsWith('><td') && r.includes('c-nodraft'))!;
-    expect(row).toContain('COLD_START_NO_HISTORY');
+    expect(row).toContain('no purchase history');
     expect(row).not.toContain('<a ');
     const drafted = html.split('<tr').find((r) => r.startsWith('><td') && r.includes('c16'))!;
     expect(drafted).toContain(`href="/review/${encodeURIComponent(C16)}"`);
   });
-  it('skipped unit shows its code too', async () => {
+  it('skipped unit shows its reason too', async () => {
     const { html } = await page('/review?run=fx-run');
-    expect(html.split('<tr').find((r) => r.startsWith('><td') && r.includes('c-over'))).toContain('OVER_CAP');
+    expect(html.split('<tr').find((r) => r.startsWith('><td') && r.includes('c-over'))).toContain('The estimate was over the spen');
   });
   it('nav lists every NAV entry; no price or last name; metrics present', async () => {
     const { html } = await page('/review');

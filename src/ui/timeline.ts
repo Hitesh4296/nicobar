@@ -51,7 +51,7 @@ const UNIT_WHY: Record<string, string> = { COLD_START_NO_HISTORY: 'This customer
   INVALID_PICK: 'A recommended product is not in the catalogue snapshot.', TOO_FEW_CANDIDATES: 'Too few usable products were left to choose from.', INVALID_CUSTOMER: 'The customer row could not be read.', DUPLICATE_CUSTOMER_ID: 'This customer appears twice in the file.',
   CHECKS_FAILED: 'The draft failed its checks on both tries.', UPSTREAM_UNAVAILABLE: 'The model could not give an answer.', INVALID_REQUEST: 'The model refused the request as malformed.', INTERNAL_ERROR: 'Something broke inside the batch for this customer.',
   ESTIMATE_FAILED: 'The token count failed, so nothing was spent on this customer.', OVER_CAP: 'The estimate was over the spending cap for one customer, so the call was never made.', RUN_CAP: 'The estimate would have taken the run over the spending cap, so the call was never made.' };
-const unitWhy = (code: string | null) => (code && UNIT_WHY[code]) ?? 'No reason is recorded.';
+export const unitWhy = (code: string | null) => (code && UNIT_WHY[code]) ?? 'No reason is recorded.';
 const PLAN_CODES = ['COLD_START_NO_HISTORY', 'NO_RECOMMENDATION', 'INVALID_PICK', 'TOO_FEW_CANDIDATES', 'INVALID_CUSTOMER', 'DUPLICATE_CUSTOMER_ID'];
 
 const usd = (n: number | null) => (n === null ? '—' : `$${n.toFixed(4)}`);

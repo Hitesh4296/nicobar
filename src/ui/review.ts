@@ -6,7 +6,7 @@ import { countMore, readCards } from '../lib/render/catalog.ts';
 import { CHECK_GROUPS, explainBlocks, jevNotRun, stoppedLine } from './checks.ts';
 import { esc } from './nb.ts';
 import { banner, emptyCard, isStub, shell } from './shell.ts';
-import { capital } from './timeline.ts';
+import { capital, unitWhy } from './timeline.ts';
 
 const STUB = banner('Stub draft', 'Written by the local stub, not a model. The copy is generic on purpose: it shows the path, not the voice. The real checks, approval and publish still apply.', 'warn');
 
@@ -39,7 +39,7 @@ function unitRow(u: UnitView): string {
   const dash = '<td class="soft">—</td>';
   if (!u.draft) {
     return `<tr><td><b>${label}</b></td><td>${esc(u.plan?.occasion ?? '—')}</td><td class="soft">${esc(u.plan?.shape ?? '—')}</td>${dash.repeat(5)}`
-      + `<td>${pill(u.status)} <span class="note">${esc(u.code ?? '')}</span></td></tr>`;
+      + `<td>${pill(u.status)} <span class="note">${u.code ? esc(unitWhy(u.code)) : ''}</span></td></tr>`;
   }
   const { checks } = u.draft;
   const flagged = u.flags?.filter((f) => f.flagged && !f.dismissal).length;
