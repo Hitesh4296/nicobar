@@ -120,25 +120,38 @@ const unitsOf = (state: string, id: string) => sql(state, `SELECT customer_id ke
 const OCC = ["Mother's birthday", 'Work trip to Singapore', 'Diwali at home', "Sister's wedding"];
 const HEAD = 'customer_id\tfirst_name\tlast_name\toccasion\tpast_purchase_note\n';
 type Input = { tsv: string; recs: string; format: string };
-function writeInput(name: string, format: string, rows: { id: string; occ: string; picks: unknown[] }[]): Input {
+/** What POST /api/runs checks a file against, read from the state this drive runs on. `soldOut` is what c-badpick's p4 needs to be. */
+export interface Live { snapshot_id: string; generated_by: unknown; soldOut: string }
+/** The fixture on today's snapshot, at today's versions. The fixture's p4 came back in stock, so it is picked from the snapshot, not pinned. */
+export const liveRecs = (file: any, l: Live) => ({ ...file, snapshot_id: l.snapshot_id, generated_by: l.generated_by,
+  rows: file.rows.map((r: any) => (r.customer_id === 'c-badpick' ? { ...r, picks: r.picks.map((p: any, i: number) => (i === 3 ? { ...p, product_id: l.soldOut } : p)) } : r)) });
+function liveOf(state: string): Live {
+  const data = json(join(ROOT, 'data/recommendations.synthetic.json')), id = data.snapshot_id;
+  const active = (kind: string): string | undefined => sql(state, `SELECT id FROM config_versions WHERE kind = '${kind}' AND status = 'active'`)[0]?.id;
+  const catalog = active('catalog');
+  return { snapshot_id: id, generated_by: { ...data.generated_by, version: active('rank') ?? data.generated_by.version, ...(catalog ? { catalog_version: catalog } : {}) },
+    soldOut: json(join(ROOT, 'out/snapshot', id, 'catalog.json')).rows.find((p: any) => p.excluded_reason === 'NOT_AVAILABLE').id };
+}
+function writeInput(live: Live, name: string, format: string, rows: { id: string; occ: string; picks: unknown[] }[]): Input {
   const tsv = join(OUT, `${name}.synthetic.tsv`), recs = join(OUT, `${name}.recs.synthetic.json`), base = json(join(ISO, 'recommendations.synthetic.json'));
   writeFileSync(tsv, HEAD + rows.map((r) => `${r.id}\tTest\tSynthetic\t${r.occ}\tBought a test item.\n`).join(''));
-  writeFileSync(recs, JSON.stringify({ ...base, rule: `readiness ${name}`, rows: rows.map((r) => ({ customer_id: r.id, picks: r.picks })) }));
+  writeFileSync(recs, JSON.stringify({ ...liveRecs(base, live), rule: `readiness ${name}`, rows: rows.map((r) => ({ customer_id: r.id, picks: r.picks })) }));
   return { tsv, recs, format };
 }
-export function inputs() {
-  const iso = json(join(ISO, 'recommendations.synthetic.json')).rows;
+export function inputs(live: Live) {
+  const base = json(join(ISO, 'recommendations.synthetic.json')), iso = base.rows, isoRecs = join(OUT, 'isolation.recs.synthetic.json');
+  writeFileSync(isoRecs, JSON.stringify({ ...liveRecs(base, live), rule: 'readiness isolation: picks copied from real rows; c-badpick p4 is sold out on this snapshot' }));
   const c02 = json(join(ROOT, 'data/recommendations.synthetic.json')).rows.find((r: any) => r.customer_id === 'c02').picks;
   const picks = (n: number) => iso.find((r: any) => r.customer_id === `c-ok-${n % 4 + 1}`).picks;
   const d = (i: number) => `d${String(i + 1).padStart(2, '0')}`;
   return {
-    dur: writeInput('durability', 'landing_page', Array.from({ length: 12 }, (_, i) => ({ id: d(i), occ: `${OCC[i % 4]} ${d(i)}`, picks: picks(i) }))),
-    retry: writeInput('retry', 'both', ['x429', 'xbad', 'xrefuse', 'xfail'].map((k) => ({ id: k, occ: `Monsoon in Kochi ${k}`, picks: c02 }))),
+    dur: writeInput(live, 'durability', 'landing_page', Array.from({ length: 12 }, (_, i) => ({ id: d(i), occ: `${OCC[i % 4]} ${d(i)}`, picks: picks(i) }))),
+    retry: writeInput(live, 'retry', 'both', ['x429', 'xbad', 'xrefuse', 'xfail'].map((k) => ({ id: k, occ: `Monsoon in Kochi ${k}`, picks: c02 }))),
     // the same customers, with the stub answering worse: x429's first answer fails checks, so it bills twice; xbad fails both parts, so nothing carries
-    retryRed: writeInput('retry-red', 'both', [['x429', 'xbad'], ['xbad', 'xbadboth'], ['xrefuse', 'xrefuse']].map(([k, m]) => ({ id: k!, occ: `Monsoon in Kochi ${m}`, picks: c02 }))),
+    retryRed: writeInput(live, 'retry-red', 'both', [['x429', 'xbad'], ['xbad', 'xbadboth'], ['xrefuse', 'xrefuse']].map(([k, m]) => ({ id: k!, occ: `Monsoon in Kochi ${m}`, picks: c02 }))),
     // U_hard is 26,760 tokens; about 4 characters a token, so 160 KB of occasion is over it on any tokenizer
-    cap: writeInput('cap', 'landing_page', [{ id: 'big', occ: `${'Diwali at home '.repeat(11_000)}big`, picks: picks(2) }, { id: 'ok1', occ: 'Diwali at home ok1', picks: picks(2) }]),
-    isolation: { tsv: join(ISO, 'customers.synthetic.tsv'), recs: join(ISO, 'recommendations.synthetic.json'), format: 'landing_page' },
+    cap: writeInput(live, 'cap', 'landing_page', [{ id: 'big', occ: `${'Diwali at home '.repeat(11_000)}big`, picks: picks(2) }, { id: 'ok1', occ: 'Diwali at home ok1', picks: picks(2) }]),
+    isolation: { tsv: join(ISO, 'customers.synthetic.tsv'), recs: isoRecs, format: 'landing_page' },
   };
 }
 /** The body of POST /api/runs. Both files travel as bytes, because the preview hashes bytes. Format and rung come from the preview. */
@@ -422,7 +435,7 @@ async function main() {
     const s = spawnSync('npm', ['run', 'config', 'seed'], { cwd: ROOT, encoding: 'utf8', env: { ...process.env, CONFIG_URL: url('') } });
     killTree(seed); await sleep(1000);
     if (s.status !== 0) return voidAll(`prerequisite config seed: ${`${s.stderr}${s.stdout}`.trim().split('\n').at(-1)}`);
-    const f = inputs();
+    const f = inputs(liveOf(main));
     const { S, sha } = await previewAll(f, main);
     measured = { S, cap_json_S: json(join(ROOT, 'config/cap.json')).S };
     console.log(`S for the stub, drive only: ${JSON.stringify(S)}`);

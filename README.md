@@ -8,8 +8,7 @@ Built on Cloudflare Workers, Workflows, D1 and R2. Design: [docs/HLD.md](docs/HL
 
 ## Status
 
-[[SLOT real run: replace this paragraph after the first real run]]
-The batch, the checker and the approval gate run end to end, locally, against a scripted stand-in for the model. No real model has been called, so no real draft exists yet. `docs/WRITEUP.md` says exactly what has and has not run.
+The batch, the checker and the approval gate run end to end, locally. Real model runs exist: two full Workflow runs on Sonnet 5.5, plus 21 earlier script calls. The latest, `voice-mvxmeplv` on prompt v2, drafted all 20 customers first try for $0.68, and one draft was approved and released by the local dev actor. Those runs used the 2026-10-29 snapshot and the earlier ranking, so no real draft exists yet for today's picks, or in the letter email. `npm run demo` uses a stand-in model and its copy is stub. `docs/WRITEUP.md` says exactly what has and has not run.
 
 ## Requirements
 
@@ -21,15 +20,15 @@ npm ci
 
 ## Run it without a key
 
-Costs $0 and makes no outside request. `.dev.vars` is not read, so a key cannot be spent by accident.
+Costs $0 and makes no outside request. Nothing to set up: `.dev.vars` is not read, so a key cannot be spent by accident. The demo server makes its own random run key at each launch and shows it nowhere, so a further run from `/review/start` needs `npm run dev` with your own `RUN_KEY`.
 
 ```sh
 npm run demo
 ```
 
-Open <http://localhost:8787/review>. If 8787 is taken, use `PORT=8801 npm run demo`. It takes about 15 seconds, then keeps serving until Ctrl-C.
+Open <http://localhost:8787/review>. If 8787 is taken, use `PORT=8801 npm run demo`. It takes about 20 seconds, then keeps serving until Ctrl-C.
 
-It builds the snapshot from `samples/site/`, seeds the prompt versions, and runs all 20 customers through the real Worker and Workflow against a local stand-in for the model. The run id starts `stub-`, and every screen labels the drafts as stub. Their copy is deliberately generic. The checks, approve and publish are real.
+It builds the snapshot from `samples/site/`, seeds the prompt and ranking versions, and runs all 20 customers through the real Worker and Workflow against a local stand-in for the model. The run id starts `stub-`, and every screen labels the drafts as stub. Their copy is deliberately generic. The checks, approve and publish are real.
 
 `npm run demo` shows 20 drafts and no failures. To see customers failing alone, run this first:
 
@@ -41,12 +40,13 @@ It starts a real local Worker and Workflow, kills it mid-run, restarts it and in
 
 ## Run it with a key
 
-Not yet exercised. Treat these steps as the intended path.
+The real runs went this way. `RUN_KEY` is newer than they are, and is required now.
 
 ```sh
 cat > .dev.vars <<'VARS'
 ANTHROPIC_API_KEY=...
 JEV_API_KEY=...
+RUN_KEY=...
 VARS
 node scripts/build.ts --publish
 npm run dev
@@ -60,9 +60,11 @@ node scripts/draft-one.ts --limit-usd 0.10 --only c16 # one customer, stops at t
 npm run batch -- --stage <label>                      # preview, then the full run
 ```
 
-`batch` prints the plan and cost, starts the run on the local server, and prints its `/review` link. `--stage` takes a key of `config/stages.json`, which sets the run's label and its expected-cost line. All 20 customers run whichever key you pick. `--format` and `--rung` are optional. Without a key or a stub URL it refuses before any call. The review screens have no start button.
+`batch` prints the plan and cost, starts the run on the local server, and prints its `/review` link. `--stage` takes a key of `config/stages.json`, which sets the run's label and its expected-cost line. All 20 customers run whichever key you pick, or one with `--only`. `--format` and `--rung` are optional. Without a key or a stub URL it refuses before any call.
 
-**Before the first full run,** `S` in `config/cap.json` must be set from a real `count_tokens` reading. It is a placeholder today. If the real figure is too far above it, the batch skips customers with `OVER_CAP`, at $0 and logged.
+Runs also start from `/review/start`, which previews the cost, ranks at the active version and asks for the run key. The key travels only in the POST and is never echoed. With no `RUN_KEY` on the server, no run can start. If a ranking or catalog version newer than the recommendations file is active, `npm run batch` answers `PREVIEW_STALE`, so use that page, or `npm run rank` first.
+
+`S` in `config/cap.json` is set from a real `count_tokens` reading: 7,152 tokens for both parts. If a real figure is too far above it, the batch skips customers with `OVER_CAP`, at $0 and logged.
 
 `.dev.vars` is gitignored. Keys go nowhere else. `JEV_API_KEY` is optional: without it the Jev step records `no_key` and drafts continue.
 
@@ -70,9 +72,9 @@ npm run batch -- --stage <label>                      # preview, then the full r
 
 | command | what it does | cost | time |
 |---|---|---|---|
-| `npm run eval` | 361 offline cases and 25 mutants, plus the held-out regression. Writes `reports/eval.json` | $0 | about 10 s |
+| `npm run eval` | 366 offline cases and 29 mutants, plus the held-out regression. Writes `reports/eval.json` | $0 | about 10 s |
 | `npm run readiness` | 8 production lines on real local runs. Writes `reports/readiness.json` | $0 | about 4 min |
-| `npm test` | 655 unit and worker tests | $0 | about 1 min |
+| `npm test` | 914 unit and worker tests | $0 | about 1 min |
 | `npm run rank` | Rebuilds the recommendations file offline. `-- --check` prints scores, p1 and the diff, writes nothing | $0 | seconds |
 | `npm run typecheck` | `tsc` | $0 | seconds |
 
@@ -89,7 +91,7 @@ Neither needs a key or anything beyond `npm ci`. Both results are committed in `
 | `data/row_keys.synthetic.json` | Occasion key per customer. Keys only, no guessed gender |
 | `test/fixtures/isolation/*.synthetic.*` | Customers built to fail one at a time |
 
-The catalogue is real: 2,180 usable products out of 8,938 non-gift-card rows, frozen on 2026-10-29 and committed in `samples/site/`. No request goes to nicobar.com at build or run time.
+The catalogue is real: 2,165 usable products out of 8,940 non-gift-card rows, frozen on 2026-11-01 and committed in `samples/site/`. The real runs above used the earlier freeze of 2026-10-29, 2,180 usable. `/review/catalog` shows every row, and an override saved there is a version the ranking reads. No request goes to nicobar.com at build or run time.
 
 ## What is off, and why
 

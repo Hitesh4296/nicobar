@@ -126,13 +126,13 @@ export function parseCli(argv: string[]) {
   return { limitUsd, promptDir, promptId, label: v.label ?? promptId, only: v.only, format, rung: v.rung };
 }
 
-/** Real wiring. The catalogue and bucket are local wrangler state, the same files `build --publish` wrote. */
-export async function realDeps() {
-  try { process.loadEnvFile('.dev.vars'); } catch { /* no file: stub, or a key already in the environment */ }
+/** Real wiring. The catalogue and bucket are local wrangler state, the same files `build --publish` wrote. `devVars: false` is the demo's: neither this process nor wrangler's proxy opens .dev.vars. */
+export async function realDeps(devVars = true) {
+  if (devVars) try { process.loadEnvFile('.dev.vars'); } catch { /* no file: stub, or a key already in the environment */ }
   const [{ getPlatformProxy }, ingest, recs, plan, check, cost, catalog] = await Promise.all([import('wrangler'), import('../src/lib/ingest.ts'), import('../src/lib/recs.ts'),
     import('../src/lib/plan.ts'), import('../src/lib/check/index.ts'), import('../src/lib/cost/index.ts'), import('../src/lib/catalog/index.ts')]);
   const read = (f: string) => readFileSync(f, 'utf8');
-  const proxy = await getPlatformProxy();
+  const proxy = await getPlatformProxy(devVars ? undefined : { envFiles: ['out/empty.env'] });   // [] would fall back to .dev.vars
   const recsText = read('data/recommendations.synthetic.json');
   const cat = await catalog.loadCatalog(proxy.env as never, JSON.parse(recsText).snapshot_id);
   const deps: Deps = { lib: { ...ingest, ...recs, ...plan, ...check, ...cost }, client: makeClient(process.env), log: jsonLog,

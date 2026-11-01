@@ -42,21 +42,22 @@ flowchart LR
 
 | component | job |
 |---|---|
-| Worker (`src/worker/`) | Review, approve, release, config and run routes. Identity from Access, or a local dev actor. Fails closed |
+| Worker (`src/worker/`) | Review, approve, release, config, catalog and run routes, and the Start a run page. Identity from Access, or a local dev actor. Starting a run also takes the run key. Both fail closed |
 | Run Workflow (`src/workflow/`) | `pin → prep → estimate → admit → generate → finish → close`, one set of steps per customer |
-| D1 | The record: runs, units, plans, drafts, every cost, Jev and approval event, prompt versions |
+| D1 | The record: runs, units, plans, drafts, every cost, Jev and approval event, and prompt, Jev, ranking and catalog versions |
 | R2 | Immutable by hash or snapshot id: catalogue, customer file, recommendation file, previews |
 | Library (`src/lib/`) | Pure code: ingest, plan, request building, checks, rendering, cost, state edges |
-| Ranking engine (`src/lib/rank/`, `npm run rank`) | Offline, no model. Writes the recommendations file from the snapshot and `config/ranking.json`. Filter, weighted score, fixed guards. Occasion must outweigh the other four signals together, with room for the `push_down` penalty, and the hero must fit the occasion |
+| Ranking engine (`src/lib/rank/`, `npm run rank`) | No model. Writes the recommendations file from the snapshot and `config/ranking.json`, offline, or inside the Worker at Start a run at the active version. Filter, weighted score, fixed guards. Occasion must outweigh the other four signals together, with room for the `push_down` penalty, and the hero must fit the occasion |
+| Catalog viewer (`/review/catalog`) | Every snapshot row with its rules. An override is saved as a version, and the ranking reads the active one. It never edits the snapshot |
 | `config/` | Schemas, check lists, cost tables. Bundled. Prompts are imported into D1 as versions |
 
 Not used: Queues, Durable Objects, Agents SDK, Vectorize, KV, the Batches API, and the store's cart, checkout or order tools.
 
 ## Data flow
 
-1. **Build.** `scripts/build.ts` reads the frozen pull, strips and filters it to 2,180 usable products, and publishes `catalog.json` and `rules.json`.
-2. **Preview.** `scripts/preview.ts` plans every customer and counts tokens with no paid generation. It stores the preview by hash. A run must quote that hash.
-3. **Pin.** `POST /api/runs` pins snapshot, inputs, prompt and Jev versions on the run row. Activating a new prompt mid-run changes nothing in that run.
+1. **Build.** `scripts/build.ts` reads the frozen pull, strips and filters it to 2,165 usable products, snapshot of 2026-11-01, and publishes `catalog.json` and `rules.json`.
+2. **Preview.** `scripts/preview.ts`, or the Start a run page, plans every customer and counts tokens with no paid generation. It stores the preview by hash. A run must quote that hash.
+3. **Pin.** `POST /api/runs`, behind the run key, pins snapshot, inputs, prompt, Jev, ranking and catalog versions on the run row. A file ranked at any other version than the active one is refused. Activating a new prompt mid-run changes nothing in that run.
 4. **Prep.** Each customer gets a stored plan, or a coded failure at $0. The product list is rendered and checked here, before any spend.
 5. **Admit.** One pass before any generation commits twice the estimate per customer. Over the cap means skipped and logged.
 6. **Generate.** One warm call, then `GEN_CONCURRENCY` at a time. One call returns email and landing page together.
@@ -74,6 +75,7 @@ Not used: Queues, Durable Objects, Agents SDK, Vectorize, KV, the Batches API, a
 | Model output | Untrusted | Schema, then checks. Slot tokens stand in for products. The model emits no id, title, URL, image, price or markup |
 | Rendered HTML | Code's own | Image gate, link gate and alt checks run on the render, with no script in the review frame |
 | Reviewer identity | From a verified Access token only | Never from a request body. Auth fails closed on missing config |
+| Run key | A secret that starts spending | Compared as digests, five wrong tries lock it for 15 minutes, never stored, echoed or logged. No key on the server means no run. `npm run demo` makes a random one per launch and keeps it in memory |
 
 **What the model sees:** the shared prompt, the occasion text, shape, occasion key, pick facts and allowed quotes. **What it never sees:** a name, a last name, a purchase note, a tag or a price.
 
@@ -85,10 +87,11 @@ Every step reads its own output first, so a replay does nothing. A generate step
 
 ## Cost envelope
 
-Planning figures, not measured, on placeholder token counts. See the [write-up](WRITEUP.md#cost-note).
+Planning figures, except the measured line. See the [write-up](WRITEUP.md#cost-note).
 
 | | figure |
 |---|---|
-| per 20-customer run | $0.79 expected, $3.71 worst by `max_tokens` (default rung; start rung is a run setting) |
+| per 20-customer run, measured once | $0.6834 Anthropic, $0.0018 Jev: run `voice-mvxmeplv`, Sonnet 5.5, prompt v2 |
+| per 20-customer run, planned | $0.79 expected, $3.71 worst by `max_tokens` (default rung; start rung is a run setting) |
 | per 1,000 | $39–46 on Sonnet sync; $0.7 on Haiku, untested for voice |
 | fixed | $0 local; $5/month for a hosted review link |

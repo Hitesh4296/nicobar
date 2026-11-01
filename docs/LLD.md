@@ -4,18 +4,20 @@ Status: `draft`, compared with the built code on 2026-11-01. [contracts.md](cont
 
 | part | code | contract | tests |
 |---|---|---|---|
-| Snapshot build | `scripts/build.ts`, `samples/site/`, `src/lib/catalog/` | [Inputs](contracts.md#inputs) | 2,180 usable rows reproduced from the frozen pull |
+| Snapshot build | `scripts/build.ts`, `samples/site/`, `src/lib/catalog/` | [Inputs](contracts.md#inputs) | 2,165 usable rows reproduced from the frozen pull |
 | Ingest, plan | `src/lib/ingest.ts`, `recs.ts`, `shape.ts`, `plan.ts` | [Inputs](contracts.md#inputs) | Row-level failures; 19 rows and `c20` |
+| Ranking | `src/lib/rank/`, `scripts/rank.ts`, `config/ranking.json` | [Inputs](contracts.md#inputs) | Weights, guards, rails, push-down |
 | Request | `src/lib/gen/` | [Model output](contracts.md#model-output) | Prefix byte-identical across customers, formats and attempts; no unfilled placeholder |
 | Checks | `src/lib/check/` | [Checks](contracts.md#checks) | `npm run eval` |
-| Render | `src/lib/render/` | [Model output](contracts.md#model-output) | No script in frame; 390 px render; link and image integrity |
+| Render | `src/lib/render/` | [Model output](contracts.md#model-output) | No script in frame; 390 px render; link and image integrity; the letter email |
 | Run | `src/workflow/` | [State machines](contracts.md#state-machines) | Line 3 on a real Workflow instance; replay; kill after answer; restart |
 | State | `src/lib/state/` | [State machines](contracts.md#state-machines) | Every edge; illegal writes refused by `CHECK` |
 | Cost | `src/lib/cost/` | [Cost](contracts.md#cost-and-cap) | Admission, cap, `OVER_CAP`, retry gate |
-| Jev | `src/lib/jev/` | [Prompts and Jev](contracts.md#prompts-and-jev-versions) | Stubbed transport only. A flag never changes a check |
+| Jev | `src/lib/jev/` | [Prompts and Jev](contracts.md#prompts-and-jev-versions) | Tests use a stubbed transport. A flag never changes a check |
 | Prompt versions | `src/lib/config/`, `src/ui/agents/` | [Prompts and Jev](contracts.md#prompts-and-jev-versions) | Tamper refused; validators; locked fields |
-| Routes, UI | `src/worker/`, `src/ui/` | [Routes](contracts.md#routes) | Route order; 503 on the deployed build; auth fails closed |
-| Local run | `scripts/demo.ts`, `scripts/batch.ts`, `scripts/stub-llm.ts` | [Routes](contracts.md#routes) | 20 drafts on the stub from a clean clone; `batch` refuses with no key |
+| Routes, UI | `src/worker/`, `src/ui/` | [Routes](contracts.md#routes) | Route order; 503 on the deployed build; auth fails closed; run key checked first |
+| Catalog viewer | `src/worker/routes/catalog.ts`, `src/ui/catalog.ts`, `src/lib/catalog/override.ts` | [Prompts and Jev](contracts.md#prompts-and-jev-versions) | Rules and item overrides as versions; the snapshot is never edited |
+| Local run | `scripts/demo.ts`, `scripts/batch.ts`, `scripts/stub-llm.ts` | [Routes](contracts.md#routes) | 20 drafts on the stub from a clean clone; `batch` refuses with no key; the stub refuses a real key in the demo |
 | Demo export | `scripts/export-demo.ts` | [Hosted link](contracts.md#hosted-link) | On fixtures only. Never run end to end |
 
 ## Error handling
@@ -42,4 +44,4 @@ Coded outcomes are the design: see [codes](contracts.md#codes). A line of JSON i
 - `npm run readiness`: durability, replay, idempotency, isolation, retry, cap, observability and the approval gate, on real local runs against a stub model. A line counts only if its assertion was seen failing. The gate's clauses go red on patched copies of the source under `out/readiness/tree`, restored and diffed before the green run.
 - `npm run demo`: the whole path from a clean clone, no key.
 - `npm run smoke`: types, both bundles, `/review` loads.
-- Real run: [[SLOT real run: id and report]].
+- Real run: `voice-mvxmeplv`, Sonnet 5.5, prompt v2, `check-v3`, 20 of 20 first try, $0.6834. It lives in the local D1 of the machine that ran it. `/review/runs/voice-mvxmeplv` is its report there.

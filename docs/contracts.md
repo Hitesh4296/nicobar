@@ -7,16 +7,16 @@ The code is the authority where it can be. **DDL:** `migrations/0001_core.sql`, 
 | object | location | writer | notes |
 |---|---|---|---|
 | Site sample | `samples/site/` | committed once | The frozen pull the build reads, minus gift cards. No image files |
-| Snapshot | R2 `snapshots/<id>/catalog.json`, `rules.json`; D1 `snapshots` | `scripts/build.ts --publish` | Frozen 2026-10-29. Catalogue is 21.5 MB `[verified 2026-11-01]` |
+| Snapshot | R2 `snapshots/<id>/catalog.json`, `rules.json`; D1 `snapshots` | `scripts/build.ts --publish` | Frozen 2026-11-01: `2026-11-01-cdda17faae52`, 8,940 rows, 2,165 usable. Catalogue is 22.3 MB `[verified 2026-11-01]` |
 | Customer input | `data/*.tsv`; R2 `customers/<sha256>.tsv` | `POST /api/runs` | Immutable by hash. Last names never deploy |
-| Rec input | `data/recommendations.synthetic.json`; R2 `recs/<sha256>.json` | `POST /api/runs` | Immutable by hash |
+| Rec input | `data/recommendations.synthetic.json`, written by `npm run rank`; R2 `recs/<sha256>.json` | `POST /api/runs` | Immutable by hash. Must carry the active ranking and catalog versions in `generated_by` |
 | Occasion keys | `data/row_keys.synthetic.json` | reviewed edit | Keys only. Bundled |
-| Plan preview | R2 `previews/<sha256>.json` | `scripts/preview.ts` | A run must quote its hash |
+| Plan preview | R2 `previews/<sha256>.json` | `scripts/preview.ts`, `GET /review/start` | A run must quote its hash |
 | Run records | D1 | see below | Kept. One run id takes one POST |
-| Prompts, Jev config | D1 `config_versions`; import files in `config/prompt/<id>/`, `config/jev.json` | `saveVersion`, `activateVersion` | Content never changes after save |
+| Prompts, Jev config, ranking weights, catalog overrides | D1 `config_versions`; import files in `config/prompt/<id>/`, `config/jev.json`, `config/ranking.json` | `saveVersion`, `activateVersion` | Content never changes after save. Later ranking and catalog versions live only in D1 |
 | Schemas, lists, prices | `config/` | reviewed edit | Bundled |
 | Reports | `reports/eval.json`, `reports/readiness.json` | `npm run eval`, `npm run readiness` | Regenerated |
-| Secrets | `.dev.vars`, Wrangler secrets | operator | Gitignored. No model key on a deployed link |
+| Secrets | `.dev.vars`, Wrangler secrets | operator | Gitignored. No model key on a deployed link. `RUN_KEY` starts runs. `npm run demo` makes its own per launch, passes it by `--var`, and writes it nowhere |
 
 | table | only writer |
 |---|---|
@@ -62,7 +62,7 @@ The code is the authority where it can be. **DDL:** `migrations/0001_core.sql`, 
 
 `config/schemas/draft-both.v1.json` is `{email: draft-email/v2, landing_page: draft-landing/v3}`. `runs.format` (`both`, `email`, `landing_page`) moves the output schema only, never the prompt prefix. Stored shape, always: `ModelJson`, `{email?, landing_page?, unparsed?}`.
 
-- **Email:** `occasion_key`, `subject`, `preheader`, `body`. Fixed template.
+- **Email:** `occasion_key`, `subject`, `preheader`, `body`. Fixed template, the letter: logo, brand header and footer, a "See your edit" link to the landing page.
 - **Landing page:** `occasion_key`, `sections`, from seven components: `hero`, `story`, `feature`, `product_grid`, `pairing`, `packing_list`, `quote`.
 - **Shape** is set by code from the occasion: `trip`, `gift`, `home`, `wedding`, `scene`, `open`. The model arranges within it.
 - **Slot tokens** `{p1}`…`{p6}` stand for picks. Email uses p1–p3.
@@ -128,17 +128,20 @@ Auth runs on every route: a verified Access token, or `DEV_MODE` locally. Missin
 
 | route | deployed |
 |---|---|
-| `POST /api/runs` | 503 |
+| `POST /api/runs`, header `x-run-key` | 503 |
+| `GET`, `POST /review/start` | 503 |
 | `POST /api/runs/:id/restart`, `/mark-stopped`, `POST /api/ledger` | 503 |
-| `GET /review`, `/review/runs/:id/plans`, `/review/:id` | yes |
+| `GET /review`, `/review/runs/:id`, `/review/runs/:id.json`, `/review/runs/:id/plans`, `/review/:id` | yes |
 | `POST /api/drafts/:id/{approve,reject,revoke,release}` | yes |
 | `GET /released/:id?part=email\|landing_page\|catalog` | yes |
 | `GET /review/spend`, `/review/published`, `/review/evals` | yes |
 | `GET /review/agents`, `/review/agents/:id?against=<id>`, `GET /api/config/:id` | yes |
+| `GET /review/agents/refine`, `/review/catalog`, `/review/catalog/:id` | yes |
 | `POST /api/config`, `/api/config/:id/activate`, `/api/config/:id/judge` | 503 |
+| `POST /review/agents/refine/{save,activate}`, `/review/catalog/{save,activate}` | 503 |
 | `POST /api/drafts/:id/flags/:question/dismiss` | yes |
 
-`POST /api/runs` body: `{run_id, stage, snapshot_id, customers_name, customers_tsv, customers_synthetic, recs_json, preview_sha256}`. Both files travel as raw strings, because the preview hashes bytes. `cap_run_usd` in a body is a 400. A changed prompt since the preview is 409 `PREVIEW_STALE`. Format and start rung come from the preview.
+`POST /api/runs` body: `{run_id, stage, snapshot_id, customers_name, customers_tsv, customers_synthetic, recs_json, preview_sha256, only?}`. The key is checked first: wrong is 403, too many tries 429, and no `RUN_KEY` on the server starts nothing. Both files travel as raw strings, because the preview hashes bytes. `cap_run_usd` in a body is a 400. A changed prompt since the preview, or a recommendations file not at the active ranking and catalog versions, is 409 `PREVIEW_STALE`. Format and start rung come from the preview.
 
 ## Cost and cap
 
@@ -159,6 +162,8 @@ Enforced before each call, from `count_tokens`:
 Spend can pass `ceiling_usd` and `cap_run_usd`, because an attempt that runs to `max_tokens` costs more than its commit. `close` then logs `cap_breach`. That is a log line only, not a stored field. Billed attempts cannot pass 2.
 
 ## Prompts and Jev versions
+
+Ranking weights and catalog overrides are versions on the same rails, saved from the Refine and Catalog pages. The active prompt is v2.
 
 A save creates a new immutable row. Activation validates, retires the old version and activates the new one in one batch, and refuses a version whose parent is no longer active. A hash mismatch at load is `TAMPERED`, and the unit fails alone.
 

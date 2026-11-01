@@ -1,6 +1,6 @@
 # Write-up
 
-**Read this first.** [[SLOT real run: rewrite this paragraph after the real run]] As of this draft, no real model has been called. The batch, the checker and the approval gate have run on real local infrastructure against a scripted stand-in for the model. `npm run demo` reproduces that from a clean clone, with no key, in about 15 seconds. Every result below says which it is. Blanks marked `[[SLOT …]]` wait for a real run, and nothing has been filled in by estimate.
+**Read this first.** Real model runs exist. Two full Workflow runs on Sonnet 5.5 and 21 earlier script calls, all on the 2026-10-29 snapshot, all local. The latest, `voice-mvxmeplv` on prompt v2 and `check-v3`, drafted 20 of 20 first try for $0.6834. That is on the customers prompt v2 was written against, on one run. It is not held out. Since then the snapshot was refrozen on 2026-11-01, and the ranking engine, catalog overrides and letter email arrived, so no real draft exists for today's picks. `npm run demo` reproduces the whole path from a clean clone on a scripted stand-in for the model, with no key, in about 20 seconds. Every result below says which it is. What has no real number says `not measured`.
 
 ## Deep dive: the eval
 
@@ -23,15 +23,15 @@ The checks run in one function at three points: offline, before review, and agai
 
 `npm run eval`, $0, no key, reproduced from a clean clone on 2026-11-01:
 
-- **361 of 361 cases.** 124 checks, 33 blind drafts, 23 image and link, 3 injection, 56 layout, 33 check-v2, 41 fixtures, 48 echo rows.
-- **25 of 25 mutants killed.** Each patches `src/lib/check/index.ts` for one run, so production code carries no switches. A check never seen failing would prove nothing.
+- **366 of 366 cases.** 125 checks, 33 blind drafts, 26 image and link, 3 injection, 57 layout, 33 check-v2, 41 fixtures, 48 echo rows.
+- **29 of 29 mutants killed.** Each patches `src/lib/check/index.ts` for one run, so production code carries no switches. A check never seen failing would prove nothing.
 - **8 cases skipped,** each named with the test that owns it.
 
-**What this does not show.** Those cases shaped the checker, so 361 of 361 says little about drafts it has not seen. It runs on a 50-row fixture catalogue with the real rule set. A held-out set, written once by someone who has not read the rules, is the honest recall figure.
+**What this does not show.** Those cases shaped the checker, so 366 of 366 says little about drafts it has not seen. It runs on a 50-row fixture catalogue with the real rule set. A held-out set, written once by someone who has not read the rules, is the honest recall figure.
 
 **Held-out v1, scored once on `check-v1`: 22 of 40 caught.** Image 8/8, length 8/8, product 4/8, discount 2/8, echo 0/8. Lists catch the words they were built from, and a fresh writer used other words. That is the published number.
 
-`check-v2` was then fixed against those 40, so they are regression now, not recall. It catches 32 of 40 on them: discount 8/8, echo 4/8, the rest unchanged. Do not read 32 as a score. `reports/eval.json` keeps both under `heldout_v1`, and `npm run eval` reproduces them from a committed slice of 79 rows and the rules, so a clean clone needs no snapshot. A second blind set, written by a session that has seen neither the lists nor these misses, is what scores `check-v2`. [[SLOT held-out v2: not scored yet]]
+`check-v2` was then fixed against those 40, so they are regression now, not recall. It catches 32 of 40 on them: discount 8/8, echo 4/8, the rest unchanged. Do not read 32 as a score. `reports/eval.json` keeps both under `heldout_v1`, and `npm run eval` reproduces them from a committed slice of 79 rows and the rules, so a clean clone needs no snapshot. A second blind set, written by a session that has seen neither the lists nor these misses, is what scores `check-v2`. The current checker is `check-v3`, and no blind set has scored it.
 
 **Held-out v2, a second blind set scored once on `check-v2`: 33 of 40 caught.** Image 8/8, length 8/8, product 6/8, echo 6/8, discount 5/8. Three of five classes still miss their target. All 7 misses would reach the reviewer.
 
@@ -63,21 +63,27 @@ A made-up claim in plain words remains the largest gap. Checks catch vocabulary,
 
 ### On real drafts
 
-[[SLOT real run: every line below]]
+Run `voice-mvxmeplv`: Sonnet 5.5, `sonnet-default`, prompt v2, `check-v3`, snapshot 2026-10-29. Read from the run's rows in local D1. n = 1 run, on the 20 customers the prompt was written against.
 
 | measure | target | result |
 |---|---|---|
-| First-try pass, email | at least 17 of 20 | [[SLOT]] |
-| First-try pass, landing page | at least 17 of 20 | [[SLOT]] |
-| False rejects, reviewer's count | at most 2 of 20 units | [[SLOT]] |
-| Made-up claims found by the reviewer | 0 | [[SLOT]] |
-| Send as is, or one line off | at least 15 of 20 | [[SLOT]] |
-| Distinct landing outlines | at least 12 of 20 | [[SLOT]] |
-| Jev flags, against the reviewer | reported | [[SLOT]] |
+| First-try pass, email | at least 17 of 20 | 20 of 20 |
+| First-try pass, landing page | at least 17 of 20 | 20 of 20 |
+| False rejects, reviewer's count | at most 2 of 20 units | not measured |
+| Made-up claims found by the reviewer | 0 | not measured |
+| Send as is, or one line off | at least 15 of 20 | not measured |
+| Distinct landing outlines | at least 12 of 20 | 11 of 20, under target |
+| Jev flags, against the reviewer | reported | 17 of 20 drafts flagged. No reviewer labels exist, so precision is not measured |
+
+| run | prompt | first try, pairs | first try, parts | end result | Anthropic |
+|---|---|---|---|---|---|
+| `voice-voice1`, script calls stored as a run | v1 | 12 of 20 | 31 of 40 | 12 drafted, 8 failed | no ledger row |
+| `voice-mvxfzle7` | v1 | 14 of 20 | 33 of 40 | 19 drafted, 1 failed after a retry | $0.7951 |
+| `voice-mvxmeplv` | v2 | 20 of 20 | 40 of 40 | 20 drafted, 0 retries | $0.6834 |
 
 ## Production readiness
 
-`npm run readiness`, $0, no key. It runs a real local Worker and Workflow against a stand-in model. A line counts as PASS only if its assertion failed on planted evidence, failed again on a real run driven red, and held on a real run. Result: **8 of 8 PASS on the stub, 0 FAIL, 0 VOID**, reproduced from a clean clone on 2026-11-01. Nothing here says how a real model behaves.
+`npm run readiness`, $0, no key. It runs a real local Worker and Workflow against a stand-in model. A line counts as PASS only if its assertion failed on planted evidence, failed again on a real run driven red, and held on a real run. Result: **8 of 8 PASS on the stub, 0 FAIL, 0 VOID**, on current code and a fresh local state, 2026-11-01. Nothing here says how a real model behaves.
 
 | line | shown |
 |---|---|
@@ -154,7 +160,7 @@ The brief asks for an email or a landing page. This produces both, plus a code-r
 
 ## Cost note
 
-Prices were read from Anthropic's pricing page on 2026-11-01. **Every other figure here is a plan, on placeholder token counts.**
+Prices were read from Anthropic's pricing page on 2026-11-01. **The first table is a plan.** Measured figures follow it.
 
 | | Sonnet 5.5, default rung |
 |---|---|
@@ -167,40 +173,40 @@ Prices were read from Anthropic's pricing page on 2026-11-01. **Every other figu
 | Per 1,000, Jev | about $0.55 |
 | Fixed | $0 local, $5/month for a hosted link |
 
-The largest unknown is thinking tokens. The start rung is a run setting. This table's rung, `sonnet-default`, is the default.
+The largest unknown is thinking tokens. The start rung is a run setting. This table's rung, `sonnet-default`, is the default. The cached prefix `S` is measured at 7,152 tokens, and real runs are below.
 
 **The cap** is enforced before each call from `count_tokens`. Over it, a customer is skipped with `OVER_CAP`, logged, at $0. No downgrade happens, since no cheaper rung has passed the eval. The run cap is computed from the preview, never typed. It stops retries, not first calls, so it is not a spend bound: an attempt running to `max_tokens` costs more than its commit, and the worst case is the figure above. A breach is logged at `close`.
 
-**Before a real run,** `S` in `config/cap.json` needs a measured value. It is a placeholder. A real `count_tokens` figure too far above it would skip customers, at $0 and logged.
-
-[[SLOT real run: measured cost, table below]]
+**Measured.** Run `voice-mvxmeplv`, 20 customers. Jev added $0.0018.
 
 | measure | Sonnet | Haiku |
 |---|---|---|
-| Actual spend, run | [[SLOT]] | [[SLOT]] |
-| Actual ÷ estimate | [[SLOT]] | [[SLOT]] |
-| First-try pass, per part | [[SLOT]] | [[SLOT]] |
-| Cache hit rate | [[SLOT]] | [[SLOT]] |
+| Actual spend, run | $0.6834 | not measured |
+| Actual ÷ estimate | 0.68, against $1.0051 estimated | not measured |
+| First-try pass, per part | 20 of 20 each | not measured |
+| Cache hit rate | 81.5% of input tokens | not measured |
 
-**Model choice.** [[SLOT real run: measured model choice]] The rule was set before seeing data: Sonnet stays for this run. Haiku becomes the recommendation at 1,000 only if it is within 2 of Sonnet on first-try pass for each part, has 0 escapes, at most 2 false rejects, and the reviewer picks it or cannot tell on at least 3 of 6 blind pairs.
+**Model choice.** Not measured. Sonnet is the only model tried, so it stays by default, not on evidence. The rule was set before seeing data: Sonnet stays for this run. Haiku becomes the recommendation at 1,000 only if it is within 2 of Sonnet on first-try pass for each part, has 0 escapes, at most 2 false rejects, and the reviewer picks it or cannot tell on at least 3 of 6 blind pairs.
 
 ## What was and was not measured
 
 | | state |
 |---|---|
 | Checker, offline | **Ran.** Real checks, real renderers, real rule set, fixture catalogue |
-| Batch path | **Ran on a stub.** Real Worker, Workflow, D1 and R2, local. The model is a script that fills the plan's slots. `npm run demo` drafts all 20 from a clean clone |
-| Approval gate | **Ran on a stub draft,** and red on patched copies of the source, layer by layer |
-| Real model call | **None.** 0 paid calls |
-| Whether the combined output schema compiles on the API | **Unknown** until one real call |
-| Copy quality, voice | **Unmeasured.** No real draft exists |
-| Jev | **Never called.** Stubbed transport only, and no real answer has been seen |
-| Cost | **Plan only** |
+| Batch path | **Ran, real and stub.** Real Worker, Workflow, D1 and R2, local. Two real runs on Sonnet 5.5, and `npm run demo` drafts all 20 from a clean clone on a script that fills the plan's slots |
+| Today's code on a real model | **Not run.** The last real run predates the 2026-11-01 snapshot, the ranking engine, catalog overrides and the letter email, so no real draft exists for today's picks |
+| Approval gate | **Ran on real and stub drafts,** and red on patched copies of the source, layer by layer. One real draft was released. Every approval so far is the local dev actor, not a verified login |
+| Real model call | **Ran.** 67 attempts on Sonnet 5.5: 21 script calls, 46 in two Workflow runs |
+| The combined output schema on the API | **Ran.** It compiles and answers |
+| Copy quality, voice | **Not measured.** Real drafts exist, and no reader outside the owner has scored them |
+| Jev | **Called on real drafts.** Flags 17 of 20 on the latest run. On planted copy, Jev and Sonnet each caught 12 of the 12 problems that got past code. It stays advisory |
+| Cost | **Measured on one prompt and one model.** Other settings and 1,000 customers are arithmetic |
+| Model choice, Message Batches | **Not measured** |
 | Deployed Worker, Access, catalogue in Worker memory | **Never run.** No link exists, and `npm run deploy:demo` refuses until `TEAM_DOMAIN` and `database_id` are set |
 
 ## Known gaps
 
-- Recommendations come from an internal rules engine on catalogue tags, with hand-set row rules and synthetic inputs. Relevance is untested. A real recommender can replace the file by contract.
+- Recommendations come from an internal rules engine on catalogue tags, with hand-set row rules and synthetic inputs. It has no sales or click data. Relevance is untested. A real recommender can replace the file by contract.
 - Nothing sends, so no eval here touches conversion or any customer response.
 - Voice is one reader's judgment, at n = 20. It does not predict 1,000.
 - The snapshot is frozen, so freshness at release proves nothing about today's site. See [ADR 0002](adr/0002-frozen-snapshot.md).
@@ -210,6 +216,6 @@ The largest unknown is thinking tokens. The start rung is a run setting. This ta
 
 ## Trade-offs I would revisit
 
-- **One call for two parts.** Cheaper and simpler, but a pair passes less often than a part, and the email may echo the page. [[SLOT real run: note if the first-try numbers changed this]]
+- **One call for two parts.** Cheaper and simpler, but a pair passes less often than a part, and the email may echo the page. On prompt v1 that showed: 14 of 20 pairs against 33 of 40 parts. On prompt v2 both were clean, so the prompt mattered more than the split. One run does not settle it.
 - **Hard checks on vocabulary.** A false reject costs one retry. A false pass could cost a made-up product on a page.
 - **Snapshot over live data.** Correct for a reviewed demo. Wrong the day anything really sends.

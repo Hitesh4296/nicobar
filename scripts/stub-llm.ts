@@ -79,6 +79,7 @@ export interface StubOptions {
   delayMs?: number;                                // holds calls open, so a kill finds some in flight
   count?: (input_tokens: number) => number;        // what count_tokens reports; readiness lies through this to prove the cap reads it
   busy?: Set<string>;                              // each key's next call gets one 429. A step retry is one more stub call under the same attempt row
+  key?: string;                                    // the only API key accepted: anything else is a 401 and a line on stderr, so a real key that leaked stops the demo
 }
 
 export function startStub(port = 0, o: StubOptions = {}): Promise<Server> {
@@ -90,6 +91,8 @@ export function startStub(port = 0, o: StubOptions = {}): Promise<Server> {
       res.writeHead(status, { 'content-type': 'application/json' });
       res.end(JSON.stringify(body));
     };
+    // The SDK sends its key as `authorization: Bearer <key>`, not x-api-key.
+    if (o.key && (req.headers['x-api-key'] ?? req.headers.authorization?.replace(/^Bearer /, '')) !== o.key) { console.error('stub: refused a call with the wrong key'); return send(401, { type: 'error', error: { type: 'authentication_error', message: 'stub' } }); }
     if (req.method !== 'POST') return send(404, { type: 'error', error: { type: 'not_found_error', message: 'stub' } });
     const body = JSON.parse(raw);
     const input_tokens = Math.ceil(raw.length / 4);

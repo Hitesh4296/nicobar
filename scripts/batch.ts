@@ -24,18 +24,19 @@ export function parseBatchArgs(argv: string[]): BatchArgs {
 export const runId = (stage: string, stamp: string, baseUrl: string | undefined) => `${baseUrl ? 'stub-' : ''}${stage}-${stamp}`;
 export const wantsKey = (env: Record<string, string | undefined>) => !env.ANTHROPIC_API_KEY && !env.ANTHROPIC_BASE_URL;
 
-/** Returns the run id once the server has accepted it. The run itself goes on in the server. */
-export async function batch(a: BatchArgs, serverUrl: string): Promise<string> {
-  const { deps, proxy } = await realDeps();
+/** Returns the run id once the server has accepted it. The run itself goes on in the server. `demoKey`: the demo server's own key, and .dev.vars stays closed. */
+export async function batch(a: BatchArgs, serverUrl: string, demoKey?: string): Promise<string> {
+  const { deps, proxy } = await realDeps(!demoKey);
   try {
     if (wantsKey(process.env)) throw new Error('no ANTHROPIC_API_KEY: put it in .dev.vars, or use `npm run demo`, which needs none');
-    if (!process.env.RUN_KEY) throw new Error('no RUN_KEY: put it in .dev.vars');
+    const runKey = demoKey ?? process.env.RUN_KEY;
+    if (!runKey) throw new Error('no RUN_KEY: put it in .dev.vars');
     const customers_tsv = deps.inputs.customers;
     if (a.only) deps.inputs.customers = onlyCustomer(customers_tsv, a.only);
     const { sha256, body } = await preview({ prompt: readPromptDir(PROMPT_DIR), promptId: PROMPT_ID, format: a.format, rung: a.rung },
       { ...deps, put: (k, t) => (proxy.env as unknown as Env).BUCKET.put(k, t) });
     const run_id = runId(a.stage, Date.now().toString(36), process.env.ANTHROPIC_BASE_URL);
-    const res = await fetch(`${serverUrl}/api/runs`, { method: 'POST', headers: { Origin: serverUrl, 'content-type': 'application/json', 'x-run-key': process.env.RUN_KEY }, body: JSON.stringify({
+    const res = await fetch(`${serverUrl}/api/runs`, { method: 'POST', headers: { Origin: serverUrl, 'content-type': 'application/json', 'x-run-key': runKey }, body: JSON.stringify({
       run_id, stage: a.stage, snapshot_id: body.snapshot_id, customers_name: CUSTOMERS.split('/').at(-1), customers_tsv, ...(a.only ? { only: a.only } : {}), customers_synthetic: true,
       recs_json: deps.inputs.recs, preview_sha256: sha256 }) });
     if (!res.ok) throw new Error(`POST /api/runs ${res.status} ${await res.text()}`);
