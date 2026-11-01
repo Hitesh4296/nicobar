@@ -1,15 +1,16 @@
 // Calls `transition` and reads rows; holds no state logic and computes no flag.
 import { NotBuilt } from '../../contracts/codes.ts';
 import type { ErrorCode } from '../../contracts/codes.ts';
-import type { AppEnv, CheckResult, DraftStatus, Edge, Envelope, FlagView, Plan, RenderedJson, RunFormat, UnitStatus } from '../../contracts/types.ts';
-import { reviewFlags } from '../../lib/config/index.ts';
+import type { AppEnv, CheckResult, DraftStatus, Edge, Envelope, FlagView, JevConfig, Plan, RenderedJson, RunFormat, UnitStatus } from '../../contracts/types.ts';
+import { BUNDLE } from '../../lib/config/bundle.ts';
+import { loadVersion, reviewFlags } from '../../lib/config/index.ts';
 import { runReport, transition } from '../../lib/state/index.ts';
 import { flagRow } from '../../ui/agents/index.ts';
 import { shell } from '../../ui/shell.ts';
 import { draftPage, plansPage, runsPage } from '../../ui/review.ts';
 import type { DraftView, EventRow, RunRow, UnitView } from '../../ui/review.ts';
 import { customerTimeline, runTimeline } from '../../ui/timeline.ts';
-import type { CostIn, CustomerData, DraftIn, EventIn, JevIn, RunIn, UnitIn } from '../../ui/timeline.ts';
+import type { CostIn, CustomerData, DraftIn, EventIn, GenIn, JevIn, RunIn, UnitIn } from '../../ui/timeline.ts';
 import type { Ctx, Route } from './list.ts';
 
 // srcdoc inherits this, so the frame has two locks: sandbox="" and script-src 'none'.
@@ -54,31 +55,44 @@ async function runs(c: Ctx): Promise<Response> {
   }
 }
 
+/** The run with its pinned Jev config, so the gates shown are the ones that judged it. No config reads "not recorded". */
+async function runIn(env: AppEnv, id: string): Promise<RunIn | null> {
+  const run = await env.DB.prepare('SELECT id, status, jev_disabled_reason, spent_usd, cap_run_usd, jev_reserve_usd, setting, prompt_version, format, pool_usd, jev_config_version FROM runs WHERE id = ?').bind(id).first<RunIn>();
+  if (!run) return null;
+  const jev = await loadVersion(env.DB, run.jev_config_version as string, BUNDLE).then((v) => v.content as JevConfig, () => null);
+  return { ...run, jev };
+}
+
 /** One run's recorded trail, per customer. `only` narrows it to one customer for the draft page. */
-async function trail(env: AppEnv, run_id: string, only: string | null = null): Promise<CustomerData[]> {
+async function trail(env: AppEnv, run: RunIn, only: string | null = null): Promise<CustomerData[]> {
+  const run_id = run.id;
   const db = env.DB;
   const rows = async <T>(sql: string) => (await db.prepare(sql).bind(run_id, only).all<T>()).results;
   const mine = 'run_id = ?1 AND (?2 IS NULL OR customer_id = ?2)';
-  const [units, plans, drafts, costs, jev, events] = await Promise.all([
+  const [units, plans, drafts, costs, jev, events, gens, held] = await Promise.all([
     rows<UnitIn>(`SELECT customer_id, status, code, error_detail FROM units WHERE ${mine} ORDER BY customer_id`),
     rows<{ customer_id: string; plan_json: string; created_at: string }>(`SELECT customer_id, plan_json, created_at FROM plans WHERE ${mine}`),
-    rows<DraftIn>(`SELECT id, customer_id, version, status, hard_failures, model_json, json_extract(rendered_json, '$.catalog') AS catalog, checks_json, envelope_json FROM drafts WHERE ${mine} ORDER BY customer_id, version`),
-    rows<CostIn>(`SELECT customer_id, attempt, action, call_state, input_tokens, est_usd, commit_usd, charged_usd, reason, at FROM cost_events WHERE ${mine}`),
-    rows<JevIn>(`SELECT customer_id, attempt, status, reason, charged_usd, at FROM jev_events WHERE ${mine}`),
-    rows<EventIn>(`SELECT e.draft_id, e.from_status, e.to_status, e.actor_email, e.at, e.note FROM draft_events e JOIN drafts d ON d.id = e.draft_id WHERE d.run_id = ?1 AND (?2 IS NULL OR d.customer_id = ?2) ORDER BY e.id`)]);
+    rows<DraftIn>(`SELECT id, customer_id, version, status, hard_failures, model_json, json_extract(rendered_json, '$.catalog') AS catalog, json_extract(rendered_json, '$.email') AS email, json_extract(rendered_json, '$.landing_page') AS landing, checks_json, envelope_json, validator_version, model, content_sha256 FROM drafts WHERE ${mine} ORDER BY customer_id, version`),
+    rows<CostIn>(`SELECT customer_id, attempt, action, call_state, input_tokens, est_usd, commit_usd, charged_usd, reason, at, setting, request_sha256 FROM cost_events WHERE ${mine}`),
+    rows<JevIn>(`SELECT customer_id, attempt, status, reason, charged_usd, at, answers_json, input_tokens, ms FROM jev_events WHERE ${mine}`),
+    rows<EventIn>(`SELECT e.draft_id, e.from_status, e.to_status, e.actor_email, e.at, e.note, e.content_sha256 FROM draft_events e JOIN drafts d ON d.id = e.draft_id WHERE d.run_id = ?1 AND (?2 IS NULL OR d.customer_id = ?2) ORDER BY e.id`),
+    rows<GenIn>(`SELECT customer_id, attempt, result_type, stop_reason, usage_json, message_json, ms FROM generations WHERE ${mine}`),
+    db.prepare(`SELECT customer_id, commit_usd FROM cost_events WHERE run_id = ? AND attempt = 1 AND action = 'admit'`).bind(run_id).all<{ customer_id: string; commit_usd: number }>().then((r) => r.results)]);
+  const budget = (run.cap_run_usd ?? 0) - (run.jev_reserve_usd ?? 0);
+  const budgetLeft = (key: string) => budget - held.filter((h) => h.customer_id <= key).reduce((t, h) => t + h.commit_usd, 0);   // admitAll's own walk: ascending key
   return Promise.all(units.map(async (unit) => {
     const key = unit.customer_id, plan = plans.find((p) => p.customer_id === key), mineD = drafts.filter((d) => d.customer_id === key), last = mineD.at(-1);
     const flags = last ? (await flagsOf(env, last.id))?.filter((f) => f.flagged && !f.dismissal).map((f) => f.question) ?? [] : [];
     return { unit, plan: parseJson<Plan>(plan?.plan_json ?? null), plan_at: plan?.created_at ?? null, drafts: mineD, costs: costs.filter((x) => x.customer_id === key), jev: jev.filter((x) => x.customer_id === key),
-      events: events.filter((e) => mineD.some((d) => d.id === e.draft_id)), flags };
+      events: events.filter((e) => mineD.some((d) => d.id === e.draft_id)), flags, gens: gens.filter((g) => g.customer_id === key), budgetLeft: budgetLeft(key) };
   }));
 }
 
 async function timeline(c: Ctx): Promise<Response> {
   const id = idOf(c);
-  const run = await c.env.DB.prepare('SELECT id, status, jev_disabled_reason, spent_usd, cap_run_usd FROM runs WHERE id = ?').bind(id).first<RunIn>();
+  const run = await runIn(c.env, id);
   if (!run) return fail(404, 'NOT_FOUND', 'review run');
-  return html(shell(`Timeline · ${run.id}`, '/review', `<p><a class="btn" href="/review?run=${encodeURIComponent(run.id)}">Back to the run</a></p>${runTimeline(run, await trail(c.env, run.id))}`));
+  return html(shell(`Timeline · ${run.id}`, '/review', `<p><a class="btn" href="/review?run=${encodeURIComponent(run.id)}">Back to the run</a></p>${runTimeline(run, await trail(c.env, run))}`));
 }
 
 async function plans(c: Ctx): Promise<Response> {
@@ -107,8 +121,8 @@ async function draft(c: Ctx): Promise<Response> {
     db.prepare('SELECT id FROM drafts WHERE run_id = ? ORDER BY customer_id, version').bind(row.run_id).all<{ id: string }>(),
     flagsOf(c.env, id),
     db.prepare('SELECT status, reason FROM jev_events WHERE run_id = ? AND customer_id = ? AND attempt = ?').bind(row.run_id, row.customer_id, row.version).first<{ status: string; reason: string | null }>()]);
-  const run = await db.prepare('SELECT id, status, jev_disabled_reason, spent_usd, cap_run_usd FROM runs WHERE id = ?').bind(row.run_id).first<RunIn>();
-  const [mine] = run ? await trail(c.env, row.run_id, row.customer_id) : [];
+  const run = await runIn(c.env, row.run_id);
+  const [mine] = run ? await trail(c.env, run, row.customer_id) : [];
   const q = new URL(c.req.url).searchParams;
   const at = siblings.results.findIndex((s) => s.id === id);
   const view: DraftView = { ...row, envelope: JSON.parse(row.envelope_json) as Envelope, rendered: JSON.parse(row.rendered_json) as RenderedJson, checks: JSON.parse(row.checks_json) as CheckResult[],

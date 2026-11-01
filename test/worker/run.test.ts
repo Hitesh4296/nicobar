@@ -87,6 +87,17 @@ describe('close: run cap breach', () => {
   it('logs nothing at the cap', async () => expect(await closed(1)).toEqual([]));
 });
 
+describe('durations', () => {
+  it('a model call and a Jev call each store how long they took', async () => {
+    const r = await admitted();
+    fakeLlm(); await gen(env, r, KEY, 1);
+    expect((await generation(r, KEY, 1) as { ms: unknown } | null)?.ms).toEqual(expect.any(Number));
+    await finish(env, r, KEY, 1);
+    const j = await db.prepare('SELECT status, ms FROM jev_events WHERE run_id = ? AND customer_id = ?').bind(r, KEY).first<{ status: string; ms: number | null }>();
+    expect(j?.ms).toEqual(expect.any(Number));
+  });
+});
+
 describe('test 3: kill after the answer', () => {
   it('possibly_billed at the estimate, no second call for attempt 1, then attempt 2 runs', async () => {
     const r = await admitted();

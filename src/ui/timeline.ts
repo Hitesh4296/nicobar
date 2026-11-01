@@ -1,7 +1,7 @@
 // The job as stages. Reads only what units, plans, drafts, cost_events, draft_events and jev_events hold: a time nobody stored reads "not recorded", never a guess.
-import type { CheckResult, ModelJson, Plan } from '../contracts/types.ts';
+import type { CheckResult, JevConfig, Plan, RunFormat } from '../contracts/types.ts';
 import { explainBlocks, failed, jevNotRun, PART_NAME, QUESTION_NAMES, checkName, stoppedLine } from './checks.ts';
-import { readCards } from '../lib/render/catalog.ts';
+import { capEvidence, checkEvidence, checksOf, details, EVIDENCE_CSS, eventEvidence, judgeEvidence, kv, modelOf, planEvidence, renderEvidence, retryEvidence, secs, titlesOf, totals, usd, writeEvidence } from './evidence.ts';
 import { esc } from './nb.ts';
 import { isStub } from './shell.ts';
 
@@ -31,18 +31,21 @@ summary.tl-row{cursor:pointer;list-style:none}summary.tl-row::-webkit-details-ma
 .tl-open{padding:16px 0 24px;border-bottom:1px solid var(--color-line)}
 .story{list-style:none;margin:16px 0;padding:0}.story>li{position:relative;display:grid;grid-template-columns:214px minmax(0,1fr) 96px;gap:16px;padding:0 0 24px 38px}.story>li::before{content:'';position:absolute;left:7px;top:6px;bottom:-6px;width:1px;background:var(--color-line)}
 .story>li>.dot{position:absolute;left:0;top:4px;width:14px;height:14px;border-radius:50%;background:var(--color-line)}.story>li>.dot.passed,.story>li>.dot.retried{background:var(--color-pass)}.story>li>.dot.failed{background:var(--color-fail)}.story>li>.dot.waiting{background:var(--color-warn)}
-.story b{font-weight:500}.story small{display:block;color:var(--color-ink-soft)}.story p{margin:0 0 4px}.story .cost{text-align:right}@media (max-width:749px){.story>li{grid-template-columns:minmax(0,1fr)}.story .cost{text-align:left}.big{font-size:32px;line-height:38px}}</style>`;
+.story b{font-weight:500}.story small{display:block;color:var(--color-ink-soft)}.story p{margin:0 0 4px}.story .cost{text-align:right}@media (max-width:749px){.story>li{grid-template-columns:minmax(0,1fr)}.story .cost{text-align:left}.big{font-size:32px;line-height:38px}}
+${EVIDENCE_CSS}</style>`;
 
 export const strip = (stages: Strip[]) => `<div class="strip">${stages.map((s) => `<div><i class="${s.bad ? 'bad' : ''}"></i><h3>${esc(s.name)}</h3><p>${esc(s.what)}</p><p class="why">${esc(s.why)}</p>`
   + `<span>${esc(s.lines[0])}</span><b>${esc(s.lines[1])}</b>${s.lines.slice(2).map((l) => `<span>${esc(l)}</span>`).join('')}</div>`).join('')}</div>`;
 
 export interface UnitIn { customer_id: string; status: string; code: string | null; error_detail: string | null }
-export interface DraftIn { id: string; customer_id: string; version: number; status: string; hard_failures: number; model_json: string; catalog: string | null; checks_json: string; envelope_json: string }
-export interface CostIn { customer_id: string; attempt: number; action: string; call_state: string; input_tokens: number | null; est_usd: number | null; commit_usd?: number | null; charged_usd: number | null; reason: string | null; at: string }
-export interface JevIn { customer_id: string; attempt: number; status: string; reason: string | null; charged_usd: number | null; at: string }
-export interface EventIn { draft_id: string; from_status: string | null; to_status: string; actor_email: string | null; at: string; note: string | null }
-export interface CustomerData { unit: UnitIn; plan: Plan | null; plan_at: string | null; drafts: DraftIn[]; costs: CostIn[]; jev: JevIn[]; events: EventIn[]; flags: string[] }
-export interface RunIn { id: string; status: string; jev_disabled_reason: string | null; spent_usd?: number; cap_run_usd?: number }
+export interface DraftIn { id: string; customer_id: string; version: number; status: string; hard_failures: number; model_json: string; catalog: string | null; checks_json: string; envelope_json: string;
+  validator_version?: string; model?: string; content_sha256?: string; email?: string | null; landing?: string | null }
+export interface CostIn { customer_id: string; attempt: number; action: string; call_state: string; input_tokens: number | null; est_usd: number | null; commit_usd?: number | null; charged_usd: number | null; reason: string | null; at: string; setting?: string; request_sha256?: string | null }
+export interface GenIn { customer_id: string; attempt: number; result_type: string; stop_reason: string | null; usage_json: string | null; message_json: string | null; ms: number | null }
+export interface JevIn { customer_id: string; attempt: number; status: string; reason: string | null; charged_usd: number | null; at: string; answers_json?: string | null; input_tokens?: number | null; ms?: number | null }
+export interface EventIn { draft_id: string; from_status: string | null; to_status: string; actor_email: string | null; at: string; note: string | null; content_sha256?: string }
+export interface CustomerData { unit: UnitIn; plan: Plan | null; plan_at: string | null; drafts: DraftIn[]; costs: CostIn[]; jev: JevIn[]; events: EventIn[]; flags: string[]; gens?: GenIn[]; budgetLeft?: number | null }
+export interface RunIn { id: string; status: string; jev_disabled_reason: string | null; spent_usd?: number; cap_run_usd?: number; setting?: string; prompt_version?: string; format?: RunFormat; pool_usd?: number; jev_reserve_usd?: number; jev_config_version?: string; jev?: JevConfig | null }
 
 type State = 'passed' | 'failed' | 'retried' | 'skipped' | 'waiting' | 'not reached';
 export interface Stage { name: string; state: State; what: string; why: string; usd: number | null; at: string | null; html?: string }
@@ -54,12 +57,8 @@ const UNIT_WHY: Record<string, string> = { COLD_START_NO_HISTORY: 'This customer
 export const unitWhy = (code: string | null) => (code && UNIT_WHY[code]) ?? 'No reason is recorded.';
 const PLAN_CODES = ['COLD_START_NO_HISTORY', 'NO_RECOMMENDATION', 'INVALID_PICK', 'TOO_FEW_CANDIDATES', 'INVALID_CUSTOMER', 'DUPLICATE_CUSTOMER_ID'];
 
-const usd = (n: number | null) => (n === null ? '—' : `$${n.toFixed(4)}`);
 const clock = (t: string | null) => (t === null ? 'not recorded' : /T\d\d:\d\d:\d\d/.test(t) ? t.slice(11, 19) : t);
-const checksOf = (d: DraftIn): CheckResult[] => { try { return JSON.parse(d.checks_json); } catch { return []; } };
-const modelOf = (d: DraftIn): ModelJson | null => { try { return JSON.parse(d.model_json); } catch { return null; } };
 const copyFails = (d: DraftIn) => failed(checksOf(d)).filter((c) => !c.id.startsWith('X'));
-const titlesOf = (d: DraftIn) => new Map(readCards(d.catalog ?? '').map((c) => [c.slot, c.title]));
 const failBlocks = (d: DraftIn, cs: CheckResult[]) => explainBlocks(cs, modelOf(d), titlesOf(d));
 const carriedPart = (d: DraftIn): string | null => { try { return JSON.parse(d.envelope_json).carried_part ?? null; } catch { return null; } };
 
@@ -158,7 +157,7 @@ function headline(c: CustomerData): { title: string; sub: string } {
   return last ? { title: summary(c).text, sub: 'Nothing goes out until a person approves it.' } : { title: 'Not finished', sub: 'This customer has no draft yet.' };
 }
 
-interface StoryRow { name: string; sub: string; state: State; text: string; why: string; html?: string; usd: number | null; at: string | null; timed?: boolean }
+interface StoryRow { name: string; sub: string; state: State; text: string; why: string; html?: string; usd: number | null; at: string | null; timed?: boolean; ev?: string; took?: number | null }
 
 function storyRows(c: CustomerData, run: RunIn): StoryRow[] {
   const by = Object.fromEntries(stagesOf(c, run).map((s) => [s.name, s]));
@@ -179,22 +178,53 @@ function storyRows(c: CustomerData, run: RunIn): StoryRow[] {
   for (const n of ['Render', 'Judge (Jev)', 'Review', 'Approve', 'Publish']) if (by[n].state !== 'not reached') rows.push(row(by[n]));
   const unreached = ['Render', 'Judge (Jev)', 'Review', 'Approve', 'Publish'].filter((n) => by[n].state === 'not reached');
   if (unreached.length) rows.push({ name: unreached.join(', '), sub: LABEL['not reached'], state: 'not reached', text: c.unit.status === 'failed' ? 'A failed draft is not judged and cannot be approved.' : 'Not yet.', why: '', usd: null, at: null, timed: false });
-  return rows;
+  const latest = c.drafts.at(-1), v1 = c.drafts.find((d) => d.version === 1), gen = (n: number) => c.gens?.find((g) => g.attempt === n)?.ms ?? null;
+  const j = c.jev.find((x) => x.attempt === latest?.version);
+  const of = (...to: string[]) => c.events.filter((e) => e.draft_id === latest?.id && to.includes(e.to_status));
+  const ev: Record<string, () => Partial<StoryRow>> = {
+    Plan: () => ({ ev: planEvidence(c) }), Estimate: () => ({ ev: capEvidence(c, run) }), 'Cap check': () => ({ ev: capEvidence(c, run) }),
+    Write: () => ({ ev: writeEvidence(c, run, 1), took: gen(1) }), 'Write, first try': () => ({ ev: writeEvidence(c, run, 1), took: gen(1) }),
+    Check: () => ({ ev: v1 && checkEvidence(v1) }), Retry: () => ({ ev: retryEvidence(c, run), took: gen(2) }), 'Check, second': () => ({ ev: v2 && checkEvidence(v2) }),
+    Render: () => ({ ev: latest && renderEvidence(c, latest) }), 'Judge (Jev)': () => ({ ev: judgeEvidence(c, run, j), took: j ? j.ms ?? null : undefined }),
+    Review: () => ({ ev: eventEvidence(of('in_review', 'rejected'), 'Who and when') }), Approve: () => ({ ev: eventEvidence(of('approved'), 'Who and when') }), Publish: () => ({ ev: eventEvidence(of('released'), 'Who and when') }) };
+  return rows.map((r) => ({ ...r, ...ev[r.name]?.() }));
 }
 
 /** One customer, end to end, in words. /review/:id and the open row on the run page. */
-export function customerTimeline(c: CustomerData, run: RunIn): string {
+export function customerTimeline(c: CustomerData, run: RunIn, css = TIMELINE_CSS): string {
   const { title, sub } = headline(c);
   const rows = storyRows(c, run).map((s) => `<li>${dot(s.state).replace('role=', 'data-s role=')}<div><b>${esc(s.name)}</b><small>${esc(s.sub)}</small></div>`
-    + `<div><p>${esc(s.text)}</p>${s.why ? `<p class="note">${esc(s.why)}</p>` : ''}${s.html ?? ''}</div><div class="cost">${usd3(s.usd)}${s.timed === false ? '' : `<small>${esc(clock(s.at))}</small>`}</div></li>`).join('');
-  return `${TIMELINE_CSS}<p class="eyebrow">${esc(c.unit.customer_id)} · ${esc(label(c))}</p><p class="big">${esc(title)}</p><p>${esc(sub)}</p><ol class="story">${rows}</ol><p class="note">Durations are not stored. A time is the moment a step was recorded.</p>`;
+    + `<div><p>${esc(s.text)}</p>${s.why ? `<p class="note">${esc(s.why)}</p>` : ''}${s.html ?? ''}${s.ev ?? ''}</div><div class="cost">${usd3(s.usd)}${s.timed === false ? '' : `<small>${esc(clock(s.at))}</small>`}${s.took === undefined ? '' : `<small>${s.took === null ? 'Time taken not recorded' : `Took ${secs(s.took)}`}</small>`}</div></li>`).join('');
+  return `${css}<p class="eyebrow">${esc(c.unit.customer_id)} · ${esc(label(c))}</p><p class="big">${esc(title)}</p><p>${esc(sub)}</p><ol class="story">${rows}</ol><p class="note">A clock time is the moment a step was recorded. Write and Judge also show how long they took; older runs read "not recorded".</p>`;
+}
+
+const paidBy = (c: CustomerData) => [...c.costs, ...c.jev].reduce((t, x) => t + (x.charged_usd ?? 0), 0);
+const timeBy = (c: CustomerData) => { const ms = [...(c.gens ?? []), ...c.jev].flatMap((x) => x.ms ?? []); return ms.length ? ms.reduce((a, b) => a + b, 0) : null; };
+const top = <T>(xs: T[], by: (x: T) => number) => [...xs].sort((a, b) => by(b) - by(a)).slice(0, 3);
+
+/** Closed per stage, then the whole run. The Write and Retry totals read their own attempt; every other stage spends no tokens on the model. */
+function stageDetail(all: { c: CustomerData; stages: Stage[] }[]): string {
+  const cs = all.map((a) => a.c), gens = cs.flatMap((c) => c.gens ?? []), costs = cs.flatMap((c) => c.costs), jev = cs.flatMap((c) => c.jev);
+  const attempt = (n: number) => kv(totals(gens.filter((g) => g.attempt === n), costs.filter((x) => x.attempt === n)));
+  const extra: Record<string, () => string> = { Write: () => attempt(1), Retry: () => attempt(2),
+    'Judge (Jev)': () => { const ms = jev.flatMap((j) => j.ms ?? []); return kv([['Jev charged', usd(jev.reduce((t, j) => t + (j.charged_usd ?? 0), 0))], ['Jev input tokens', jev.reduce((t, j) => t + (j.input_tokens ?? 0), 0).toLocaleString('en-US')], ['Jev time', ms.length ? secs(ms.reduce((a, b) => a + b, 0)) : 'not recorded']]); } };
+  const steps = STAGES.map((s, i) => {
+    const here = all.filter((a) => a.stages[i].state !== 'not reached');
+    const states = [...new Set(here.map((a) => a.stages[i].state))];
+    const who = states.map((st) => { const names = here.filter((a) => a.stages[i].state === st).map((a) => label(a.c)); return [`${LABEL[st]} (${names.length})`, names.join('; ')] as [string, unknown]; });
+    return details(`${s.name} · ${here.length} in this step`, `${who.length ? kv(who) : '<p class="note">Nobody reached this step.</p>'}${extra[s.name]?.() ?? ''}`);
+  }).join('');
+  const timed = cs.filter((c) => timeBy(c) !== null), paid = cs.filter((c) => paidBy(c) > 0);
+  const slowest = top(timed, (c) => timeBy(c)!).map((c) => `${label(c)} ${secs(timeBy(c)!)}`).join('; ') || 'not recorded';
+  const costliest = top(paid, paidBy).map((c) => `${label(c)} ${usd2(paidBy(c))}`).join('; ') || 'not recorded';
+  return `<h2>Each step in detail</h2>${steps}<h2>The whole run</h2>${kv([...totals(gens, costs), ['Slowest customers', slowest], ['Costliest customers', costliest]])}`;
 }
 
 const SHOWN = ['Plan', 'Write', 'Check', 'Retry', 'Render', 'Judge (Jev)', 'Review'];
 
 export function runTimeline(run: RunIn, customers: CustomerData[]): string {
   const all = customers.map((c) => ({ c, stages: stagesOf(c, run) }));
-  const totals: Strip[] = STAGES.map((s, i) => {
+  const stripped: Strip[] = STAGES.map((s, i) => {
     const here = all.map((a) => a.stages[i]).filter((x) => x.state !== 'not reached');
     const n = (...st: State[]) => here.filter((x) => st.includes(x.state)).length;
     const first = here.map((x) => x.at).filter((t): t is string => t !== null).sort()[0] ?? null;
@@ -217,11 +247,11 @@ export function runTimeline(run: RunIn, customers: CustomerData[]): string {
     const { text, stopped: bad } = summary(c);
     const paid = stages.reduce((t, s) => t + (s.usd ?? 0), 0);
     return `<details><summary class="tl-row"><span>${esc(label(c))}</span>${SHOWN.map((n) => `<span>${dot(stages.find((s) => s.name === n)!.state)}</span>`).join('')}<span>${usd3(paid)}</span><span class="${bad ? 'tl-stop' : ''}">${esc(text)}</span></summary>`
-      + `<div class="tl-open">${customerTimeline(c, run)}${c.drafts.length ? `<p><a href="/review/${encodeURIComponent(c.drafts.at(-1)!.id)}">Open this draft</a></p>` : ''}</div></details>`;
+      + `<div class="tl-open">${customerTimeline(c, run, '')}${c.drafts.length ? `<p><a href="/review/${encodeURIComponent(c.drafts.at(-1)!.id)}">Open this draft</a></p>` : ''}</div></details>`;
   }).join('');
   const stub = isStub(run.id) ? 'stub run, nothing billed' : 'real model';
   const foot = stopped ? `${stopped} ${stopped === 1 ? 'customer' : 'customers'} stopped alone and the other ${customers.length - stopped} finished. Open a row below for why.` : 'No customer stopped.';
-  return `${TIMELINE_CSS}<p class="eyebrow">Run · ${esc(run.id)} · ${stub}, ${customers.length} customers</p><h1>What the job did, and why each step exists</h1>${top}${strip(totals)}<p class="note">${esc(foot)}</p>`
+  return `${TIMELINE_CSS}<p class="eyebrow">Run · ${esc(run.id)} · ${stub}, ${customers.length} customers</p><h1>What the job did, and why each step exists</h1>${top}${strip(stripped)}<p class="note">${esc(foot)}</p>${stageDetail(all)}`
     + `<p class="eyebrow" style="margin-top:48px">Run · per customer</p><p class="big">The same steps, one row per customer</p><div class="tl-scroll">${head}${rows}</div>`
     + `<p class="note">Green passed · Red failed · Amber waiting for a person · Dash did not run. Open a row for its full story.</p>`;
 }

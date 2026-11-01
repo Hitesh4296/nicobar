@@ -78,6 +78,7 @@ describe('screens', () => {
     expect(html).toContain('&lt;b&gt;Meera&lt;/b&gt;');
     expect(html).not.toContain('<b>Meera');
     expect(html).toContain('Cap check');
+    expect(html).toContain('Each step in detail');
     expect((await get('/review/runs/nope')).status).toBe(404);
   });
   it('published: a stub run is labelled, a real one is not', async () => {

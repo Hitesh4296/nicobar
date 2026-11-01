@@ -165,9 +165,9 @@ export async function admit(env: AppEnv, run_id: string, estimates: Record<strin
 interface Generation { result_type: ResultType; stop_reason: string | null; stop_detail: string | null; message_json: string | null }
 const readGen = (env: AppEnv, run_id: string, key: string, n: number) => env.DB.prepare('SELECT * FROM generations WHERE run_id = ? AND customer_id = ? AND attempt = ?')
   .bind(run_id, key, n).first<Generation>();
-const genRow = (db: D1Database, run_id: string, key: string, n: number, t: ResultType, o: { stop_reason?: string | null; stop_detail?: string | null; message?: unknown; usage?: unknown } = {}): Guarded =>
-  ({ expectOne: false, stmt: db.prepare(`INSERT OR IGNORE INTO generations (run_id, customer_id, attempt, result_type, stop_reason, stop_detail, message_json, usage_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`)
-    .bind(run_id, key, n, t, o.stop_reason ?? null, o.stop_detail ?? null, o.message ? JSON.stringify(o.message) : null, o.usage ? JSON.stringify(o.usage) : null) });
+const genRow = (db: D1Database, run_id: string, key: string, n: number, t: ResultType, o: { stop_reason?: string | null; stop_detail?: string | null; message?: unknown; usage?: unknown; ms?: number } = {}): Guarded =>
+  ({ expectOne: false, stmt: db.prepare(`INSERT OR IGNORE INTO generations (run_id, customer_id, attempt, result_type, stop_reason, stop_detail, message_json, usage_json, ms) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+    .bind(run_id, key, n, t, o.stop_reason ?? null, o.stop_detail ?? null, o.message ? JSON.stringify(o.message) : null, o.usage ? JSON.stringify(o.usage) : null, o.ms ?? null) });
 
 const readDraft = (env: AppEnv, run_id: string, key: string, v: number) => env.DB.prepare('SELECT * FROM drafts WHERE id = ?').bind(`${run_id}:${key}:v${v}`)
   .first<DraftRow & { status: DraftStatus }>();
@@ -218,6 +218,7 @@ export async function gen(env: AppEnv, run_id: string, key: string, n: 1 | 2): P
   if (cas.meta.changes !== 1) return possiblyBilled();
 
   let msg: Anthropic.Message;
+  const started = Date.now();
   try {
     msg = await client(env).messages.create(req as never) as Anthropic.Message;
   } catch (e) {
@@ -230,10 +231,11 @@ export async function gen(env: AppEnv, run_id: string, key: string, n: 1 | 2): P
     await db.prepare(`UPDATE cost_events SET call_state = 'estimated' WHERE run_id = ? AND customer_id = ? AND attempt = ? AND call_state = 'calling'`).bind(run_id, key, n).run();
     throw e;
   }
+  const ms = Date.now() - started;
   if (fault(env, 'pause_after_answer', key)) await (seam.pause?.() ?? new Promise((ok) => setTimeout(ok, PAUSE_MS)));
   const category = msg.stop_details?.category ?? null;
   const refused = msg.stop_reason === 'refusal';
-  await runBatch(db, [genRow(db, run_id, key, n, refused ? 'refusal' : 'answered', { stop_reason: msg.stop_reason, stop_detail: refused ? category ?? 'none' : null, message: msg, usage: msg.usage }),
+  await runBatch(db, [genRow(db, run_id, key, n, refused ? 'refusal' : 'answered', { stop_reason: msg.stop_reason, stop_detail: refused ? category ?? 'none' : null, message: msg, usage: msg.usage, ms }),
     ...settle(db, run_id, key, n, { usage: msg.usage as Usage, stop_reason: msg.stop_reason ?? undefined, category, content_empty: msg.content.length === 0 }, onePrice(PRICES, rung.model))]);
 }
 
@@ -301,12 +303,14 @@ async function judged(env: AppEnv, run: RunRow, plan: Plan, row: DraftRow, n: 1 
   let cfg: JevConfig | null = null;
   try { cfg = (await L().loadVersion(env.DB, run.jev_config_version, BUNDLE)).content as JevConfig; } catch { /* `unavailable`, below */ }
   const none = (status: JevOutcome['status'], reason: string): JevOutcome => ({ status, reason, model: null, answers: null, input_tokens: null, charged_usd: null, basis_usd: cfg?.basis_usd ?? 0 });
-  const out = !cfg || run.jev_disabled_reason ? none('unavailable', run.jev_disabled_reason ?? 'config')
-    : !(await L().jevReserveOk(env.DB, cfg.basis_usd)) ? none('skipped_reserve', 'reserve')
-      : await L().judgeDraft(env, L().j3Input(row, plan, cat), cfg);
-  return { expectOne: false, stmt: env.DB.prepare(`INSERT OR IGNORE INTO jev_events (run_id, customer_id, attempt, model_requested, model_returned, status, reason, answers_json, input_tokens, charged_usd, basis_usd, at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).bind(run.id, plan.customer_id, n, run.jev_model, out.model, out.status, out.reason, out.answers ? JSON.stringify(out.answers) : null, out.input_tokens,
-    out.charged_usd, out.basis_usd, new Date().toISOString()) };
+  const skip = !cfg || run.jev_disabled_reason ? none('unavailable', run.jev_disabled_reason ?? 'config')
+    : !(await L().jevReserveOk(env.DB, cfg.basis_usd)) ? none('skipped_reserve', 'reserve') : null;
+  const started = Date.now();
+  const out = skip ?? await L().judgeDraft(env, L().j3Input(row, plan, cat), cfg as JevConfig);
+  const ms = skip ? null : Date.now() - started;
+  return { expectOne: false, stmt: env.DB.prepare(`INSERT OR IGNORE INTO jev_events (run_id, customer_id, attempt, model_requested, model_returned, status, reason, answers_json, input_tokens, charged_usd, basis_usd, at, ms)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).bind(run.id, plan.customer_id, n, run.jev_model, out.model, out.status, out.reason, out.answers ? JSON.stringify(out.answers) : null, out.input_tokens,
+    out.charged_usd, out.basis_usd, new Date().toISOString(), ms) };
 }
 
 export async function finish(env: AppEnv, run_id: string, key: string, n: 1 | 2): Promise<{ retry: boolean }> {
