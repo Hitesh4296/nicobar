@@ -1,6 +1,6 @@
 {
  "_label": "Hand-set by the data session, labelled synthetic: judgement, no behaviour data. A real recommender replaces data/recommendations.synthetic.json by contract; this file then goes.",
- "version": "ranking/v2",
+ "version": "rank-v1",
  "weights": {
   "occasion": 100,
   "season": 20,
@@ -8,13 +8,6 @@
   "new": 10,
   "past": 10
  },
- "tiers": [
-  "occasion",
-  "row_fit",
-  "past_purchase",
-  "site_signal",
-  "hash"
- ],
  "limits": {
   "family_cap": 2,
   "family_cap_max": 6,
@@ -36,11 +29,6 @@
    "gift-set"
   ]
  },
- "fill": [
-  "Scarves",
-  "Pouches",
-  "Bags"
- ],
  "gift_keys": [
   "birthday",
   "housewarming"

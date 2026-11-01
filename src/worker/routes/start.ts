@@ -5,12 +5,13 @@ import shapes from '../../../config/shapes.json' with { type: 'json' };
 import stagesJson from '../../../config/stages.json' with { type: 'json' };
 import type { CapConfig, JevConfig, Pinned, PromptFiles, RunFormat, ShapesFile } from '../../contracts/types.ts';
 import { sha256Hex } from '../../lib/config/bundle.ts';
-import { activeVersions } from '../../lib/config/index.ts';
+import { activeRank, activeVersions } from '../../lib/config/index.ts';
 import { PRICES, RUNGS, capRun } from '../../lib/cost/index.ts';
 import { loadCatalog } from '../../lib/catalog/index.ts';
 import { ingestTsv, onlyCustomer } from '../../lib/ingest.ts';
 import { planCustomer } from '../../lib/plan.ts';
 import { previewBody } from '../../lib/preview.ts';
+import { rankedRecs } from '../../lib/rank/live.ts';
 import { parseRecs, parseRowKeys } from '../../lib/recs.ts';
 import { seam } from '../../lib/state/index.ts';
 import { esc } from '../../ui/nb.ts';
@@ -32,6 +33,14 @@ async function inputs(env: Ctx['env']) {
   return t && r ? { tsv: await t.text(), recs: await r.text() } : null;
 }
 
+/** The published file, ranked again at the active version when there is one. Preview and start both come here, so the hash the run checks holds. */
+async function liveRecs(env: Ctx['env'], files: { tsv: string; recs: string }): Promise<string> {
+  const rank = await activeRank(env.DB);
+  if (!rank) return files.recs;
+  const base = L().parseRecs(JSON.parse(files.recs));
+  return rankedRecs(base, files.tsv, await L().loadCatalog(env, base.snapshot_id), rank);
+}
+
 async function start(c: Ctx): Promise<Response> {
   const { env } = c;
   if (!env.RUN_KEY) return locked();
@@ -45,11 +54,12 @@ async function start(c: Ctx): Promise<Response> {
   if (!(stage in stagesJson) || (only && !ids.includes(only))) return refused(400, 'Not a choice', 'Pick a stage and a customer from the lists.');
 
   const tsv = only ? onlyCustomer(files.tsv, only) : files.tsv;
-  const recs = L().parseRecs(JSON.parse(files.recs));
+  const recs_json = await liveRecs(env, files);
+  const recs = L().parseRecs(JSON.parse(recs_json));
   const cat = await L().loadCatalog(env, recs.snapshot_id);
   const active = await L().activeVersions(env.DB);
   const rung = RUNGS[0];
-  const pinned: Pinned = { snapshot_id: cat.snapshot_id, customers_sha256: await sha256Hex(tsv), recs_sha256: await sha256Hex(files.recs), shapes_sha256: await sha256Hex(JSON.stringify(shapes)), run_date: new Date().toISOString().slice(0, 10),
+  const pinned: Pinned = { snapshot_id: cat.snapshot_id, customers_sha256: await sha256Hex(tsv), recs_sha256: await sha256Hex(recs_json), shapes_sha256: await sha256Hex(JSON.stringify(shapes)), run_date: new Date().toISOString().slice(0, 10),
     prompt_version: active.prompt.id, voice_guide_version: active.prompt.voice_guide_version ?? active.prompt.id, jev_model: (active.jev.content as JevConfig).model, jev_config_version: active.jev.id, format: FORMAT };
   const keys = L().parseRowKeys(rowKeys);
   const plans = L().ingestTsv(tsv).map((item) => ({ ...L().planCustomer(item, recs.rows.find((r) => r.customer_id === item.key) ?? null, keys, cat, pinned, shapes as ShapesFile), run_id: 'preview', ...(recs.generated_by ? { generated_by: { ranking: recs.generated_by } } : {}) }));
@@ -77,7 +87,8 @@ async function begin(c: Ctx): Promise<Response> {
   const stage = f?.get('stage'), only = f?.get('only'), preview_sha256 = f?.get('preview_sha256');
   if (!files || typeof stage !== 'string' || typeof preview_sha256 !== 'string') return refused(400, 'Start again', 'The form was incomplete.');
   const run_id = `${env.ANTHROPIC_BASE_URL ? 'stub-' : ''}${stage}-${Date.now().toString(36)}`;
-  const res = await createRun(c, { run_id, stage, snapshot_id: L().parseRecs(JSON.parse(files.recs)).snapshot_id, customers_name: NAME, customers_tsv: files.tsv, customers_synthetic: true, recs_json: files.recs, preview_sha256,
+  const recs_json = await liveRecs(env, files);
+  const res = await createRun(c, { run_id, stage, snapshot_id: L().parseRecs(JSON.parse(recs_json)).snapshot_id, customers_name: NAME, customers_tsv: files.tsv, customers_synthetic: true, recs_json, preview_sha256,
     ...(typeof only === 'string' && only ? { only } : {}) });
   if (!res.ok) return refused(res.status, 'The run did not start', ((await res.json()) as { detail?: string; code?: string }).detail ?? 'See the server log.');
   return new Response(null, { status: 303, headers: { location: `/review?run=${encodeURIComponent(run_id)}` } });

@@ -1,6 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import capJson from '../../config/cap.json' with { type: 'json' };
 import { sha256Hex } from '../../src/lib/config/bundle.ts';
+import { activateVersion, saveVersion } from '../../src/lib/config/index.ts';
 import { onlyCustomer } from '../../src/lib/ingest.ts';
 import { resetRunKeyAttempts } from '../../src/worker/run-key.ts';
 import { routes } from '../../src/worker/routes/runs.ts';
@@ -74,6 +75,22 @@ describe('POST /api/runs', () => {
     expect(await env.BUCKET.head(`customers/${await sha256Hex(TSV)}.tsv`)).not.toBeNull();
     expect(await env.BUCKET.head(`recs/${await sha256Hex(RECS)}.json`)).not.toBeNull();
     expect((await (await env.RUN_WORKFLOW!.get(b.run_id)).status()).status).toBeDefined();
+  });
+  it('pins the ranking version, and refuses a file ranked at anything but the active one', async () => {
+    const W = { occasion: 100, season: 20, bestseller: 15, new: 10, past: 10 };
+    const dev = { kind: 'dev', email: 'a@b', sub: 'dev:a@b' } as const;
+    await saveVersion(db, 'rank', null, W, 'defaults', dev);
+    await activateVersion(db, 'rank-v1', dev);
+    try {
+      useFakes({ parseRecs: () => ({ generated_by: { version: 'rank-v1' } }) as never });
+      const b = await body();
+      expect((await post('/api/runs', b)).status).toBe(201);
+      expect(await runRow(b.run_id)).toMatchObject({ ranking_version: 'rank-v1' });
+      useFakes({ parseRecs: () => ({ generated_by: { version: 'rank-v9' } }) as never });
+      const r = await post('/api/runs', await body());
+      expect(r.status).toBe(409);
+      expect(await r.text()).toContain('active is rank-v1');
+    } finally { await db.exec(`DELETE FROM config_versions WHERE kind = 'rank'`); }
   });
   it('a run on a stub base URL must say so in its id, so the page can label it', async () => {
     const stubbed = { ...env, ANTHROPIC_BASE_URL: 'http://127.0.0.1:8788' };

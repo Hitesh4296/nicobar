@@ -48,7 +48,7 @@ export interface WriteBy { model: string|null; setting: string|null; prompt_vers
 export interface CheckBy { validator_version: string|null; ran: number; failed: number }
 export interface JudgeBy { model: string|null; config_version: string|null; questions: string[]; gate: number|null; flagged: string[]; can_block: false }
 export interface GeneratedBy { ranking: RankingBy|null; write: WriteBy|null; checks: CheckBy|null; judge: JudgeBy|null }   // read from stored rows; a value nobody stored is null
-export interface RankingBy { method: 'tiers'|'weighted'; version: string; weights: Weights; rules: string[]; snapshot_id: string; cost: 0 }
+export interface RankingBy { method: 'tiers'|'weights'; version: string; weights: Weights; rules: string[]; snapshot_id: string; cost: 0 }
 export interface RecRow { customer_id: string; picks: RecPick[]; more?: MoreSection[]; pool?: PoolCounts }
 export interface RecFile { version: 'recommendations/v1'; synthetic: boolean; as_of: string; snapshot_id: string; rule: string; rows: RecRow[]; generated_by?: RankingBy }
 export type RowKeys = Record<string, { key: string|null }>;   // data/row_keys.synthetic.json, §3 spec

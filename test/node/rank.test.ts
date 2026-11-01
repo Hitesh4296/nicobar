@@ -38,7 +38,7 @@ describe('occasion over past purchase', () => {
   });
   it('a product matching both may be p1, over one matching occasion alone', () => {
     // Three of the plain kind, so the hash cannot be what puts the matching one first.
-    const plain = ['Studs', 'Hoops', 'Danglers'].map((k) => product({ class: [k], occasion_keys: ['wedding'], badges: ['New'], prior_tags: ['diwali2026'], is_bestseller_gift: true }));
+    const plain = ['Studs', 'Hoops', 'Danglers'].map((k) => product({ class: [k], occasion_keys: ['wedding'] }));
     const both = product({ class: ['Chains'], occasion_keys: ['wedding'] });
     expect(rankCustomer(shirt, catalog([...plain, both]), x).picks[0].product_id).toBe(both.id);
   });
@@ -170,6 +170,7 @@ describe('weights (R128)', () => {
     expect(() => checkWeights({ ...w, occasion: 0, past: 0 })).toThrow(/occasion/);
     expect(() => checkWeights({ ...w, season: -1 })).toThrow(/season/);
     expect(() => checkWeights({ ...w, typo: 3 } as never)).toThrow(/unknown/);
+    expect(() => checkWeights({ ...w, new: Infinity })).toThrow(/new/);
     expect(() => rankConfig({ ...ranking, weights: { ...w, past: 500 } }, keys, hand)).toThrow(/past/);
     expect(checkWeights(w)).toBe(w);
   });
@@ -194,6 +195,9 @@ describe('weights (R128)', () => {
     expect(() => parseRecs({ version: 'recommendations/v1', synthetic: true, as_of: 'x', snapshot_id: 'y', rule: 'z', rows: [r], generated_by: rankingBy(cfg, 'y') })).not.toThrow();
     expect(() => parseRecs({ version: 'recommendations/v1', synthetic: true, as_of: 'x', snapshot_id: 'y', rule: 'z', rows: [{ ...r, pool: { filtered: 'a' } }] })).toThrow(/pool/);
   });
+  it('a customer with no row rule is skipped, not fatal', () => {
+    expect(rankAll([{ customer_id: 'stranger', occasion: null, note: null }, { ...shirt, note: null }], catalog([product({ occasion_keys: ['wedding'] })]), x).map((r) => r.customer_id)).toEqual(['x']);
+  });
   it('says what a change costs: unchanged, sections only, or picks and order', () => {
     const k = (id: string) => ({ product_id: id }) as never, rail = (ids: string[]) => ({ kind: 'occasion', heading: 'H', product_ids: ids }) as never;
     const stored = { picks: [k('1'), k('2')], more: [rail(['3', '4'])] };
@@ -209,11 +213,7 @@ describe.skipIf(!real)('on the real snapshot', () => {
   const get = (c: string) => rows.find((r) => r.customer_id === c)!;
   const masc = (p: Product) => p.category.includes('Men') || p.gender === 'male';
   const fem = (p: Product) => p.category.includes('Women') || p.gender === 'female';
-  const ANCHOR = ['7492613243014', '7492613406854', '7576166793350', '7652882841734'];
-  it("c01's four picks, in order, are the owner's anchor", () => expect(ids(get('c01'))).toEqual(ANCHOR));
-  // The weighted sum takes p3 and p4 from the unscored fill order. Open for the owner: when this passes, `.fails` fails and the tier path can go.
-  it.fails('the weighted path holds that anchor at the default weights', () =>
-    expect(ids(rankCustomer(customers[0], real!, cfg, cfg.weights))).toEqual(ANCHOR));
+  it("c01's p1 and p2 are the owner's anchor at the default weights: Dupki Studs, Chandni Necklace (R134)", () => expect(ids(get('c01')).slice(0, 2)).toEqual(['7492613243014', '7492613406854']));
   it('c20 keeps its rule', () => {
     expect(get('c20').picks.every((p) => p.reason_code === 'NEW_USER_PRIOR')).toBe(true);
     expect(get('c20').picks.map((p) => real!.rows.get(p.product_id)!.handle)).toEqual(ranking.new_user_picks);

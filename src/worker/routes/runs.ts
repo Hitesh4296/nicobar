@@ -7,7 +7,7 @@ import type { ErrorCode } from '../../contracts/codes.ts';
 import type { JevConfig, PlanPreview, Stage, StagesFile } from '../../contracts/types.ts';
 import { sha256Hex } from '../../lib/config/bundle.ts';
 import { RUNGS, capRun } from '../../lib/cost/index.ts';
-import { activeVersions } from '../../lib/config/index.ts';
+import { activeRank, activeVersions } from '../../lib/config/index.ts';
 import { ingestTsv, onlyCustomer } from '../../lib/ingest.ts';
 import { parseRecs } from '../../lib/recs.ts';
 import { seam } from '../../lib/state/index.ts';
@@ -60,9 +60,10 @@ export async function createRun(c: Ctx, b: Record<string, unknown>): Promise<Res
     try { customers_tsv = onlyCustomer(customers_tsv, only); } catch { return bad('only'); }
   }
   const tsv = customers_tsv as string;
+  let ranking_version: string | null = null;
   try {
     if (L().ingestTsv(tsv).length === 0) return bad('no rows');
-    L().parseRecs(JSON.parse(recs_json));
+    ranking_version = L().parseRecs(JSON.parse(recs_json)).generated_by?.version ?? null;
   } catch (e) {
     if (e instanceof NotBuilt) throw e;
     return bad(e instanceof Error ? e.message : 'file does not parse');
@@ -76,6 +77,9 @@ export async function createRun(c: Ctx, b: Record<string, unknown>): Promise<Res
     if ((e as { code?: string }).code === 'CONFIG_MISSING') return fail(503, 'CONFIG_MISSING');
     throw e;
   }
+  // A file ranked at any other version would run the weights nobody activated.
+  const rank = await activeRank(db);
+  if (rank && ranking_version !== rank.id) return stale(`ranking: this file is ${ranking_version ?? 'unversioned'}, active is ${rank.id}. Start the run from the Start a run page, which ranks at the active version`);
   const obj = await env.BUCKET.get(`previews/${preview_sha256}.json`);
   if (!obj) return stale('no preview');
   const p = JSON.parse(await obj.text()) as PlanPreview;
@@ -92,10 +96,10 @@ export async function createRun(c: Ctx, b: Record<string, unknown>): Promise<Res
   await Promise.all([env.BUCKET.put(customers_r2_key, tsv), env.BUCKET.put(`recs/${recs_sha256}.json`, recs_json)]);
   const creator = c.actor.kind === 'system' ? 'system' : c.actor.email;
   const res = await db.prepare(`INSERT OR IGNORE INTO runs (id, instance_id, stage, format, snapshot_id, run_date, customers_sha256, customers_r2_key, customers_synthetic, recs_sha256,
-    setting, prompt_version, voice_guide_version, shapes_sha256, jev_model, jev_config_version, jev_reserve_usd, cap_run_usd, ceiling_usd, preview_sha256, expected_usd, status, created_by, created_at)
-    VALUES (?1, ?1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'preparing', ?, ?)`).bind(run_id, stage, p.format, snapshot_id, p.plans[0]?.pinned.run_date ?? new Date().toISOString().slice(0, 10),
+    setting, prompt_version, voice_guide_version, shapes_sha256, jev_model, jev_config_version, jev_reserve_usd, cap_run_usd, ceiling_usd, preview_sha256, expected_usd, status, created_by, created_at, ranking_version)
+    VALUES (?1, ?1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'preparing', ?, ?, ?)`).bind(run_id, stage, p.format, snapshot_id, p.plans[0]?.pinned.run_date ?? new Date().toISOString().slice(0, 10),
     customers_sha256, customers_r2_key, customers_synthetic ? 1 : 0, recs_sha256, p.start_rung, active.prompt.id, active.prompt.voice_guide_version, p.plans[0]?.pinned.shapes_sha256 ?? await sha256Hex(JSON.stringify(shapes)),
-    (active.jev.content as JevConfig).model, active.jev.id, p.jev_reserve_usd, cap_run_usd, ceiling_usd, preview_sha256, s.expected_usd / s.runs, creator, new Date().toISOString()).run();
+    (active.jev.content as JevConfig).model, active.jev.id, p.jev_reserve_usd, cap_run_usd, ceiling_usd, preview_sha256, s.expected_usd / s.runs, creator, new Date().toISOString(), ranking_version).run();
   if (res.meta.changes !== 1) return fail(409, 'RUN_ID_REUSED');
   try {
     await env.RUN_WORKFLOW?.create({ id: run_id, params: { run_id } });

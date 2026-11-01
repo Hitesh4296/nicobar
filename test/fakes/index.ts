@@ -150,7 +150,7 @@ export const fakeLib: Lib = {
   loadVersion: async (_db, id) => fxVersion(id, id.startsWith('jev-') ? 'jev' : 'prompt'),
   validatePrompt: () => ({ ok: true, prefix_bytes: 13000 }),
   validateJev: () => ({ ok: true }),
-  saveVersion: async (_db, kind, parent_id, content, note, actor) => ({ ...fxVersion(kind === 'jev' ? 'jev-v2' : 'v2', kind), parent_id, content, note,
+  saveVersion: async (_db, kind, parent_id, content, note, actor) => ({ ...fxVersion(kind === 'jev' ? 'jev-v2' : 'v2', kind === 'rank' ? 'jev' : kind), parent_id, content, note,
     status: 'draft', created_by: actor.kind === 'system' ? 'system' : actor.email, activated_by: null, activated_at: null }),
   activateVersion: async (_db, id) => fxVersion(id, id.startsWith('jev-') ? 'jev' : 'prompt'),
   lineDiff: (a, b) => (a === b ? [{ op: '=', text: a }] : [{ op: '-', text: a }, { op: '+', text: b }]),

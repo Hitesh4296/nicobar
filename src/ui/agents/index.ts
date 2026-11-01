@@ -3,7 +3,7 @@ import { NAV } from '../../contracts/nav.ts';
 import { lineDiff } from '../../lib/config/index.ts';
 import type { ConfigVersion, EvalValidity, FlagView, JevConfig, JevQuestion, PromptFiles, ValidationResult } from '../../contracts/types.ts';
 
-const esc = (s: unknown) => String(s ?? '').replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+export const esc = (s: unknown) => String(s ?? '').replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 const json = (v: unknown) => JSON.stringify(v).replaceAll('<', '\\u003c');
 
 /** R109: the draft id comes as a second argument; without it the row is read-only. */
@@ -26,7 +26,7 @@ export function diffBlock(lines: { op: '=' | '+' | '-'; text: string }[]): strin
 const CSS = `:root{--paper:#F6F2ED;--ink:#1A1F28;--soft:#565E6A;--indigo:#263854;--on-dark:#F6F9FA;--on-dark-soft:#BFC8CC;--focus:#427596;--line:#D9D4CB;--pass:#2F6B4F;--fail:#A33A3A;--warn:#8A6210}
 *{box-sizing:border-box}body{margin:0;display:flex;min-height:100vh;background:#fff;color:var(--ink);font:400 16px/26px Jost,system-ui,sans-serif}
 .side{position:sticky;top:0;align-self:flex-start;box-sizing:border-box;height:100vh;overflow-y:auto;width:220px;flex:none;background:var(--ink);padding:24px 16px}.side b{display:block;padding:0 12px 24px;color:var(--on-dark);font:400 24px 'Bodoni Moda',serif}
-.side a{display:block;padding:8px 12px;color:var(--on-dark-soft);text-decoration:none}.side a.on{background:var(--indigo);color:var(--on-dark)}
+.side a{display:block;padding:8px 12px;color:var(--on-dark-soft);text-decoration:none}.side a.on{background:var(--indigo);color:var(--on-dark)}.side a.sub{padding-left:24px;font-size:14px}
 main{flex:1;min-width:0;padding:32px 40px}.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
 h1{font:400 40px/48px 'Bodoni Moda',serif;margin:4px 0 16px}h2{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:400;margin:32px 0 8px}
 p{color:var(--soft);margin:8px 0}table{width:100%;border-collapse:collapse;font-size:14px;line-height:20px}th{text-align:left;font-weight:500;color:var(--soft);border-bottom:1px solid var(--ink);padding:8px 8px 8px 0}
@@ -40,11 +40,11 @@ button{padding:10px 18px;border:1px solid var(--ink);background:#fff;font:inheri
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px;margin:16px 0}.steps div{border:1px solid var(--line);padding:6px 10px;font-size:14px;line-height:20px;color:var(--soft)}.steps strong{display:block;color:var(--ink);font-weight:500}
 .q{margin:16px 0;padding-top:8px;border-top:1px solid var(--line)}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{font-size:14px;font-weight:500;display:block;margin-top:8px}#err{color:var(--fail)}
 @media(max-width:750px){body{display:block}.side{position:static;height:auto;width:auto;padding:12px 16px}.side a{display:inline-block}main{padding:24px 16px}.grid,.two{grid-template-columns:1fr}h1{font-size:32px;line-height:40px}table{display:block;overflow-x:auto}}`;
-const shell = (title: string, body: string) => `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
+export const shell = (title: string, body: string) => `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda&family=Jost:wght@300;400;500&display=swap"><style>${CSS}</style>
-<nav class="side"><b>Nicobar</b>${NAV.map((n) => `<a href="${n.href}"${n.label === 'Agents' ? ' class="on"' : ''}>${n.label}</a>`).join('')}</nav><main>${body}</main></html>`;
+<nav class="side"><b>Nicobar</b>${NAV.map((n) => `<a href="${n.href}"${n.label === 'Agents' ? ' class="on"' : ''}>${n.label}</a>${n.label === 'Agents' ? '<a href="/review/agents/refine" class="sub">Refine ranking</a>' : ''}`).join('')}</nav><main>${body}</main></html>`;
 
-const table = (head: string[], rows: string[][]) => `<table><thead><tr>${head.map((h) => `<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+export const table = (head: string[], rows: string[][]) => `<table><thead><tr>${head.map((h) => `<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
 const AGENTS = [['<strong>Writer</strong>', 'Sonnet 5.5', 'gen', 'Prefix, task, occasion, picks, quotes', 'JSON: email and landing_page, tokens only', 'One retry of the failed part, then CHECKS_FAILED'],
   ['<strong>Comparison writer</strong>', 'Haiku 5.5', 'Haiku run', 'Same prompt and picks', 'Same JSON', 'Reported only'],
   ['<strong>Draft judge</strong>', 'Jev 1.14.0', 'finish', 'Draft text, picks, occasion', '6 yes/no, 2 scores, with confidence', 'Fallback, logged, never fails a customer']];
@@ -58,7 +58,7 @@ const TOOLS = [['<strong>count_tokens</strong>', 'Anthropic API', 'est', 'The ex
   ['<strong>transition</strong>', 'Code', 'Routes', 'Draft id, hash, actor', 'EdgeResult: ok, or 409 with code', 'WRONG_STATE, HASH_MISMATCH'],
   ['<strong>freshness</strong>', 'Code', 'E7', 'Snapshot, picks', 'ok, SNAPSHOT_TOO_OLD or STALE_PICK', 'Publish refused']];
 const WHO = ['Name', 'Kind', 'Runs at', 'Input', 'Output', 'On failure'];
-const tag = (s: string) => `<span class="tag ${esc(s)}">${esc(s)}</span>`;
+export const tag = (s: string) => `<span class="tag ${esc(s)}">${esc(s)}</span>`;
 const versionRows = (vs: ConfigVersion[]) => table(['Version', 'Status', 'Note', 'By', 'Hash'], vs.map((v) => [`<a href="/review/agents/${encodeURIComponent(v.id)}">${esc(v.id)}</a>`, tag(v.status),
   esc(v.note), esc(v.created_by), `<code>${esc(v.sha256.slice(0, 12))}</code>`]));
 
@@ -69,7 +69,7 @@ export function agentsPage(versions: ConfigVersion[], validity: EvalValidity[]):
     `<span class="${v.state === 'current' ? 'pass' : 'fail'}">${esc(v.state)}</span>`]);
   return shell('Agents', `<div class="eyebrow">Agents and tools</div><h1>Who does what</h1>
 <p>No model has tool access. The Writer returns JSON, Jev returns a judgment, and code does everything else. Models can only fill fields that code checks, which limits what can be made up. A false claim in plain words is left to Jev and the reviewer.</p>
-${sub}<h2>Writer prompt versions</h2>${versionRows(of('prompt'))}<h2>Jev versions</h2>${versionRows(of('jev'))}
+${sub}<p><a href="/review/agents/refine">Refine ranking</a>: adjust the weights behind each customer's picks and see what changes, at no cost.</p><h2>Writer prompt versions</h2>${versionRows(of('prompt'))}<h2>Jev versions</h2>${versionRows(of('jev'))}
 <h2>Eval goals on the active versions</h2>${rows.length ? table(['Goal', 'Hangs on', 'Active', 'Stages', 'Runs', 'State'], rows) : '<p>Needs an active prompt and Jev.</p>'}
 <p class="fine">Goals 1 to 9 depend on checks, lists and the stub, not on prompt text. A prompt change also voids <code>cap.json</code>'s S and E_out and <code>rungs.json</code>'s passed: re-run stage 0. The per-call token count at admit stays live. Nothing already approved changes.</p>
 <h2>Agents</h2>${table(WHO, AGENTS)}<h2>Tools and code steps</h2>${table(WHO, TOOLS)}`);

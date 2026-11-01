@@ -38,7 +38,7 @@ const table = (head: string[], rows: string[][]) => `<table class="tl-table"><th
 const OCCASION_WORD: Record<string, string> = { wedding: 'weddings', birthday: 'birthdays', festive: 'festive days', evening: 'evenings', resort: 'holidays', smart: 'smart days', housewarming: 'housewarmings', hosting: 'hosting', everyday: 'every day' };
 const SIGNAL: Record<string, string> = { fitted_class: 'Fits this occasion', row_fit: 'Fits this customer', bestseller: "Bestseller, by the site's gift tag", prior_tag: 'In the current season', new_arrival: 'New on the site', fallback: 'No occasion tag', hand_set: 'Set by hand', new_user: 'New-customer pick' };
 /** Signal names from the ranker in reviewer's words. No model text ever passes here. */
-function plainSignal(s: string): string {
+export function plainSignal(s: string): string {
   const [name, word] = s.split(':');
   return name === 'occasion_tag' ? `Tagged for ${OCCASION_WORD[word] ?? word}` : name === 'goes_with' ? `Goes with your ${word}` : SIGNAL[s] ?? s;
 }

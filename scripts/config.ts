@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { canonicalContent } from '../src/lib/gen/canonical.ts';
 import { sha256Hex } from '../src/lib/config/bundle.ts';
 import { readPromptDir } from './prompt-dir.ts';
-import type { ConfigKind, ConfigVersion, JevConfig, PromptFiles } from '../src/contracts/types.ts';
+import type { ConfigKind, ConfigVersion, JevConfig, PromptFiles, Weights } from '../src/contracts/types.ts';
 
 type Answer = { status: number; json: any };
 export type Api = (method: 'GET' | 'POST', path: string, body?: any) => Promise<Answer>;
@@ -23,7 +23,7 @@ const read = async (api: Api, id: string): Promise<ConfigVersion | null> => {
 };
 
 /** Every importable version in order. v0 never; jev-v1 is config/jev.json itself; later jev files come only from `export`. */
-function targets(root: string): { id: string; kind: ConfigKind; content: PromptFiles | JevConfig; from: string }[] {
+function targets(root: string): { id: string; kind: ConfigKind; content: PromptFiles | JevConfig | Weights; from: string }[] {
   const num = (s: string) => Number(s.match(/\d+/)![0]);
   const prompts = readdirSync(join(root, 'prompt')).filter((d) => /^v[1-9]\d*$/.test(d)).sort((a, b) => num(a) - num(b));
   const jevDir = join(root, 'jev');
@@ -31,7 +31,9 @@ function targets(root: string): { id: string; kind: ConfigKind; content: PromptF
   const json = (p: string): JevConfig => JSON.parse(readFileSync(p, 'utf8'));
   return [...prompts.map((id) => ({ id, kind: 'prompt' as const, content: readPromptDir(join(root, 'prompt', id)), from: `prompt/${id}` })),
     { id: 'jev-v1', kind: 'jev' as const, content: json(join(root, 'jev.json')), from: 'jev.json' },
-    ...jevs.map((f) => ({ id: f.replace('.json', ''), kind: 'jev' as const, content: json(join(jevDir, f)), from: `jev/${f}` }))];
+    ...jevs.map((f) => ({ id: f.replace('.json', ''), kind: 'jev' as const, content: json(join(jevDir, f)), from: `jev/${f}` })),
+    // Later rank versions live only in D1, saved from the Refine page.
+    ...(existsSync(join(root, 'ranking.json')) ? [{ id: 'rank-v1', kind: 'rank' as const, content: (JSON.parse(readFileSync(join(root, 'ranking.json'), 'utf8')) as { weights: Weights }).weights, from: 'ranking.json' }] : [])];
 }
 
 export async function seed(api: Api, root: string): Promise<void> {
@@ -40,7 +42,7 @@ export async function seed(api: Api, root: string): Promise<void> {
     const row = await read(api, t.id);
     const id = row?.id ?? (await must(api('POST', '/api/config', { kind: t.kind, parent_id: parent[t.kind] ?? null, content: t.content, note: `seed from config/${t.from}` }))).id;
     if (id !== t.id) throw new Error(`allocated ${id} for ${t.id}: refuse, the file and the table disagree`);
-    if (row && row.sha256 !== await sha256Hex(canonicalContent(t.content))) throw new Error(`${t.id}: ${t.from} differs from its row, refuse`);
+    if (row && row.sha256 !== await sha256Hex(canonicalContent(t.content as PromptFiles))) throw new Error(`${t.id}: ${t.from} differs from its row, refuse`);
     if (!row || row.status === 'draft') await must(api('POST', `/api/config/${t.id}/activate`, {}));
     parent[t.kind] = t.id;
     console.log(`${t.id} ${row ? 'present' : 'seeded'}`);

@@ -6,11 +6,10 @@ import type { Plan, Product, RecFile, RecRow, Weights } from '../src/contracts/t
 import { ingestTsv } from '../src/lib/ingest.ts';
 import { planCustomer } from '../src/lib/plan.ts';
 import { parseRecs } from '../src/lib/recs.ts';
-import { changeOf, checkWeights, poolOf, rankAll, rankConfig, rankCustomer, rankingBy, readCustomers, type RankConfig } from '../src/lib/rank/index.ts';
+import { RANK_RULE, changeOf, checkWeights, poolOf, rankAll, rankConfig, rankCustomer, rankingBy, readCustomers, type RankConfig } from '../src/lib/rank/index.ts';
 import { snapshotCatalog } from './eval.ts';
 
 const FILE = 'data/recommendations.synthetic.json', CUSTOMERS = 'data/customers.with-c20.synthetic.tsv';
-const RULE = "Internal ranking engine, src/lib/rank with config/ranking.json. Tiers compared in order, never added: occasion, row fit, past purchase as a tie-break inside the occasion only, site signal, then a stable hash. One per class, at most two per family where the pool allows. Hand table for c02 c03 c06 c13 c15 c18 (HAND_SET), pinned and resorted so p1 obeys the rule; pinned new-user picks for c20 (NEW_USER_PRIOR). Row rules and the complements table are hand-written and synthetic, no behaviour data. A real recommender can replace this file by contract.";
 const json = (p: string) => JSON.parse(readFileSync(p, 'utf8'));
 const { values: v } = parseArgs({ options: { check: { type: 'boolean' }, preview: { type: 'boolean' }, apply: { type: 'boolean' }, run: { type: 'string' }, only: { type: 'string' }, weights: { type: 'string' }, state: { type: 'string', default: '.wrangler/state/v3' } } });
 
@@ -63,7 +62,7 @@ if (!cat) throw new Error(`rank: no out/snapshot/${old.snapshot_id}. Run npm run
 const customers = readCustomers(readFileSync(CUSTOMERS, 'utf8'));
 const cfg = cfg0();
 const rows = rankAll(customers, cat, cfg);
-const out: RecFile = { version: 'recommendations/v1', synthetic: true, as_of: old.as_of, snapshot_id: old.snapshot_id, rule: RULE, rows, generated_by: rankingBy(cfg, old.snapshot_id) };
+const out: RecFile = { version: 'recommendations/v1', synthetic: true, as_of: old.as_of, snapshot_id: old.snapshot_id, rule: RANK_RULE, rows, generated_by: rankingBy(cfg, old.snapshot_id) };
 parseRecs(out);
 
 const name = (id: string | undefined) => (id ? (cat.rows.get(id) as Product).handle : 'none');

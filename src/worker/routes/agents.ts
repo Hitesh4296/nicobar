@@ -2,9 +2,12 @@ import { loadCatalog } from '../../lib/catalog/index.ts';
 import { BUNDLE } from '../../lib/config/bundle.ts';
 import { ConfigErr, activateVersion, activeVersions, dismissFlag, evalValidity, listVersions, loadVersion, readVersion, saveVersion, validateVersion } from '../../lib/config/index.ts';
 import { j3Input, judgeDraft } from '../../lib/jev/index.ts';
+import { WEIGHTS as WEIGHT_KEYS } from '../../lib/rank/index.ts';
 import { agentsPage, versionPage } from '../../ui/agents/index.ts';
+import { routes as refine } from './refine.ts';
 import type { ErrorCode } from '../../contracts/codes.ts';
-import type { ConfigKind, DraftRow, EvalValidity, JevConfig, Plan } from '../../contracts/types.ts';
+import { BASE_WEIGHTS } from '../../lib/rank/live.ts';
+import type { ConfigKind, DraftRow, EvalValidity, JevConfig, Plan, Weights } from '../../contracts/types.ts';
 import type { Ctx, Route } from './list.ts';
 
 const STATUS: Partial<Record<ErrorCode, number>> = { CONFIG_MISSING: 503, BAD_INPUT: 400, FORBIDDEN: 403, NOT_FOUND: 404 };
@@ -38,6 +41,13 @@ async function validity(db: D1Database): Promise<EvalValidity[]> {
   }
 }
 
+/** Weights go live behind the run key, on the Refine page. Only `config seed`'s first row, the shipped defaults, comes through here. */
+async function activate(c: Ctx): Promise<Response> {
+  const id = param(c, 'id'), v = await readVersion(c.env.DB, id);
+  if (v?.kind === 'rank' && (v.parent_id !== null || WEIGHT_KEYS.some((k) => (v.content as Weights)[k] !== BASE_WEIGHTS[k]))) throw new ConfigErr('FORBIDDEN', 'needs the run key');
+  return Response.json(await activateVersion(c.env.DB, id, c.actor));
+}
+
 async function judge(c: Ctx): Promise<Response> {
   const started = Date.now();
   const { draft_id } = await body(c);
@@ -57,10 +67,12 @@ async function judge(c: Ctx): Promise<Response> {
 }
 
 export const routes: Route[] = [
+  ...refine,
   { method: 'GET', path: '/review/agents', handler: guarded(async (c) => page(agentsPage(await listVersions(c.env.DB), await validity(c.env.DB)))) },
   { method: 'GET', path: '/review/agents/:id', handler: guarded(async (c) => {
     const v = await readVersion(c.env.DB, param(c, 'id'));
     if (!v) throw new ConfigErr('NOT_FOUND');
+    if (v.kind === 'rank') return new Response(null, { status: 303, headers: { location: '/review/agents/refine' } });
     const q = new URL(c.req.url).searchParams;
     const baseId = q.get('against') ?? v.parent_id;
     const base = baseId ? await readVersion(c.env.DB, baseId) : null;
@@ -76,10 +88,10 @@ export const routes: Route[] = [
   }) },
   { method: 'POST', path: '/api/config', origin: true, handler: local(async (c) => {
     const { kind, parent_id, content, note } = await body(c);
-    if ((kind !== 'prompt' && kind !== 'jev') || (parent_id !== null && typeof parent_id !== 'string') || typeof note !== 'string') throw new ConfigErr('BAD_INPUT');
+    if ((kind !== 'prompt' && kind !== 'jev' && kind !== 'rank') || (parent_id !== null && typeof parent_id !== 'string') || typeof note !== 'string') throw new ConfigErr('BAD_INPUT');
     return Response.json(await saveVersion(c.env.DB, kind as ConfigKind, parent_id, content as JevConfig, note, c.actor));   // actor from auth, never the body
   }) },
-  { method: 'POST', path: '/api/config/:id/activate', origin: true, handler: local(async (c) => Response.json(await activateVersion(c.env.DB, param(c, 'id'), c.actor))) },
+  { method: 'POST', path: '/api/config/:id/activate', origin: true, handler: local(activate) },
   { method: 'POST', path: '/api/config/:id/judge', origin: true, handler: local(judge) },
   { method: 'POST', path: '/api/drafts/:id/flags/:question/dismiss', origin: true, handler: guarded(async (c) => {
     const id = param(c, 'id');

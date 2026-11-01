@@ -1,10 +1,11 @@
 // Prompt and Jev versions. saveVersion inserts; activateVersion alone updates. Content never changes.
 import type { ErrorCode } from '../../contracts/codes.ts';
 import type { Actor, AppEnv, Catalog, ConfigFailure, ConfigKind, ConfigStatus, ConfigVersion, EvalValidity, FlagView, JevConfig, J3Input, JevQuestion, Plan, PromptFiles,
-  Stage, ValidationResult } from '../../contracts/types.ts';
+  Stage, ValidationResult, Weights } from '../../contracts/types.ts';
 import { assemblePrefix, renderSuffix } from '../gen/index.ts';
 import { canonicalContent } from '../gen/canonical.ts';
 import { flaggedQuestions } from '../jev/index.ts';
+import { checkWeights } from '../rank/index.ts';
 import { BUNDLE, FX_CAT, FX_PLAN, PROMPT_MAX_BYTES, PROMPT_MIN_BYTES, sha256Hex } from './bundle.ts';
 
 type Bundle = { schemas: object[]; jevBase: JevConfig };
@@ -29,7 +30,8 @@ function locked(c: JevConfig): unknown {
     return [k, kept];
   })) });
 }
-const baseHash = (kind: ConfigKind, b: Bundle) => sha256Hex(JSON.stringify(kind === 'prompt' ? b.schemas : locked(b.jevBase)));
+// ponytail: weights have no bundled base to drift from, so a constant.
+const baseHash = (kind: ConfigKind, b: Bundle) => sha256Hex(kind === 'rank' ? 'rank' : JSON.stringify(kind === 'prompt' ? b.schemas : locked(b.jevBase)));
 
 // ---- reading ----
 interface Row { id: string; kind: ConfigKind; parent_id: string | null; content_json: string; sha256: string; base_sha256: string; voice_guide_version: string | null;
@@ -57,6 +59,11 @@ export async function loadVersion(db: D1Database, id: string, bundle: Bundle): P
   if (await sha256Hex(r.content_json) !== r.sha256) throw new ConfigErr('TAMPERED');
   if (await baseHash(r.kind, bundle) !== r.base_sha256) throw new ConfigErr('BASE_CHANGED');
   return version(r);
+}
+/** Null until seeded, so everything that does not read weights keeps working on an older store. */
+export async function activeRank(db: D1Database): Promise<ConfigVersion | null> {
+  const r = await db.prepare(`SELECT id FROM config_versions WHERE kind = 'rank' AND status = 'active'`).first<{ id: string }>();
+  return r ? loadVersion(db, r.id, BUNDLE) : null;
 }
 const activeId = async (db: D1Database, kind: ConfigKind) =>
   (await db.prepare(`SELECT id FROM config_versions WHERE kind = ? AND status = 'active'`).bind(kind).first<{ id: string }>())?.id ?? null;
@@ -108,7 +115,10 @@ export function validateJev(next: JevConfig, base: JevConfig): ValidationResult 
   if (!inRange(next.score_flag_confidence, 0.4, 0.8)) fail('gate_range', 'score_flag_confidence 0.4 to 0.8');
   return failures.length ? { ok: false, failures } : { ok: true };
 }
-export const validateVersion = (v: ConfigVersion): ValidationResult => v.kind === 'prompt'
+export function validateRank(w: Weights): ValidationResult {
+  try { checkWeights(w); return { ok: true }; } catch (e) { return { ok: false, failures: [{ rule: 'weights', detail: (e as Error).message.replace('rank: ', '') }] }; }
+}
+export const validateVersion = (v: ConfigVersion): ValidationResult => v.kind === 'rank' ? validateRank(v.content as Weights) : v.kind === 'prompt'
   ? validatePrompt(v.content as PromptFiles, BUNDLE.schemas, FX_PLAN, FX_CAT) : validateJev(v.content as JevConfig, BUNDLE.jevBase);
 
 // ---- writing ----
@@ -121,22 +131,23 @@ function human(actor: Actor): Exclude<Actor, { kind: 'system' }> {
 }
 const hasFiles = (c: object) => sameSet(Object.keys(c), FILES) && FILES.every((f) => typeof (c as PromptFiles)[f] === 'string');
 
-export async function saveVersion(db: D1Database, kind: ConfigKind, parent_id: string | null, content: PromptFiles | JevConfig, note: string, actor: Actor): Promise<ConfigVersion> {
+export async function saveVersion(db: D1Database, kind: ConfigKind, parent_id: string | null, content: PromptFiles | JevConfig | Weights, note: string, actor: Actor): Promise<ConfigVersion> {
   const who = human(actor);
   if (!text(note)) throw new ConfigErr('BAD_INPUT', 'note');
-  if (!content || typeof content !== 'object' || (kind === 'prompt' ? !hasFiles(content) : !(content as JevConfig).j3)) throw new ConfigErr('BAD_INPUT', 'content');
+  if (!content || typeof content !== 'object' || (kind === 'prompt' ? !hasFiles(content) : kind === 'jev' && !(content as JevConfig).j3)) throw new ConfigErr('BAD_INPUT', 'content');
+  if (kind === 'rank') { const r = validateRank(content as Weights); if (!r.ok) throw new ConfigErr('VALIDATION_FAILED', r.failures); }
   if (await activeId(db, kind) !== parent_id) throw new ConfigErr('STALE_PARENT');
   const parent = parent_id ? await readVersion(db, parent_id) : null;
   const ids = (await db.prepare('SELECT id FROM config_versions WHERE kind = ?').bind(kind).all<{ id: string }>()).results;
   const n = Math.max(0, ...ids.map((r) => Number(r.id.match(/\d+$/)?.[0] ?? 0))) + 1;
-  const id = kind === 'prompt' ? `v${n}` : `jev-v${n}`;
+  const id = kind === 'prompt' ? `v${n}` : `${kind}-v${n}`;
   const next = lf(kind === 'jev' ? { ...content, version: id } as JevConfig : content);
-  const content_json = canonicalContent(next);
+  const content_json = canonicalContent(next as PromptFiles | JevConfig);
   if (parent) {
     const compare = kind === 'jev' ? canonicalContent({ ...next, version: (parent.content as JevConfig).version } as JevConfig) : content_json;
     if (await sha256Hex(compare) === parent.sha256) throw new ConfigErr('UNCHANGED');
   }
-  const vgv = kind === 'jev' ? null
+  const vgv = kind !== 'prompt' ? null
     : parent && (parent.content as PromptFiles).voice_card === (next as PromptFiles).voice_card ? parent.voice_guide_version : id;
   await db.prepare(`INSERT INTO config_versions (id, kind, parent_id, content_json, sha256, base_sha256, voice_guide_version, status, note, created_kind, created_by, created_sub, created_at)
     VALUES (?, ?, ?, ?, ?, ?, ?, 'draft', ?, ?, ?, ?, ?)`).bind(id, kind, parent_id, content_json, await sha256Hex(content_json), await baseHash(kind, BUNDLE), vgv, note, who.kind,
@@ -213,11 +224,12 @@ export async function dismissFlag(env: AppEnv, draft_id: string, question: strin
 
 // ---- eval validity ----
 const PIN = { prompt: 'prompt_version', jev: 'jev_config_version' } as const;
-const NEEDS: { goal: number; kinds: ConfigKind[]; stages: Stage[] }[] = [
-  ...[10, 11, 12, 13].map((goal) => ({ goal, kinds: ['prompt'] as ConfigKind[], stages: ['F'] as Stage[] })),
+type EvalKind = 'prompt'|'jev';
+const NEEDS: { goal: number; kinds: EvalKind[]; stages: Stage[] }[] = [
+  ...[10, 11, 12, 13].map((goal) => ({ goal, kinds: ['prompt'] as EvalKind[], stages: ['F'] as Stage[] })),
   { goal: 14, kinds: ['prompt', 'jev'], stages: ['F'] },
   { goal: 15, kinds: ['jev'], stages: ['F'] },   // no run row of its own: current only while active Jev = F's
-  ...[16, 17, 18].map((goal) => ({ goal, kinds: ['prompt'] as ConfigKind[], stages: ['F'] as Stage[] })),
+  ...[16, 17, 18].map((goal) => ({ goal, kinds: ['prompt'] as EvalKind[], stages: ['F'] as Stage[] })),
   { goal: 19, kinds: ['prompt'], stages: ['F', 'Haiku'] },
   { goal: 20, kinds: ['prompt'], stages: ['F'] }];
 
