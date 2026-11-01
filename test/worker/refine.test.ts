@@ -16,13 +16,13 @@ import { db, env, migrate } from './run-fx.ts';
 const product = (n: number, over: Partial<Product>): Product => ({ id: `w${n}`, handle: `w-${n}`, title: `Piece <${n}>`, url: '', body_text_clean: '', category: ['Accessories'], subcategory: [`S${n}`], class: [`K${n}`], subclass: [],
   wear_occasion: [], gift_occasion: [], gift_recipient: [], line: [], room_or_use: [], collection: [], campaign: [], occasion_keys: [], prior_tags: [], material: null, material_group: null, colours: [], gender: null,
   design_group: null, badges: [], is_bestseller_gift: false, available: true, variants: [], images: [], excluded_reason: null, content_sha256: '', ...over });
-const rows = [1, 2, 3, 4, 5].map((n) => product(n, { occasion_keys: ['wedding'] })).concat([product(6, { prior_tags: ['x'] }), product(7, { badges: ['New'] }), product(8, {})]);
+const rows = [1, 2, 3, 4, 5].map((n) => product(n, { occasion_keys: ['wedding'], ...(n === 5 ? { badges: ['New'] } : {}) })).concat([product(6, { prior_tags: ['x'] }), product(7, { badges: ['New'] }), product(8, {})]);
 const CAT = { snapshot_id: 'snap', fetched_at: 't', rows: new Map(rows.map((p) => [p.id, p])), by_sku: new Map(), usable: rows, rules: { title_cores: [], distinctive_cores: [], nouns: [], handles: [] } } as unknown as Catalog;
 vi.mock('../../src/lib/catalog/index.ts', () => ({ loadCatalog: async () => CAT }));
 
 const W: Weights = { occasion: 100, season: 20, bestseller: 15, new: 10, past: 10 };
 const dev: Actor = { kind: 'dev', email: 'a@b', sub: 'dev:a@b' };
-const KEY = 'test-run-key-77';
+const KEY = 'test-run-key-9f3a';
 const TSV = "customer_id\tfirst_name\tlast_name\toccasion\tpast_purchase_note\nc01\tMeera\tDas\tSister's wedding\tBought the indigo travel shirt last spring.\n";
 const RECS: Omit<RecFile, 'rows'> & { rows: [] } = { version: 'recommendations/v1', synthetic: true, as_of: 'x', snapshot_id: 'snap', rule: 'r', rows: [] };
 
@@ -96,7 +96,7 @@ describe('preview', () => {
   it('writes nothing: no row, no object', async () => {
     await seeded();
     const rowsBefore = await count(), objs = await objects();
-    const r = await hit('GET', `/review/agents/refine${qs({ ...W, season: 90 }, '&preview=1')}`);
+    const r = await hit('GET', `/review/agents/refine${qs({ ...W, season: 60 }, '&preview=1')}`);
     expect(r.status).toBe(200);
     expect(await r.text()).toMatch(/Unchanged.*Sections only.*Picks changed/s);
     expect(await count()).toBe(rowsBefore);
@@ -104,10 +104,10 @@ describe('preview', () => {
   });
   it('shows before and after with score and why, escaped, in plain words', async () => {
     await seeded();
-    const h = await (await hit('GET', `/review/agents/refine${qs({ ...W, occasion: 5, past: 1, season: 90 }, '&preview=1&only=c01')}`)).text();
+    const h = await (await hit('GET', `/review/agents/refine${qs({ ...W, past: 1, season: 0, bestseller: 0, new: 90 }, '&preview=1&only=c01')}`)).text();
     expect(h).toContain('Picks changed');
-    expect(h).toContain('Piece &#60;6&#62;');
-    expect(h).toContain('In the current season');
+    expect(h).toContain('Piece &#60;5&#62;');
+    expect(h).toContain('New on the site');
     expect(h).not.toMatch(/prior_tag|occasion_tag|OCCASION_MATCH|FALLBACK|tier/i);
   });
   it('compares with the latest finished run, and prices a redraft from its stored estimates', async () => {
@@ -181,7 +181,7 @@ describe('on the link', () => {
   const link = { DEPLOYED: '1' };
   it('reads, with no form to save or activate and nothing ranked', async () => {
     await seeded();
-    const h = await (await hit('GET', `/review/agents/refine${qs({ ...W, season: 90 }, '&preview=1')}`, link)).text();
+    const h = await (await hit('GET', `/review/agents/refine${qs({ ...W, season: 60 }, '&preview=1')}`, link)).text();
     expect(h).toContain('rank-v1');
     expect(h).not.toMatch(/Save draft|type="password"|<script|Picks changed/);
   });
@@ -199,7 +199,7 @@ describe('a run pins the version', () => {
     const recs = parseRecs(JSON.parse(rankedRecs(parseRecs(RECS), TSV, CAT, v)));
     expect(recs.generated_by).toMatchObject({ method: 'weights', version: 'rank-v1', weights: W, snapshot_id: 'snap' });
     const plan: Plan = planCustomer(ingestTsv(TSV)[0], recs.rows[0], { c01: { key: 'wedding' } }, CAT, { format: 'both', run_date: 'd' } as never, { version: 'x', default: 'open', shapes: [] });
-    expect(plan.picks[0].score).toBe(100);
+    expect(plan.picks[0].score).toBe(110);
   });
   it('the same inputs give the same bytes, so a preview stays good at Start', async () => {
     const v = await seeded();

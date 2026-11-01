@@ -9,7 +9,7 @@ export default defineConfig(async () => {
         { test: { name: 'node', include: ['test/node/**/*.test.ts'], environment: 'node' } },
         {
           plugins: [cloudflareTest({ wrangler: { configPath: './wrangler.jsonc' },
-            miniflare: { bindings: { TEST_MIGRATIONS: migrations, DEV_MODE: '1', DEV_ACTOR: 'test@local' } } })],
+            miniflare: { bindings: { TEST_MIGRATIONS: migrations, DEV_MODE: '1', DEV_ACTOR: 'test@local', RUN_KEY: 'test-run-key-9f3a' } } })],
           test: { name: 'worker', include: ['test/worker/**/*.test.ts'] },
         },
       ],
