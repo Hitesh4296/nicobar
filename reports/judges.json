@@ -1,1 +1,3851 @@
-{"note":"Written by scripts/judge.ts. Empty until the judges run.","cases":[]}
+{
+ "note": "Written by scripts/judge.ts. Empty until the judges run.",
+ "cases": [
+  {
+   "id": "H-01",
+   "source": "heldout",
+   "customer": "c01",
+   "occasion": "Sister's wedding",
+   "text": "Your sister's wedding starts in sunlight, so begin with the ears. Dupki Studs - Gold are brass dipped in gold, swimming fish that curve round the ear and end in amethyst beads.\n\nFor the neck, Chandni Necklace Large - Gold is a classic string of pearls with a single emerald at the centre, so it sits quietly under silk and still finds the light.\n\nDarbaar Balis - Gold are reversible hoops in antique gold, studded with glass on both sides, for the hour when the ceremony turns to music.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.08,
+     "discount": 0.02,
+     "pressure": 0.13,
+     "claims_company": 0.03,
+     "claims_customer": 0.62,
+     "scene": 0.93,
+     "specific": 1.76,
+     "quiet": 1.7
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "Your sister's wedding starts in sunlight",
+      "why": "The occasion only says 'Sister's wedding', but the text asserts the wedding begins in daylight, a fact about its timing that the occasion does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.00008,
+    "sonnet_usd": 0.011061
+   }
+  },
+  {
+   "id": "H-02",
+   "source": "heldout",
+   "customer": "c02",
+   "occasion": "Monsoon in Kochi",
+   "text": "Kochi in the rain\n\nPrinted pouch in waxed canvas with a brushed nickel zip, for passports and chargers when the sky opens.\n\nMonsoon in Kochi asks for little: something to cover the head, something to wrap, and dry socks for the evening. Pack the list below in the order it is needed.\n\nOlive cotton twill, buckle adjusts at the back\n\nLight cotton, worn or tied to a bag\n\nCotton-rich, gingham pattern, for after the rain",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.88,
+     "discount": 0.02,
+     "pressure": 0.03,
+     "claims_company": 0.02,
+     "claims_customer": 0.6,
+     "scene": 0.96,
+     "specific": 1.11,
+     "quiet": 2.36
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.00008,
+    "sonnet_usd": 0.003005
+   }
+  },
+  {
+   "id": "H-03",
+   "source": "heldout",
+   "customer": "c03",
+   "occasion": "Anniversary dinner",
+   "text": "An anniversary dinner is a still hour. Noorani Necklace - Gold is a hasli of glass and pearls in white and green, brass dipped in gold, recalling night-blooming jasmine.\n\nIf the room runs cool, Moonlit Scarf - Navy is fluid Bemberg in a twilight print and drapes loose over the shoulders. Celestial Bali - Gold are brass hoops with 18K gold plating and clean lines, made to move from day into evening.\n\nA matching pair of Noorani drop earrings completes the set, strung in the same white and green.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product"
+    ],
+    "scores": {
+     "names_unselected_product": 0.96,
+     "discount": 0.02,
+     "pressure": 0.03,
+     "claims_company": 0.02,
+     "claims_customer": 0.24,
+     "scene": 0.84,
+     "specific": 1.41,
+     "quiet": 2.13
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "A matching pair of Noorani drop earrings completes the set, strung in the same white and green.",
+      "why": "The Noorani drop earrings are not among the picks, so the email invents an additional product.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "If the room runs cool",
+      "why": "The email assumes a fact about the room's temperature that the occasion 'Anniversary dinner' does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000081,
+    "sonnet_usd": 0.004013
+   }
+  },
+  {
+   "id": "H-04",
+   "source": "heldout",
+   "customer": "c06",
+   "occasion": "Goa weekend",
+   "text": "Goa, one bag\n\nPrinted cotton canvas with leather trims and antique brass hardware, with room for the work you meant to leave behind.\n\nA weekend in Goa runs from the beach road to a late lunch. Add a wide straw hat for the sun and flat leather sandals, and the rest fits in the bag.\n\nCotton twill, buckle adjusts at the back\n\nZipper closure with a leather puller\n\nBemberg floral, tied to the tote",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.83,
+     "discount": 0.02,
+     "pressure": 0.03,
+     "claims_company": 0.02,
+     "claims_customer": 0.81,
+     "scene": 0.96,
+     "specific": 1.26,
+     "quiet": 2.19
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "Add a wide straw hat for the sun and flat leather sandals",
+      "why": "A straw hat and leather sandals are not among the picks, which are a tote, a cap, a pouch and a scarf.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000079,
+    "sonnet_usd": 0.003555
+   }
+  },
+  {
+   "id": "H-05",
+   "source": "heldout",
+   "customer": "c05",
+   "occasion": "Housewarming",
+   "text": "A new home begins at the table. Nadi Espresso Mugs (Set of 4) are smooth stoneware with motifs drawn from the Teesta river's path through Bengal, sized at 125 ml for the morning cup.\n\nMahi Shallow Bowl (Set of 2) hold rice, noodles or a one-pot supper, with coastal flora and fauna around the rim. They also come in a deeper size for soups, if the kitchen runs to broth.\n\nVira Cocktail Glass - Set of 4 bring colour to the bar cart, glossy glass for a mojito or a mocktail at a family gathering.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product"
+    ],
+    "scores": {
+     "names_unselected_product": 0.93,
+     "discount": 0.02,
+     "pressure": 0.03,
+     "claims_company": 0.02,
+     "claims_customer": 0.17,
+     "scene": 0.91,
+     "specific": 1.2,
+     "quiet": 1.93
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "They also come in a deeper size for soups, if the kitchen runs to broth.",
+      "why": "It implies a deeper-size variant of the Mahi bowl that is not among the picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000086,
+    "sonnet_usd": 0.003869
+   }
+  },
+  {
+   "id": "H-06",
+   "source": "heldout",
+   "customer": "c13",
+   "occasion": "Monsoon lunch",
+   "text": "A lunch in the rain\n\nIvory Bemberg printed with soft florals, piping at the hem and mother-of-pearl buttons at the corners.\n\nA monsoon lunch is a long table and a grey window. Keep the jewellery small, so the scarf is the one thing that moves.\n\nBrass, naturally textured, plated in gleaming gold\n\nRhodium-plated brass with a lapiz stone, easy to layer\n\nGold-plated brass with a small aeroplane, light on the wrist",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.83,
+     "discount": 0.02,
+     "pressure": 0.02,
+     "claims_company": 0.03,
+     "claims_customer": 0.71,
+     "scene": 0.94,
+     "specific": 1.51,
+     "quiet": 2.46
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.00008,
+    "sonnet_usd": 0.002999
+   }
+  },
+  {
+   "id": "H-07",
+   "source": "heldout",
+   "customer": "c16",
+   "occasion": "Mother's birthday",
+   "text": "For a mother's birthday, begin with Bouquet Scarf - Pure Silk: pure silk printed all over in garden florals, with a baby roll hem and tassels at opposite corners. It belongs to the Guldasta Edit, named for the bouquet.\n\nMukayu City Tote - Red & Pink is printed cotton canvas with leather trims and antique brass hardware, for work essentials and daily finds.\n\nElephant Origami is a brass elephant folded like origami, for a shelf or a desk. If it tarnishes, a slice of lemon brings the shine back.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [],
+    "scores": {
+     "names_unselected_product": 0.26,
+     "discount": 0.02,
+     "pressure": 0.02,
+     "claims_company": 0.03,
+     "claims_customer": 0.11,
+     "scene": 0.76,
+     "specific": 1.23,
+     "quiet": 2.33
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": true,
+      "quote": "For a mother's birthday, begin with Bouquet Scarf - Pure Silk",
+      "why": "The birthday appears only as a label, and the pieces are placed only as 'a shelf or a desk' or 'daily finds', not in a concrete scene of the occasion.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000086,
+    "sonnet_usd": 0.004127
+   }
+  },
+  {
+   "id": "H-08",
+   "source": "heldout",
+   "customer": "c18",
+   "occasion": "Work trip to Singapore",
+   "text": "Singapore, laptop first\n\nMatchbox art on cotton canvas, with a magnetic snap and a matching card holder in the same print.\n\nA work trip is mostly a short list. Start with what carries the screen, then the small things that make a long day easier.\n\nPrinted mashru, brushed nickel frame\n\nStar motif, a different colour on each\n\nClips to a tote, zip with leather puller",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product"
+    ],
+    "scores": {
+     "names_unselected_product": 0.9,
+     "discount": 0.02,
+     "pressure": 0.03,
+     "claims_company": 0.03,
+     "claims_customer": 0.49,
+     "scene": 0.86,
+     "specific": 1.6,
+     "quiet": 2.16
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "Matchbox art on cotton canvas, with a magnetic snap and a matching card holder in the same print.",
+      "why": "A matching card holder in the same print is not one of the four picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000079,
+    "sonnet_usd": 0.003461
+   }
+  },
+  {
+   "id": "H-09",
+   "source": "heldout",
+   "customer": "c07",
+   "occasion": "Diwali at home",
+   "text": "Diwali at home is a long table and a lot of light. Kachnar Napkin Rings (Set of 4) are iron with a matte gold finish, so each setting gets a small ring of gold.\n\nHibiscus Candle Holder is shaped after the hibiscus, in iron with a gold finish, for the shelf where the diya goes. Buransh Straight Mug is stoneware over a deep green base, weighted to stay put on a desk and forgiving of tea stains.\n\nSets like these rarely last on the shelf past Diwali week, so choose early.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "pressure"
+    ],
+    "scores": {
+     "names_unselected_product": 0.09,
+     "discount": 0.02,
+     "pressure": 0.98,
+     "claims_company": 0.03,
+     "claims_customer": 0.27,
+     "scene": 0.97,
+     "specific": 1.59,
+     "quiet": 1.1
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "Every product described (napkin rings, candle holder, mug) is among the picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "The text says nothing about price or savings.",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": true,
+      "quote": "Sets like these rarely last on the shelf past Diwali week, so choose early.",
+      "why": "It implies scarcity and urges the reader to act early.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "The text describes only products and the occasion, with no claims about Nicobar as a company.",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "Nothing is said about the customer beyond the stated occasion of Diwali at home.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "The email places the pieces in a long Diwali table with settings and a shelf where the diya goes.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "It names materials, finishes and use, such as iron with a matte gold finish and a weighted mug for a desk.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "The tone is plain and measured, though the closing line carries mild salesiness.",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000085,
+    "sonnet_usd": 0.005473
+   }
+  },
+  {
+   "id": "H-10",
+   "source": "heldout",
+   "customer": "c01",
+   "occasion": "Sister's wedding",
+   "text": "Her wedding morning\n\nBrass dipped in gold, swimming fish that curve round the ear and end in amethyst beads.\n\nThe pheras are in sunlight and the evening is silk. Four pieces in gold, of pearls, glass and brass, priced kindly enough to wear to every wedding this season.\n\nA single-garnet string of pearls beside reversible hoops in antique gold, for the ceremony that turns into a dance floor.\n\nStrung with pearls and glass, brass dipped in gold, they sway softly and shine gently. Comes in a gift box.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "discount"
+    ],
+    "scores": {
+     "names_unselected_product": 0.9,
+     "discount": 0.91,
+     "pressure": 0.19,
+     "claims_company": 0.03,
+     "claims_customer": 0.47,
+     "scene": 0.95,
+     "specific": 2.41,
+     "quiet": 1.41
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "A single-garnet string of pearls beside reversible hoops in antique gold",
+      "why": "A garnet pearl string and reversible antique-gold hoops are not among the four picks (studs, large necklace, balis, statement earrings).",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": true,
+      "quote": "priced kindly enough to wear to every wedding this season",
+      "why": "Saying the pieces are priced kindly suggests good value or a lower price.",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "Nothing urges the reader to act by a deadline or a limited quantity.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "The text describes only the products and the wedding, with no claims about Nicobar as a company.",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "Her wedding morning",
+      "why": "The occasion is only 'Sister's wedding', but the text asserts it is the wedding morning and later sets the pheras in sunlight and the evening in silk, none of which the occasion states.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "The page places the pieces in a concrete scene: the pheras in sunlight and a ceremony that turns into a dance floor.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "It names brass dipped in gold, pearls and glass, and says where the pieces are worn, which is more than the lowest rung.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "The tone is mostly plain and measured, with no exclamations or salesy language.",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.00008,
+    "sonnet_usd": 0.006367
+   }
+  },
+  {
+   "id": "H-11",
+   "source": "heldout",
+   "customer": "c10",
+   "occasion": "Jaipur weekend",
+   "text": "A weekend in Jaipur is a morning in the old city and a long dinner after. Meher Earrings - Gold are strung with pearls and glass, brass dipped in gold, and sway softly in the heat.\n\nWindowpane Checks Scarf - Dark Blue is 100% cotton, a unisex handloom with gingham binding and a single yellow star at the corner, and it folds small for the journey. Alphabet S Charm- Black & Gold carries the akshar in Devanagari on one side and Roman on the other.\n\nOrder by Thursday and it will reach you before you leave.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "pressure",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.06,
+     "discount": 0.02,
+     "pressure": 0.94,
+     "claims_company": 0.05,
+     "claims_customer": 0.96,
+     "scene": 0.93,
+     "specific": 1.23,
+     "quiet": 2.05
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": true,
+      "quote": "Order by Thursday and it will reach you before you leave.",
+      "why": "A deadline to order by Thursday pressures the reader to act by a specific time.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "it will reach you before you leave",
+      "why": "It assumes the customer is travelling and leaving on a date, and claims a delivery timeline, which the occasion 'Jaipur weekend' does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000083,
+    "sonnet_usd": 0.004181
+   }
+  },
+  {
+   "id": "H-12",
+   "source": "heldout",
+   "customer": "c15",
+   "occasion": "Honeymoon packing",
+   "text": "Honeymoon, packed light\n\nBemberg in warm earth tones with an abstract print, among the last few from the summer edit.\n\nHot weather asks for little. A scarf for the evening air, and three small things that go into the bag first.\n\nPrinted twill with heart embroidery, zipped\n\nAeroplane embroidery, buckle adjusts to fit\n\nPixel heart pattern, cotton-rich with stretch",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "pressure",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.76,
+     "discount": 0.02,
+     "pressure": 0.96,
+     "claims_company": 0.03,
+     "claims_customer": 0.84,
+     "scene": 0.91,
+     "specific": 2.07,
+     "quiet": 2.34
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "Every object described (scarf, zipped pouch, adjustable cap, heart socks) corresponds to one of the four picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "The text says nothing about price or saving.",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": true,
+      "quote": "among the last few from the summer edit",
+      "why": "Saying these are among the last few signals scarcity and nudges the reader to act before they sell out.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "The text describes only the products and the occasion, with no statement about Nicobar as a company.",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "Hot weather asks for little.",
+      "why": "The honeymoon occasion does not state anything about the weather, so this adds a fact about the trip's climate.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "The honeymoon is placed in concrete acts of use: a scarf for the evening air and small things that go into the bag first.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "The text names materials and constructions (Bemberg, printed twill, heart embroidery, zipped, buckle adjusts to fit, cotton-rich with stretch) and says where they go, so it is beyond the lowest rung.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "The tone is plain and measured with no exclamations or intensifiers.",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000079,
+    "sonnet_usd": 0.005911
+   }
+  },
+  {
+   "id": "H-13",
+   "source": "heldout",
+   "customer": "c14",
+   "occasion": "Diwali gifts",
+   "text": "Diwali gifts begin with the person. Phool Jaal Earring - Gold is a lattice of flowers that falls like a net, brass plated in gold and finished with pearl drops.\n\nNoor Earrings - Gold carries the eye symbol for protection and clarity, with dangles of clear quartz and labradorite. For the house, Madhu Ghee Pot With Ladle is handmade brass finished with kalai, each one a little different.\n\nGive something beautiful without spending more than you meant to.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "discount",
+     "scene"
+    ],
+    "scores": {
+     "names_unselected_product": 0.07,
+     "discount": 0.87,
+     "pressure": 0.04,
+     "claims_company": 0.14,
+     "claims_customer": 0.08,
+     "scene": 0.33,
+     "specific": 1.64,
+     "quiet": 1.43
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "Every product named (Phool Jaal Earring, Noor Earrings, Madhu Ghee Pot With Ladle) is in picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": true,
+      "quote": "Give something beautiful without spending more than you meant to.",
+      "why": "This suggests value for money and saving, which hints at a lower price.",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "There is no urgency or scarcity wording about time or quantity.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "The text describes only the products and does not make claims about Nicobar as a company.",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "The text only echoes the Diwali gifts occasion and speaks of the pieces; nothing is asserted about the customer.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": true,
+      "quote": "Diwali gifts begin with the person.",
+      "why": "Diwali appears only as a label and the text never places the gifts in a concrete place, moment or act of use.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "It names materials and construction (brass plated in gold, pearl drops, kalai finish) and says the ghee pot is for the house, a decent level of concreteness.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "The tone is plain and measured, with no exclamation or salesy language.",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000085,
+    "sonnet_usd": 0.006073
+   }
+  },
+  {
+   "id": "H-14",
+   "source": "heldout",
+   "customer": "c03",
+   "occasion": "Anniversary dinner",
+   "text": "Dinner, after dusk\n\nA hasli strung with glass and pearls in white and green, for candlelit tables and quiet music.\n\nAn anniversary dinner is an unhurried hour: low light, a table by the window, someone across from you. Dress for it slowly.\n\nFluid Bemberg in a twilight print, looped or draped loose\n\nBrass with 18K gold plating, now 20% off until Sunday\n\nRhodium-plated brass with a lapiz stone",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.92,
+     "discount": 0.37,
+     "pressure": 0.26,
+     "claims_company": 0.03,
+     "claims_customer": 0.5,
+     "scene": 0.97,
+     "specific": 1.94,
+     "quiet": 2.31
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "A hasli strung with glass and pearls in white and green",
+      "why": "A hasli with glass and pearls is not among the four picks (necklace, scarf, hoops, bracelet), so it is an unselected product.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": true,
+      "quote": "now 20% off until Sunday",
+      "why": "It states a 20% price reduction.",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": true,
+      "quote": "until Sunday",
+      "why": "The offer is tied to a deadline, urging the reader to act by Sunday.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "The text makes no claims about Nicobar as a company.",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "a table by the window, someone across from you",
+      "why": "It asserts details about the customer's dinner setting that the occasion 'Anniversary dinner' does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "The anniversary dinner is placed in a concrete scene of low light, a window table and someone across from you.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": true,
+      "quote": "Fluid Bemberg in a twilight print, looped or draped loose",
+      "why": "The descriptions name materials and finishes but say little of construction, and the lowest rung best fits.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": true,
+      "quote": "now 20% off until Sunday",
+      "why": "The salesy discount and deadline line breaks the otherwise measured tone, so the weakest rung fits.",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.00008,
+    "sonnet_usd": 0.006025
+   }
+  },
+  {
+   "id": "H-15",
+   "source": "heldout",
+   "customer": "c12",
+   "occasion": "First anniversary",
+   "text": "The first year is mostly ordinary days, so start there. Madurai Jar Candle is soy wax, scented with mogra, and burns cleaner than paraffin. When it burns down, a tealight fits the jar.\n\nAlphabet Glass - V is borosilicate, light in the hand, with the initial V. Patang mug is smooth stoneware, from the mugs that put regional words on the rim.\n\nBe quick: the glass in your letter does not always stay in stock.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "pressure"
+    ],
+    "scores": {
+     "names_unselected_product": 0.58,
+     "discount": 0.03,
+     "pressure": 0.98,
+     "claims_company": 0.09,
+     "claims_customer": 0.36,
+     "scene": 0.65,
+     "specific": 1.26,
+     "quiet": 1.27
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "a tealight fits the jar",
+      "why": "A tealight is a separate product that is not among the picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": true,
+      "quote": "Be quick: the glass in your letter does not always stay in stock.",
+      "why": "It urges the reader to act fast by implying the glass may sell out.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000085,
+    "sonnet_usd": 0.003859
+   }
+  },
+  {
+   "id": "H-16",
+   "source": "heldout",
+   "customer": "c19",
+   "occasion": "Sister's engagement",
+   "text": "Her engagement, in gold\n\nPearls and glass in brass dipped in gold, swaying softly, like a miniature painting.\n\nA sister's engagement is a long day that turns into a longer night. Keep the gold bold at the ears and the rest soft.\n\nTiny fish that shimmer on the lobe beside heavier pearl-tassel dusters, for haldi giggles and sangeet twirls.\n\nReversible hoops in antique gold, studded with glass on both sides\n\nSoft Bemberg in earth tones, a small spend for the whole evening",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product"
+    ],
+    "scores": {
+     "names_unselected_product": 0.63,
+     "discount": 0.28,
+     "pressure": 0.03,
+     "claims_company": 0.03,
+     "claims_customer": 0.46,
+     "scene": 0.89,
+     "specific": 2.51,
+     "quiet": 1.62
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "Every item described (fish studs, pearl-tassel dusters, reversible hoops, Bemberg scarf) corresponds to a pick.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": true,
+      "quote": "a small spend for the whole evening",
+      "why": "This frames the price as low, which suggests value for money.",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "There is no urgency or scarcity wording.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "The text makes no statement about Nicobar as a company.",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "A sister's engagement is a long day that turns into a longer night.",
+      "why": "It asserts facts about the day and the customer's experience of it, and mentions haldi and sangeet, which the occasion does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "It places the pieces in a concrete scene: haldi giggles and sangeet twirls at the engagement.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "It names materials and construction (brass dipped in gold, glass, reversible hoops studded on both sides) and where they are worn.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": true,
+      "quote": "Keep the gold bold at the ears and the rest soft.",
+      "why": "The tone is playful and a little effusive (giggles, twirls, bold) rather than plain and measured.",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000082,
+    "sonnet_usd": 0.006039
+   }
+  },
+  {
+   "id": "H-25",
+   "source": "heldout",
+   "customer": "c03",
+   "occasion": "Anniversary dinner",
+   "text": "An anniversary dinner is a still hour. Noorani Necklace - Gold is a hasli of glass and pearls in white and green, brass dipped in gold, recalling night-blooming jasmine.\n\nLast winter's silk is already in the wardrobe, so Moonlit Scarf - Navy is a lighter way to cover the shoulders: fluid Bemberg in a twilight print. Celestial Bali - Gold are brass hoops with 18K gold plating and clean lines, made to move from day into evening.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.18,
+     "discount": 0.02,
+     "pressure": 0.05,
+     "claims_company": 0.03,
+     "claims_customer": 0.87,
+     "scene": 0.77,
+     "specific": 1.24,
+     "quiet": 2.19
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "Every object described is one of the picks: the necklace, the scarf and the hoops.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "Nothing is said about price or saving.",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "No urgency or scarcity wording; the dinner is only a scene.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "The text describes only the products and the occasion, with no claim about Nicobar.",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "Last winter's silk is already in the wardrobe",
+      "why": "It asserts a fact about the customer's wardrobe that the occasion does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "The anniversary dinner is placed as a still hour, with shoulders covered and pieces moving from day into evening.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "It names materials and construction and says where pieces go, such as brass dipped in gold, fluid Bemberg and 18K plated hoops.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "The tone is plain and measured, with no exclamations or intensifiers.",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.00008,
+    "sonnet_usd": 0.005279
+   }
+  },
+  {
+   "id": "H-26",
+   "source": "heldout",
+   "customer": "c06",
+   "occasion": "Goa weekend",
+   "text": "Goa, one bag\n\nPrinted cotton canvas with leather trims and antique brass hardware, with room for the work you meant to leave behind.\n\nA printed shirt from last summer still has its place in the bag. These are the things that go around it.\n\nCotton twill, buckle adjusts at the back\n\nZipper closure with a leather puller\n\nBemberg floral, tied to the tote",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product"
+    ],
+    "scores": {
+     "names_unselected_product": 0.7,
+     "discount": 0.02,
+     "pressure": 0.07,
+     "claims_company": 0.03,
+     "claims_customer": 0.48,
+     "scene": 0.87,
+     "specific": 1.4,
+     "quiet": 2.34
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "A printed shirt from last summer still has its place in the bag.",
+      "why": "It asserts a fact about the customer's wardrobe and past that the occasion 'Goa weekend' does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000079,
+    "sonnet_usd": 0.003471
+   }
+  },
+  {
+   "id": "H-27",
+   "source": "heldout",
+   "customer": "c10",
+   "occasion": "Jaipur weekend",
+   "text": "A weekend in Jaipur is a morning in the old city and a long dinner after. Two nights is all it asks, the same length you have been packing a weekender for. Meher Earrings - Gold are strung with pearls and glass, brass dipped in gold, and sway softly in the heat.\n\nWindowpane Checks Scarf - Dark Blue is a 100% cotton unisex handloom with gingham binding and a single yellow star at the corner. Alphabet S Charm- Black & Gold carries the akshar in Devanagari on one side and Roman on the other.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.06,
+     "discount": 0.02,
+     "pressure": 0.12,
+     "claims_company": 0.07,
+     "claims_customer": 0.96,
+     "scene": 0.93,
+     "specific": 1.1,
+     "quiet": 2.14
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "Two nights is all it asks, the same length you have been packing a weekender for.",
+      "why": "It asserts the weekend is two nights and that the reader has been packing a weekender for that long, neither of which the occasion 'Jaipur weekend' states.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000083,
+    "sonnet_usd": 0.003881
+   }
+  },
+  {
+   "id": "H-28",
+   "source": "heldout",
+   "customer": "c15",
+   "occasion": "Honeymoon packing",
+   "text": "Honeymoon, packed light\n\nBemberg in warm earth tones, for the evenings of a second hot-weather holiday when the shirts will not do.\n\nHot weather asks for little. A scarf for the evening air, and three small things that go into the bag first.\n\nPrinted twill with heart embroidery, zipped\n\nAeroplane embroidery, buckle adjusts to fit\n\nPixel heart pattern, cotton-rich with stretch",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.85,
+     "discount": 0.02,
+     "pressure": 0.05,
+     "claims_company": 0.03,
+     "claims_customer": 0.93,
+     "scene": 0.94,
+     "specific": 1.85,
+     "quiet": 2.41
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "for the evenings of a second hot-weather holiday when the shirts will not do",
+      "why": "The occasion is only honeymoon packing; a second hot-weather holiday and the shirts not doing are claims the occasion does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000079,
+    "sonnet_usd": 0.003637
+   }
+  },
+  {
+   "id": "H-29",
+   "source": "heldout",
+   "customer": "c12",
+   "occasion": "First anniversary",
+   "text": "The first year is mostly ordinary days, so start there. Brass has been a gift before; this time the gift stays on the table. Madurai Jar Candle is soy wax, scented with mogra, and burns cleaner than paraffin. When it burns down, a tealight fits the jar.\n\nAlphabet Glass - V is borosilicate, light in the hand, with the initial V. Patang mug is smooth stoneware, from the mugs that put regional words on the rim.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.67,
+     "discount": 0.02,
+     "pressure": 0.04,
+     "claims_company": 0.11,
+     "claims_customer": 0.82,
+     "scene": 0.66,
+     "specific": 1.21,
+     "quiet": 2.46
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "a tealight fits the jar",
+      "why": "A tealight is a separate product not among the picks, implied as something to use with the jar.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "Brass has been a gift before; this time the gift stays on the table.",
+      "why": "It asserts the customer has given brass gifts before, which the occasion does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000085,
+    "sonnet_usd": 0.003981
+   }
+  },
+  {
+   "id": "H-30",
+   "source": "heldout",
+   "customer": "c13",
+   "occasion": "Monsoon lunch",
+   "text": "A lunch in the rain\n\nIvory Bemberg printed with soft florals, piping at the hem and mother-of-pearl buttons at the corners.\n\nThe coast is familiar by now, and so is the blue shirt that went with you. This time, a lighter layer and small jewellery.\n\nBrass, naturally textured, plated in gleaming gold\n\nRhodium-plated brass with a lapiz stone, easy to layer\n\nRhodium-plated brass, a clean line for the wrist",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.93,
+     "discount": 0.02,
+     "pressure": 0.03,
+     "claims_company": 0.02,
+     "claims_customer": 0.93,
+     "scene": 0.86,
+     "specific": 1.22,
+     "quiet": 2.41
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "Every piece described (ivory scarf, gold brass hoops, lapis-stone chain, silver bracelet) matches a pick.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "Nothing is said about price or savings.",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "There is no urgency or scarcity wording.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "The text describes only the products and the occasion, with no claim about Nicobar as a company.",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "The coast is familiar by now, and so is the blue shirt that went with you.",
+      "why": "It asserts the customer's past travels and a blue shirt they own, none of which is stated in the occasion 'Monsoon lunch'.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "The page places the pieces in a lunch in the rain with a lighter layer and small jewellery, which is a concrete moment of use.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "It names materials and constructions (Bemberg with piping and mother-of-pearl buttons, rhodium-plated brass with a lapis stone) and says how they layer, which sits above the lowest rung.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "The tone is plain and measured with no exclamations or intensifiers.",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.00008,
+    "sonnet_usd": 0.005911
+   }
+  },
+  {
+   "id": "H-31",
+   "source": "heldout",
+   "customer": "c19",
+   "occasion": "Sister's engagement",
+   "text": "A sister's engagement fills a house for days. Cool evenings are handled the way you handled them before, in block print, so these are about the ears and the walk in. Meher Earrings - Gold are strung with pearls and glass, brass dipped in gold, and sway softly all through the morning.\n\nJalpari Studs - Gold is a pair of little fish in brass dipped in gold, for flowers in the hair. Mogra Shoulder Duster - Gold are heavier by design, with pearl bunch tassels, for every entrance that deserves applause.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.1,
+     "discount": 0.02,
+     "pressure": 0.04,
+     "claims_company": 0.07,
+     "claims_customer": 0.91,
+     "scene": 0.94,
+     "specific": 1.73,
+     "quiet": 1.65
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "Cool evenings are handled the way you handled them before, in block print",
+      "why": "It asserts a past habit of the customer and cool weather, neither of which the occasion states.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": true,
+      "quote": "for every entrance that deserves applause",
+      "why": "The line is showy and mildly exclamatory in tone, so the copy is not plain and measured.",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000082,
+    "sonnet_usd": 0.004005
+   }
+  },
+  {
+   "id": "H-32",
+   "source": "heldout",
+   "customer": "c18",
+   "occasion": "Work trip to Singapore",
+   "text": "Singapore, laptop first\n\nA graphic take on an everyday essential, with bold prints inspired by traditional Indian matchbox art.\n\nYou landed in a kurta and went straight to work last time. This trip, the bag does the same: ready when the doors open.\n\nPrinted mashru, brushed nickel frame\n\nStar motif, a different colour on each\n\nClips to a tote, zip with leather puller",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.43,
+     "discount": 0.02,
+     "pressure": 0.04,
+     "claims_company": 0.03,
+     "claims_customer": 0.93,
+     "scene": 0.92,
+     "specific": 1.83,
+     "quiet": 1.49
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "The text describes a laptop sleeve, a case, socks and a charm, all of which are among the picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "Nothing in the text mentions price or savings.",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "No urgency or scarcity is expressed; 'ready when the doors open' is a scene, not pressure.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "The only company-related line is about matchbox art inspiration for the product, not a claim about Nicobar itself.",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "You landed in a kurta and went straight to work last time.",
+      "why": "It asserts a past trip and outfit for the customer that the occasion 'Work trip to Singapore' does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "The page places the trip in a concrete moment: landing and going straight to work with the laptop first.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "It names materials and construction (printed mashru, brushed nickel frame, zip with leather puller) and says it clips to a tote.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "The tone is plain and measured with no exclamations or intensifiers.",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000079,
+    "sonnet_usd": 0.005547
+   }
+  },
+  {
+   "id": "h2-02",
+   "source": "heldout",
+   "customer": "c03",
+   "occasion": "Anniversary dinner",
+   "text": "There is a point in a long dinner when the room goes still. The Noorani Necklace, in silver, sits at the collarbone and does not ask to be noticed.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product"
+    ],
+    "scores": {
+     "names_unselected_product": 0.94,
+     "discount": 0.02,
+     "pressure": 0.03,
+     "claims_company": 0.03,
+     "claims_customer": 0.29,
+     "scene": 0.96,
+     "specific": 0.73,
+     "quiet": 2.69
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "The Noorani Necklace, in silver",
+      "why": "The picks include only the Noorani Necklace in gold, so the silver version is a variant that is not among the picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": true,
+      "quote": "sits at the collarbone and does not ask to be noticed",
+      "why": "It names no material or construction of the necklace and only says where it sits, so the description is only general and atmospheric.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000077,
+    "sonnet_usd": 0.003739
+   }
+  },
+  {
+   "id": "h2-03",
+   "source": "heldout",
+   "customer": "c05",
+   "occasion": "Housewarming",
+   "text": "Stoneware with motifs drawn from the Teesta river's path through Bengal. A set of six to stand on the open shelf the day you move in.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.91,
+     "discount": 0.02,
+     "pressure": 0.16,
+     "claims_company": 0.03,
+     "claims_customer": 0.56,
+     "scene": 0.91,
+     "specific": 1.16,
+     "quiet": 2.39
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "A set of six",
+      "why": "None of the picks is a set of six; the mugs come as a set of 4 and the bowls as a set of 2, so this describes a product that is not in picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": true,
+      "quote": "Stoneware with motifs drawn from the Teesta river's path through Bengal.",
+      "why": "It names the material and a motif but nothing about construction or how the piece is made or used, which is the weakest rung.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000082,
+    "sonnet_usd": 0.004147
+   }
+  },
+  {
+   "id": "h2-04",
+   "source": "heldout",
+   "customer": "c07",
+   "occasion": "Diwali at home",
+   "text": "The corner where you light the diya deserves a stand of its own. The Lakshmi Diya Stand in brass holds five wicks and sits well beside a candle holder.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product"
+    ],
+    "scores": {
+     "names_unselected_product": 0.99,
+     "discount": 0.02,
+     "pressure": 0.03,
+     "claims_company": 0.02,
+     "claims_customer": 0.14,
+     "scene": 0.95,
+     "specific": 1.47,
+     "quiet": 1.88
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "The Lakshmi Diya Stand in brass holds five wicks",
+      "why": "The Lakshmi Diya Stand is not among the picks, which include a Hibiscus Candle Holder but no diya stand.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000081,
+    "sonnet_usd": 0.003631
+   }
+  },
+  {
+   "id": "h2-05",
+   "source": "heldout",
+   "customer": "c10",
+   "occasion": "Jaipur weekend",
+   "text": "A scarf in 100% cotton for the cool evening on the terrace, with a Jaipur Weekender Duffel in tan to carry it in.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.97,
+     "discount": 0.02,
+     "pressure": 0.02,
+     "claims_company": 0.02,
+     "claims_customer": 0.84,
+     "scene": 0.96,
+     "specific": 0.86,
+     "quiet": 2.42
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "a Jaipur Weekender Duffel in tan",
+      "why": "The duffel is not among the picks, so the email is selling a product that was not selected.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "the cool evening on the terrace",
+      "why": "The occasion only says 'Jaipur weekend', so the cool evening and the terrace are invented details about the customer's setting and weather.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": true,
+      "quote": "A scarf in 100% cotton",
+      "why": "It names only a material, with nothing about construction and no detail about use beyond a general mention.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000079,
+    "sonnet_usd": 0.004195
+   }
+  },
+  {
+   "id": "h2-06",
+   "source": "heldout",
+   "customer": "c14",
+   "occasion": "Diwali gifts",
+   "text": "Brass with a modern line, finished with a technique that keeps it soft to look at. The Madhu Ghee Pot in copper belongs on a shelf where it will be seen.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product"
+    ],
+    "scores": {
+     "names_unselected_product": 0.84,
+     "discount": 0.02,
+     "pressure": 0.03,
+     "claims_company": 0.02,
+     "claims_customer": 0.28,
+     "scene": 0.51,
+     "specific": 1.48,
+     "quiet": 1.69
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "The only product named is the Madhu Ghee Pot, which is one of the picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "The text says nothing about price or savings.",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "There is no urgency or scarcity wording.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "The text describes only the product and does not make claims about Nicobar as a company.",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "The text says nothing about the customer or about the place, date or weather of the occasion.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": true,
+      "quote": "belongs on a shelf where it will be seen",
+      "why": "The shelf is only a generic placement, and the Diwali gifts occasion is never placed in a concrete scene.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "It names brass and a softening finish technique and says the pot belongs on a shelf, which is a rung above material-only.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "The tone is plain, measured and understated with no exclamations or intensifiers.",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000082,
+    "sonnet_usd": 0.005121
+   }
+  },
+  {
+   "id": "h2-07",
+   "source": "heldout",
+   "customer": "c16",
+   "occasion": "Mother's birthday",
+   "text": "Named for the guldasta, or bouquet, and printed all over in garden florals. In cashmere, it is the scarf she will reach for first.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.9,
+     "discount": 0.02,
+     "pressure": 0.04,
+     "claims_company": 0.03,
+     "claims_customer": 0.58,
+     "scene": 0.72,
+     "specific": 0.96,
+     "quiet": 1.36
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "The text describes only the Bouquet Scarf, which is one of the picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "The text says nothing about price or savings.",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "There is no urgency or scarcity wording.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "The text describes only the scarf and makes no claim about the company.",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "it is the scarf she will reach for first",
+      "why": "This asserts a fact about the recipient's preferences that the occasion does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": true,
+      "quote": "",
+      "why": "The occasion is never placed in a concrete scene; the scarf is only described and the birthday is not mentioned or pictured.",
+      "quote_invalid": true
+     },
+     "specific": {
+      "flag": true,
+      "quote": "In cashmere, it is the scarf she will reach for first.",
+      "why": "It names a material and a print but nothing about construction or use, and the material (cashmere) contradicts the pick being pure silk.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "The tone is plain and measured, with no exclamations or intensifiers.",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000082,
+    "sonnet_usd": 0.005271
+   }
+  },
+  {
+   "id": "h2-08",
+   "source": "heldout",
+   "customer": "c12",
+   "occasion": "First anniversary",
+   "text": "Typography is a quiet way to say a name. The Alphabet Glass in R, in glass with a clean letterform, is one for his desk.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.63,
+     "discount": 0.02,
+     "pressure": 0.03,
+     "claims_company": 0.05,
+     "claims_customer": 0.5,
+     "scene": 0.81,
+     "specific": 0.89,
+     "quiet": 2.63
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "The Alphabet Glass in R",
+      "why": "The only glass in picks is Alphabet Glass - V, so the R glass is a different letter variant that is not among the picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "one for his desk",
+      "why": "The occasion only says 'First anniversary', so stating the recipient is a 'he' with a desk is a claim about the customer beyond it.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": true,
+      "quote": "in glass with a clean letterform",
+      "why": "It names only a material and a vague style, with nothing about how the piece is made or used.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000082,
+    "sonnet_usd": 0.004295
+   }
+  },
+  {
+   "id": "h2-09",
+   "source": "heldout",
+   "customer": "c02",
+   "occasion": "Monsoon in Kochi",
+   "text": "Printed cotton twill with a taffeta lining, made as an ode to the rain. Pick it up this week, while the colours are still in stock and before the monsoon turns.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "pressure",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.91,
+     "discount": 0.02,
+     "pressure": 0.99,
+     "claims_company": 0.04,
+     "claims_customer": 0.72,
+     "scene": 0.61,
+     "specific": 1.11,
+     "quiet": 0.66
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": true,
+      "quote": "Pick it up this week, while the colours are still in stock and before the monsoon turns.",
+      "why": "It urges the reader to act within a week and while stock lasts, which is time and scarcity pressure.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": true,
+      "quote": "made as an ode to the rain",
+      "why": "The monsoon is mentioned only as a theme and a deadline; the text never places the pieces in a place, moment or act of use.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000077,
+    "sonnet_usd": 0.003839
+   }
+  },
+  {
+   "id": "h2-10",
+   "source": "heldout",
+   "customer": "c04",
+   "occasion": "Father's sixtieth",
+   "text": "Cufflinks shaped like seated elephants, in brass with 18ct gold plating. A fair price for a sixtieth, and he will wear them for years.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer",
+     "scene"
+    ],
+    "scores": {
+     "names_unselected_product": 0.65,
+     "discount": 0.46,
+     "pressure": 0.03,
+     "claims_company": 0.03,
+     "claims_customer": 0.52,
+     "scene": 0.31,
+     "specific": 1.03,
+     "quiet": 2.22
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "The cufflinks described are the Appu Cufflinks in the picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": true,
+      "quote": "A fair price",
+      "why": "Calling the price fair is a statement about value for money, which suggests the price is reasonable.",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "No urgency or scarcity wording is used.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "The text says nothing about Nicobar as a company.",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "he will wear them for years",
+      "why": "This asserts something about the recipient's future habits that the occasion does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "The sixtieth birthday gift and the act of wearing the cufflinks give a concrete use for the occasion.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "It names brass with 18ct gold plating and the elephant shape, which is concrete material detail but says little on construction or use beyond wearing.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "The tone is plain and measured with no exclamations or intensifiers.",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000082,
+    "sonnet_usd": 0.005193
+   }
+  },
+  {
+   "id": "h2-11",
+   "source": "heldout",
+   "customer": "c06",
+   "occasion": "Goa weekend",
+   "text": "Cotton twill, made for sunny afternoons. Add it to the bag before the weekend ends, because caps in this colour will not stay on the shelf long.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "pressure",
+     "claims_customer",
+     "quiet"
+    ],
+    "scores": {
+     "names_unselected_product": 0.73,
+     "discount": 0.02,
+     "pressure": 0.99,
+     "claims_company": 0.03,
+     "claims_customer": 0.75,
+     "scene": 0.67,
+     "specific": 1.45,
+     "quiet": 0.21
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "caps in this colour will not stay on the shelf long",
+      "why": "The email describes a cap in a colour other than the Navy & Brown Starry Cap, implying a cap variant that is not among the picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": true,
+      "quote": "Add it to the bag before the weekend ends, because caps in this colour will not stay on the shelf long.",
+      "why": "It urges the reader to act before the weekend ends and warns of scarcity.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": true,
+      "quote": "Cotton twill, made for sunny afternoons.",
+      "why": "It names a material but nothing about how the piece is made or what it does, and landing_page is absent.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000077,
+    "sonnet_usd": 0.004365
+   }
+  },
+  {
+   "id": "h2-12",
+   "source": "heldout",
+   "customer": "c08",
+   "occasion": "Farewell dinner",
+   "text": "Linen cotton in black, cut for a day at work or a meal with friends. Order within the next two days and it reaches you before the dinner.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "pressure"
+    ],
+    "scores": {
+     "names_unselected_product": 0.71,
+     "discount": 0.02,
+     "pressure": 0.98,
+     "claims_company": 0.03,
+     "claims_customer": 0.24,
+     "scene": 0.91,
+     "specific": 1.4,
+     "quiet": 0.94
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "The email only mentions linen cotton in black, which fits the black Double Layer Dress pick, without naming any other product.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "The text says nothing about price or savings.",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": true,
+      "quote": "Order within the next two days and it reaches you before the dinner.",
+      "why": "It sets a two-day deadline to push the reader to order.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "The text makes no statement about Nicobar as a company.",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "a day at work or a meal with friends",
+      "why": "It assumes the customer works and dines with friends, which the occasion 'Farewell dinner' does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "It places the piece in a day at work or a meal with friends and refers to the dinner, so the reader can picture its use.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": true,
+      "quote": "Linen cotton in black, cut for a day at work or a meal with friends.",
+      "why": "It names a material and colour but nothing about construction or technique, so it sits at the second rung.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "The tone is plain and measured, with no exclamations or intensifiers, though the deadline line is a little pushy.",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000084,
+    "sonnet_usd": 0.005809
+   }
+  },
+  {
+   "id": "h2-13",
+   "source": "heldout",
+   "customer": "c09",
+   "occasion": "Cousin's mehendi",
+   "text": "A choker for soft moments, leaning into quiet beauty. Treat yourself a little extra: a gift box comes with it at no charge today.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "discount",
+     "pressure",
+     "scene",
+     "specific"
+    ],
+    "scores": {
+     "names_unselected_product": 0.44,
+     "discount": 0.67,
+     "pressure": 0.89,
+     "claims_company": 0.04,
+     "claims_customer": 0.21,
+     "scene": 0.22,
+     "specific": 0.05,
+     "quiet": 0.41
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "The only piece named is a choker, which matches the Bindu and Kesar chokers in picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": true,
+      "quote": "a gift box comes with it at no charge today",
+      "why": "Offering a free gift box is a saving that suggests added value at no cost.",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": true,
+      "quote": "at no charge today",
+      "why": "Tying the free gift box to 'today' creates time pressure to act now.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "The text makes no statement about Nicobar as a company.",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "The text says nothing about the customer or the occasion's place, date or weather beyond the pieces themselves.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": true,
+      "quote": "A choker for soft moments, leaning into quiet beauty.",
+      "why": "The cousin's mehendi is never placed in a concrete place, moment or act of use; the copy stays abstract.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": true,
+      "quote": "A choker for soft moments, leaning into quiet beauty.",
+      "why": "Only general praise, with no material, technique or construction named.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "The tone is mostly plain, though the 'Treat yourself a little extra' line is mildly salesy, it is not exclamatory.",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000082,
+    "sonnet_usd": 0.005815
+   }
+  },
+  {
+   "id": "h2-14",
+   "source": "heldout",
+   "customer": "c11",
+   "occasion": "Wedding guest in Udaipur",
+   "text": "There is a grace to a wedding day that feels timeless. These earrings are a rare chance to own a piece like this, and the last few pairs are here.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "pressure",
+     "scene",
+     "specific",
+     "quiet"
+    ],
+    "scores": {
+     "names_unselected_product": 0.38,
+     "discount": 0.03,
+     "pressure": 0.99,
+     "claims_company": 0.04,
+     "claims_customer": 0.05,
+     "scene": 0.5,
+     "specific": 0.04,
+     "quiet": 0.32
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": true,
+      "quote": "the last few pairs are here",
+      "why": "Saying only the last few pairs remain creates scarcity pressure to act quickly.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": true,
+      "quote": "There is a grace to a wedding day that feels timeless.",
+      "why": "The wedding appears only as a general sentiment, with no concrete place, moment or act of use.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": true,
+      "quote": "These earrings are a rare chance to own a piece like this",
+      "why": "The description is only general praise, naming no material, technique, construction or use.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000081,
+    "sonnet_usd": 0.004169
+   }
+  },
+  {
+   "id": "h2-15",
+   "source": "heldout",
+   "customer": "c13",
+   "occasion": "Monsoon lunch",
+   "text": "Light Bemberg with an all-over floral print, easy for a monsoon lunch. It costs less than you would expect for this much detail.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "discount",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.97,
+     "discount": 0.98,
+     "pressure": 0.03,
+     "claims_company": 0.06,
+     "claims_customer": 0.56,
+     "scene": 0.84,
+     "specific": 1.29,
+     "quiet": 1.7
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": true,
+      "quote": "It costs less than you would expect for this much detail.",
+      "why": "It suggests the price is lower than expected, which implies a saving.",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": true,
+      "quote": "Light Bemberg with an all-over floral print",
+      "why": "It names a material and a print but nothing about construction or how the piece is used.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000077,
+    "sonnet_usd": 0.003459
+   }
+  },
+  {
+   "id": "h2-16",
+   "source": "heldout",
+   "customer": "c15",
+   "occasion": "Honeymoon packing",
+   "text": "Cotton twill with an aeroplane motif, easy to wear on days on the move. Do not wait on this one; the brown and beige is going fast.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "pressure",
+     "quiet"
+    ],
+    "scores": {
+     "names_unselected_product": 0.43,
+     "discount": 0.02,
+     "pressure": 0.98,
+     "claims_company": 0.02,
+     "claims_customer": 0.4,
+     "scene": 0.76,
+     "specific": 1.29,
+     "quiet": 0.17
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": true,
+      "quote": "Do not wait on this one; the brown and beige is going fast.",
+      "why": "It urges the reader to act quickly and implies the item is selling out.",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": true,
+      "quote": "easy to wear on days on the move",
+      "why": "The honeymoon packing occasion is never mentioned and the cap is only loosely placed in 'days on the move', not in a concrete scene.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000077,
+    "sonnet_usd": 0.003713
+   }
+  },
+  {
+   "id": "h2-25",
+   "source": "heldout",
+   "customer": "c01",
+   "occasion": "Sister's wedding",
+   "text": "You wore the indigo travel shirt to Jaipur last spring, and the Darbaar Balis carry that same easy grandeur: a little palace sparkle, gold, made to sway.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.66,
+     "discount": 0.02,
+     "pressure": 0.03,
+     "claims_company": 0.04,
+     "claims_customer": 0.98,
+     "scene": 0.71,
+     "specific": 0.68,
+     "quiet": 1.29
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "You wore the indigo travel shirt to Jaipur last spring",
+      "why": "It asserts a past purchase and trip that the occasion (Sister's wedding) does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": true,
+      "quote": "",
+      "why": "The sister's wedding is never placed in a concrete scene; the email only describes the earrings' sparkle.",
+      "quote_invalid": true
+     },
+     "specific": {
+      "flag": true,
+      "quote": "a little palace sparkle, gold, made to sway",
+      "why": "It names only a colour and general praise, with nothing about material, construction or use.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000077,
+    "sonnet_usd": 0.004001
+   }
+  },
+  {
+   "id": "h2-26",
+   "source": "heldout",
+   "customer": "c03",
+   "occasion": "Anniversary dinner",
+   "text": "The silk evening stole you bought last winter suited long dinners. The Moonlit Scarf, in fluid Bemberg and navy, is a lighter layer for the same evenings.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.82,
+     "discount": 0.02,
+     "pressure": 0.02,
+     "claims_company": 0.02,
+     "claims_customer": 0.94,
+     "scene": 0.9,
+     "specific": 1.05,
+     "quiet": 2.43
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "The silk evening stole you bought last winter",
+      "why": "It refers to a silk evening stole that is not one of the picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "you bought last winter suited long dinners",
+      "why": "It asserts a past purchase and its use that the occasion does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000077,
+    "sonnet_usd": 0.003425
+   }
+  },
+  {
+   "id": "h2-27",
+   "source": "heldout",
+   "customer": "c05",
+   "occasion": "Housewarming",
+   "text": "The weekender has served you on long weekends, so these glasses stay home. The Vira Cocktail Glass brings colour to the bar cart at a housewarming.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "claims_customer",
+     "specific"
+    ],
+    "scores": {
+     "names_unselected_product": 0.45,
+     "discount": 0.03,
+     "pressure": 0.19,
+     "claims_company": 0.03,
+     "claims_customer": 0.82,
+     "scene": 0.89,
+     "specific": 0.1,
+     "quiet": 1.2
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "The weekender has served you on long weekends",
+      "why": "It refers to a weekender bag, which is not among the picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "The weekender has served you on long weekends",
+      "why": "It asserts a past purchase and travel habit of the customer that the occasion does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": true,
+      "quote": "The Vira Cocktail Glass brings colour to the bar cart at a housewarming.",
+      "why": "It names only the product and a vague benefit, with no material, construction or detail of the piece.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000082,
+    "sonnet_usd": 0.004287
+   }
+  },
+  {
+   "id": "h2-28",
+   "source": "heldout",
+   "customer": "c07",
+   "occasion": "Diwali at home",
+   "text": "After the silver stack you gave for a birthday, here is something to light instead. The Hibiscus Candle Holder takes a candle at the end of a shelf.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.44,
+     "discount": 0.02,
+     "pressure": 0.02,
+     "claims_company": 0.02,
+     "claims_customer": 0.94,
+     "scene": 0.84,
+     "specific": 0.4,
+     "quiet": 2.32
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "After the silver stack you gave for a birthday",
+      "why": "It refers to a silver stack, a piece that is not among the picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "After the silver stack you gave for a birthday",
+      "why": "It asserts a past gift and purchase that the occasion 'Diwali at home' does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": true,
+      "quote": "The Hibiscus Candle Holder takes a candle at the end of a shelf.",
+      "why": "It names no material or construction, only where the holder goes.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000081,
+    "sonnet_usd": 0.004205
+   }
+  },
+  {
+   "id": "h2-29",
+   "source": "heldout",
+   "customer": "c10",
+   "occasion": "Jaipur weekend",
+   "text": "Your woven weekender still goes on two-night trips, and this cotton scarf folds into it flat. Wear it on the train and on the terrace in the evening.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.88,
+     "discount": 0.02,
+     "pressure": 0.05,
+     "claims_company": 0.03,
+     "claims_customer": 0.84,
+     "scene": 0.95,
+     "specific": 1.11,
+     "quiet": 2.41
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "Your woven weekender",
+      "why": "The email refers to a woven weekender bag, which is not among the picks (the tote is a different product).",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "Your woven weekender still goes on two-night trips",
+      "why": "It claims the customer owns a weekender and takes two-night trips, which the occasion 'Jaipur weekend' does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": true,
+      "quote": "this cotton scarf folds into it flat",
+      "why": "It names a material but nothing about construction, so it sits at the second rung.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000079,
+    "sonnet_usd": 0.004171
+   }
+  },
+  {
+   "id": "h2-30",
+   "source": "heldout",
+   "customer": "c14",
+   "occasion": "Diwali gifts",
+   "text": "The handloom throw you chose for the new flat set the tone, and the Madhu Ghee Pot With Ladle belongs on the same shelf, in brass, for the festival.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.93,
+     "discount": 0.02,
+     "pressure": 0.05,
+     "claims_company": 0.03,
+     "claims_customer": 0.97,
+     "scene": 0.85,
+     "specific": 1.19,
+     "quiet": 1.95
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "The handloom throw you chose for the new flat",
+      "why": "The email refers to a handloom throw, which is not one of the products in picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "The handloom throw you chose for the new flat set the tone",
+      "why": "It asserts a past purchase and a new flat, neither of which is stated in the occasion 'Diwali gifts'.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": true,
+      "quote": "belongs on the same shelf, in brass, for the festival",
+      "why": "The festival is only named as a label and the shelf is not tied to a concrete moment or act of use for Diwali gifts.",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": true,
+      "quote": "the Madhu Ghee Pot With Ladle belongs on the same shelf, in brass",
+      "why": "It names only a material, with no technique, construction or detail about use.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000082,
+    "sonnet_usd": 0.004991
+   }
+  },
+  {
+   "id": "h2-31",
+   "source": "heldout",
+   "customer": "c16",
+   "occasion": "Mother's birthday",
+   "text": "Like the stole you lent out twice, a pure silk scarf is something she will be asked to share. The Bouquet Scarf is printed all over in garden florals.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "claims_customer",
+     "scene"
+    ],
+    "scores": {
+     "names_unselected_product": 0.26,
+     "discount": 0.02,
+     "pressure": 0.15,
+     "claims_company": 0.03,
+     "claims_customer": 0.77,
+     "scene": 0.5,
+     "specific": 0.9,
+     "quiet": 1.7
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "Like the stole you lent out twice",
+      "why": "It asserts a fact about the customer's past behaviour that the occasion does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": true,
+      "quote": "",
+      "why": "The mother's birthday is not placed in any concrete scene; the text only describes the scarf and never shows where or when it is used.",
+      "quote_invalid": true
+     },
+     "specific": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000082,
+    "sonnet_usd": 0.003783
+   }
+  },
+  {
+   "id": "h2-32",
+   "source": "heldout",
+   "customer": "c19",
+   "occasion": "Sister's engagement",
+   "text": "The block-print scarf kept you warm on a cool evening; for the engagement, the Jalpari Studs are small, gold and made for sunlight across a room.",
+   "jev": {
+    "status": "answered",
+    "reason": null,
+    "flags": [
+     "names_unselected_product",
+     "claims_customer"
+    ],
+    "scores": {
+     "names_unselected_product": 0.76,
+     "discount": 0.02,
+     "pressure": 0.03,
+     "claims_company": 0.03,
+     "claims_customer": 0.86,
+     "scene": 0.92,
+     "specific": 1.22,
+     "quiet": 1.96
+    }
+   },
+   "sonnet": {
+    "status": "answered",
+    "answers": {
+     "names_unselected_product": {
+      "flag": true,
+      "quote": "The block-print scarf",
+      "why": "The picks include only the Heera Scarf in brown cupro modal, not a block-print scarf, so this names a product that is not among the picks.",
+      "quote_invalid": false
+     },
+     "discount": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "pressure": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_company": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "claims_customer": {
+      "flag": true,
+      "quote": "The block-print scarf kept you warm on a cool evening",
+      "why": "It asserts a past purchase and an evening's weather that the occasion 'Sister's engagement' does not state.",
+      "quote_invalid": false
+     },
+     "scene": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     },
+     "specific": {
+      "flag": true,
+      "quote": "small, gold and made for sunlight across a room",
+      "why": "It names a colour and size but no material, technique or construction for the studs.",
+      "quote_invalid": false
+     },
+     "quiet": {
+      "flag": false,
+      "quote": "",
+      "why": "",
+      "quote_invalid": false
+     }
+    }
+   },
+   "cost": {
+    "jev_usd": 0.000079,
+    "sonnet_usd": 0.004249
+   }
+  }
+ ]
+}
