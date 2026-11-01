@@ -20,7 +20,8 @@
     "readiness": "node scripts/readiness.ts",
     "config": "node scripts/config.ts",
     "demo": "node scripts/demo.ts",
-    "batch": "node scripts/batch.ts"
+    "batch": "node scripts/batch.ts",
+    "rank": "node scripts/rank.ts"
   },
   "devDependencies": {
     "@cloudflare/vitest-plugin": "1.4.11",

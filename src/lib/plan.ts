@@ -11,15 +11,15 @@ const displayName = (first: string | null) =>
 
 function resolvePicks(rec: RecRow, cat: Catalog, format: RunFormat): Pick[] | FailedCode {
   const picks: Pick[] = [];
-  for (const [i, { product_id, reason_code }] of rec.picks.entries()) {
+  for (const [i, { product_id, reason_code, why }] of rec.picks.entries()) {
     const p = cat.rows.get(product_id);
     if (!p || p.excluded_reason !== null || picks.some((k) => k.product_id === product_id)) return 'INVALID_PICK';
-    picks.push({ slot: `p${i + 1}` as Slot, product_id, reason_code, group: groupOf(p.category) });
+    picks.push({ slot: `p${i + 1}` as Slot, product_id, reason_code, group: groupOf(p.category), ...(why ? { why } : {}) });
   }
   return picks.length < MIN_PICKS[format] ? 'TOO_FEW_CANDIDATES' : picks;
 }
 
-const MORE_ORDER: Record<MoreKind, number> = { past_purchase: 0, occasion_category: 1, occasion: 2 };
+const MORE_ORDER: Record<MoreKind, number> = { occasion_category: 0, occasion: 1, past_purchase: 2 };   // R127: the occasion first, the past last
 
 /** Never fails a customer: the picks decide the outcome. Headings are built here, from code, the customer's occasion, if any, and a bounded label. */
 function resolveMore(rec: RecRow, c: Customer, cat: Catalog): PlanMore[] {
@@ -38,7 +38,7 @@ function resolveMore(rec: RecRow, c: Customer, cat: Catalog): PlanMore[] {
     const heading = past ? `To go with your ${s.label}`
       : s.kind === 'occasion' ? (c.occasion ? `More for ${c.occasion}` : 'More from Nicobar')
       : c.occasion ? `${s.label} for ${c.occasion}` : s.label;
-    out.push({ kind: s.kind, heading, product_ids });
+    out.push({ kind: s.kind, heading, product_ids, ...(s.why ? { why: Object.fromEntries(product_ids.flatMap((id) => (s.why?.[id] ? [[id, s.why[id]]] : []))) } : {}) });
   }
   return out;
 }

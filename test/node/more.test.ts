@@ -59,7 +59,7 @@ describe('parseRecs bounds more', () => {
 describe('planCustomer resolves more', () => {
   it('headings from code, in page order', () => {
     const plan = planOf(row([section({ product_ids: [pool[5]] }), section({ kind: 'occasion_category', label: 'Earrings', product_ids: [pool[6]] }), section({ kind: 'past_purchase', label: 'shirt', product_ids: [pool[7]] })]));
-    expect(plan.more?.map((s) => s.heading)).toEqual(['To go with your shirt', "Earrings for Mother's <b>birthday", "More for Mother's <b>birthday"]);
+    expect(plan.more?.map((s) => s.heading)).toEqual(["Earrings for Mother's <b>birthday", "More for Mother's <b>birthday", 'To go with your shirt']);
   });
   it('a past label not in the note is dropped and logged', () => {
     const log = vi.spyOn(console, 'log').mockImplementation(() => {});

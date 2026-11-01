@@ -200,7 +200,7 @@ The largest unknown is thinking tokens. The start rung is a run setting. This ta
 
 ## Known gaps
 
-- Recommendations are assumed upstream and synthetic. Relevance is untested.
+- Recommendations come from an internal rules engine on catalogue tags, with hand-set row rules and synthetic inputs. Relevance is untested. A real recommender can replace the file by contract.
 - Nothing sends, so no eval here touches conversion or any customer response.
 - Voice is one reader's judgment, at n = 20. It does not predict 1,000.
 - The snapshot is frozen, so freshness at release proves nothing about today's site. See [ADR 0002](adr/0002-frozen-snapshot.md).

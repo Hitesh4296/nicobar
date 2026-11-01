@@ -47,6 +47,7 @@ flowchart LR
 | D1 | The record: runs, units, plans, drafts, every cost, Jev and approval event, prompt versions |
 | R2 | Immutable by hash or snapshot id: catalogue, customer file, recommendation file, previews |
 | Library (`src/lib/`) | Pure code: ingest, plan, request building, checks, rendering, cost, state edges |
+| Ranking engine (`src/lib/rank/`, `npm run rank`) | Offline, no model. Writes the recommendations file from the snapshot and `config/ranking.json`. Tiers compared in order: occasion, row fit, past purchase as a tie-break inside the occasion, site signal, a stable hash. A past-only product is never p1. A real recommender can replace the file by contract |
 | `config/` | Schemas, check lists, cost tables. Bundled. Prompts are imported into D1 as versions |
 
 Not used: Queues, Durable Objects, Agents SDK, Vectorize, KV, the Batches API, and the store's cart, checkout or order tools.

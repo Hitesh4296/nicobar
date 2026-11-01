@@ -1,0 +1,483 @@
+{
+ "_label": "Hand-set by the data session, labelled synthetic: judgement, no behaviour data. A real recommender replaces data/recommendations.synthetic.json by contract; this file then goes.",
+ "version": "ranking/v1",
+ "tiers": [
+  "occasion",
+  "row_fit",
+  "past_purchase",
+  "site_signal",
+  "hash"
+ ],
+ "limits": {
+  "family_cap": 2,
+  "family_cap_max": 6,
+  "rail": 8,
+  "occasion_rail": 24,
+  "category_rails": 3,
+  "category_min": 3
+ },
+ "barred": {
+  "class": [
+   "Gift Sets"
+  ],
+  "subcategory": [
+   "Pet Accessories"
+  ],
+  "handle_words": [
+   "alphabet",
+   "akshar",
+   "gift-set"
+  ]
+ },
+ "fill": [
+  "Scarves",
+  "Pouches",
+  "Bags"
+ ],
+ "gift_keys": [
+  "birthday",
+  "housewarming"
+ ],
+ "fresh_badge": "New",
+ "pools": {
+  "scene": [
+   "Scarves",
+   "Statement Necklace",
+   "Studs",
+   "Hoops",
+   "Chains",
+   "Bracelets"
+  ],
+  "trip": [
+   "Pouches",
+   "Scarves",
+   "Socks",
+   "Caps",
+   "Organisers",
+   "Bags",
+   "Bag Charms"
+  ]
+ },
+ "plurals": {
+  "Shirt": "Shirts",
+  "Kurta": "Kurtas",
+  "Dress": "Dresses",
+  "Top": "Tops",
+  "Statement Necklace": "Statement Necklaces",
+  "Statement Earrings": "Statement Earrings",
+  "Home Accent": "Home Accents",
+  "Diffuser & Incense Holder": "Diffusers & Incense Holders",
+  "Room Spray Vial & Incense Sticks": "Room Sprays & Incense Sticks",
+  "Votives & Candle Holders": "Votives & Candle Holders",
+  "Jacket": "Jackets",
+  "Tunic": "Tunics",
+  "Kaftan": "Kaftans",
+  "Saree": "Sarees",
+  "Dupatta": "Dupattas",
+  "Blouse": "Blouses",
+  "Camisole": "Camisoles",
+  "Skirt": "Skirts",
+  "Necklace": "Necklaces",
+  "Choker": "Chokers",
+  "T-shirt": "T-shirts",
+  "Photo Frame": "Photo Frames",
+  "Vase & Planters": "Vases & Planters",
+  "Pins & Brooches": "Pins & Brooches",
+  "Runner": "Runners"
+ },
+ "complements": {
+  "shirt": [
+   {
+    "class": "Pants",
+    "why": "the plain half of a shirt outfit"
+   },
+   {
+    "class": "Trousers",
+    "why": "the tailored half of a shirt outfit"
+   },
+   {
+    "class": "Shorts",
+    "why": "the warm-weather half of a shirt outfit"
+   },
+   {
+    "class": "Scarves",
+    "why": "adds print at the neck of a plain collar"
+   },
+   {
+    "class": "Jacket",
+    "why": "a layer over a shirt"
+   },
+   {
+    "class": "Belts",
+    "why": "finishes a tucked shirt"
+   },
+   {
+    "class": "Socks",
+    "why": "the small visible detail with trousers"
+   },
+   {
+    "class": "Caps",
+    "why": "a shirt worn outdoors"
+   },
+   {
+    "class": "Chains",
+    "why": "sits in an open collar"
+   },
+   {
+    "class": "Bracelets",
+    "why": "shows at a rolled cuff"
+   }
+  ],
+  "kurta": [
+   {
+    "class": "Pants",
+    "why": "the usual pair with a kurta"
+   },
+   {
+    "class": "Pyjamas",
+    "why": "the traditional pair with a kurta"
+   },
+   {
+    "class": "Dupatta",
+    "why": "layer over a kurta"
+   },
+   {
+    "class": "Scarves",
+    "why": "a lighter layer than a dupatta"
+   },
+   {
+    "class": "Jacket",
+    "why": "layer over a kurta"
+   },
+   {
+    "class": "Socks",
+    "why": "for closed shoes under a long hem"
+   },
+   {
+    "class": "Caps",
+    "why": "a cotton kurta worn out in the day"
+   },
+   {
+    "class": "Pouches",
+    "why": "a kurta rarely has a useful pocket"
+   }
+  ],
+  "stole": [
+   {
+    "class": "Statement Necklace",
+    "why": "a stole leaves the neckline open for one piece"
+   },
+   {
+    "class": "Danglers",
+    "why": "earrings show above a draped stole"
+   },
+   {
+    "class": "Studs",
+    "why": "quiet earrings beside a printed stole"
+   },
+   {
+    "class": "Hoops",
+    "why": "earrings show above a draped stole"
+   },
+   {
+    "class": "Chains",
+    "why": "a fine line under a draped stole"
+   },
+   {
+    "class": "Bracelets",
+    "why": "a stole leaves the wrist bare"
+   },
+   {
+    "class": "Clutches",
+    "why": "an evening stole usually goes with a small bag"
+   }
+  ],
+  "scarf": [
+   {
+    "class": "Hoops",
+    "why": "earrings show above a scarf"
+   },
+   {
+    "class": "Studs",
+    "why": "quiet earrings beside a printed scarf"
+   },
+   {
+    "class": "Danglers",
+    "why": "earrings show above a scarf"
+   },
+   {
+    "class": "Bracelets",
+    "why": "a scarf leaves the wrist bare"
+   },
+   {
+    "class": "Pouches",
+    "why": "a matching small carry"
+   },
+   {
+    "class": "Bags",
+    "why": "a scarf ties onto a bag handle"
+   },
+   {
+    "class": "Caps",
+    "why": "the same outdoor outfit"
+   }
+  ],
+  "wrap": [
+   {
+    "class": "Danglers",
+    "why": "earrings show above a wrap"
+   },
+   {
+    "class": "Hoops",
+    "why": "earrings show above a wrap"
+   },
+   {
+    "class": "Studs",
+    "why": "quiet earrings beside a wrap"
+   },
+   {
+    "class": "Pouches",
+    "why": "a wrap goes on a flight; so does a pouch"
+   },
+   {
+    "class": "Socks",
+    "why": "the same cold-flight comfort"
+   },
+   {
+    "class": "Organisers",
+    "why": "a wrap goes on a flight; so does an organiser"
+   }
+  ],
+  "weekender": [
+   {
+    "class": "Pouches",
+    "why": "what sorts the inside of a weekend bag"
+   },
+   {
+    "class": "Organisers",
+    "why": "what sorts the inside of a weekend bag"
+   },
+   {
+    "class": "Bag Charms",
+    "why": "marks the bag on a luggage belt"
+   },
+   {
+    "class": "Socks",
+    "why": "small enough to always pack"
+   },
+   {
+    "class": "Caps",
+    "why": "the thing packed last"
+   },
+   {
+    "class": "Scarves",
+    "why": "folds into a corner of the bag"
+   }
+  ],
+  "dress": [
+   {
+    "class": "Danglers",
+    "why": "earrings carry a plain dress"
+   },
+   {
+    "class": "Hoops",
+    "why": "earrings carry a plain dress"
+   },
+   {
+    "class": "Statement Necklace",
+    "why": "one piece at an open neckline"
+   },
+   {
+    "class": "Clutches",
+    "why": "the evening bag with a dress"
+   },
+   {
+    "class": "Bangles",
+    "why": "shows at a sleeveless arm"
+   },
+   {
+    "class": "Scarves",
+    "why": "cover for a linen dress after dark"
+   },
+   {
+    "class": "Overlay",
+    "why": "a layer over a sleeveless dress"
+   },
+   {
+    "class": "Jacket",
+    "why": "a layer over a sleeveless dress"
+   }
+  ],
+  "slip": [
+   {
+    "class": "Overlay",
+    "why": "a slip is built to sit under a sheer layer"
+   },
+   {
+    "class": "Dupatta",
+    "why": "a layer over a slip for an event"
+   },
+   {
+    "class": "Jacket",
+    "why": "turns a slip into outerwear-ready dress"
+   },
+   {
+    "class": "Danglers",
+    "why": "earrings carry a plain slip"
+   },
+   {
+    "class": "Hoops",
+    "why": "earrings carry a plain slip"
+   },
+   {
+    "class": "Chains",
+    "why": "a thin strap wants a thin line"
+   },
+   {
+    "class": "Clutches",
+    "why": "the event bag with a slip"
+   }
+  ],
+  "throw": [
+   {
+    "class": "Cushions",
+    "why": "the same sofa as a throw"
+   },
+   {
+    "class": "Covers",
+    "why": "the same sofa as a throw"
+   },
+   {
+    "class": "Candles",
+    "why": "the same quiet corner as a throw"
+   },
+   {
+    "class": "Floorcovering",
+    "why": "the same room, lower down"
+   },
+   {
+    "class": "Home Accent",
+    "why": "the same room as a throw"
+   }
+  ],
+  "cuffs": [
+   {
+    "class": "Necklace",
+    "why": "keeps one metal on the body"
+   },
+   {
+    "class": "Chains",
+    "why": "keeps one metal on the body"
+   },
+   {
+    "class": "Bangles",
+    "why": "keeps one metal on the body"
+   }
+  ]
+ },
+ "_complements_label": "Hand-written by the data session, labelled synthetic: judgement about what goes with what, no co-purchase data. Keys are the class word in the note. Values are exact catalog class strings, tried in order. A row's own gate still applies, so many classes drop out on a given row. No own-class row: a rail must never suggest the note item itself.",
+ "new_user_picks": [
+  "indus-straight-mug",
+  "tusk-bloom-cushion-cover",
+  "memoir-photo-frame-set-of-2",
+  "mogra-pasta-plate",
+  "palm-bloom-bowl",
+  "donburi-shallow-bowl-set-of-5-1"
+ ],
+ "_new_user_label": "c20, the output of the earlier new-user rule, pinned by handle: that rule read raw tags the catalog does not carry.",
+ "rows": {
+  "c01": {
+   "type": "wear",
+   "picks": 4
+  },
+  "c02": {
+   "type": "wear",
+   "picks": 4,
+   "pool": "trip"
+  },
+  "c03": {
+   "type": "wear",
+   "picks": 4,
+   "pool": "scene"
+  },
+  "c04": {
+   "type": "gift",
+   "picks": 6,
+   "recipient": "him"
+  },
+  "c05": {
+   "type": "home",
+   "picks": 6
+  },
+  "c06": {
+   "type": "wear",
+   "picks": 4,
+   "pool": "trip"
+  },
+  "c07": {
+   "type": "home",
+   "picks": 6
+  },
+  "c08": {
+   "type": "wear",
+   "picks": 6,
+   "note_gender": "f"
+  },
+  "c09": {
+   "type": "wear",
+   "picks": 6,
+   "note_gender": "f"
+  },
+  "c10": {
+   "type": "wear",
+   "picks": 5,
+   "pool": "trip"
+  },
+  "c11": {
+   "type": "wear",
+   "picks": 6
+  },
+  "c12": {
+   "type": "gift",
+   "picks": 6,
+   "everyday_pool": true
+  },
+  "c13": {
+   "type": "wear",
+   "picks": 4,
+   "pool": "scene"
+  },
+  "c14": {
+   "type": "gift",
+   "picks": 6
+  },
+  "c15": {
+   "type": "wear",
+   "picks": 4,
+   "pool": "trip"
+  },
+  "c16": {
+   "type": "gift",
+   "picks": 6,
+   "recipient": "her"
+  },
+  "c17": {
+   "type": "wear",
+   "picks": 6,
+   "note_gender": "f"
+  },
+  "c18": {
+   "type": "wear",
+   "picks": 4,
+   "pool": "trip"
+  },
+  "c19": {
+   "type": "wear",
+   "picks": 5
+  },
+  "c20": {
+   "type": "new_user",
+   "picks": 6
+  }
+ }
+}

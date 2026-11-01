@@ -3,43 +3,43 @@
  "synthetic": true,
  "as_of": "2026-10-29",
  "snapshot_id": "2026-10-29-67819ca378f4",
- "rule": "Scripted picks for 12 rows, one per class and at most two per family where the pool allows; c12 kept from the earlier rule; hand table for c02 c03 c06 c13 c15 c18 (HAND_SET); new-user rule for c20 (NEW_USER_PRIOR). More sections come from occasion tags, each row's allowed classes, the new-user pool for c20 and a hand-written complements table. Assumed upstream, no behaviour data.",
+ "rule": "Internal ranking engine, src/lib/rank with config/ranking.json. Tiers compared in order, never added: occasion, row fit, past purchase as a tie-break inside the occasion only, site signal, then a stable hash. One per class, at most two per family where the pool allows. Hand table for c02 c03 c06 c13 c15 c18 (HAND_SET), pinned and resorted so p1 obeys the rule; pinned new-user picks for c20 (NEW_USER_PRIOR). Row rules and the complements table are hand-written and synthetic, no behaviour data. A real recommender can replace this file by contract.",
  "rows": [
   {
    "customer_id": "c01",
    "picks": [
     {
      "product_id": "7492613243014",
-     "reason_code": "OCCASION_MATCH"
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:wedding"
+     ]
     },
     {
      "product_id": "7492613406854",
-     "reason_code": "OCCASION_MATCH"
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:wedding"
+     ]
     },
     {
      "product_id": "7576166793350",
-     "reason_code": "FALLBACK_NON_OCCASION"
+     "reason_code": "FALLBACK_NON_OCCASION",
+     "why": [
+      "goes_with:shirt",
+      "fallback"
+     ]
     },
     {
      "product_id": "7652882841734",
-     "reason_code": "FALLBACK_NON_OCCASION"
+     "reason_code": "FALLBACK_NON_OCCASION",
+     "why": [
+      "new_arrival",
+      "fallback"
+     ]
     }
    ],
    "more": [
-    {
-     "kind": "past_purchase",
-     "label": "shirt",
-     "product_ids": [
-      "7652882514054",
-      "7652883169414",
-      "7652882907270",
-      "7652882317446",
-      "7652882219142",
-      "7652882481286",
-      "7652883071110",
-      "7652883038342"
-     ]
-    },
     {
      "kind": "occasion_category",
      "label": "Statement Necklaces",
@@ -48,7 +48,21 @@
       "7492613144710",
       "7492613341318",
       "7492613210246"
-     ]
+     ],
+     "why": {
+      "7492613374086": [
+       "occasion_tag:wedding"
+      ],
+      "7492613144710": [
+       "occasion_tag:wedding"
+      ],
+      "7492613341318": [
+       "occasion_tag:wedding"
+      ],
+      "7492613210246": [
+       "occasion_tag:wedding"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
@@ -57,7 +71,18 @@
       "7492613308550",
       "7492613079174",
       "7492613472390"
-     ]
+     ],
+     "why": {
+      "7492613308550": [
+       "occasion_tag:wedding"
+      ],
+      "7492613079174": [
+       "occasion_tag:wedding"
+      ],
+      "7492613472390": [
+       "occasion_tag:wedding"
+      ]
+     }
     },
     {
      "kind": "occasion",
@@ -65,7 +90,66 @@
      "product_ids": [
       "7492613275782",
       "7492613177478"
-     ]
+     ],
+     "why": {
+      "7492613275782": [
+       "occasion_tag:wedding"
+      ],
+      "7492613177478": [
+       "occasion_tag:wedding"
+      ]
+     }
+    },
+    {
+     "kind": "past_purchase",
+     "label": "shirt",
+     "product_ids": [
+      "7652882514054",
+      "7652883169414",
+      "7652882907270",
+      "7652882317446",
+      "7652882284678",
+      "7652882481286",
+      "7652883071110",
+      "7652883038342"
+     ],
+     "why": {
+      "7652882514054": [
+       "goes_with:shirt",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652883169414": [
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652882907270": [
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652882317446": [
+       "goes_with:shirt",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652882284678": [
+       "goes_with:shirt",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652882481286": [
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652883071110": [
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652883038342": [
+       "goes_with:shirt",
+       "new_arrival"
+      ]
+     }
     }
    ]
   },
@@ -74,57 +158,177 @@
    "picks": [
     {
      "product_id": "7652882841734",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:kurta",
+      "new_arrival",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7652883038342",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:kurta",
+      "new_arrival",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7576166793350",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:kurta",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7652883103878",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:kurta",
+      "new_arrival",
+      "hand_set"
+     ]
     }
    ],
    "more": [
     {
-     "kind": "past_purchase",
-     "label": "kurta",
-     "product_ids": [
-      "7652882743430",
-      "7576166760582",
-      "7652883136646",
-      "7652882907270",
-      "7652882677894",
-      "7652882448518",
-      "7652883169414",
-      "7652882972806"
-     ]
-    },
-    {
      "kind": "occasion_category",
      "label": "Pouches",
      "product_ids": [
+      "7652882677894",
       "7652882645126",
       "7652882612358",
       "7652883267718",
       "7652882874502",
       "7652882710662",
-      "7652882940038",
       "7652882776198"
-     ]
+     ],
+     "why": {
+      "7652882677894": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882645126": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882612358": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652883267718": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882874502": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882710662": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882776198": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
      "label": "Scarves",
      "product_ids": [
       "7652882415750",
+      "7652882481286",
+      "7576166760582"
+     ],
+     "why": {
+      "7652882415750": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882481286": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7576166760582": [
+       "fitted_class",
+       "goes_with:kurta"
+      ]
+     }
+    },
+    {
+     "kind": "past_purchase",
+     "label": "kurta",
+     "product_ids": [
+      "7652882940038",
       "7652882514054",
-      "7652882481286"
-     ]
+      "7652883136646",
+      "7652882907270",
+      "7652882743430",
+      "7652882448518",
+      "7652883169414",
+      "7652882972806"
+     ],
+     "why": {
+      "7652882940038": [
+       "fitted_class",
+       "goes_with:kurta",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652882514054": [
+       "fitted_class",
+       "goes_with:kurta",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652883136646": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882907270": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882743430": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882448518": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652883169414": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882972806": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ]
+     }
     }
    ]
   },
@@ -133,22 +337,77 @@
    "picks": [
     {
      "product_id": "7492613210246",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:stole",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7652882481286",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "new_arrival",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7652882382982",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:stole",
+      "prior_tag",
+      "new_arrival",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7652882350214",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:stole",
+      "new_arrival",
+      "hand_set"
+     ]
     }
    ],
    "more": [
+    {
+     "kind": "occasion_category",
+     "label": "Scarves",
+     "product_ids": [
+      "7652882514054",
+      "7652882448518",
+      "7652882415750",
+      "7576166793350",
+      "7576166760582"
+     ],
+     "why": {
+      "7652882514054": [
+       "fitted_class",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652882448518": [
+       "fitted_class",
+       "new_arrival"
+      ],
+      "7652882415750": [
+       "fitted_class",
+       "new_arrival"
+      ],
+      "7576166793350": [
+       "fitted_class"
+      ],
+      "7576166760582": [
+       "fitted_class"
+      ]
+     }
+    },
     {
      "kind": "past_purchase",
      "label": "stole",
@@ -161,18 +420,47 @@
       "7492613144710",
       "7492613308550",
       "7652882219142"
-     ]
-    },
-    {
-     "kind": "occasion_category",
-     "label": "Scarves",
-     "product_ids": [
-      "7652882514054",
-      "7576166793350",
-      "7652882448518",
-      "7576166760582",
-      "7652882415750"
-     ]
+     ],
+     "why": {
+      "7492613341318": [
+       "fitted_class",
+       "goes_with:stole"
+      ],
+      "7492613472390": [
+       "fitted_class",
+       "goes_with:stole"
+      ],
+      "7652882284678": [
+       "fitted_class",
+       "goes_with:stole",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "6959137587334": [
+       "fitted_class",
+       "goes_with:stole",
+       "prior_tag"
+      ],
+      "7652882317446": [
+       "fitted_class",
+       "goes_with:stole",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7492613144710": [
+       "fitted_class",
+       "goes_with:stole"
+      ],
+      "7492613308550": [
+       "fitted_class",
+       "goes_with:stole"
+      ],
+      "7652882219142": [
+       "fitted_class",
+       "goes_with:stole",
+       "new_arrival"
+      ]
+     }
     }
    ]
   },
@@ -180,28 +468,59 @@
    "customer_id": "c04",
    "picks": [
     {
-     "product_id": "5196254118022",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7652882284678",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:birthday",
+      "bestseller",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7576166793350",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "6538751115398",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:birthday",
+      "bestseller",
+      "prior_tag"
+     ]
     },
     {
-     "product_id": "7664341024902",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7576166432902",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:birthday",
+      "bestseller",
+      "prior_tag"
+     ]
     },
     {
-     "product_id": "5196329812102",
-     "reason_code": "OCCASION_MATCH"
-    },
-    {
-     "product_id": "7576166596742",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7537232248966",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:birthday",
+      "bestseller",
+      "prior_tag"
+     ]
     },
     {
      "product_id": "7652881268870",
-     "reason_code": "OCCASION_MATCH"
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:birthday",
+      "bestseller",
+      "new_arrival"
+     ]
+    },
+    {
+     "product_id": "7652882972806",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:birthday",
+      "bestseller",
+      "new_arrival"
+     ]
     }
    ],
    "more": [
@@ -209,30 +528,103 @@
      "kind": "occasion_category",
      "label": "Mugs",
      "product_ids": [
-      "7576163352710",
-      "6538751115398",
       "7728573251718",
-      "7454485348486",
+      "5196254118022",
+      "7576163352710",
+      "7576163418246",
       "6538751180934",
       "7454485282950",
-      "7576163418246"
-     ]
+      "7454485348486"
+     ],
+     "why": {
+      "7728573251718": [
+       "occasion_tag:birthday",
+       "bestseller",
+       "new_arrival"
+      ],
+      "5196254118022": [
+       "occasion_tag:birthday",
+       "bestseller"
+      ],
+      "7576163352710": [
+       "occasion_tag:birthday",
+       "bestseller"
+      ],
+      "7576163418246": [
+       "occasion_tag:birthday",
+       "bestseller"
+      ],
+      "6538751180934": [
+       "occasion_tag:birthday",
+       "prior_tag"
+      ],
+      "7454485282950": [
+       "occasion_tag:birthday",
+       "prior_tag"
+      ],
+      "7454485348486": [
+       "occasion_tag:birthday"
+      ]
+     }
     },
     {
      "kind": "occasion",
      "label": "",
      "product_ids": [
-      "7652882284678",
-      "7576166432902",
+      "7576166793350",
+      "7576166629510",
       "7652883333254",
       "7652882350214",
-      "7652882972806",
-      "7537232248966",
-      "7652880973958",
-      "7576166760582",
       "7652882219142",
-      "7576166629510"
-     ]
+      "5196329812102",
+      "7652880973958",
+      "7664341024902",
+      "7576166760582",
+      "7576166596742"
+     ],
+     "why": {
+      "7576166793350": [
+       "occasion_tag:birthday"
+      ],
+      "7576166629510": [
+       "occasion_tag:birthday",
+       "bestseller"
+      ],
+      "7652883333254": [
+       "occasion_tag:birthday",
+       "bestseller",
+       "new_arrival"
+      ],
+      "7652882350214": [
+       "occasion_tag:birthday",
+       "bestseller",
+       "new_arrival"
+      ],
+      "7652882219142": [
+       "occasion_tag:birthday",
+       "new_arrival"
+      ],
+      "5196329812102": [
+       "occasion_tag:birthday",
+       "prior_tag"
+      ],
+      "7652880973958": [
+       "occasion_tag:birthday",
+       "bestseller",
+       "new_arrival"
+      ],
+      "7664341024902": [
+       "occasion_tag:birthday",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7576166760582": [
+       "occasion_tag:birthday"
+      ],
+      "7576166596742": [
+       "occasion_tag:birthday"
+      ]
+     }
     }
    ]
   },
@@ -240,116 +632,416 @@
    "customer_id": "c05",
    "picks": [
     {
-     "product_id": "5215840239750",
-     "reason_code": "OCCASION_MATCH"
-    },
-    {
-     "product_id": "6538749378694",
-     "reason_code": "OCCASION_MATCH"
-    },
-    {
      "product_id": "7728573481094",
-     "reason_code": "OCCASION_MATCH"
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:housewarming",
+      "bestseller",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "6581928263814",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7728573874310",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:housewarming",
+      "bestseller",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7551228543110",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7728573579398",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:housewarming",
+      "bestseller",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "6601425911942",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7728573382790",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:housewarming",
+      "bestseller",
+      "prior_tag",
+      "new_arrival"
+     ]
+    },
+    {
+     "product_id": "7728574759046",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:housewarming",
+      "bestseller",
+      "prior_tag",
+      "new_arrival"
+     ]
+    },
+    {
+     "product_id": "15402020601990",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:housewarming",
+      "bestseller",
+      "prior_tag",
+      "new_arrival"
+     ]
     }
    ],
    "more": [
     {
-     "kind": "past_purchase",
-     "label": "weekender",
-     "product_ids": [
-      "7652882153606",
-      "7652882186374",
-      "7652882022534",
-      "7652881268870",
-      "7652882088070",
-      "7652882120838",
-      "7652881956998",
-      "7652882055302"
-     ]
-    },
-    {
      "kind": "occasion_category",
      "label": "Mugs",
      "product_ids": [
-      "6538749575302",
-      "6538751246470",
-      "6538751312006",
-      "6538751508614",
-      "5196353142918",
+      "15402020667526",
+      "7652880547974",
       "7537231593606",
       "6538751213702",
-      "6538749444230"
-     ]
+      "7537231626374",
+      "6793275146374",
+      "6538751115398",
+      "5215840010374"
+     ],
+     "why": {
+      "15402020667526": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652880547974": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7537231593606": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag"
+      ],
+      "6538751213702": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag"
+      ],
+      "7537231626374": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag"
+      ],
+      "6793275146374": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag"
+      ],
+      "6538751115398": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag"
+      ],
+      "5215840010374": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
      "label": "Plates",
      "product_ids": [
-      "7334952599686",
-      "7438069039238",
+      "7728573448326",
+      "7652880515206",
       "7652880253062",
-      "5215839879302",
+      "7334952599686",
       "5196245008518",
       "6581928788102",
-      "7728573382790",
-      "5215839748230"
-     ]
+      "6538749608070",
+      "7454485250182"
+     ],
+     "why": {
+      "7728573448326": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652880515206": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652880253062": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "new_arrival"
+      ],
+      "7334952599686": [
+       "occasion_tag:housewarming",
+       "prior_tag"
+      ],
+      "5196245008518": [
+       "occasion_tag:housewarming",
+       "prior_tag"
+      ],
+      "6581928788102": [
+       "occasion_tag:housewarming",
+       "prior_tag"
+      ],
+      "6538749608070": [
+       "occasion_tag:housewarming",
+       "prior_tag"
+      ],
+      "7454485250182": [
+       "occasion_tag:housewarming",
+       "prior_tag"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
-     "label": "Glasses",
+     "label": "Platters",
      "product_ids": [
-      "7664339714182",
-      "7271437369478",
-      "7576163549318",
-      "7664339779718",
-      "7472060465286",
-      "6821058642054",
-      "6821058609286",
-      "7576163582086"
-     ]
+      "6538749476998",
+      "6852551245958",
+      "7582854054022",
+      "7438068908166",
+      "7271437140102",
+      "5196351078534",
+      "6581928525958",
+      "7454485053574"
+     ],
+     "why": {
+      "6538749476998": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag"
+      ],
+      "6852551245958": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag"
+      ],
+      "7582854054022": [
+       "occasion_tag:housewarming",
+       "bestseller"
+      ],
+      "7438068908166": [
+       "occasion_tag:housewarming",
+       "bestseller"
+      ],
+      "7271437140102": [
+       "occasion_tag:housewarming",
+       "prior_tag"
+      ],
+      "5196351078534": [
+       "occasion_tag:housewarming",
+       "prior_tag"
+      ],
+      "6581928525958": [
+       "occasion_tag:housewarming",
+       "prior_tag"
+      ],
+      "7454485053574": [
+       "occasion_tag:housewarming"
+      ]
+     }
     },
     {
      "kind": "occasion",
      "label": "",
      "product_ids": [
-      "5196225052806",
-      "7551228412038",
-      "7454485053574",
-      "7537231429766",
-      "7454485741702",
-      "7551228444806",
+      "7551228575878",
+      "6538749378694",
+      "7728572989574",
+      "7728573350022",
+      "7728574431366",
+      "7271437369478",
       "7576164106374",
-      "7728572891270",
-      "7271437238406",
-      "5215840567430",
-      "7728574759046",
-      "6793275179142",
+      "6601425911942",
+      "7728573939846",
+      "7728574005382",
+      "7290198884486",
+      "7728574824582",
       "7426322727046",
       "7254920069254",
       "6776774131846",
       "7334953746566",
-      "6735534981254",
+      "5215841288326",
       "6927012692102",
       "6538749640838",
       "6581928296582",
-      "6821059362950",
       "5196254052486",
       "5196249071750",
+      "7537231790214",
       "6551797727366"
-     ]
+     ],
+     "why": {
+      "7551228575878": [
+       "occasion_tag:housewarming",
+       "bestseller"
+      ],
+      "6538749378694": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag"
+      ],
+      "7728572989574": [
+       "occasion_tag:housewarming",
+       "new_arrival"
+      ],
+      "7728573350022": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7728574431366": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7271437369478": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag"
+      ],
+      "7576164106374": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag"
+      ],
+      "6601425911942": [
+       "occasion_tag:housewarming"
+      ],
+      "7728573939846": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7728574005382": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7290198884486": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag"
+      ],
+      "7728574824582": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7426322727046": [
+       "occasion_tag:housewarming",
+       "prior_tag"
+      ],
+      "7254920069254": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag"
+      ],
+      "6776774131846": [
+       "occasion_tag:housewarming",
+       "prior_tag"
+      ],
+      "7334953746566": [
+       "occasion_tag:housewarming",
+       "bestseller",
+       "prior_tag"
+      ],
+      "5215841288326": [
+       "occasion_tag:housewarming",
+       "prior_tag"
+      ],
+      "6927012692102": [
+       "occasion_tag:housewarming",
+       "prior_tag"
+      ],
+      "6538749640838": [
+       "occasion_tag:housewarming"
+      ],
+      "6581928296582": [
+       "occasion_tag:housewarming"
+      ],
+      "5196254052486": [
+       "occasion_tag:housewarming",
+       "prior_tag"
+      ],
+      "5196249071750": [
+       "occasion_tag:housewarming",
+       "prior_tag"
+      ],
+      "7537231790214": [
+       "occasion_tag:housewarming"
+      ],
+      "6551797727366": [
+       "occasion_tag:housewarming",
+       "prior_tag"
+      ]
+     }
+    },
+    {
+     "kind": "past_purchase",
+     "label": "weekender",
+     "product_ids": [
+      "7652881268870",
+      "7652882088070",
+      "7652882153606",
+      "7652882186374",
+      "7652882022534",
+      "7652882120838",
+      "7652881956998",
+      "7652882055302"
+     ],
+     "why": {
+      "7652881268870": [
+       "goes_with:weekender",
+       "bestseller",
+       "new_arrival"
+      ],
+      "7652882088070": [
+       "goes_with:weekender",
+       "bestseller",
+       "new_arrival"
+      ],
+      "7652882153606": [
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7652882186374": [
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7652882022534": [
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7652882120838": [
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7652881956998": [
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7652882055302": [
+       "goes_with:weekender",
+       "new_arrival"
+      ]
+     }
     }
    ]
   },
@@ -358,49 +1050,149 @@
    "picks": [
     {
      "product_id": "7652882579590",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "new_arrival",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7652882907270",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:shirt",
+      "new_arrival",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7652882710662",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "new_arrival",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7652882415750",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:shirt",
+      "new_arrival",
+      "hand_set"
+     ]
     }
    ],
    "more": [
     {
-     "kind": "past_purchase",
-     "label": "shirt",
-     "product_ids": [
-      "7576166793350",
-      "7652883103878",
-      "7652882972806",
-      "7652882481286",
-      "7652883136646",
-      "7652883038342",
-      "7576166760582",
-      "7652883071110"
-     ]
-    },
-    {
      "kind": "occasion_category",
      "label": "Pouches",
      "product_ids": [
+      "7652882940038",
       "7652882677894",
       "7652883267718",
       "7652882776198",
       "7652882874502",
       "7652882645126",
       "7652882612358",
-      "7652882743430",
-      "7652882841734"
-     ]
+      "7652882743430"
+     ],
+     "why": {
+      "7652882940038": [
+       "fitted_class",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652882677894": [
+       "fitted_class",
+       "new_arrival"
+      ],
+      "7652883267718": [
+       "fitted_class",
+       "new_arrival"
+      ],
+      "7652882776198": [
+       "fitted_class",
+       "new_arrival"
+      ],
+      "7652882874502": [
+       "fitted_class",
+       "new_arrival"
+      ],
+      "7652882645126": [
+       "fitted_class",
+       "new_arrival"
+      ],
+      "7652882612358": [
+       "fitted_class",
+       "new_arrival"
+      ],
+      "7652882743430": [
+       "fitted_class",
+       "new_arrival"
+      ]
+     }
+    },
+    {
+     "kind": "past_purchase",
+     "label": "shirt",
+     "product_ids": [
+      "7652882514054",
+      "7652883103878",
+      "7652882972806",
+      "7652882481286",
+      "7652883136646",
+      "7652883038342",
+      "7652882448518",
+      "7652883071110"
+     ],
+     "why": {
+      "7652882514054": [
+       "fitted_class",
+       "goes_with:shirt",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652883103878": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652882972806": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652882481286": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652883136646": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652883038342": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652882448518": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652883071110": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ]
+     }
     }
    ]
   },
@@ -408,28 +1200,58 @@
    "customer_id": "c07",
    "picks": [
     {
-     "product_id": "6595613360262",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7728573939846",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:festive",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "6914331869318",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7728573448326",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:festive",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7728573251718",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "15402020733062",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:festive",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "6892869877894",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7728573481094",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:festive",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "5196418809990",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7728573874310",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:festive",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7426322104454",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7728574431366",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:festive",
+      "prior_tag",
+      "new_arrival"
+     ]
     }
    ],
    "more": [
@@ -439,71 +1261,270 @@
      "product_ids": [
       "6892870041734",
       "5215840010374",
-      "6793274949766",
       "5196225052806",
-      "5196407013510",
-      "6538749411462",
-      "7229605216390",
-      "7537231593606"
-     ]
+      "7537231593606",
+      "6538749575302",
+      "5196353142918",
+      "7537231626374",
+      "6821776490630"
+     ],
+     "why": {
+      "6892870041734": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "5215840010374": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "5196225052806": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7537231593606": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6538749575302": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "5196353142918": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7537231626374": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6821776490630": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
      "label": "Plates",
      "product_ids": [
-      "7728572989574",
-      "7728573448326",
-      "7426321580166",
+      "7728573382790",
       "6595613098118",
       "5196181602438",
       "6581928788102",
-      "7728573382790",
-      "7229605019782"
-     ]
+      "7229605019782",
+      "6538749608070",
+      "7426321612934",
+      "7728572989574"
+     ],
+     "why": {
+      "7728573382790": [
+       "occasion_tag:festive",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "6595613098118": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "5196181602438": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6581928788102": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7229605019782": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6538749608070": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7426321612934": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7728572989574": [
+       "occasion_tag:festive",
+       "new_arrival"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
      "label": "Votives & Candle Holders",
      "product_ids": [
+      "6914331869318",
       "6632508293254",
       "7454486003846",
       "7500119212166",
       "5196140314758",
       "7454486069382",
       "7454486036614",
-      "7454485741702",
-      "6897630085254"
-     ]
+      "7454485741702"
+     ],
+     "why": {
+      "6914331869318": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6632508293254": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7454486003846": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7500119212166": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "5196140314758": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7454486069382": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7454486036614": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7454485741702": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ]
+     }
     },
     {
      "kind": "occasion",
      "label": "",
      "product_ids": [
-      "6538749575302",
+      "5215840239750",
       "6540636782726",
-      "7472060465286",
-      "7454485774470",
-      "6538749476998",
+      "6595613360262",
+      "6892869877894",
+      "7271437369478",
       "5196418580614",
-      "7728573874310",
+      "5196418809990",
       "5215840567430",
-      "7728573939846",
-      "7492614652038",
-      "7426322759814",
-      "6538749608070",
-      "5196418613382",
+      "7426322104454",
+      "15402020765830",
+      "7728574005382",
       "6601425617030",
-      "7728573481094",
       "5196415205510",
       "6581929083014",
       "7492612915334",
       "6776774131846",
+      "7426321580166",
       "5215841288326",
       "7426321973382",
-      "7728574431366",
-      "5196353142918",
-      "5196351504518"
-     ]
+      "6897630085254",
+      "7426321744006",
+      "6793275048070",
+      "7454485774470",
+      "6538749476998"
+     ],
+     "why": {
+      "5215840239750": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6540636782726": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6595613360262": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6892869877894": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7271437369478": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "5196418580614": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "5196418809990": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "5215840567430": [
+       "occasion_tag:festive"
+      ],
+      "7426322104454": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "15402020765830": [
+       "occasion_tag:festive",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7728574005382": [
+       "occasion_tag:festive",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "6601425617030": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "5196415205510": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6581929083014": [
+       "occasion_tag:festive"
+      ],
+      "7492612915334": [
+       "occasion_tag:festive"
+      ],
+      "6776774131846": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7426321580166": [
+       "occasion_tag:festive"
+      ],
+      "5215841288326": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7426321973382": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6897630085254": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7426321744006": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6793275048070": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7454485774470": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6538749476998": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ]
+     }
     }
    ]
   },
@@ -511,116 +1532,408 @@
    "customer_id": "c08",
    "picks": [
     {
-     "product_id": "6858665001094",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7697159225478",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:evening",
+      "goes_with:dress",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7537228775558",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7697158832262",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:evening",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7551224545414",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7664335224966",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:evening",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7741535322246",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7741536338054",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:evening",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7741536665734",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7741537747078",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:evening",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7697158996102",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7697158635654",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:evening",
+      "prior_tag",
+      "new_arrival"
+     ]
     }
    ],
    "more": [
     {
-     "kind": "past_purchase",
-     "label": "dress",
-     "product_ids": [
-      "7697159225478",
-      "6914332917894",
-      "6856025243782",
-      "7334956105862",
-      "7664340304006",
-      "15401645310086",
-      "7492613341318",
-      "7265600700550"
-     ]
-    },
-    {
      "kind": "occasion_category",
      "label": "Dresses",
      "product_ids": [
-      "7697158832262",
-      "7334949716102",
-      "7697183080582",
-      "7454482202758",
       "7741536469126",
-      "7652879630470",
       "7697158668422",
-      "7652879466630"
-     ]
+      "7697158799494",
+      "7741536600198",
+      "7697158865030",
+      "7664336076934",
+      "7741536567430",
+      "7265600667782"
+     ],
+     "why": {
+      "7741536469126": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697158668422": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697158799494": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741536600198": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697158865030": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664336076934": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741536567430": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7265600667782": [
+       "occasion_tag:evening",
+       "prior_tag"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
      "label": "Shirts",
      "product_ids": [
-      "7664335224966",
-      "7697158471814",
-      "7697183015046",
       "7697158537350",
       "7741535027334",
+      "7741535060102",
+      "7741535191174",
+      "7697158439046",
+      "7697158471814",
       "7741534929030",
-      "7697183047814",
-      "7741535191174"
-     ]
+      "7697183047814"
+     ],
+     "why": {
+      "7697158537350": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741535027334": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741535060102": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741535191174": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697158439046": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697158471814": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741534929030": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7697183047814": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
      "label": "Kurtas",
      "product_ids": [
-      "7741536338054",
+      "7664335650950",
+      "7664335913094",
+      "15401643868294",
+      "7741536141446",
       "7697159651462",
       "7741536108678",
       "7664335552646",
-      "7664335650950",
-      "7664335913094",
-      "7334950273158",
       "7741536075910"
-     ]
+     ],
+     "why": {
+      "7664335650950": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664335913094": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "15401643868294": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741536141446": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697159651462": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741536108678": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7664335552646": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741536075910": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ]
+     }
     },
     {
      "kind": "occasion",
      "label": "",
      "product_ids": [
-      "7697158635654",
-      "7697158799494",
-      "7697183309958",
-      "7741536731270",
-      "7741535060102",
-      "15401643868294",
-      "7741537747078",
-      "7741536862342",
-      "7741537157254",
-      "7741679042694",
-      "7697158602886",
-      "7741536600198",
-      "7697183146118",
-      "7741536927878",
-      "7741534994566",
-      "7697182883974",
-      "7576161681542",
-      "7697182949510",
-      "7741537190022",
-      "7741536698502",
       "7664335356038",
-      "7697158865030",
-      "7697183342726",
-      "7741536895110"
-     ]
+      "7697183080582",
+      "7697158996102",
+      "7741535912070",
+      "7741535092870",
+      "7697182883974",
+      "7741536862342",
+      "7741537616006",
+      "7741679042694",
+      "7741537157254",
+      "7426316566662",
+      "7652879630470",
+      "7741536731270",
+      "7697183309958",
+      "7741534994566",
+      "7537228775558",
+      "7697182949510",
+      "7741537845382",
+      "7741536665734",
+      "7741537190022",
+      "7741535322246",
+      "7652879466630",
+      "7741536927878",
+      "7741535879302"
+     ],
+     "why": {
+      "7664335356038": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697183080582": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7697158996102": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741535912070": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741535092870": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697182883974": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741536862342": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741537616006": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741679042694": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741537157254": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7426316566662": [
+       "occasion_tag:evening",
+       "prior_tag"
+      ],
+      "7652879630470": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741536731270": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7697183309958": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741534994566": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7537228775558": [
+       "occasion_tag:evening"
+      ],
+      "7697182949510": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741537845382": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741536665734": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741537190022": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741535322246": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7652879466630": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741536927878": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741535879302": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ]
+     }
+    },
+    {
+     "kind": "past_purchase",
+     "label": "dress",
+     "product_ids": [
+      "7741539123334",
+      "7664340893830",
+      "7664339910790",
+      "7664340304006",
+      "15401645310086",
+      "15401644851334",
+      "7454481055878",
+      "7500115902598"
+     ],
+     "why": {
+      "7741539123334": [
+       "goes_with:dress",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664340893830": [
+       "goes_with:dress",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664339910790": [
+       "goes_with:dress",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664340304006": [
+       "goes_with:dress",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "15401645310086": [
+       "goes_with:dress",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "15401644851334": [
+       "goes_with:dress",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7454481055878": [
+       "goes_with:dress",
+       "prior_tag"
+      ],
+      "7500115902598": [
+       "goes_with:dress"
+      ]
+     }
     }
    ]
   },
@@ -628,102 +1941,217 @@
    "customer_id": "c09",
    "picks": [
     {
-     "product_id": "7265600635014",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "15401645375622",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:wedding",
+      "goes_with:slip",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7492613374086",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "15401644589190",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:wedding",
+      "goes_with:slip",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7664336502918",
-     "reason_code": "SAME_CLASS_NEW"
+     "product_id": "15401644097670",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:wedding",
+      "goes_with:slip",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "15401644687494",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7492613275782",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:wedding",
+      "goes_with:slip"
+     ]
     },
     {
-     "product_id": "7576168169606",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7265600700550",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:wedding",
+      "goes_with:slip"
+     ]
     },
     {
-     "product_id": "7492613636230",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "15401643835526",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:wedding",
+      "prior_tag",
+      "new_arrival"
+     ]
     }
    ],
    "more": [
     {
-     "kind": "past_purchase",
-     "label": "slip",
-     "product_ids": [
-      "6784182157446",
-      "7576168071302",
-      "15401645375622",
-      "7492613275782",
-      "7265600700550",
-      "15401644589190",
-      "15401644097670",
-      "15401645310086"
-     ]
-    },
-    {
      "kind": "occasion_category",
      "label": "Kurtas",
      "product_ids": [
-      "15401643835526",
       "7741535453318",
+      "7741536239750",
+      "15401643769990",
       "7426319450246",
       "7426317746310",
-      "7741536239750",
       "7576168005766",
       "7426317648006",
       "7576168104070"
-     ]
+     ],
+     "why": {
+      "7741535453318": [
+       "occasion_tag:wedding",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741536239750": [
+       "occasion_tag:wedding",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "15401643769990": [
+       "occasion_tag:wedding",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7426319450246": [
+       "occasion_tag:wedding"
+      ],
+      "7426317746310": [
+       "occasion_tag:wedding"
+      ],
+      "7576168005766": [
+       "occasion_tag:wedding"
+      ],
+      "7426317648006": [
+       "occasion_tag:wedding"
+      ],
+      "7576168104070": [
+       "occasion_tag:wedding"
+      ]
+     }
+    },
+    {
+     "kind": "occasion_category",
+     "label": "Blouses",
+     "product_ids": [
+      "15401644359814",
+      "7492613636230",
+      "7492613570694",
+      "7492613734534",
+      "7265600274566",
+      "15403121672326",
+      "7492613767302",
+      "7590535790726"
+     ],
+     "why": {
+      "15401644359814": [
+       "occasion_tag:wedding",
+       "new_arrival"
+      ],
+      "7492613636230": [
+       "occasion_tag:wedding"
+      ],
+      "7492613570694": [
+       "occasion_tag:wedding"
+      ],
+      "7492613734534": [
+       "occasion_tag:wedding"
+      ],
+      "7265600274566": [
+       "occasion_tag:wedding"
+      ],
+      "15403121672326": [
+       "occasion_tag:wedding",
+       "new_arrival"
+      ],
+      "7492613767302": [
+       "occasion_tag:wedding"
+      ],
+      "7590535790726": [
+       "occasion_tag:wedding"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
      "label": "Danglers",
      "product_ids": [
-      "15401644818566",
-      "15401644949638",
+      "7741539844230",
+      "7741539025030",
+      "15401644425350",
+      "6784182157446",
       "7426320433286",
       "7023209808006",
-      "7741539221638",
-      "7741539123334",
-      "7426320236678",
-      "7741539844230"
-     ]
-    },
-    {
-     "kind": "occasion_category",
-     "label": "Sarees",
-     "product_ids": [
-      "7741537779846",
-      "7741537812614",
-      "7741537583238",
-      "7741537648774",
-      "7741537878150",
-      "7741537616006",
-      "7741537845382",
-      "7741537747078"
-     ]
+      "7426320236678"
+     ],
+     "why": {
+      "7741539844230": [
+       "occasion_tag:wedding",
+       "goes_with:slip",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741539025030": [
+       "occasion_tag:wedding",
+       "goes_with:slip",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "15401644425350": [
+       "occasion_tag:wedding",
+       "goes_with:slip",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "6784182157446": [
+       "occasion_tag:wedding",
+       "goes_with:slip",
+       "prior_tag"
+      ],
+      "7426320433286": [
+       "occasion_tag:wedding",
+       "goes_with:slip",
+       "prior_tag"
+      ],
+      "7023209808006": [
+       "occasion_tag:wedding",
+       "goes_with:slip",
+       "prior_tag"
+      ],
+      "7426320236678": [
+       "occasion_tag:wedding",
+       "goes_with:slip",
+       "prior_tag"
+      ]
+     }
     },
     {
      "kind": "occasion",
      "label": "",
      "product_ids": [
-      "7492613570694",
-      "7500118392966",
-      "7492613308550",
-      "15401643769990",
-      "7492613177478",
-      "7454488068230",
+      "7741537812614",
+      "7426320695430",
+      "7426320466054",
+      "7741539876998",
+      "7265600307334",
+      "7741539451014",
       "7741539909766",
-      "7741539025030",
-      "7741537681542",
-      "7454488100998",
-      "7576168267910",
+      "7492613701766",
+      "15401644687494",
+      "7265600635014",
       "7576168398982",
       "15401645113478",
       "7576168235142",
@@ -731,13 +2159,168 @@
       "15401643966598",
       "7426316861574",
       "15401643999366",
-      "7492613701766",
-      "7492613210246",
-      "7492613079174",
-      "7265600307334",
-      "7426320859270",
-      "6897627725958"
-     ]
+      "7741537616006",
+      "7492613374086",
+      "7492613308550",
+      "7426320826502",
+      "7426318073990",
+      "7454488068230",
+      "7454487249030"
+     ],
+     "why": {
+      "7741537812614": [
+       "occasion_tag:wedding",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7426320695430": [
+       "occasion_tag:wedding",
+       "prior_tag"
+      ],
+      "7426320466054": [
+       "occasion_tag:wedding",
+       "prior_tag"
+      ],
+      "7741539876998": [
+       "occasion_tag:wedding",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7265600307334": [
+       "occasion_tag:wedding"
+      ],
+      "7741539451014": [
+       "occasion_tag:wedding",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741539909766": [
+       "occasion_tag:wedding",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7492613701766": [
+       "occasion_tag:wedding"
+      ],
+      "15401644687494": [
+       "occasion_tag:wedding",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7265600635014": [
+       "occasion_tag:wedding"
+      ],
+      "7576168398982": [
+       "occasion_tag:wedding"
+      ],
+      "15401645113478": [
+       "occasion_tag:wedding",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7576168235142": [
+       "occasion_tag:wedding"
+      ],
+      "7426319515782": [
+       "occasion_tag:wedding"
+      ],
+      "15401643966598": [
+       "occasion_tag:wedding",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7426316861574": [
+       "occasion_tag:wedding"
+      ],
+      "15401643999366": [
+       "occasion_tag:wedding",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741537616006": [
+       "occasion_tag:wedding",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7492613374086": [
+       "occasion_tag:wedding"
+      ],
+      "7492613308550": [
+       "occasion_tag:wedding"
+      ],
+      "7426320826502": [
+       "occasion_tag:wedding",
+       "prior_tag"
+      ],
+      "7426318073990": [
+       "occasion_tag:wedding"
+      ],
+      "7454488068230": [
+       "occasion_tag:wedding",
+       "prior_tag"
+      ],
+      "7454487249030": [
+       "occasion_tag:wedding"
+      ]
+     }
+    },
+    {
+     "kind": "past_purchase",
+     "label": "slip",
+     "product_ids": [
+      "15401644818566",
+      "7576168169606",
+      "15401645310086",
+      "15401644949638",
+      "7576168071302",
+      "7741539221638",
+      "7576168267910",
+      "7741539123334"
+     ],
+     "why": {
+      "15401644818566": [
+       "occasion_tag:wedding",
+       "goes_with:slip",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7576168169606": [
+       "occasion_tag:wedding",
+       "goes_with:slip"
+      ],
+      "15401645310086": [
+       "occasion_tag:wedding",
+       "goes_with:slip",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "15401644949638": [
+       "occasion_tag:wedding",
+       "goes_with:slip",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7576168071302": [
+       "occasion_tag:wedding",
+       "goes_with:slip"
+      ],
+      "7741539221638": [
+       "occasion_tag:wedding",
+       "goes_with:slip",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7576168267910": [
+       "occasion_tag:wedding",
+       "goes_with:slip"
+      ],
+      "7741539123334": [
+       "occasion_tag:wedding",
+       "goes_with:slip",
+       "prior_tag",
+       "new_arrival"
+      ]
+     }
     }
    ]
   },
@@ -745,71 +2328,182 @@
    "customer_id": "c10",
    "picks": [
     {
-     "product_id": "7492613177478",
-     "reason_code": "TRIP_TAG"
+     "product_id": "7652882514054",
+     "reason_code": "TRIP_TAG",
+     "why": [
+      "fitted_class",
+      "goes_with:weekender",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7576166760582",
-     "reason_code": "TRIP_TAG"
+     "product_id": "7652882940038",
+     "reason_code": "TRIP_TAG",
+     "why": [
+      "fitted_class",
+      "goes_with:weekender",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7492613275782",
-     "reason_code": "TRIP_TAG"
+     "product_id": "7652883333254",
+     "reason_code": "TRIP_TAG",
+     "why": [
+      "fitted_class",
+      "goes_with:weekender",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7652882579590",
-     "reason_code": "SAME_CLASS_NEW"
+     "product_id": "7652882972806",
+     "reason_code": "TRIP_TAG",
+     "why": [
+      "fitted_class",
+      "goes_with:weekender",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7652882677894",
-     "reason_code": "FALLBACK_NON_OCCASION"
+     "product_id": "7652883169414",
+     "reason_code": "TRIP_TAG",
+     "why": [
+      "fitted_class",
+      "goes_with:weekender",
+      "new_arrival"
+     ]
     }
    ],
    "more": [
     {
-     "kind": "past_purchase",
-     "label": "weekender",
-     "product_ids": [
-      "7652882874502",
-      "7652882415750",
-      "7652883169414",
-      "7652882972806",
-      "7652883333254",
-      "7576167350406",
-      "7652882776198",
-      "7652882514054"
-     ]
-    },
-    {
      "kind": "occasion_category",
      "label": "Pouches",
      "product_ids": [
+      "7652882776198",
       "7652882645126",
       "7652882710662",
       "7652882612358",
       "7652883267718",
-      "7652882940038",
       "7652882743430",
       "7652882841734"
-     ]
+     ],
+     "why": {
+      "7652882776198": [
+       "fitted_class",
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7652882645126": [
+       "fitted_class",
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7652882710662": [
+       "fitted_class",
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7652882612358": [
+       "fitted_class",
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7652883267718": [
+       "fitted_class",
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7652882743430": [
+       "fitted_class",
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7652882841734": [
+       "fitted_class",
+       "goes_with:weekender",
+       "new_arrival"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
      "label": "Scarves",
      "product_ids": [
-      "7576166793350",
-      "7652882481286",
-      "7652882448518"
-     ]
+      "7652882448518",
+      "7576166760582",
+      "7576166793350"
+     ],
+     "why": {
+      "7652882448518": [
+       "fitted_class",
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7576166760582": [
+       "fitted_class",
+       "goes_with:weekender"
+      ],
+      "7576166793350": [
+       "fitted_class",
+       "goes_with:weekender"
+      ]
+     }
     },
     {
-     "kind": "occasion_category",
-     "label": "Socks",
+     "kind": "past_purchase",
+     "label": "weekender",
      "product_ids": [
+      "7652882677894",
+      "7652882415750",
       "7652883071110",
-      "7652883103878",
-      "7652883136646"
-     ]
+      "7652883038342",
+      "7576167350406",
+      "7652882874502",
+      "7652882481286",
+      "7652883103878"
+     ],
+     "why": {
+      "7652882677894": [
+       "fitted_class",
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7652882415750": [
+       "fitted_class",
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7652883071110": [
+       "fitted_class",
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7652883038342": [
+       "fitted_class",
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7576167350406": [
+       "fitted_class",
+       "goes_with:weekender"
+      ],
+      "7652882874502": [
+       "fitted_class",
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7652882481286": [
+       "fitted_class",
+       "goes_with:weekender",
+       "new_arrival"
+      ],
+      "7652883103878": [
+       "fitted_class",
+       "goes_with:weekender",
+       "new_arrival"
+      ]
+     }
     }
    ]
   },
@@ -817,45 +2511,55 @@
    "customer_id": "c11",
    "picks": [
     {
-     "product_id": "7492613177478",
-     "reason_code": "OCCASION_MATCH"
-    },
-    {
-     "product_id": "7576166760582",
-     "reason_code": "SAME_CLASS_NEW"
+     "product_id": "7492613308550",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:wedding",
+      "goes_with:wrap"
+     ]
     },
     {
      "product_id": "7492613275782",
-     "reason_code": "OCCASION_MATCH"
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:wedding",
+      "goes_with:wrap"
+     ]
     },
     {
-     "product_id": "7492613308550",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7492613177478",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:wedding"
+     ]
+    },
+    {
+     "product_id": "7652882415750",
+     "reason_code": "FALLBACK_NON_OCCASION",
+     "why": [
+      "new_arrival",
+      "fallback"
+     ]
     },
     {
      "product_id": "7652882677894",
-     "reason_code": "FALLBACK_NON_OCCASION"
+     "reason_code": "FALLBACK_NON_OCCASION",
+     "why": [
+      "goes_with:wrap",
+      "new_arrival",
+      "fallback"
+     ]
     },
     {
      "product_id": "7652882579590",
-     "reason_code": "FALLBACK_NON_OCCASION"
+     "reason_code": "FALLBACK_NON_OCCASION",
+     "why": [
+      "new_arrival",
+      "fallback"
+     ]
     }
    ],
    "more": [
-    {
-     "kind": "past_purchase",
-     "label": "wrap",
-     "product_ids": [
-      "7492613472390",
-      "7492613243014",
-      "7492613079174",
-      "7652882874502",
-      "7652883169414",
-      "7652882382982",
-      "7576167350406",
-      "7652882743430"
-     ]
-    },
     {
      "kind": "occasion_category",
      "label": "Statement Necklaces",
@@ -865,7 +2569,73 @@
       "7492613210246",
       "7492613341318",
       "7492613144710"
-     ]
+     ],
+     "why": {
+      "7492613374086": [
+       "occasion_tag:wedding"
+      ],
+      "7492613406854": [
+       "occasion_tag:wedding"
+      ],
+      "7492613210246": [
+       "occasion_tag:wedding"
+      ],
+      "7492613341318": [
+       "occasion_tag:wedding"
+      ],
+      "7492613144710": [
+       "occasion_tag:wedding"
+      ]
+     }
+    },
+    {
+     "kind": "past_purchase",
+     "label": "wrap",
+     "product_ids": [
+      "7492613472390",
+      "7492613243014",
+      "7492613079174",
+      "7652882940038",
+      "7652883169414",
+      "7652882382982",
+      "7576167350406",
+      "7652882874502"
+     ],
+     "why": {
+      "7492613472390": [
+       "occasion_tag:wedding",
+       "goes_with:wrap"
+      ],
+      "7492613243014": [
+       "occasion_tag:wedding",
+       "goes_with:wrap"
+      ],
+      "7492613079174": [
+       "occasion_tag:wedding",
+       "goes_with:wrap"
+      ],
+      "7652882940038": [
+       "goes_with:wrap",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652883169414": [
+       "goes_with:wrap",
+       "new_arrival"
+      ],
+      "7652882382982": [
+       "goes_with:wrap",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7576167350406": [
+       "goes_with:wrap"
+      ],
+      "7652882874502": [
+       "goes_with:wrap",
+       "new_arrival"
+      ]
+     }
     }
    ]
   },
@@ -873,28 +2643,61 @@
    "customer_id": "c12",
    "picks": [
     {
-     "product_id": "5196412977286",
-     "reason_code": "FALLBACK_NON_OCCASION"
+     "product_id": "7652882415750",
+     "reason_code": "FALLBACK_NON_OCCASION",
+     "why": [
+      "bestseller",
+      "new_arrival",
+      "fallback"
+     ]
     },
     {
-     "product_id": "6897629429894",
-     "reason_code": "FALLBACK_NON_OCCASION"
+     "product_id": "7652882612358",
+     "reason_code": "FALLBACK_NON_OCCASION",
+     "why": [
+      "bestseller",
+      "new_arrival",
+      "fallback"
+     ]
     },
     {
-     "product_id": "6538751443078",
-     "reason_code": "FALLBACK_NON_OCCASION"
+     "product_id": "7652882579590",
+     "reason_code": "FALLBACK_NON_OCCASION",
+     "why": [
+      "bestseller",
+      "new_arrival",
+      "fallback"
+     ]
     },
     {
-     "product_id": "6861826162822",
-     "reason_code": "FALLBACK_NON_OCCASION"
+     "product_id": "7728573874310",
+     "reason_code": "FALLBACK_NON_OCCASION",
+     "why": [
+      "bestseller",
+      "prior_tag",
+      "new_arrival",
+      "fallback"
+     ]
     },
     {
-     "product_id": "7454488395910",
-     "reason_code": "FALLBACK_NON_OCCASION"
+     "product_id": "7652880547974",
+     "reason_code": "FALLBACK_NON_OCCASION",
+     "why": [
+      "bestseller",
+      "prior_tag",
+      "new_arrival",
+      "fallback"
+     ]
     },
     {
-     "product_id": "7426319777926",
-     "reason_code": "FALLBACK_NON_OCCASION"
+     "product_id": "7728573579398",
+     "reason_code": "FALLBACK_NON_OCCASION",
+     "why": [
+      "bestseller",
+      "prior_tag",
+      "new_arrival",
+      "fallback"
+     ]
     }
    ],
    "more": [
@@ -902,43 +2705,139 @@
      "kind": "occasion_category",
      "label": "Mugs",
      "product_ids": [
-      "6821776490630",
-      "7652880547974",
-      "6892870041734",
-      "5196254118022",
       "15402020667526",
-      "7728573251718",
-      "6793274949766",
-      "7334952829062"
-     ]
+      "7652880613510",
+      "6821776490630",
+      "6892870041734",
+      "5196351176838",
+      "7537231593606",
+      "7271436419206",
+      "6793275146374"
+     ],
+     "why": {
+      "15402020667526": [
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652880613510": [
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "6821776490630": [
+       "bestseller",
+       "prior_tag"
+      ],
+      "6892870041734": [
+       "bestseller",
+       "prior_tag"
+      ],
+      "5196351176838": [
+       "bestseller",
+       "prior_tag"
+      ],
+      "7537231593606": [
+       "bestseller",
+       "prior_tag"
+      ],
+      "7271436419206": [
+       "bestseller",
+       "prior_tag"
+      ],
+      "6793275146374": [
+       "bestseller",
+       "prior_tag"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
-     "label": "Scarves",
+     "label": "Plates",
      "product_ids": [
-      "7537234641030",
-      "7426319810694",
-      "7576166891654",
-      "7426319712390",
-      "7652882415750",
-      "7697159946374",
-      "7652882481286",
-      "7334956368006"
-     ]
+      "7652880351366",
+      "7728573382790",
+      "7728573448326",
+      "7652880515206",
+      "7652880253062",
+      "6821776523398",
+      "7271436189830",
+      "7271436517510"
+     ],
+     "why": {
+      "7652880351366": [
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7728573382790": [
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7728573448326": [
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652880515206": [
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652880253062": [
+       "bestseller",
+       "new_arrival"
+      ],
+      "6821776523398": [
+       "bestseller"
+      ],
+      "7271436189830": [
+       "bestseller"
+      ],
+      "7271436517510": [
+       "bestseller"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
-     "label": "Danglers",
+     "label": "Platters",
      "product_ids": [
-      "7664340107398",
-      "7576168890502",
-      "7576165777542",
-      "7271445561478",
-      "7537234215046",
-      "15401644818566",
-      "7741538926726",
-      "7741538992262"
-     ]
+      "6852551245958",
+      "6538749476998",
+      "7608570577030",
+      "7438068908166",
+      "7582854054022",
+      "7334952730758",
+      "5196351045766"
+     ],
+     "why": {
+      "6852551245958": [
+       "bestseller",
+       "prior_tag"
+      ],
+      "6538749476998": [
+       "bestseller",
+       "prior_tag"
+      ],
+      "7608570577030": [
+       "bestseller",
+       "prior_tag"
+      ],
+      "7438068908166": [
+       "bestseller"
+      ],
+      "7582854054022": [
+       "bestseller"
+      ],
+      "7334952730758": [
+       "bestseller"
+      ],
+      "5196351045766": [
+       "bestseller"
+      ]
+     }
     }
    ]
   },
@@ -947,35 +2846,47 @@
    "picks": [
     {
      "product_id": "7652882448518",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:shirt",
+      "new_arrival",
+      "hand_set"
+     ]
     },
     {
      "product_id": "6959137587334",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "prior_tag",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7652882284678",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:shirt",
+      "prior_tag",
+      "new_arrival",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7652882317446",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:shirt",
+      "prior_tag",
+      "new_arrival",
+      "hand_set"
+     ]
     }
    ],
    "more": [
-    {
-     "kind": "past_purchase",
-     "label": "shirt",
-     "product_ids": [
-      "7652882481286",
-      "7652882350214",
-      "7652882219142",
-      "7652882415750",
-      "7652882514054",
-      "7576166760582",
-      "7576166793350"
-     ]
-    },
     {
      "kind": "occasion_category",
      "label": "Statement Necklaces",
@@ -985,7 +2896,24 @@
       "7492613341318",
       "7492613374086",
       "7492613210246"
-     ]
+     ],
+     "why": {
+      "7492613406854": [
+       "fitted_class"
+      ],
+      "7492613144710": [
+       "fitted_class"
+      ],
+      "7492613341318": [
+       "fitted_class"
+      ],
+      "7492613374086": [
+       "fitted_class"
+      ],
+      "7492613210246": [
+       "fitted_class"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
@@ -995,7 +2923,70 @@
       "7492613472390",
       "7492613079174",
       "7492613308550"
-     ]
+     ],
+     "why": {
+      "7492613243014": [
+       "fitted_class"
+      ],
+      "7492613472390": [
+       "fitted_class"
+      ],
+      "7492613079174": [
+       "fitted_class"
+      ],
+      "7492613308550": [
+       "fitted_class"
+      ]
+     }
+    },
+    {
+     "kind": "past_purchase",
+     "label": "shirt",
+     "product_ids": [
+      "7652882514054",
+      "7652882350214",
+      "7652882219142",
+      "7652882481286",
+      "7652882415750",
+      "7576166760582",
+      "7576166793350"
+     ],
+     "why": {
+      "7652882514054": [
+       "fitted_class",
+       "goes_with:shirt",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652882350214": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652882219142": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652882481286": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652882415750": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7576166760582": [
+       "fitted_class",
+       "goes_with:shirt"
+      ],
+      "7576166793350": [
+       "fitted_class",
+       "goes_with:shirt"
+      ]
+     }
     }
    ]
   },
@@ -1003,116 +2994,410 @@
    "customer_id": "c14",
    "picks": [
     {
-     "product_id": "7741538959494",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "15402020733062",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:festive",
+      "goes_with:throw",
+      "bestseller",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7426320466054",
-     "reason_code": "OCCASION_MATCH"
-    },
-    {
-     "product_id": "6776774131846",
-     "reason_code": "OCCASION_MATCH"
-    },
-    {
-     "product_id": "5196418613382",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "5196418580614",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:festive",
+      "goes_with:throw",
+      "bestseller",
+      "prior_tag"
+     ]
     },
     {
      "product_id": "7728573481094",
-     "reason_code": "OCCASION_MATCH"
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:festive",
+      "bestseller",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "5196140314758",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7728573939846",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:festive",
+      "bestseller",
+      "prior_tag",
+      "new_arrival"
+     ]
+    },
+    {
+     "product_id": "7728573448326",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:festive",
+      "bestseller",
+      "prior_tag",
+      "new_arrival"
+     ]
+    },
+    {
+     "product_id": "7728574431366",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:festive",
+      "bestseller",
+      "prior_tag",
+      "new_arrival"
+     ]
     }
    ],
    "more": [
     {
-     "kind": "past_purchase",
-     "label": "throw",
-     "product_ids": [
-      "15402020733062",
-      "5196418580614",
-      "7426322563206",
-      "5196412780678",
-      "6595613163654",
-      "5196412977286",
-      "6595613360262",
-      "7454485774470"
-     ]
-    },
-    {
      "kind": "occasion_category",
      "label": "Mugs",
      "product_ids": [
-      "6538751574150",
-      "6538751344774",
+      "5215840010374",
+      "7537231593606",
+      "6821776490630",
+      "6865633312902",
+      "6892870041734",
+      "7537231626374",
       "7728573251718",
-      "6538751180934",
-      "7229605249158",
-      "5196353142918",
-      "6538749411462",
-      "7229605216390"
-     ]
-    },
-    {
-     "kind": "occasion_category",
-     "label": "Danglers",
-     "product_ids": [
-      "7741538893958",
-      "6880045301894",
-      "15401644425350",
-      "7664340140166",
-      "7426320236678",
-      "15401644949638",
-      "15401644818566",
-      "7741539221638"
-     ]
+      "6793274949766"
+     ],
+     "why": {
+      "5215840010374": [
+       "occasion_tag:festive",
+       "bestseller",
+       "prior_tag"
+      ],
+      "7537231593606": [
+       "occasion_tag:festive",
+       "bestseller",
+       "prior_tag"
+      ],
+      "6821776490630": [
+       "occasion_tag:festive",
+       "bestseller",
+       "prior_tag"
+      ],
+      "6865633312902": [
+       "occasion_tag:festive",
+       "bestseller",
+       "prior_tag"
+      ],
+      "6892870041734": [
+       "occasion_tag:festive",
+       "bestseller",
+       "prior_tag"
+      ],
+      "7537231626374": [
+       "occasion_tag:festive",
+       "bestseller",
+       "prior_tag"
+      ],
+      "7728573251718": [
+       "occasion_tag:festive",
+       "bestseller",
+       "new_arrival"
+      ],
+      "6793274949766": [
+       "occasion_tag:festive",
+       "bestseller"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
      "label": "Plates",
      "product_ids": [
+      "7728573382790",
       "6595613098118",
       "7229605019782",
-      "7728573448326",
       "6538749608070",
       "7426321612934",
-      "7426321580166",
-      "7728572989574",
-      "7728573382790"
-     ]
+      "5196181602438",
+      "6581928788102",
+      "7728572989574"
+     ],
+     "why": {
+      "7728573382790": [
+       "occasion_tag:festive",
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "6595613098118": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7229605019782": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6538749608070": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7426321612934": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "5196181602438": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6581928788102": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7728572989574": [
+       "occasion_tag:festive",
+       "new_arrival"
+      ]
+     }
+    },
+    {
+     "kind": "occasion_category",
+     "label": "Votives & Candle Holders",
+     "product_ids": [
+      "5196140314758",
+      "7500119212166",
+      "7454486003846",
+      "7454486069382",
+      "7454486036614",
+      "7454485741702",
+      "6897630085254",
+      "6632508293254"
+     ],
+     "why": {
+      "5196140314758": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7500119212166": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7454486003846": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7454486069382": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7454486036614": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7454485741702": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6897630085254": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6632508293254": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ]
+     }
     },
     {
      "kind": "occasion",
      "label": "",
      "product_ids": [
-      "6793274949766",
-      "7741538992262",
-      "7741539287174",
-      "7500119212166",
-      "7492613341318",
-      "6540636782726",
-      "7537234182278",
-      "7271437369478",
+      "6595612999814",
+      "5196351504518",
       "6538749476998",
+      "7492613341318",
+      "7271437369478",
       "7492613308550",
-      "7426319679622",
-      "7454488330374",
-      "7728573939846",
-      "7697159749766",
-      "7664340795526",
-      "5196181667974",
-      "7426321121414",
+      "5196418809990",
+      "7728573874310",
       "6821058478214",
-      "7741540270214",
-      "7255125459078",
-      "7741539811462",
-      "7492614586502",
+      "7426322104454",
+      "15402020765830",
+      "6601425617030",
       "7492613275782",
-      "15402020765830"
-     ]
+      "5196415205510",
+      "6581929083014",
+      "7492612915334",
+      "6776774131846",
+      "7426321580166",
+      "7492613177478",
+      "5215841288326",
+      "7426321973382",
+      "6914331869318",
+      "6538751180934",
+      "6540636782726"
+     ],
+     "why": {
+      "6595612999814": [
+       "occasion_tag:festive",
+       "bestseller"
+      ],
+      "5196351504518": [
+       "occasion_tag:festive",
+       "bestseller"
+      ],
+      "6538749476998": [
+       "occasion_tag:festive",
+       "bestseller",
+       "prior_tag"
+      ],
+      "7492613341318": [
+       "occasion_tag:festive",
+       "bestseller"
+      ],
+      "7271437369478": [
+       "occasion_tag:festive",
+       "bestseller",
+       "prior_tag"
+      ],
+      "7492613308550": [
+       "occasion_tag:festive"
+      ],
+      "5196418809990": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7728573874310": [
+       "occasion_tag:festive",
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "6821058478214": [
+       "occasion_tag:festive"
+      ],
+      "7426322104454": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "15402020765830": [
+       "occasion_tag:festive",
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "6601425617030": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7492613275782": [
+       "occasion_tag:festive",
+       "bestseller"
+      ],
+      "5196415205510": [
+       "occasion_tag:festive",
+       "bestseller",
+       "prior_tag"
+      ],
+      "6581929083014": [
+       "occasion_tag:festive",
+       "bestseller"
+      ],
+      "7492612915334": [
+       "occasion_tag:festive",
+       "bestseller"
+      ],
+      "6776774131846": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7426321580166": [
+       "occasion_tag:festive"
+      ],
+      "7492613177478": [
+       "occasion_tag:festive",
+       "bestseller"
+      ],
+      "5215841288326": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "7426321973382": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6914331869318": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6538751180934": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ],
+      "6540636782726": [
+       "occasion_tag:festive",
+       "prior_tag"
+      ]
+     }
+    },
+    {
+     "kind": "past_purchase",
+     "label": "throw",
+     "product_ids": [
+      "7426322563206",
+      "5196412780678",
+      "6595613163654",
+      "5196412977286",
+      "6595613360262",
+      "7454485774470",
+      "6701989068934",
+      "7728574824582"
+     ],
+     "why": {
+      "7426322563206": [
+       "occasion_tag:festive",
+       "goes_with:throw",
+       "prior_tag"
+      ],
+      "5196412780678": [
+       "occasion_tag:festive",
+       "goes_with:throw",
+       "bestseller",
+       "prior_tag"
+      ],
+      "6595613163654": [
+       "occasion_tag:festive",
+       "goes_with:throw",
+       "prior_tag"
+      ],
+      "5196412977286": [
+       "occasion_tag:festive",
+       "goes_with:throw",
+       "prior_tag"
+      ],
+      "6595613360262": [
+       "occasion_tag:festive",
+       "goes_with:throw",
+       "prior_tag"
+      ],
+      "7454485774470": [
+       "occasion_tag:festive",
+       "goes_with:throw",
+       "prior_tag"
+      ],
+      "6701989068934": [
+       "occasion_tag:festive",
+       "goes_with:throw",
+       "prior_tag"
+      ],
+      "7728574824582": [
+       "goes_with:throw",
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ]
+     }
     }
    ]
   },
@@ -1121,49 +3406,150 @@
    "picks": [
     {
      "product_id": "7652882514054",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:shirt",
+      "prior_tag",
+      "new_arrival",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7652883267718",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "new_arrival",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7652882972806",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:shirt",
+      "new_arrival",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7652883071110",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:shirt",
+      "new_arrival",
+      "hand_set"
+     ]
     }
    ],
    "more": [
     {
-     "kind": "past_purchase",
-     "label": "shirt",
-     "product_ids": [
-      "7576166793350",
-      "7652883103878",
-      "7652883038342",
-      "7652882448518",
-      "7652883169414",
-      "7652882907270",
-      "7576166760582",
-      "7652883136646"
-     ]
-    },
-    {
      "kind": "occasion_category",
      "label": "Pouches",
      "product_ids": [
+      "7652882940038",
       "7652882612358",
       "7652882743430",
-      "7652882940038",
       "7652882841734",
       "7652882710662",
       "7652882776198",
       "7652882645126",
       "7652882874502"
-     ]
+     ],
+     "why": {
+      "7652882940038": [
+       "fitted_class",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652882612358": [
+       "fitted_class",
+       "new_arrival"
+      ],
+      "7652882743430": [
+       "fitted_class",
+       "new_arrival"
+      ],
+      "7652882841734": [
+       "fitted_class",
+       "new_arrival"
+      ],
+      "7652882710662": [
+       "fitted_class",
+       "new_arrival"
+      ],
+      "7652882776198": [
+       "fitted_class",
+       "new_arrival"
+      ],
+      "7652882645126": [
+       "fitted_class",
+       "new_arrival"
+      ],
+      "7652882874502": [
+       "fitted_class",
+       "new_arrival"
+      ]
+     }
+    },
+    {
+     "kind": "past_purchase",
+     "label": "shirt",
+     "product_ids": [
+      "7652882448518",
+      "7652883103878",
+      "7652883038342",
+      "7652882415750",
+      "7652883169414",
+      "7652882907270",
+      "7652882481286",
+      "7652883136646"
+     ],
+     "why": {
+      "7652882448518": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652883103878": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652883038342": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652882415750": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652883169414": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652882907270": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652882481286": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ],
+      "7652883136646": [
+       "fitted_class",
+       "goes_with:shirt",
+       "new_arrival"
+      ]
+     }
     }
    ]
   },
@@ -1171,83 +3557,258 @@
    "customer_id": "c16",
    "picks": [
     {
-     "product_id": "7741540040838",
-     "reason_code": "OCCASION_MATCH"
-    },
-    {
-     "product_id": "7652882579590",
-     "reason_code": "OCCASION_MATCH"
-    },
-    {
-     "product_id": "5196329812102",
-     "reason_code": "OCCASION_MATCH"
-    },
-    {
-     "product_id": "6538751115398",
-     "reason_code": "OCCASION_MATCH"
-    },
-    {
-     "product_id": "7741538730118",
-     "reason_code": "OCCASION_MATCH"
-    },
-    {
      "product_id": "7697174200454",
-     "reason_code": "OCCASION_MATCH"
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:birthday",
+      "goes_with:stole",
+      "bestseller",
+      "prior_tag",
+      "new_arrival"
+     ]
+    },
+    {
+     "product_id": "7697159716998",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:birthday",
+      "goes_with:stole",
+      "bestseller",
+      "new_arrival"
+     ]
+    },
+    {
+     "product_id": "7697174298758",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:birthday",
+      "goes_with:stole",
+      "prior_tag",
+      "new_arrival"
+     ]
+    },
+    {
+     "product_id": "7741540040838",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:birthday",
+      "bestseller",
+      "prior_tag",
+      "new_arrival"
+     ]
+    },
+    {
+     "product_id": "7652880547974",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:birthday",
+      "bestseller",
+      "prior_tag",
+      "new_arrival"
+     ]
+    },
+    {
+     "product_id": "7741539975302",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:birthday",
+      "bestseller",
+      "prior_tag",
+      "new_arrival"
+     ]
     }
    ],
    "more": [
     {
-     "kind": "past_purchase",
-     "label": "stole",
-     "product_ids": [
-      "7741539483782",
-      "7576167972998",
-      "7023209808006",
-      "7697174298758",
-      "7664339943558",
-      "7741539549318",
-      "7697159716998",
-      "7741539057798"
-     ]
-    },
-    {
      "kind": "occasion_category",
      "label": "Scarves",
      "product_ids": [
+      "7652882415750",
       "7537234575494",
-      "7426319679622",
-      "7697159848070",
       "7576166891654",
-      "7652882415750"
-     ]
+      "7697159848070",
+      "7426319679622"
+     ],
+     "why": {
+      "7652882415750": [
+       "occasion_tag:birthday",
+       "bestseller",
+       "new_arrival"
+      ],
+      "7537234575494": [
+       "occasion_tag:birthday",
+       "bestseller"
+      ],
+      "7576166891654": [
+       "occasion_tag:birthday",
+       "bestseller"
+      ],
+      "7697159848070": [
+       "occasion_tag:birthday",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7426319679622": [
+       "occasion_tag:birthday"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
      "label": "Mugs",
      "product_ids": [
-      "5196254118022",
-      "7652880547974",
       "7652880613510",
+      "6538751115398",
+      "5196254118022",
       "7454485348486"
-     ]
+     ],
+     "why": {
+      "7652880613510": [
+       "occasion_tag:birthday",
+       "bestseller",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "6538751115398": [
+       "occasion_tag:birthday",
+       "bestseller",
+       "prior_tag"
+      ],
+      "5196254118022": [
+       "occasion_tag:birthday",
+       "bestseller"
+      ],
+      "7454485348486": [
+       "occasion_tag:birthday"
+      ]
+     }
     },
     {
      "kind": "occasion",
      "label": "",
      "product_ids": [
-      "7576166137990",
+      "7576167284870",
       "7652880973958",
       "7652882612358",
-      "7576167284870",
+      "7741539483782",
       "5196418580614",
-      "7741540204678",
       "7741538828422",
+      "5196329812102",
       "7590536478854",
-      "7741539975302",
-      "7537234346118",
+      "7652882579590",
       "7728574300294",
       "7741540171910"
-     ]
+     ],
+     "why": {
+      "7576167284870": [
+       "occasion_tag:birthday",
+       "bestseller",
+       "prior_tag"
+      ],
+      "7652880973958": [
+       "occasion_tag:birthday",
+       "bestseller",
+       "new_arrival"
+      ],
+      "7652882612358": [
+       "occasion_tag:birthday",
+       "bestseller",
+       "new_arrival"
+      ],
+      "7741539483782": [
+       "occasion_tag:birthday",
+       "goes_with:stole",
+       "new_arrival"
+      ],
+      "5196418580614": [
+       "occasion_tag:birthday",
+       "bestseller",
+       "prior_tag"
+      ],
+      "7741538828422": [
+       "occasion_tag:birthday",
+       "goes_with:stole",
+       "new_arrival"
+      ],
+      "5196329812102": [
+       "occasion_tag:birthday",
+       "prior_tag"
+      ],
+      "7590536478854": [
+       "occasion_tag:birthday"
+      ],
+      "7652882579590": [
+       "occasion_tag:birthday",
+       "bestseller",
+       "new_arrival"
+      ],
+      "7728574300294": [
+       "occasion_tag:birthday",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741540171910": [
+       "occasion_tag:birthday",
+       "new_arrival"
+      ]
+     }
+    },
+    {
+     "kind": "past_purchase",
+     "label": "stole",
+     "product_ids": [
+      "7023209808006",
+      "7741539549318",
+      "7741540204678",
+      "7664339943558",
+      "7741538730118",
+      "7537234346118",
+      "7576167972998",
+      "7741539057798"
+     ],
+     "why": {
+      "7023209808006": [
+       "occasion_tag:birthday",
+       "goes_with:stole",
+       "prior_tag"
+      ],
+      "7741539549318": [
+       "occasion_tag:birthday",
+       "goes_with:stole",
+       "bestseller",
+       "new_arrival"
+      ],
+      "7741540204678": [
+       "occasion_tag:birthday",
+       "goes_with:stole",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664339943558": [
+       "occasion_tag:birthday",
+       "goes_with:stole",
+       "new_arrival"
+      ],
+      "7741538730118": [
+       "occasion_tag:birthday",
+       "goes_with:stole",
+       "new_arrival"
+      ],
+      "7537234346118": [
+       "occasion_tag:birthday",
+       "goes_with:stole",
+       "bestseller"
+      ],
+      "7576167972998": [
+       "occasion_tag:birthday",
+       "goes_with:stole"
+      ],
+      "7741539057798": [
+       "occasion_tag:birthday",
+       "goes_with:stole",
+       "new_arrival"
+      ]
+     }
     }
    ]
   },
@@ -1255,116 +3816,408 @@
    "customer_id": "c17",
    "picks": [
     {
-     "product_id": "6858665001094",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7697159225478",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:evening",
+      "goes_with:dress",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7537228775558",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7697158832262",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:evening",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7551224545414",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7741537747078",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:evening",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7741535355014",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7741535912070",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:evening",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7741537878150",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7741536338054",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:evening",
+      "prior_tag",
+      "new_arrival"
+     ]
     },
     {
-     "product_id": "7697158930566",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7664335224966",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:evening",
+      "prior_tag",
+      "new_arrival"
+     ]
     }
    ],
    "more": [
     {
-     "kind": "past_purchase",
-     "label": "dress",
-     "product_ids": [
-      "7697159225478",
-      "6880045301894",
-      "7229604003974",
-      "7664339910790",
-      "7576165679238",
-      "7576169480326",
-      "15401644851334",
-      "7454481055878"
-     ]
-    },
-    {
      "kind": "occasion_category",
      "label": "Dresses",
      "product_ids": [
-      "7652879466630",
-      "7697158832262",
-      "7454482202758",
-      "7334949945478",
-      "7697183080582",
-      "7697158733958",
       "7697158799494",
-      "7334949716102"
-     ]
+      "7741536600198",
+      "7697158668422",
+      "7741536469126",
+      "7664336076934",
+      "7741536567430",
+      "7697158865030",
+      "7265600667782"
+     ],
+     "why": {
+      "7697158799494": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741536600198": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697158668422": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741536469126": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664336076934": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741536567430": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697158865030": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7265600667782": [
+       "occasion_tag:evening",
+       "prior_tag"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
      "label": "Shirts",
      "product_ids": [
-      "7741534994566",
-      "7664335224966",
-      "7697183047814",
       "7741535191174",
       "7697158537350",
       "7741535027334",
       "7741535060102",
-      "7697158439046"
-     ]
+      "7697158439046",
+      "7741534994566",
+      "7697183047814",
+      "7664335192198"
+     ],
+     "why": {
+      "7741535191174": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697158537350": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741535027334": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741535060102": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697158439046": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741534994566": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7697183047814": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7664335192198": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
      "label": "Kurtas",
      "product_ids": [
+      "7664335650950",
+      "7741536141446",
+      "7664335913094",
+      "15401643868294",
       "7664335552646",
       "7697159651462",
       "7741536108678",
-      "7741536338054",
-      "7741536075910",
-      "7664335650950",
-      "7334950273158",
-      "7741536141446"
-     ]
+      "7741536075910"
+     ],
+     "why": {
+      "7664335650950": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741536141446": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664335913094": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "15401643868294": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664335552646": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7697159651462": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741536108678": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741536075910": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ]
+     }
     },
     {
      "kind": "occasion",
      "label": "",
      "product_ids": [
-      "7697183441030",
-      "7741536600198",
-      "7741535912070",
-      "7741536895110",
-      "7697183015046",
+      "7664335356038",
+      "7652879466630",
+      "7697158930566",
+      "7741535879302",
+      "7741535092870",
       "7741536206982",
       "7697182949510",
-      "7741537747078",
+      "7741537845382",
       "7741536698502",
       "7741537157254",
-      "7697183178886",
-      "7265600667782",
+      "7697158635654",
+      "7697183080582",
+      "7741536895110",
       "7697183277190",
-      "7741537091718",
       "7741534929030",
-      "7664335913094",
+      "7334950273158",
       "7741536862342",
-      "7576161681542",
+      "7741537616006",
       "7741536665734",
       "7741537190022",
       "7426316566662",
-      "7697158668422",
-      "7741535879302",
-      "7741536731270"
-     ]
+      "7697158733958",
+      "7741537091718",
+      "7697183113350"
+     ],
+     "why": {
+      "7664335356038": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652879466630": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7697158930566": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741535879302": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741535092870": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741536206982": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7697182949510": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741537845382": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741536698502": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741537157254": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7697158635654": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7697183080582": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741536895110": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7697183277190": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741534929030": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7334950273158": [
+       "occasion_tag:evening"
+      ],
+      "7741536862342": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741537616006": [
+       "occasion_tag:evening",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7741536665734": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741537190022": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7426316566662": [
+       "occasion_tag:evening",
+       "prior_tag"
+      ],
+      "7697158733958": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7741537091718": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ],
+      "7697183113350": [
+       "occasion_tag:evening",
+       "new_arrival"
+      ]
+     }
+    },
+    {
+     "kind": "past_purchase",
+     "label": "dress",
+     "product_ids": [
+      "7664339878022",
+      "7664340893830",
+      "7664339910790",
+      "7664340304006",
+      "7664340729990",
+      "15401644851334",
+      "7454481055878",
+      "7500119474310"
+     ],
+     "why": {
+      "7664339878022": [
+       "goes_with:dress",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664340893830": [
+       "goes_with:dress",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664339910790": [
+       "goes_with:dress",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664340304006": [
+       "goes_with:dress",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664340729990": [
+       "goes_with:dress",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "15401644851334": [
+       "goes_with:dress",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7454481055878": [
+       "goes_with:dress",
+       "prior_tag"
+      ],
+      "7500119474310": [
+       "goes_with:dress"
+      ]
+     }
     }
    ]
   },
@@ -1373,36 +4226,44 @@
    "picks": [
     {
      "product_id": "7576167350406",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7652882940038",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:kurta",
+      "prior_tag",
+      "new_arrival",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7652883136646",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "goes_with:kurta",
+      "new_arrival",
+      "hand_set"
+     ]
     },
     {
      "product_id": "7652883333254",
-     "reason_code": "HAND_SET"
+     "reason_code": "HAND_SET",
+     "why": [
+      "fitted_class",
+      "new_arrival",
+      "hand_set"
+     ]
     }
    ],
    "more": [
-    {
-     "kind": "past_purchase",
-     "label": "kurta",
-     "product_ids": [
-      "7652882645126",
-      "7652882415750",
-      "7652882972806",
-      "7652883071110",
-      "7652882612358",
-      "7576166793350",
-      "7652883038342",
-      "7652883103878"
-     ]
-    },
     {
      "kind": "occasion_category",
      "label": "Pouches",
@@ -1414,17 +4275,131 @@
       "7652882710662",
       "7652882776198",
       "7652882677894"
-     ]
+     ],
+     "why": {
+      "7652882841734": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882874502": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652883267718": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882743430": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882710662": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882776198": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882677894": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
      "label": "Scarves",
      "product_ids": [
-      "7576166760582",
       "7652882481286",
+      "7652882448518",
+      "7576166793350",
+      "7576166760582"
+     ],
+     "why": {
+      "7652882481286": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882448518": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7576166793350": [
+       "fitted_class",
+       "goes_with:kurta"
+      ],
+      "7576166760582": [
+       "fitted_class",
+       "goes_with:kurta"
+      ]
+     }
+    },
+    {
+     "kind": "past_purchase",
+     "label": "kurta",
+     "product_ids": [
+      "7652882645126",
       "7652882514054",
-      "7652882448518"
-     ]
+      "7652882972806",
+      "7652883071110",
+      "7652882612358",
+      "7652882415750",
+      "7652883038342",
+      "7652883103878"
+     ],
+     "why": {
+      "7652882645126": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882514054": [
+       "fitted_class",
+       "goes_with:kurta",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652882972806": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652883071110": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882612358": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652882415750": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652883038342": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ],
+      "7652883103878": [
+       "fitted_class",
+       "goes_with:kurta",
+       "new_arrival"
+      ]
+     }
     }
    ]
   },
@@ -1432,41 +4407,50 @@
    "customer_id": "c19",
    "picks": [
     {
-     "product_id": "7492613177478",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7492613308550",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:wedding",
+      "goes_with:scarf"
+     ]
     },
     {
-     "product_id": "7492613308550",
-     "reason_code": "OCCASION_MATCH"
+     "product_id": "7492613275782",
+     "reason_code": "OCCASION_MATCH",
+     "why": [
+      "occasion_tag:wedding",
+      "goes_with:scarf"
+     ]
     },
     {
      "product_id": "7652882514054",
-     "reason_code": "SAME_CLASS_NEW"
+     "reason_code": "FALLBACK_NON_OCCASION",
+     "why": [
+      "prior_tag",
+      "new_arrival",
+      "fallback"
+     ]
     },
     {
      "product_id": "7652882677894",
-     "reason_code": "FALLBACK_NON_OCCASION"
+     "reason_code": "FALLBACK_NON_OCCASION",
+     "why": [
+      "goes_with:scarf",
+      "new_arrival",
+      "fallback"
+     ]
     },
     {
      "product_id": "7652882579590",
-     "reason_code": "FALLBACK_NON_OCCASION"
+     "reason_code": "FALLBACK_NON_OCCASION",
+     "why": [
+      "goes_with:scarf",
+      "new_arrival",
+      "fallback"
+     ]
     }
    ],
    "more": [
-    {
-     "kind": "past_purchase",
-     "label": "scarf",
-     "product_ids": [
-      "7492613079174",
-      "7492613275782",
-      "7492613472390",
-      "7492613243014",
-      "7652882776198",
-      "7652882907270",
-      "7652882317446",
-      "6959137587334"
-     ]
-    },
     {
      "kind": "occasion_category",
      "label": "Statement Necklaces",
@@ -1476,7 +4460,87 @@
       "7492613406854",
       "7492613374086",
       "7492613210246"
-     ]
+     ],
+     "why": {
+      "7492613144710": [
+       "occasion_tag:wedding"
+      ],
+      "7492613341318": [
+       "occasion_tag:wedding"
+      ],
+      "7492613406854": [
+       "occasion_tag:wedding"
+      ],
+      "7492613374086": [
+       "occasion_tag:wedding"
+      ],
+      "7492613210246": [
+       "occasion_tag:wedding"
+      ]
+     }
+    },
+    {
+     "kind": "occasion",
+     "label": "",
+     "product_ids": [
+      "7492613177478"
+     ],
+     "why": {
+      "7492613177478": [
+       "occasion_tag:wedding"
+      ]
+     }
+    },
+    {
+     "kind": "past_purchase",
+     "label": "scarf",
+     "product_ids": [
+      "7492613079174",
+      "7492613472390",
+      "7492613243014",
+      "7652882940038",
+      "7652882907270",
+      "7652882317446",
+      "7652882382982",
+      "7652882776198"
+     ],
+     "why": {
+      "7492613079174": [
+       "occasion_tag:wedding",
+       "goes_with:scarf"
+      ],
+      "7492613472390": [
+       "occasion_tag:wedding",
+       "goes_with:scarf"
+      ],
+      "7492613243014": [
+       "occasion_tag:wedding",
+       "goes_with:scarf"
+      ],
+      "7652882940038": [
+       "goes_with:scarf",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652882907270": [
+       "goes_with:scarf",
+       "new_arrival"
+      ],
+      "7652882317446": [
+       "goes_with:scarf",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652882382982": [
+       "goes_with:scarf",
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652882776198": [
+       "goes_with:scarf",
+       "new_arrival"
+      ]
+     }
     }
    ]
   },
@@ -1485,27 +4549,55 @@
    "picks": [
     {
      "product_id": "7426321678470",
-     "reason_code": "NEW_USER_PRIOR"
+     "reason_code": "NEW_USER_PRIOR",
+     "why": [
+      "prior_tag",
+      "new_user"
+     ]
     },
     {
      "product_id": "7652881498246",
-     "reason_code": "NEW_USER_PRIOR"
+     "reason_code": "NEW_USER_PRIOR",
+     "why": [
+      "prior_tag",
+      "new_arrival",
+      "new_user"
+     ]
     },
     {
      "product_id": "15402020765830",
-     "reason_code": "NEW_USER_PRIOR"
+     "reason_code": "NEW_USER_PRIOR",
+     "why": [
+      "prior_tag",
+      "new_arrival",
+      "new_user"
+     ]
     },
     {
      "product_id": "7652880351366",
-     "reason_code": "NEW_USER_PRIOR"
+     "reason_code": "NEW_USER_PRIOR",
+     "why": [
+      "prior_tag",
+      "new_arrival",
+      "new_user"
+     ]
     },
     {
      "product_id": "7652880384134",
-     "reason_code": "NEW_USER_PRIOR"
+     "reason_code": "NEW_USER_PRIOR",
+     "why": [
+      "prior_tag",
+      "new_arrival",
+      "new_user"
+     ]
     },
     {
      "product_id": "6821058183302",
-     "reason_code": "NEW_USER_PRIOR"
+     "reason_code": "NEW_USER_PRIOR",
+     "why": [
+      "prior_tag",
+      "new_user"
+     ]
     }
    ],
    "more": [
@@ -1513,73 +4605,253 @@
      "kind": "occasion_category",
      "label": "Mugs",
      "product_ids": [
+      "7652880547974",
+      "7652880613510",
+      "15402020667526",
+      "7652880646278",
       "7454485184646",
       "6966940303494",
       "7229605281926",
-      "7537231593606",
-      "7426321744006",
-      "7063291265158",
-      "6914331148422",
-      "7271436419206"
-     ]
+      "7537231593606"
+     ],
+     "why": {
+      "7652880547974": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652880613510": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "15402020667526": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652880646278": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7454485184646": [
+       "prior_tag"
+      ],
+      "6966940303494": [
+       "prior_tag"
+      ],
+      "7229605281926": [
+       "prior_tag"
+      ],
+      "7537231593606": [
+       "prior_tag"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
      "label": "Home Accents",
      "product_ids": [
-      "7375641477254",
       "7728574169222",
-      "6595613360262",
-      "6595613196422",
-      "6841448628358",
       "7652881170566",
-      "7000761172102",
-      "7000761467014"
-     ]
+      "7728574201990",
+      "7652881137798",
+      "15402020733062",
+      "7375641477254",
+      "6595613360262",
+      "6595613196422"
+     ],
+     "why": {
+      "7728574169222": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652881170566": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7728574201990": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652881137798": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "15402020733062": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7375641477254": [
+       "prior_tag"
+      ],
+      "6595613360262": [
+       "prior_tag"
+      ],
+      "6595613196422": [
+       "prior_tag"
+      ]
+     }
     },
     {
      "kind": "occasion_category",
      "label": "Plates",
      "product_ids": [
+      "7728573448326",
+      "7652880285830",
+      "7652880515206",
+      "7728573382790",
       "7454484955270",
       "7375640789126",
       "7229605019782",
-      "6538749608070",
-      "7728573448326",
-      "6776773935238",
-      "7652880285830",
-      "7652880515206"
-     ]
+      "6538749608070"
+     ],
+     "why": {
+      "7728573448326": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652880285830": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652880515206": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7728573382790": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7454484955270": [
+       "prior_tag"
+      ],
+      "7375640789126": [
+       "prior_tag"
+      ],
+      "7229605019782": [
+       "prior_tag"
+      ],
+      "6538749608070": [
+       "prior_tag"
+      ]
+     }
     },
     {
      "kind": "occasion",
      "label": "",
      "product_ids": [
-      "6821776490630",
-      "7063292084358",
-      "6776775475334",
+      "7426321744006",
+      "6841448628358",
+      "7728574759046",
       "7664338927750",
-      "7334952599686",
-      "7271437926534",
-      "5196412977286",
-      "7063291723910",
-      "7576163745926",
-      "6581928525958",
+      "6776773935238",
+      "7652881301638",
+      "7664338468998",
+      "7728573776006",
+      "7652880482438",
       "7728573743238",
       "7652880908422",
-      "7438068875398",
-      "6595613425798",
+      "7652880416902",
+      "7728573546630",
+      "7664338370694",
       "7334953222278",
-      "7334953746566",
+      "7728574300294",
       "7728573939846",
       "7652881334406",
-      "6581927870598",
+      "7728573677702",
       "6767121268870",
       "6914331345030",
       "6701988610182",
       "5196240584838",
       "5196249071750"
-     ]
+     ],
+     "why": {
+      "7426321744006": [
+       "prior_tag"
+      ],
+      "6841448628358": [
+       "prior_tag"
+      ],
+      "7728574759046": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664338927750": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "6776773935238": [
+       "prior_tag"
+      ],
+      "7652881301638": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664338468998": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7728573776006": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652880482438": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7728573743238": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652880908422": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652880416902": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7728573546630": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7664338370694": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7334953222278": [
+       "prior_tag"
+      ],
+      "7728574300294": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7728573939846": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7652881334406": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "7728573677702": [
+       "prior_tag",
+       "new_arrival"
+      ],
+      "6767121268870": [
+       "prior_tag"
+      ],
+      "6914331345030": [
+       "prior_tag"
+      ],
+      "6701988610182": [
+       "prior_tag"
+      ],
+      "5196240584838": [
+       "prior_tag"
+      ],
+      "5196249071750": [
+       "prior_tag"
+      ]
+     }
     }
    ]
   }

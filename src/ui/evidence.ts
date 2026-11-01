@@ -34,6 +34,19 @@ export const details = (title: string, body: string) => `<details class="ev"><su
 export const kv = (pairs: [string, unknown][]) => `<dl class="ev-kv">${pairs.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v ?? NONE)}</dd>`).join('')}</dl>`;
 const table = (head: string[], rows: string[][]) => `<table class="tl-table"><thead><tr>${head.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((x) => `<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
 
+const OCCASION_WORD: Record<string, string> = { wedding: 'weddings', birthday: 'birthdays', festive: 'festive days', evening: 'evenings', resort: 'holidays', smart: 'smart days', housewarming: 'housewarmings', hosting: 'hosting', everyday: 'every day' };
+const SIGNAL: Record<string, string> = { fitted_class: 'Fits this occasion', row_fit: 'Fits this customer', bestseller: "Bestseller, by the site's gift tag", prior_tag: 'In the current season', new_arrival: 'New on the site', fallback: 'No occasion tag', hand_set: 'Set by hand', new_user: 'New-customer pick' };
+/** Signal names from the ranker in reviewer's words. No model text ever passes here. */
+function plainSignal(s: string): string {
+  const [name, word] = s.split(':');
+  return name === 'occasion_tag' ? `Tagged for ${OCCASION_WORD[word] ?? word}` : name === 'goes_with' ? `Goes with your ${word}` : SIGNAL[s] ?? s;
+}
+const railWhy = (why: Record<string, string[]> | undefined) => {
+  const n = new Map<string, number>();
+  for (const s of Object.values(why ?? {}).flat()) n.set(s, (n.get(s) ?? 0) + 1);
+  return [...n].map(([s, k]) => `${plainSignal(s)} ${k}`).join(' · ');
+};
+
 export function planEvidence(c: CustomerData): string {
   const p = c.plan as Plan | null;
   if (!p) return '';
@@ -41,9 +54,9 @@ export function planEvidence(c: CustomerData): string {
   const picks = (p.picks ?? []).map((k) => {
     const card = cards.get(k.slot), src = card && new URL(card.src);
     const image = src ? `<img src="${esc(src.origin + src.pathname)}?width=80" alt="${esc(card!.title)}" width="40" height="50" loading="lazy">` : '<span></span>';
-    return `<div class="pick">${image}<div>${esc(card?.title ?? `Product ${k.product_id}, title not stored`)}<small>${esc(WHY_PICKED[k.reason_code] ?? NONE)}</small></div></div>`;
+    return `<div class="pick">${image}<div>${esc(card?.title ?? `Product ${k.product_id}, title not stored`)}<small>${esc(k.why?.map(plainSignal).join(' · ') ?? WHY_PICKED[k.reason_code] ?? NONE)}</small></div></div>`;
   }).join('');
-  const rails = (p.more ?? []).map((m) => `${m.heading}: ${m.product_ids.length} ${m.product_ids.length === 1 ? 'product' : 'products'}`).join('; ');
+  const rails = (p.more ?? []).map((m) => `${m.heading}: ${m.product_ids.length} ${m.product_ids.length === 1 ? 'product' : 'products'}${m.why ? ` (${railWhy(m.why)})` : ''}`).join('; ');
   return details('What was chosen, and why', `${picks}${kv([['Occasion key', p.occasion_key], ['Shape', p.shape], ['New customer', p.new_user ? 'Yes' : 'No'], ['Extra rails', rails || 'None'], ['Dropped', NONE]])}`);
 }
 
