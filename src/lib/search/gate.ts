@@ -49,8 +49,11 @@ export function gatePlan(row: PlanRow, ctx: GateContext, index: SearchIndex): Ga
   const log: string[] = [], who = statedGender(ctx.occasion, ctx.note_gender);
   const { from_past: _, ...first } = row.primary;
   const primary = relaxed(first, who, index, ctx, log);
+  let pastSeen = false;
   const sections = row.sections.slice(0, MAX_SECTIONS).flatMap((s) => {
     if (s.from_past && !ctx.past) { log.push(`dropped query "${s.purpose}": no past item to follow`); return []; }
+    if (s.from_past && pastSeen) { log.push(`dropped query "${s.purpose}": one past-purchase shelf only`); return []; }
+    if (s.from_past) pastSeen = true;
     const r = relaxed(s, who, index, ctx, log);
     return r ? [r] : [];
   });

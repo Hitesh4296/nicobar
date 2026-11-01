@@ -1,190 +1,1094 @@
 {
  "version": "queries/v1",
  "synthetic": true,
- "model": "stub",
- "prompt_sha256": "9aafe555cac5e41f92273fdc3110eef8fbd2e444041a9ac811d4cfbaf2227a5b",
+ "model": "claude-sonnet-5-5",
+ "prompt_sha256": "e63e048463f6d32202238e0907518fb8ec8d8aead8abddc761af4b723818d011",
  "date": "2026-11-01",
  "snapshot_id": "2026-11-01-cdda17faae52",
  "rows": {
   "c01": {
    "primary": {
-    "purpose": "stub: the row key",
+    "purpose": "Wedding outfits to wear to a sister's wedding.",
     "all": {
+     "occasion": [
+      "Wedding"
+     ],
      "category": [
-      "Accessories",
-      "Jewellery"
+      "Women"
      ]
     }
    },
-   "sections": []
+   "sections": [
+    {
+     "purpose": "Festive jewellery to complete a wedding look.",
+     "all": {
+      "category": [
+       "Jewellery"
+      ],
+      "gift_occasion": [
+       "Wedding"
+      ]
+     }
+    },
+    {
+     "purpose": "Evening and festive dresses and kurtas for the wedding events.",
+     "all": {
+      "occasion": [
+       "Festive"
+      ],
+      "class": [
+       "Kurta",
+       "Dress"
+      ]
+     }
+    },
+    {
+     "purpose": "Dupattas and scarves to layer over wedding outfits.",
+     "all": {
+      "class": [
+       "Dupatta",
+       "Scarves"
+      ],
+      "occasion": [
+       "Wedding"
+      ]
+     }
+    },
+    {
+     "purpose": "Clutches and bags to carry for the wedding.",
+     "all": {
+      "class": [
+       "Clutches",
+       "Bags"
+      ],
+      "gift_occasion": [
+       "Wedding"
+      ]
+     }
+    },
+    {
+     "purpose": "Smart shirts and tops that pair with the shirt they bought before.",
+     "all": {
+      "class": [
+       "Shirt",
+       "Top"
+      ],
+      "occasion": [
+       "Wedding"
+      ]
+     },
+     "from_past": true
+    }
+   ]
   },
   "c02": {
    "primary": {
-    "purpose": "stub: the row key",
+    "purpose": "Easy, breathable monsoon clothing for a rainy trip to Kochi.",
     "all": {
-     "category": [
-      "Accessories",
-      "Jewellery"
+     "campaign": [
+      "Monsoon26"
      ]
     }
    },
-   "sections": []
+   "sections": [
+    {
+     "purpose": "Light cotton and linen pieces that dry fast and travel well in humid weather.",
+     "all": {
+      "occasion": [
+       "Resort"
+      ],
+      "material": [
+       "Linen",
+       "Linen Blend",
+       "Cotton"
+      ]
+     }
+    },
+    {
+     "purpose": "Pants and bottoms to wear with a kurta in the rain.",
+     "all": {
+      "class": [
+       "Pants",
+       "Trousers",
+       "Culottes"
+      ]
+     },
+     "from_past": true
+    },
+    {
+     "purpose": "Dupattas and scarves to layer with a kurta.",
+     "all": {
+      "class": [
+       "Dupatta",
+       "Scarves"
+      ]
+     },
+     "from_past": true
+    },
+    {
+     "purpose": "Bags, pouches and an umbrella for carrying things on a wet trip.",
+     "all": {
+      "class": [
+       "Bags",
+       "Pouches",
+       "Umbrella"
+      ]
+     }
+    },
+    {
+     "purpose": "Everyday dresses and tops for relaxed days out.",
+     "all": {
+      "occasion": [
+       "Everyday"
+      ],
+      "class": [
+       "Dress",
+       "Top"
+      ]
+     }
+    }
+   ]
   },
   "c03": {
    "primary": {
-    "purpose": "stub: the row key",
-    "all": {
-     "category": [
-      "Accessories",
-      "Jewellery"
-     ]
-    }
-   },
-   "sections": []
-  },
-  "c04": {
-   "primary": {
-    "purpose": "stub: the row key",
-    "all": {
-     "gift_occasion": [
-      "Birthday"
-     ],
-     "recipient": [
-      "him"
-     ]
-    }
-   },
-   "sections": []
-  },
-  "c05": {
-   "primary": {
-    "purpose": "stub: the row key",
-    "all": {
-     "gift_occasion": [
-      "Housewarming"
-     ]
-    }
-   },
-   "sections": []
-  },
-  "c06": {
-   "primary": {
-    "purpose": "stub: the row key",
-    "all": {
-     "category": [
-      "Accessories",
-      "Jewellery"
-     ]
-    }
-   },
-   "sections": []
-  },
-  "c07": {
-   "primary": {
-    "purpose": "stub: the row key",
-    "all": {
-     "gift_occasion": [
-      "Festive"
-     ]
-    }
-   },
-   "sections": []
-  },
-  "c08": {
-   "primary": {
-    "purpose": "stub: the row key",
+    "purpose": "Elegant evening outfits to wear to an anniversary dinner.",
     "all": {
      "occasion": [
       "Evening"
+     ],
+     "category": [
+      "Women"
      ]
     }
    },
-   "sections": []
+   "sections": [
+    {
+     "purpose": "Jewellery to dress up an anniversary evening look.",
+     "all": {
+      "category": [
+       "Jewellery"
+      ],
+      "class": [
+       "Danglers",
+       "Necklace",
+       "Statement Necklace",
+       "Statement Earrings"
+      ]
+     }
+    },
+    {
+     "purpose": "Scarves and wraps that pair with the stole they bought before.",
+     "all": {
+      "class": [
+       "Scarves",
+       "Dupatta"
+      ]
+     },
+     "from_past": true
+    },
+    {
+     "purpose": "Clutches and small bags to carry for the evening.",
+     "all": {
+      "class": [
+       "Clutches",
+       "Pouches"
+      ]
+     }
+    }
+   ]
   },
-  "c09": {
+  "c04": {
    "primary": {
-    "purpose": "stub: the row key",
+    "purpose": "Thoughtful gifts for a father turning sixty, starting with refined menswear.",
+    "all": {
+     "recipient": [
+      "him"
+     ],
+     "gift_occasion": [
+      "Birthday"
+     ]
+    }
+   },
+   "sections": [
+    {
+     "purpose": "Easy, smart shirts he can wear to the celebration and after.",
+     "all": {
+      "category": [
+       "Men"
+      ],
+      "class": [
+       "Shirt"
+      ],
+      "occasion": [
+       "Smart"
+      ]
+     }
+    },
+    {
+     "purpose": "Small accessories that make a considered birthday gift for him.",
+     "all": {
+      "category": [
+       "Accessories"
+      ],
+      "class": [
+       "Pocket Squares",
+       "Wallets",
+       "Cufflinks",
+       "Socks"
+      ]
+     }
+    },
+    {
+     "purpose": "Gift sets ready to give for his birthday.",
+     "all": {
+      "class": [
+       "Gift Sets"
+      ],
+      "gift_occasion": [
+       "Birthday"
+      ]
+     }
+    },
+    {
+     "purpose": "Drinkware and barware for toasting the milestone.",
+     "all": {
+      "subcategory": [
+       "Drinkware",
+       "Barware"
+      ],
+      "gift_occasion": [
+       "Birthday"
+      ]
+     }
+    }
+   ]
+  },
+  "c05": {
+   "primary": {
+    "purpose": "Home pieces to give or enjoy for a housewarming.",
     "all": {
      "gift_occasion": [
-      "Wedding"
-     ]
-    }
-   },
-   "sections": []
-  },
-  "c10": {
-   "primary": {
-    "purpose": "stub: the row key",
-    "all": {
-     "category": [
-      "Accessories",
-      "Jewellery"
-     ]
-    }
-   },
-   "sections": []
-  },
-  "c11": {
-   "primary": {
-    "purpose": "stub: the row key",
-    "all": {
-     "category": [
-      "Accessories",
-      "Jewellery"
-     ]
-    }
-   },
-   "sections": []
-  },
-  "c12": {
-   "primary": {
-    "purpose": "stub: the row key",
-    "all": {
+      "Housewarming"
+     ],
      "category": [
       "House & Home"
      ]
     }
    },
-   "sections": []
+   "sections": [
+    {
+     "purpose": "Candles and fragrance to make a new home feel warm.",
+     "all": {
+      "gift_occasion": [
+       "Housewarming"
+      ],
+      "subcategory": [
+       "Fragrance",
+       "Candles & Fragrances"
+      ]
+     }
+    },
+    {
+     "purpose": "Drinkware for the first drinks in a new home.",
+     "all": {
+      "gift_occasion": [
+       "Housewarming"
+      ],
+      "subcategory": [
+       "Drinkware"
+      ]
+     }
+    },
+    {
+     "purpose": "Dinnerware and serveware for hosting in the new home.",
+     "all": {
+      "gift_occasion": [
+       "Housewarming"
+      ],
+      "subcategory": [
+       "Dinnerware",
+       "Serveware"
+      ]
+     }
+    },
+    {
+     "purpose": "Cushions and decor to style the new space.",
+     "all": {
+      "gift_occasion": [
+       "Housewarming"
+      ],
+      "subcategory": [
+       "Cushions & Covers",
+       "Decor"
+      ]
+     }
+    },
+    {
+     "purpose": "Bags and organisers that pair with a weekender.",
+     "all": {
+      "subcategory": [
+       "Bags & Organisers"
+      ],
+      "class": [
+       "Pouches"
+      ]
+     },
+     "from_past": true
+    }
+   ]
   },
-  "c13": {
+  "c06": {
    "primary": {
-    "purpose": "stub: the row key",
+    "purpose": "Easy resort-ready clothing for a beach weekend in Goa.",
     "all": {
+     "occasion": [
+      "Resort"
+     ],
      "category": [
-      "Accessories",
-      "Jewellery"
+      "Women"
      ]
     }
    },
-   "sections": []
+   "sections": [
+    {
+     "purpose": "Light dresses and separates that pack well for a Goa weekend.",
+     "all": {
+      "occasion": [
+       "Resort"
+      ],
+      "class": [
+       "Dress",
+       "Skirt",
+       "Shorts",
+       "Kaftan"
+      ]
+     }
+    },
+    {
+     "purpose": "Bottoms to pair with a shirt for a resort weekend.",
+     "all": {
+      "class": [
+       "Pants",
+       "Shorts",
+       "Trousers"
+      ]
+     },
+     "from_past": true
+    },
+    {
+     "purpose": "Bags and pouches that travel well for a weekend away.",
+     "all": {
+      "class": [
+       "Bags",
+       "Pouches",
+       "Clutches"
+      ]
+     }
+    },
+    {
+     "purpose": "Jewellery for easy beach evenings.",
+     "all": {
+      "category": [
+       "Jewellery"
+      ],
+      "class": [
+       "Hoops",
+       "Danglers",
+       "Bangles"
+      ]
+     }
+    },
+    {
+     "purpose": "Scarves and accessories for sun and sea breeze.",
+     "all": {
+      "class": [
+       "Scarves",
+       "Caps",
+       "Socks"
+      ]
+     }
+    }
+   ]
   },
-  "c14": {
+  "c07": {
    "primary": {
-    "purpose": "stub: the row key",
+    "purpose": "Festive home decor and hosting pieces for Diwali at home.",
     "all": {
      "gift_occasion": [
       "Festive"
+     ],
+     "category": [
+      "House & Home"
      ]
     }
    },
-   "sections": []
+   "sections": [
+    {
+     "purpose": "Candles, votives and incense to light up the home for Diwali.",
+     "all": {
+      "gift_occasion": [
+       "Festive"
+      ],
+      "class": [
+       "Candles",
+       "Votives & Candle Holders",
+       "Diffuser & Incense Holder",
+       "Room Spray Vial & Incense Sticks"
+      ]
+     }
+    },
+    {
+     "purpose": "Festive serveware and dinnerware for hosting Diwali guests.",
+     "all": {
+      "gift_occasion": [
+       "Festive"
+      ],
+      "subcategory": [
+       "Serveware",
+       "Dinnerware",
+       "Drinkware"
+      ]
+     }
+    },
+    {
+     "purpose": "Cushions and accent pieces to dress up the living space.",
+     "all": {
+      "gift_occasion": [
+       "Festive"
+      ],
+      "subcategory": [
+       "Cushions & Covers",
+       "Decor",
+       "Home Styling"
+      ]
+     }
+    },
+    {
+     "purpose": "Festive jewellery to wear at home, pairing with stacked pieces.",
+     "all": {
+      "category": [
+       "Jewellery"
+      ],
+      "subcategory": [
+       "Bangles & Bracelets",
+       "Earrings"
+      ]
+     },
+     "from_past": true
+    },
+    {
+     "purpose": "Festive outfits to wear while celebrating at home.",
+     "all": {
+      "occasion": [
+       "Festive"
+      ],
+      "class": [
+       "Kurta",
+       "Dress",
+       "Kaftan"
+      ]
+     }
+    }
+   ]
+  },
+  "c08": {
+   "primary": {
+    "purpose": "Elegant evening outfits to wear to a farewell dinner.",
+    "all": {
+     "occasion": [
+      "Evening"
+     ],
+     "category": [
+      "Women"
+     ]
+    }
+   },
+   "sections": [
+    {
+     "purpose": "Jewellery to dress up an evening look.",
+     "all": {
+      "category": [
+       "Jewellery"
+      ],
+      "class": [
+       "Danglers",
+       "Statement Earrings",
+       "Statement Necklace"
+      ]
+     },
+     "from_past": true
+    },
+    {
+     "purpose": "Scarves and wraps to layer over an evening dress.",
+     "all": {
+      "class": [
+       "Scarves",
+       "Dupatta"
+      ],
+      "occasion": [
+       "Evening"
+      ]
+     },
+     "from_past": true
+    },
+    {
+     "purpose": "Clutches and small bags to carry to the dinner.",
+     "all": {
+      "class": [
+       "Clutches",
+       "Pouches",
+       "Bag Charms"
+      ]
+     }
+    },
+    {
+     "purpose": "Festive gift sets to give as a parting present.",
+     "all": {
+      "subcategory": [
+       "Gift Sets"
+      ],
+      "gift_occasion": [
+       "Festive"
+      ]
+     }
+    },
+    {
+     "purpose": "Evening dresses and jumpsuits to pair with the past dress.",
+     "all": {
+      "subcategory": [
+       "Dresses & Jumpsuits"
+      ],
+      "occasion": [
+       "Evening"
+      ]
+     },
+     "from_past": true
+    }
+   ]
+  },
+  "c09": {
+   "primary": {
+    "purpose": "Festive outfits to wear to a cousin's mehendi.",
+    "all": {
+     "occasion": [
+      "Wedding",
+      "Festive"
+     ],
+     "category": [
+      "Women"
+     ]
+    },
+    "not": {
+     "class": [
+      "Pyjamas",
+      "Camisole"
+     ]
+    }
+   },
+   "sections": [
+    {
+     "purpose": "Statement earrings and danglers to complete a mehendi look.",
+     "all": {
+      "category": [
+       "Jewellery"
+      ],
+      "subcategory": [
+       "Earrings"
+      ],
+      "gift_occasion": [
+       "Wedding",
+       "Festive"
+      ]
+     }
+    },
+    {
+     "purpose": "Dupattas and sarees to layer over the outfit for the celebration.",
+     "all": {
+      "class": [
+       "Dupatta",
+       "Saree"
+      ],
+      "occasion": [
+       "Wedding",
+       "Festive"
+      ]
+     }
+    },
+    {
+     "purpose": "Clutches and pouches to carry for the mehendi.",
+     "all": {
+      "class": [
+       "Clutches",
+       "Pouches"
+      ],
+      "gift_occasion": [
+       "Wedding",
+       "Festive"
+      ]
+     }
+    },
+    {
+     "purpose": "Dresses and kaftans that pair with the slip for an easy festive look.",
+     "all": {
+      "class": [
+       "Dress",
+       "Kaftan",
+       "Jacket"
+      ],
+      "occasion": [
+       "Festive",
+       "Evening"
+      ]
+     },
+     "from_past": true
+    }
+   ]
+  },
+  "c10": {
+   "primary": {
+    "purpose": "Easy, breathable clothing for a weekend trip to Jaipur.",
+    "all": {
+     "occasion": [
+      "Resort"
+     ],
+     "category": [
+      "Women",
+      "Men"
+     ]
+    }
+   },
+   "sections": [
+    {
+     "purpose": "Bags and organisers that go with the weekender for carrying things around the city.",
+     "all": {
+      "class": [
+       "Pouches",
+       "Clutches",
+       "Bag Charms",
+       "Wallets"
+      ]
+     },
+     "from_past": true
+    },
+    {
+     "purpose": "Light printed shirts and kurtas for walking through forts and bazaars.",
+     "all": {
+      "class": [
+       "Shirt",
+       "Kurta"
+      ],
+      "pattern": [
+       "Printed"
+      ]
+     }
+    },
+    {
+     "purpose": "Handloom and block-style scarves and dupattas to layer and carry along.",
+     "all": {
+      "class": [
+       "Scarves",
+       "Dupatta"
+      ]
+     }
+    },
+    {
+     "purpose": "Jewellery for the Jaipur weekend that is easy to pack.",
+     "all": {
+      "category": [
+       "Jewellery"
+      ],
+      "class": [
+       "Danglers",
+       "Hoops",
+       "Bangles"
+      ]
+     }
+    },
+    {
+     "purpose": "Evening outfits for dinners out in Jaipur.",
+     "all": {
+      "occasion": [
+       "Evening"
+      ]
+     }
+    }
+   ]
+  },
+  "c11": {
+   "primary": {
+    "purpose": "Festive outfits to wear as a wedding guest in Udaipur.",
+    "all": {
+     "occasion": [
+      "Wedding",
+      "Festive"
+     ],
+     "category": [
+      "Women"
+     ]
+    },
+    "not": {
+     "category": [
+      "House & Home",
+      "Men"
+     ]
+    }
+   },
+   "sections": [
+    {
+     "purpose": "Wedding-ready dresses and kurtas for the ceremonies.",
+     "all": {
+      "occasion": [
+       "Wedding"
+      ],
+      "class": [
+       "Dress",
+       "Kurta",
+       "Saree"
+      ]
+     }
+    },
+    {
+     "purpose": "Dupattas and scarves that pair with the wrap.",
+     "all": {
+      "class": [
+       "Scarves",
+       "Dupatta"
+      ]
+     },
+     "from_past": true
+    },
+    {
+     "purpose": "Evening outfits for the sangeet and receptions.",
+     "all": {
+      "occasion": [
+       "Evening"
+      ],
+      "category": [
+       "Women"
+      ]
+     }
+    },
+    {
+     "purpose": "Statement jewellery to finish a wedding look.",
+     "all": {
+      "category": [
+       "Jewellery"
+      ],
+      "gift_occasion": [
+       "Wedding"
+      ]
+     }
+    },
+    {
+     "purpose": "Clutches and pouches to carry through the celebrations.",
+     "all": {
+      "class": [
+       "Clutches",
+       "Pouches"
+      ],
+      "gift_occasion": [
+       "Wedding"
+      ]
+     }
+    }
+   ]
+  },
+  "c12": {
+   "primary": {
+    "purpose": "Thoughtful anniversary gifts for the occasion, a mix of gift sets and keepsakes.",
+    "all": {
+     "gift_occasion": [
+      "Wedding"
+     ],
+     "class": [
+      "Gift Sets"
+     ]
+    }
+   },
+   "sections": [
+    {
+     "purpose": "Jewellery to give as a lasting anniversary keepsake.",
+     "all": {
+      "category": [
+       "Jewellery"
+      ],
+      "gift_occasion": [
+       "Wedding"
+      ]
+     }
+    },
+    {
+     "purpose": "Candles and fragrance to set a romantic mood at home.",
+     "all": {
+      "subcategory": [
+       "Candles & Fragrances",
+       "Fragrance"
+      ],
+      "gift_occasion": [
+       "Wedding"
+      ]
+     }
+    },
+    {
+     "purpose": "Drinkware for toasting the year together.",
+     "all": {
+      "subcategory": [
+       "Drinkware",
+       "Barware"
+      ],
+      "gift_occasion": [
+       "Wedding"
+      ]
+     }
+    },
+    {
+     "purpose": "Elegant outfits to wear for an anniversary evening out.",
+     "all": {
+      "occasion": [
+       "Evening"
+      ],
+      "category": [
+       "Women"
+      ]
+     }
+    }
+   ]
+  },
+  "c13": {
+   "primary": {
+    "purpose": "Tableware for hosting a relaxed monsoon lunch at home.",
+    "all": {
+     "subcategory": [
+      "Dinnerware",
+      "Serveware",
+      "Drinkware"
+     ]
+    }
+   },
+   "sections": [
+    {
+     "purpose": "Plates and bowls to lay out the lunch table.",
+     "all": {
+      "class": [
+       "Plates",
+       "Bowls",
+       "Serving Bowls",
+       "Platters"
+      ]
+     }
+    },
+    {
+     "purpose": "Table linen and coasters to dress the table.",
+     "all": {
+      "class": [
+       "Napkins",
+       "Placemats",
+       "Runner",
+       "Coasters"
+      ]
+     }
+    },
+    {
+     "purpose": "Glasses, mugs and tea pots for drinks with the meal.",
+     "all": {
+      "class": [
+       "Glasses",
+       "Tumblers",
+       "Tea & Coffee Pots",
+       "Kulhar & Tea Cups"
+      ]
+     }
+    },
+    {
+     "purpose": "Candles and fragrance for a cosy rainy-day mood.",
+     "all": {
+      "class": [
+       "Candles",
+       "Votives & Candle Holders",
+       "Diffuser & Incense Holder"
+      ]
+     }
+    },
+    {
+     "purpose": "Easy relaxed shirts to wear to a monsoon lunch, pairing with the past shirt.",
+     "all": {
+      "class": [
+       "Shirt"
+      ],
+      "occasion": [
+       "Everyday",
+       "Resort"
+      ]
+     },
+     "from_past": true
+    }
+   ]
+  },
+  "c14": {
+   "primary": {
+    "purpose": "Festive gifts for Diwali across home, jewellery and accessories.",
+    "all": {
+     "gift_occasion": [
+      "Festive"
+     ],
+     "class": [
+      "Gift Sets"
+     ]
+    }
+   },
+   "sections": [
+    {
+     "purpose": "Festive candles and fragrance to give as Diwali gifts.",
+     "all": {
+      "gift_occasion": [
+       "Festive"
+      ],
+      "subcategory": [
+       "Fragrance"
+      ]
+     }
+    },
+    {
+     "purpose": "Festive serveware and drinkware gifts for the Diwali table.",
+     "all": {
+      "gift_occasion": [
+       "Festive"
+      ],
+      "subcategory": [
+       "Serveware",
+       "Drinkware"
+      ]
+     }
+    },
+    {
+     "purpose": "Festive jewellery to gift at Diwali.",
+     "all": {
+      "gift_occasion": [
+       "Festive"
+      ],
+      "category": [
+       "Jewellery"
+      ]
+     }
+    },
+    {
+     "purpose": "Cushions and covers that pair with a throw for a cosy festive home.",
+     "all": {
+      "subcategory": [
+       "Cushions & Covers"
+      ]
+     },
+     "from_past": true
+    },
+    {
+     "purpose": "Festive decor and home accents to give for Diwali.",
+     "all": {
+      "gift_occasion": [
+       "Festive"
+      ],
+      "subcategory": [
+       "Decor"
+      ]
+     }
+    }
+   ]
   },
   "c15": {
    "primary": {
-    "purpose": "stub: the row key",
+    "purpose": "Easy travel-ready pieces to wear on a honeymoon.",
     "all": {
+     "campaign": [
+      "travelguide",
+      "Nico Travel Edit",
+      "Summerstyletravel"
+     ]
+    },
+    "not": {
      "category": [
-      "Accessories",
-      "Jewellery"
+      "House & Home"
      ]
     }
    },
-   "sections": []
+   "sections": [
+    {
+     "purpose": "Resort-ready dresses and kaftans for beach days and dinners.",
+     "all": {
+      "occasion": [
+       "Resort"
+      ],
+      "class": [
+       "Dress",
+       "Kaftan",
+       "Jumpsuit"
+      ]
+     }
+    },
+    {
+     "purpose": "Evening pieces for romantic dinners on the trip.",
+     "all": {
+      "occasion": [
+       "Evening"
+      ],
+      "category": [
+       "Women"
+      ]
+     },
+     "not": {
+      "category": [
+       "House & Home"
+      ]
+     }
+    },
+    {
+     "purpose": "Jewellery that packs light and dresses up any outfit.",
+     "all": {
+      "category": [
+       "Jewellery"
+      ],
+      "subcategory": [
+       "Earrings",
+       "Bangles & Bracelets"
+      ]
+     }
+    },
+    {
+     "purpose": "Bags and pouches to carry and organise on the go.",
+     "all": {
+      "class": [
+       "Bags",
+       "Pouches",
+       "Clutches"
+      ]
+     }
+    },
+    {
+     "purpose": "Shirts and bottoms that pair with the shirt they bought before.",
+     "all": {
+      "occasion": [
+       "Resort"
+      ],
+      "class": [
+       "Shorts",
+       "Pants",
+       "Trousers"
+      ]
+     },
+     "from_past": true
+    },
+    {
+     "purpose": "Scarves and light wraps for flights and cool evenings.",
+     "all": {
+      "class": [
+       "Scarves",
+       "Dupatta"
+      ]
+     }
+    }
+   ]
   },
   "c16": {
    "primary": {
-    "purpose": "stub: the row key",
+    "purpose": "Birthday gifts for a mother, led by thoughtful pieces she would enjoy.",
     "all": {
      "gift_occasion": [
       "Birthday"
@@ -194,53 +1098,330 @@
      ]
     }
    },
-   "sections": []
+   "sections": [
+    {
+     "purpose": "Scarves and wraps that pair with the stole she already owns.",
+     "all": {
+      "class": [
+       "Scarves",
+       "Dupatta"
+      ]
+     },
+     "from_past": true
+    },
+    {
+     "purpose": "Jewellery to give as a birthday gift.",
+     "all": {
+      "category": [
+       "Jewellery"
+      ],
+      "gift_occasion": [
+       "Birthday"
+      ]
+     }
+    },
+    {
+     "purpose": "Fragrance and candles as a gentle birthday gift.",
+     "all": {
+      "subcategory": [
+       "Fragrance",
+       "Candles & Fragrances"
+      ],
+      "gift_occasion": [
+       "Birthday"
+      ]
+     }
+    },
+    {
+     "purpose": "Curated gift sets ready to give for a birthday.",
+     "all": {
+      "class": [
+       "Gift Sets"
+      ],
+      "gift_occasion": [
+       "Birthday"
+      ]
+     }
+    },
+    {
+     "purpose": "Tea and coffee ware and mugs for her morning rituals, given as a birthday gift.",
+     "all": {
+      "subcategory": [
+       "Drinkware"
+      ],
+      "gift_occasion": [
+       "Birthday"
+      ]
+     }
+    },
+    {
+     "purpose": "Clutches and pouches as birthday accessories.",
+     "all": {
+      "class": [
+       "Clutches",
+       "Pouches",
+       "Bags"
+      ]
+     }
+    }
+   ]
   },
   "c17": {
    "primary": {
-    "purpose": "stub: the row key",
+    "purpose": "Polished, artful outfits to wear to a gallery opening.",
     "all": {
      "occasion": [
-      "Evening"
+      "Evening",
+      "Smart"
+     ],
+     "category": [
+      "Women"
+     ],
+     "subcategory": [
+      "Dresses & Jumpsuits",
+      "Tops & Shirts",
+      "Bottoms"
      ]
     }
    },
-   "sections": []
+   "sections": [
+    {
+     "purpose": "Statement earrings and necklaces to finish an evening look.",
+     "all": {
+      "category": [
+       "Jewellery"
+      ],
+      "class": [
+       "Statement Earrings",
+       "Statement Necklace",
+       "Danglers",
+       "Hoops"
+      ]
+     }
+    },
+    {
+     "purpose": "Clutches and small bags for an evening out.",
+     "all": {
+      "class": [
+       "Clutches",
+       "Pouches",
+       "Bag Charms"
+      ]
+     }
+    },
+    {
+     "purpose": "Scarves and wraps to layer over an evening outfit.",
+     "all": {
+      "class": [
+       "Scarves",
+       "Dupatta",
+       "Jacket"
+      ]
+     }
+    },
+    {
+     "purpose": "More dresses and jumpsuits that pair with the dress they bought before.",
+     "all": {
+      "class": [
+       "Dress",
+       "Jumpsuit",
+       "Kaftan"
+      ]
+     },
+     "from_past": true
+    }
+   ]
   },
   "c18": {
    "primary": {
-    "purpose": "stub: the row key",
+    "purpose": "Smart, easy-to-pack clothing for a work trip.",
     "all": {
+     "occasion": [
+      "Smart"
+     ],
      "category": [
-      "Accessories",
+      "Women",
+      "Men"
+     ]
+    },
+    "not": {
+     "category": [
+      "House & Home",
       "Jewellery"
      ]
     }
    },
-   "sections": []
+   "sections": [
+    {
+     "purpose": "Travel-ready bags and organisers for the trip.",
+     "all": {
+      "subcategory": [
+       "Bags & Organisers"
+      ],
+      "class": [
+       "Pouches",
+       "Bags"
+      ]
+     }
+    },
+    {
+     "purpose": "Light scarves and wraps for cool offices and flights.",
+     "all": {
+      "class": [
+       "Scarves"
+      ]
+     }
+    },
+    {
+     "purpose": "Smart trousers and pants to wear with a kurta.",
+     "all": {
+      "class": [
+       "Pants",
+       "Trousers"
+      ],
+      "occasion": [
+       "Smart"
+      ]
+     },
+     "not": {
+      "category": [
+       "House & Home"
+      ]
+     },
+     "from_past": true
+    },
+    {
+     "purpose": "Dupattas and tunics that pair with a kurta for work days.",
+     "all": {
+      "class": [
+       "Tunic",
+       "Dupatta"
+      ],
+      "occasion": [
+       "Smart"
+      ]
+     },
+     "from_past": true
+    },
+    {
+     "purpose": "Understated jewellery to dress up work outfits.",
+     "all": {
+      "category": [
+       "Jewellery"
+      ],
+      "subcategory": [
+       "Earrings",
+       "Necklace"
+      ]
+     }
+    }
+   ]
   },
   "c19": {
    "primary": {
-    "purpose": "stub: the row key",
+    "purpose": "Festive and wedding-worthy outfits to wear to a sister's engagement.",
     "all": {
+     "occasion": [
+      "Festive",
+      "Wedding"
+     ],
      "category": [
-      "Accessories",
-      "Jewellery"
+      "Women"
      ]
     }
    },
-   "sections": []
+   "sections": [
+    {
+     "purpose": "Jewellery to complete an engagement outfit.",
+     "all": {
+      "category": [
+       "Jewellery"
+      ],
+      "gift_occasion": [
+       "Wedding",
+       "Festive"
+      ]
+     }
+    },
+    {
+     "purpose": "Scarves and dupattas that pair with the past scarf and add a finishing layer.",
+     "all": {
+      "class": [
+       "Scarves",
+       "Dupatta"
+      ]
+     },
+     "from_past": true
+    },
+    {
+     "purpose": "Evening-ready clothing for the engagement celebrations.",
+     "all": {
+      "occasion": [
+       "Evening",
+       "Wedding"
+      ]
+     }
+    },
+    {
+     "purpose": "Clutches and pouches to carry along for the event.",
+     "all": {
+      "class": [
+       "Clutches",
+       "Pouches"
+      ],
+      "gift_occasion": [
+       "Wedding"
+      ]
+     }
+    }
+   ]
   },
   "c20": {
    "primary": {
-    "purpose": "stub: the row key",
+    "purpose": "Best-loved everyday pieces from the core collection to introduce a new customer to Nicobar.",
     "all": {
-     "category": [
-      "House & Home"
+     "campaign": [
+      "oldcore"
      ]
     }
    },
-   "sections": []
+   "sections": [
+    {
+     "purpose": "Easy everyday clothing for women to wear on repeat.",
+     "all": {
+      "occasion": [
+       "Everyday"
+      ],
+      "category": [
+       "Women"
+      ]
+     }
+    },
+    {
+     "purpose": "Home bestsellers like tableware and decor.",
+     "all": {
+      "campaign": [
+       "bestsellershome"
+      ]
+     }
+    },
+    {
+     "purpose": "Giftable pieces for birthdays.",
+     "all": {
+      "gift_occasion": [
+       "Birthday"
+      ]
+     }
+    },
+    {
+     "purpose": "Everyday jewellery to add a finishing touch.",
+     "all": {
+      "category": [
+       "Jewellery"
+      ]
+     }
+    }
+   ]
   }
  }
 }

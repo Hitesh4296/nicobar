@@ -145,4 +145,10 @@ describe('rank from saved queries', () => {
     const { rankingBy } = await import('../../src/lib/rank/index.ts');
     expect(rankingBy(cfg(plan), 's').queries).toEqual({ model: 'm', prompt_sha256: 'h', date: 'd' });
   });
+  it('keeps one past-purchase shelf and drops the rest', () => {
+    const q = (purpose: string, from_past: boolean) => ({ purpose, all: { occasion: ['Wedding'] }, from_past });
+    const g = gatePlan({ primary: q('p', false), sections: [q('a', true), q('b', true)] }, ctx({ past: 'shirt' }), index);
+    expect(g.sections.filter((x) => x.from_past).map((x) => x.purpose)).toEqual(['a']);
+    expect(g.log.join()).toContain('one past-purchase shelf only');
+  });
 });

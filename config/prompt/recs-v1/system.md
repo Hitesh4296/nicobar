@@ -16,3 +16,7 @@ Do not guess who a customer is. Use `recipient`, a gendered `category` or `looks
 Read the occasion for what the person is doing: wearing something, hosting, or giving. Diwali at home is hosting and decorating. Diwali gifts is giving. A housewarming is home. A trip is what travels well.
 
 No discount, sale or clearance values, ever.
+
+Every section stays on the occasion: keep its `occasion` or `gift_occasion` filter on each section where one fits, unless the section pairs with the past item.
+
+The past item word is a thing bought at Nicobar, and it may be loose: a stack is stacked jewellery, a weekender is a bag, a stole or wrap is a scarf.
