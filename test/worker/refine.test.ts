@@ -11,6 +11,7 @@ import { resetRunKeyAttempts } from '../../src/worker/run-key.ts';
 import { routes } from '../../src/worker/routes/agents.ts';
 import { routes as startRoutes } from '../../src/worker/routes/start.ts';
 import { match } from '../../src/worker/routes/list.ts';
+import { buildIndex, search } from '../../src/lib/search/index.ts';
 import { db, env, migrate } from './run-fx.ts';
 
 const product = (n: number, over: Partial<Product>): Product => ({ id: `w${n}`, handle: `w-${n}`, title: `Piece <${n}>`, url: '', body_text_clean: '', category: ['Accessories'], subcategory: [`S${n}`], class: [`K${n}`], subclass: [],
@@ -20,7 +21,7 @@ const rows = [1, 2, 3, 4, 5].map((n) => product(n, { occasion_keys: ['wedding'],
 const CAT = { snapshot_id: 'snap', fetched_at: 't', rows: new Map(rows.map((p) => [p.id, p])), by_sku: new Map(), usable: rows, rules: { title_cores: [], distinctive_cores: [], nouns: [], handles: [] } } as unknown as Catalog;
 vi.mock('../../src/lib/catalog/index.ts', () => ({ loadCatalog: async () => CAT }));
 
-const W: Weights = { occasion: 100, season: 20, bestseller: 15, new: 10, past: 10, push_down: 15 };
+const W: Weights = { occasion: 150, season: 20, bestseller: 15, new: 10, past: 10, merchandising: 30, push_down: 15 };
 const dev: Actor = { kind: 'dev', email: 'a@b', sub: 'dev:a@b' };
 const KEY = 'test-run-key-9f3a';
 const TSV = "customer_id\tfirst_name\tlast_name\toccasion\tpast_purchase_note\nc01\tMeera\tDas\tSister's wedding\tBought the indigo travel shirt last spring.\n";
@@ -92,6 +93,26 @@ describe('a version is immutable', () => {
   });
 });
 
+describe('the product read (R141)', () => {
+  it('route and page return the same ids as search, with counts and paging, and the route stays on the deployed link', async () => {
+    rows[0].facets = { class: ['Kurta'] }; rows[1].facets = { class: ['Kurta'] }; rows[2].facets = { class: ['Bag'] };
+    const m = (u: string, e = {}) => { const url = new URL(`https://x.test${u}`), r = match('GET', url.pathname)!; return r.route.handler({ req: new Request(url), env: { ...env, ...e } as never, exec: {} as ExecutionContext, actor: dev, params: {} }); };
+    try {
+      await db.prepare(`INSERT OR IGNORE INTO snapshots (id, fetched_at, product_rows, usable_rows, synthetic) VALUES ('snap', 't', 1, 1, 0)`).run();
+      const b = await (await m('/api/products?class=Kurta&limit=1&offset=1', { DEPLOYED: '1' })).json<{ count: number; ids: string[]; products: { id: string }[]; counts: Record<string, { value: string; count: number }[]> }>();
+      expect(b.ids).toEqual(search({ all: { class: ['Kurta'] } }, buildIndex(rows)).ids);
+      expect(b.count).toBe(2);
+      const h = await (await m('/review/search?class=Kurta')).text();
+      expect([...h.matchAll(/data-id="([^"]+)"/g)].map((x) => x[1])).toEqual(b.ids);
+      expect(h).toContain('class="chip on"');
+      expect(h).toContain('Kurta 2');
+      expect(h).toContain('Piece &#60;1&#62;');
+      expect(b.products.map((p) => p.id)).toEqual([b.ids[1]]);
+      expect(b.counts.class).toEqual([{ value: 'Bag', count: 1 }, { value: 'Kurta', count: 2 }].sort((x, y) => y.count - x.count));
+    } finally { for (const p of rows.slice(0, 3)) delete p.facets; }
+  });
+});
+
 describe('preview', () => {
   it('writes nothing: no row, no object', async () => {
     await seeded();
@@ -148,6 +169,18 @@ describe('preview', () => {
     const h = await (await hit('GET', `/review/agents/refine${qs(five)}`)).text();
     expect(h).toMatch(/id="w-push_down"[^>]*value="0"/);
     expect((await hit('GET', `/review/agents/refine${qs(five, '&preview=1&only=c01')}`)).status).toBe(200);
+  });
+  it('shows the merchandising weight, loads a version saved without it at 0, and says the signal in plain words (R140)', async () => {
+    const tagged = rows[0];
+    tagged.merch_rank = { 'all-women': 3 };
+    try {
+      await seeded();
+      const { merchandising: _, ...six } = W;
+      expect(await (await hit('GET', `/review/agents/refine${qs(six)}`)).text()).toMatch(/id="w-merchandising"[^>]*value="0"/);
+      const h = await (await hit('GET', `/review/agents/refine${qs(W, '&preview=1&only=c01')}`)).text();
+      expect(h).toContain('Near the top of Nicobar&#39;s All Women');
+      expect(h).not.toContain('merch:');
+    } finally { delete tagged.merch_rank; }
   });
   it('refuses bad weights and does not rank', async () => {
     await seeded();
@@ -217,7 +250,7 @@ describe('a run pins the version', () => {
     const recs = parseRecs(JSON.parse(rankedRecs(parseRecs(RECS), TSV, CAT, v)));
     expect(recs.generated_by).toMatchObject({ method: 'weights', version: 'rank-v1', weights: W, snapshot_id: 'snap' });
     const plan: Plan = planCustomer(ingestTsv(TSV)[0], recs.rows[0], { c01: { key: 'wedding' } }, CAT, { format: 'both', run_date: 'd' } as never, { version: 'x', default: 'open', shapes: [] });
-    expect(plan.picks[0].score).toBe(110);
+    expect(plan.picks[0].score).toBe(160);
   });
   it('the same inputs give the same bytes, so a preview stays good at Start', async () => {
     const v = await seeded();

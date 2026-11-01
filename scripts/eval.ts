@@ -8,6 +8,7 @@ import type { Catalog, CheckResult, Envelope, Format, Group, ModelDraft, ModelJs
 import * as real from '../src/lib/check/index.ts';
 import { toCatalog } from '../src/lib/catalog/index.ts';
 import { renderAll } from '../src/lib/render/index.ts';
+import { poolOf, rankConfig, rankCustomer, readCustomers } from '../src/lib/rank/index.ts';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const json = (p: string) => JSON.parse(readFileSync(join(ROOT, p), 'utf8'));
@@ -323,7 +324,27 @@ async function main() {
   for (const f of failed) console.log(`FAIL ${f.file}:${f.id} ${f.why}`);
   for (const m of survivors) console.log(`SURVIVED ${m.id} ${m.rule_change}`);
   for (const d of reference_diffs) console.log(`diff ${d.id} reference=${d.reference} fired=${d.fired}`);
-  process.exit(failed.length || survivors.length ? 1 : 0);
+  const snapshot = snapshotCatalog(), planBad = snapshot ? planCheck(snapshot) : [];
+  for (const b of planBad) console.log(`PLAN ${b}`);
+  process.exit(failed.length || survivors.length || planBad.length ? 1 : 0);
+}
+
+/** R141: every saved query finds at least 12 products and no row mixes men and women. Prints what reviewers read. */
+export function planCheck(cat: Catalog): string[] {
+  const text = (f: string) => readFileSync(join(ROOT, f), 'utf8'), bad: string[] = [];
+  const queries = json('data/queries.synthetic.json'), cfg = rankConfig(json('config/ranking.json'), json('data/row_keys.synthetic.json'), json('data/hand_table.synthetic.json').rows, queries);
+  const masc = (p: Product) => p.category.includes('Men') || p.gender === 'male', fem = (p: Product) => p.category.includes('Women') || p.gender === 'female';
+  const name = (id: string) => cat.rows.get(id)!.title.split(' - ')[0];
+  console.log(`plan check, queries by ${queries.model}, ${queries.date}`);
+  for (const c of readCustomers(text('data/customers.with-c20.synthetic.tsv'))) {
+    const x = poolOf(c, cat, cfg), r = rankCustomer(c, cat, cfg), found = x.plan?.primary.size ?? 0;
+    const shown = [...r.picks.map((p) => p.product_id), ...(r.more ?? []).flatMap((s) => s.product_ids)].map((id) => cat.rows.get(id)!);
+    if (found < 12) bad.push(`${c.customer_id}: primary finds ${found}`);
+    if (shown.some(masc) && shown.some(fem)) bad.push(`${c.customer_id}: mixes men and women`);
+    const q = queries.rows[c.customer_id];
+    console.log(`${c.customer_id} | ${c.occasion ?? 'none'} | ${JSON.stringify(q?.primary.all ?? null)} = ${found}; sections ${(x.plan?.sections ?? []).map((s) => `${JSON.stringify(s.s.all)} = ${s.ids.length}`).join(', ') || 'none'} | ${r.picks.slice(0, 6).map((p) => name(p.product_id)).join('; ')}`);
+  }
+  return bad;
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) await main();

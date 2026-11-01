@@ -22,6 +22,8 @@
     "demo": "node scripts/demo.ts",
     "batch": "node scripts/batch.ts",
     "rank": "node scripts/rank.ts",
+    "collections": "node scripts/collections.ts",
+    "plan-queries": "node scripts/plan-queries.ts",
     "run-json": "node scripts/run-json.ts"
   },
   "devDependencies": {

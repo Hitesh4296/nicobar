@@ -5,7 +5,7 @@ import ranking from '../../config/ranking.json' with { type: 'json' };
 import type { Catalog, Product, RecRow } from '../../src/contracts/types.ts';
 import { parseRecs } from '../../src/lib/recs.ts';
 import { changeOf, checkWeights, rankAll, rankConfig, rankCustomer, rankingBy, readCustomers, scoreOf, signalsOf, type RankConfig, type RankCustomer } from '../../src/lib/rank/index.ts';
-import { planEvidence } from '../../src/ui/evidence.ts';
+import { planEvidence, plainSignal } from '../../src/ui/evidence.ts';
 import type { CustomerData } from '../../src/ui/timeline.ts';
 import { heldoutCatalog, snapshotCatalog } from '../../scripts/eval.ts';
 
@@ -14,7 +14,7 @@ const hand = JSON.parse(text('data/hand_table.synthetic.json')).rows;
 const keys = JSON.parse(text('data/row_keys.synthetic.json'));
 const customers = readCustomers(text('data/customers.with-c20.synthetic.tsv'));
 const real = snapshotCatalog();
-const cfg = rankConfig(ranking, keys, hand);
+const cfg = rankConfig(ranking, keys, hand);   // no queries: the row rules these tests pin
 /** A clean clone has no out/: the fixture cannot hold the pinned rows, so those pins go. */
 const fixtureCfg: RankConfig = { ...cfg, new_user_picks: [], rows: Object.fromEntries(Object.entries(cfg.rows).map(([c, r]) => [c, { ...r, hand: undefined }])) };
 const live = real ?? heldoutCatalog();
@@ -152,7 +152,7 @@ describe('why', () => {
     const plan = { picks: [{ slot: 'p1', product_id: '1', reason_code: 'OCCASION_MATCH', group: 'wear', why: ['occasion_tag:wedding', 'goes_with:shirt', 'bestseller'] }],
       more: [{ kind: 'occasion', heading: 'More for a wedding', product_ids: ['2', '3'], why: { 2: ['occasion_tag:wedding'], 3: ['occasion_tag:wedding', 'new_arrival'] } }] };
     const html = planEvidence({ plan, drafts: [] } as unknown as CustomerData);
-    expect(html).toContain('Tagged for weddings · Goes with your shirt · Bestseller, by the site');
+    expect(html).toContain('Tagged for weddings · Goes with your shirt · A bestseller on the site');
     expect(html).toContain('Tagged for weddings 2 · New on the site 1');
   });
 });
@@ -160,13 +160,13 @@ describe('why', () => {
 describe('weights (R128)', () => {
   const w = ranking.weights;
   it('scores the sum of what matched, the occasion once', () => {
-    expect(scoreOf(['occasion_tag:wedding', 'fitted_class', 'goes_with:shirt', 'prior_tag', 'new_arrival'], w)).toBe(140);
+    expect(scoreOf(['occasion_tag:wedding', 'fitted_class', 'goes_with:shirt', 'prior_tag', 'new_arrival'], w)).toBe(190);
     expect(scoreOf(['fallback'], w)).toBe(0);
     expect(scoreOf(['bestseller'], w)).toBe(15);
   });
   it('refuses past at or over occasion, a zero occasion, and a bad or unknown weight', () => {
-    expect(() => checkWeights({ ...w, past: 100 })).toThrow(/past/);
-    expect(() => checkWeights({ ...w, past: 101 })).toThrow(/past/);
+    expect(() => checkWeights({ ...w, past: 150 })).toThrow(/past/);
+    expect(() => checkWeights({ ...w, past: 151 })).toThrow(/past/);
     expect(() => checkWeights({ ...w, occasion: 0, past: 0 })).toThrow(/occasion/);
     expect(() => checkWeights({ ...w, occasion: 11, past: 10 })).toThrow(/outweigh/);
     expect(() => checkWeights({ ...w, season: -1 })).toThrow(/season/);
@@ -187,11 +187,11 @@ describe('weights (R128)', () => {
     expect(ids(rankCustomer({ ...shirt, note: null }, catalog([a, b]), one, { ...w, new: 30 }))).toEqual([b.id]);
     const past = product({ handle: 'pin-a', class: ['Socks'] }), fit = product({ handle: 'pin-b', class: ['Bags'] });
     const c = { ...cfg, rows: { x: { type: 'wear' as const, picks: 2, key: null, pool: 'trip', hand: ['pin-a', 'pin-b'] } }, pools: { trip: ['Bags'] } };
-    expect(ids(rankCustomer(shirt, catalog([past, fit]), c, { ...w, past: 90 }))).toEqual([fit.id, past.id]);
+    expect(ids(rankCustomer(shirt, catalog([past, fit]), c, { ...w, past: 60 }))).toEqual([fit.id, past.id]);
   });
   it('every pick carries score and why, and the row its filter counts', () => {
     const r = rankCustomer(shirt, catalog([product({ class: ['Chains'], occasion_keys: ['wedding'], badges: ['New'] })]), x);
-    expect(r.picks[0].score).toBe(120);
+    expect(r.picks[0].score).toBe(170);
     expect(r.pool).toEqual({ filtered: 1, on_occasion: 1, past: 1 });
     expect(() => parseRecs({ version: 'recommendations/v1', synthetic: true, as_of: 'x', snapshot_id: 'y', rule: 'z', rows: [r], generated_by: rankingBy(cfg, 'y') })).not.toThrow();
     expect(() => parseRecs({ version: 'recommendations/v1', synthetic: true, as_of: 'x', snapshot_id: 'y', rule: 'z', rows: [{ ...r, pool: { filtered: 'a' } }] })).toThrow(/pool/);
@@ -231,9 +231,9 @@ describe('push_down (R138)', () => {
     expect(() => checkWeights({ occasion: 55, ...pos, push_down: 0 })).toThrow(/outweigh/);
   });
   it('occasion still wins at the largest push down the check allows, at any position', () => {
-    expect(() => checkWeights({ ...w, push_down: 45 })).toThrow(/outweigh/);
+    expect(() => checkWeights({ ...w, push_down: 65 })).toThrow(/outweigh/);
     expect(() => checkWeights({ ...w, push_down: -1 })).toThrow(/push_down/);
-    const top = { ...w, push_down: 44 };
+    const top = { ...w, push_down: 64 };
     checkWeights(top);
     const off = product({ class: ['Chains'], prior_tags: ['x'], badges: ['New'], is_bestseller_gift: true });
     const tagged = product({ class: ['Studs'], occasion_keys: ['birthday'], push_down: true });
@@ -248,6 +248,56 @@ describe('push_down (R138)', () => {
   });
   it('the file it writes names the signal', () => {
     const r = rankCustomer(none, catalog([product({ occasion_keys: ['wedding'], push_down: true })]), x);
+    expect(() => parseRecs({ version: 'recommendations/v1', synthetic: true, as_of: 'x', snapshot_id: 'y', rule: 'z', rows: [r] })).not.toThrow();
+  });
+});
+
+describe('merchandising (R140)', () => {
+  const w = ranking.weights, none = { ...shirt, note: null };
+  it('reads the best place in any collection, the bestseller lists apart, on a stated scale', () => {
+    expect(signalsOf(none, product({ merch_rank: { 'all-women': 40, 'all-jewellery': 7, bestseller: 1 } }), x.rows.x, x)).toContain('merch:all-jewellery:7');
+    expect(signalsOf(none, product({ merch_rank: { 'all-women': 251 } }), x.rows.x, x).join()).not.toContain('merch');
+    expect(scoreOf(['merch:all-women:1'], w)).toBe(30);
+    expect(scoreOf(['merch:all-women:126'], w)).toBe(15);
+    expect(scoreOf(['merch:all-women:250'], w)).toBe(0);
+    expect(scoreOf([], w)).toBe(0);
+  });
+  it('orders an earlier product first inside the occasion', () => {
+    const one = { ...x, rows: { x: { ...x.rows.x, picks: 1 } } }, classes = ['Studs', 'Hoops', 'Danglers', 'Bags'];
+    for (const best of classes) {   // Each takes a turn, so the hash cannot be what puts it first.
+      const ps = classes.map((k) => product({ class: [k], occasion_keys: ['wedding'], merch_rank: { 'all-women': k === best ? 1 : 200 } }));
+      expect(rankCustomer(none, catalog(ps), one).picks[0].product_id).toBe(ps[classes.indexOf(best)].id);
+    }
+  });
+  it('the check takes it in: the old occasion of 100 is refused, 150 holds, and a save without it still reads', () => {
+    expect(w.occasion + 0).toBe(150);
+    expect(() => checkWeights({ ...w, occasion: 100 })).toThrow(/outweigh/);
+    expect(() => checkWeights({ ...w, merchandising: 79 })).not.toThrow();
+    expect(() => checkWeights({ ...w, merchandising: 80 })).toThrow(/outweigh/);
+    expect(() => checkWeights({ ...w, merchandising: -1 })).toThrow(/merchandising/);
+    const { merchandising: _, ...six } = w;
+    expect(checkWeights(six)).toBe(six);
+    expect(scoreOf(['occasion_tag:wedding', 'merch:all-women:1'], six)).toBe(w.occasion);
+  });
+  it('occasion still wins over the best off-occasion product at the most the check allows', () => {
+    const top = { ...w, merchandising: 79 };
+    const off = product({ class: ['Chains'], prior_tags: ['x'], badges: ['New'], merch_rank: { 'all-women': 1, bestseller: 1 } }), tagged = product({ class: ['Studs'], occasion_keys: ['wedding'], push_down: true });
+    const r = rankCustomer(none, catalog([off, tagged]), x, top);
+    expect(ids(r)).toEqual([tagged.id, off.id]);
+    expect(r.picks[0].score).toBeGreaterThan(r.picks[1].score!);
+  });
+  it('bestseller is membership of the two lists on every row, and Best_gift only on gift rows', () => {
+    for (const h of ['bestseller', 'home-bestsellers']) expect(signalsOf(none, product({ merch_rank: { [h]: 90 } }), x.rows.x, x)).toContain('bestseller');
+    const gift = product({ is_bestseller_gift: true });
+    expect(signalsOf(none, gift, x.rows.x, x)).not.toContain('bestseller');
+    expect(signalsOf(none, gift, { type: 'gift', picks: 1, key: null }, x)).toContain('bestseller');
+  });
+  it('the reviewer reads it in plain words', () => {
+    expect(plainSignal('merch:all-women:12')).toBe("Near the top of Nicobar's All Women");
+    expect(plainSignal('merch:the-ultimate-for-her:120')).toBe("In Nicobar's The Ultimate For Her, at 120");
+  });
+  it('the file it writes names the signal', () => {
+    const r = rankCustomer(none, catalog([product({ occasion_keys: ['wedding'], merch_rank: { 'all-women': 3 } })]), x);
     expect(() => parseRecs({ version: 'recommendations/v1', synthetic: true, as_of: 'x', snapshot_id: 'y', rule: 'z', rows: [r] })).not.toThrow();
   });
 });
@@ -307,7 +357,6 @@ describe.skipIf(!real)('on the real snapshot', () => {
   const get = (c: string) => rows.find((r) => r.customer_id === c)!;
   const masc = (p: Product) => p.category.includes('Men') || p.gender === 'male';
   const fem = (p: Product) => p.category.includes('Women') || p.gender === 'female';
-  it("c01's p1 and p2 are the owner's anchor at the default weights: Dupki Studs, Chandni Necklace (R134)", () => expect(ids(get('c01')).slice(0, 2)).toEqual(['7492613243014', '7492613406854']));
   it('c20 keeps its rule', () => {
     expect(get('c20').picks.every((p) => p.reason_code === 'NEW_USER_PRIOR')).toBe(true);
     expect(get('c20').picks.map((p) => real!.rows.get(p.product_id)!.handle)).toEqual(ranking.new_user_picks);

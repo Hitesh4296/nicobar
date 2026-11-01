@@ -47,6 +47,12 @@ The code is the authority where it can be. **DDL:** `migrations/0001_core.sql`, 
 
 **`recommendations/v1`.** `{version, synthetic, as_of, snapshot_id, rule, rows:[{customer_id, picks:[{product_id, reason_code}]}]}`, ranked, 0–6 picks. No copy, title, image, price or format. Optional `more:[{kind, label, product_ids}]`, up to 6 sections and 60 ids: extra products that code renders on the catalog and landing page under code-set headings, in page order picks, `occasion_category`, `occasion`, `past_purchase`. Email stays picks only. A `past_purchase` section is written only when at least `limits.min_occasion_in_past_rail` of its products also match the occasion. Optional `why`, on a pick as `string[]` and on a section as `{product_id: string[]}`: signal names from a fixed list, shown to the reviewer on the Plan step, never to the model. A file without it parses as before. `src/lib/rank/` writes this file; a real recommender can replace it by this contract.
 
+**`queries/v1`.** `data/queries.synthetic.json`: `{version, synthetic, model, prompt_sha256, date, snapshot_id, rows:{customer_id:{primary:{purpose, all, not?}, sections:[{purpose, all, not?, from_past?}]}}}`. `all` and `not` map a family to values: any value within a family, every family across. Written by `npm run plan-queries`, read by ranking through the same code gates as at planning, named in `generated_by.queries`. A customer with no surviving primary falls back to the row rules.
+
+**`GET /api/products`.** `?occasion=Wedding&class=Kurta&not.pattern=Solid&limit=&offset=&sort=merchandising`. Same guard as the review pages, read only, no model, on the deployed link too. Returns `{snapshot_id, count, limit, offset, ids, products, counts}`. `search(query, index)` is the one product read: planning, ranking, this route and the `/review/search` page all call it. The planner is one structured-output call that returns filter values as data: no tools, no MCP, no agent loop.
+
+**`vocabulary.json`.** Built with the snapshot: `{family:[{value,count}]}` over usable products. Each catalog row carries `facets` and, when the site's collections hold it, `merch_rank` (`{handle: 1-based place}`), read from `samples/site/collections.json`.
+
 **`row_keys`.** `{"c01": {"key": "wedding"}, …, "c20": {"key": null}}`. `parseRowKeys` refuses any other field.
 
 **`prep` order, first hit wins:**

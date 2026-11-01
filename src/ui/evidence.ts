@@ -36,11 +36,12 @@ export const kv = (pairs: [string, unknown][]) => `<dl class="ev-kv">${pairs.map
 const table = (head: string[], rows: string[][]) => `<table class="tl-table"><thead><tr>${head.map((h) => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((x) => `<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
 
 const OCCASION_WORD: Record<string, string> = { wedding: 'weddings', birthday: 'birthdays', festive: 'festive days', evening: 'evenings', resort: 'holidays', smart: 'smart days', housewarming: 'housewarmings', hosting: 'hosting', everyday: 'every day' };
-const SIGNAL: Record<string, string> = { fitted_class: 'Fits this occasion', row_fit: 'Fits this customer', bestseller: "Bestseller, by the site's gift tag", prior_tag: 'In the current season', new_arrival: 'New on the site', push_down: 'Pushed down by the site', fallback: 'No occasion tag', hand_set: 'Set by hand', new_user: 'New-customer pick' };
+const SIGNAL: Record<string, string> = { fitted_class: 'Fits this occasion', query_match: "In this customer's search", row_fit: 'Fits this customer', bestseller: 'A bestseller on the site', prior_tag: 'In the current season', new_arrival: 'New on the site', push_down: 'Pushed down by the site', fallback: 'No occasion tag', hand_set: 'Set by hand', new_user: 'New-customer pick' };
+const merchWords = (handle: string, rank: number) => { const title = handle.replace(/(^|-)([a-z])/g, (_, d: string, c: string) => `${d && ' '}${c.toUpperCase()}`); return rank <= 50 ? `Near the top of Nicobar's ${title}` : `In Nicobar's ${title}, at ${rank}`; };
 /** Signal names from the ranker in reviewer's words. No model text ever passes here. */
 export function plainSignal(s: string): string {
-  const [name, word] = s.split(':');
-  return name === 'occasion_tag' ? `Tagged for ${OCCASION_WORD[word] ?? word}` : name === 'goes_with' ? `Goes with your ${word}` : SIGNAL[s] ?? s;
+  const [name, word, rank] = s.split(':');
+  return name === 'occasion_tag' ? `Tagged for ${OCCASION_WORD[word] ?? word}` : name === 'merch' ? merchWords(word, Number(rank)) : name === 'goes_with' ? `Goes with your ${word}` : SIGNAL[s] ?? s;
 }
 const railWhy = (why: Record<string, string[]> | undefined) => {
   const n = new Map<string, number>();

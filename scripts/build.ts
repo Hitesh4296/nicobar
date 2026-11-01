@@ -1,7 +1,7 @@
 // Builds the snapshot from samples/site, the frozen copy of the site (R99: nothing is fetched). `--publish` writes the local D1 row and local R2 files, nothing remote.
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import mapJson from '../config/occasion_map.json' with { type: 'json' };
@@ -10,6 +10,7 @@ import season from '../config/season.json' with { type: 'json' };
 import { passesC0, passesC4, passesC5, stem, stripBody } from '../src/lib/catalog/strip.ts';
 import type { CatalogFile } from '../src/lib/catalog/index.ts';
 import { ingestTsv } from '../src/lib/ingest.ts';
+import { facetsOf, vocabularyOf } from '../src/lib/search/vocabulary.ts';
 import { countKeys } from '../src/lib/plan.ts';
 import { parseRowKeys } from '../src/lib/recs.ts';
 import type { MapRow, OccasionMap, Product, Rules } from '../src/contracts/types.ts';
@@ -58,25 +59,29 @@ function mapped(tags: string[], unknown: Set<string>) {
   return rows;
 }
 
-function normalise(p: Raw, unknown: Set<string>): Product {
+function normalise(p: Raw, unknown: Set<string>, rank: Map<string, Record<string, number>>): Product {
+  const colours = p.options.filter((o) => /^colou?r$/i.test(o.name)).flatMap((o) => o.values);
   const available = p.variants.some((v) => v.available);
   const subcategory = vals(p.tags, 'Filtersubcategory_');
   const clean = stripBody(p.body_html, p.title), body_text_clean = available ? clean : null, excluded_reasons = reasons(p, subcategory, clean);
   const m = mapped(p.tags, unknown);
   const cat = m.filter((x) => x.family === 'CATEGORY_');
+  const gift_occasion = cat.filter((x) => x.row.kind === 'occasion').map((x) => x.value), gift_recipient = cat.filter((x) => x.row.kind === 'recipient').map((x) => x.row.recipient ?? x.value);
   return { id: String(p.id), handle: p.handle, title: p.title, url: `https://www.nicobar.com/products/${p.handle}`, body_text_clean,
     category: vals(p.tags, 'Filtercategory_'), subcategory, class: vals(p.tags, 'Filterclass_'), subclass: vals(p.tags, 'Filtersubclass_'),
-    wear_occasion: vals(p.tags, 'Filteroccasion_'), gift_occasion: cat.filter((x) => x.row.kind === 'occasion').map((x) => x.value),
-    gift_recipient: cat.filter((x) => x.row.kind === 'recipient').map((x) => x.row.recipient ?? x.value), line: cat.filter((x) => x.row.kind === 'line').map((x) => x.value),
+    wear_occasion: vals(p.tags, 'Filteroccasion_'), gift_occasion,
+    gift_recipient, line: cat.filter((x) => x.row.kind === 'line').map((x) => x.value),
     room_or_use: vals(p.tags, 'Festive_', 'shopby_'), collection: vals(p.tags, 'COLLECTION_', 'pdpcollection_'),
     campaign: [...new Set(vals(p.tags, 'Campaign_', 'campaign_').map((c) => c.toLowerCase()))],
     occasion_keys: [...new Set(m.flatMap((x) => (x.row.kind === 'occasion' && x.row.key ? [x.row.key] : [])))],
     prior_tags: p.tags.filter((t) => PRIOR.has(t)), material: vals(p.tags, 'MATERIAL_')[0] ?? null, material_group: vals(p.tags, 'Material Group_')[0]?.toLowerCase() ?? null,
-    colours: p.options.filter((o) => /^colou?r$/i.test(o.name)).flatMap((o) => o.values), gender: gender(p.tags), design_group: vals(p.tags, 'grouping_')[0] ?? null,
+    colours, gender: gender(p.tags), design_group: vals(p.tags, 'grouping_')[0] ?? null,
     badges: vals(p.tags, 'badge_'), is_bestseller_gift: p.tags.includes('Best_gift'), available,
     variants: p.variants.map((v) => ({ id: String(v.id), sku: v.sku || null, title: v.title, option1: v.option1, option2: v.option2, price: v.price, available: v.available })),
     images: p.images.map((i) => ({ src: i.src, src_canonical: i.src.split('?')[0], position: i.position, variant_ids: i.variant_ids.map(String) })),
-    excluded_reason: excluded_reasons[0] ?? null, excluded_reasons, published_at: p.published_at ?? null, push_down: p.tags.includes('push_down'),
+    excluded_reason: excluded_reasons[0] ?? null, excluded_reasons, published_at: p.published_at ?? null, push_down: p.tags.includes('push_down'), 
+    facets: facetsOf(p.tags, { colours, gift_recipient, gift_occasion }),
+    ...(rank.has(String(p.id)) ? { merch_rank: rank.get(String(p.id)) } : {}),
     content_sha256: sha256(JSON.stringify(p, (k, v) => (k === 'updated_at' ? undefined : v))) };
 }
 
@@ -121,13 +126,21 @@ function invariants(rows: Product[]): void {
   if (bad.length) throw new Error(`SNAPSHOT_INVARIANT_FAILED: ${bad.length}: ${bad.slice(0, 10).join(', ')}`);
 }
 
-interface Samples { fetched_at: string; gift_cards_removed: number; products: Raw[] }
-export const readSamples = (dir = 'samples/site'): Samples => JSON.parse(readFileSync(join(dir, 'catalog.json'), 'utf8'));
+interface Samples { fetched_at: string; gift_cards_removed: number; products: Raw[]; collections?: Record<string, string[]> }
+export const readSamples = (dir = 'samples/site'): Samples => ({ ...JSON.parse(readFileSync(join(dir, 'catalog.json'), 'utf8')),
+  collections: existsSync(join(dir, 'collections.json')) ? JSON.parse(readFileSync(join(dir, 'collections.json'), 'utf8')).collections : {} });
 
-export function buildSnapshot({ products, fetched_at, gift_cards_removed }: Samples) {
+/** Product id to its 1-based place in each collection that holds it. */
+export function merchRanks(collections: Record<string, string[]> = {}) {
+  const rank = new Map<string, Record<string, number>>();
+  for (const [handle, ids] of Object.entries(collections)) ids.forEach((id, i) => rank.set(id, { ...rank.get(id), [handle]: i + 1 }));
+  return rank;
+}
+
+export function buildSnapshot({ products, fetched_at, gift_cards_removed, collections }: Samples) {
   const raw = products.filter((p) => !isGiftCard(p));
   const unknown = new Set<string>();
-  const rows = raw.map((p) => normalise(p, unknown));
+  const rank = merchRanks(collections), rows = raw.map((p) => normalise(p, unknown, rank));
   invariants(rows);
   const hash = sha256([...rows.map((p) => p.content_sha256)].sort().join('')).slice(0, 12);
   const snapshot_id = `${fetched_at.slice(0, 10)}-${hash}`;
@@ -141,7 +154,7 @@ export function buildSnapshot({ products, fetched_at, gift_cards_removed }: Samp
     stages: { after_hidden_and_bundle: after_season + (excl.OUT_OF_SEASON ?? 0), after_season, after_class, usable }, unknown_occasion_values: [...unknown].sort() };
   // Side file, read only by the product detail: raw tags never reach a prompt, and the catalog stays small enough to parse on every cold start.
   const detail = Object.fromEntries(raw.map((p) => [String(p.id), { tags: p.tags, text: stripBody(p.body_html, p.title) }]));
-  return { catalog, rules: buildRules(raw, rows), report, detail };
+  return { catalog, rules: buildRules(raw, rows), report, detail, vocabulary: vocabularyOf(rows.filter((p) => !p.excluded_reason)) };
 }
 
 function wrangler(args: string[], persist: string | undefined) {
@@ -151,14 +164,14 @@ function wrangler(args: string[], persist: string | undefined) {
 
 function main() {
   const arg = (name: string) => { const i = process.argv.indexOf(name); return i < 0 ? undefined : process.argv[i + 1]; };
-  const { catalog, rules, report, detail } = buildSnapshot(readSamples(arg('--samples')));
+  const { catalog, rules, report, detail, vocabulary } = buildSnapshot(readSamples(arg('--samples')));
   const ids = ingestTsv(readFileSync('data/customers.with-c20.synthetic.tsv', 'utf8')).map((r) => r.key);
   const full = { ...report, row_keys: countKeys(ids, parseRowKeys(JSON.parse(readFileSync('data/row_keys.synthetic.json', 'utf8')))) };
 
   const id = report.snapshot_id;
   const dir = join('out', 'snapshot', id);
   mkdirSync(dir, { recursive: true });
-  const files = { 'catalog.json': catalog, 'rules.json': rules, 'report.json': full, 'detail.json': detail };
+  const files = { 'catalog.json': catalog, 'rules.json': rules, 'report.json': full, 'detail.json': detail, 'vocabulary.json': vocabulary };
   for (const [f, v] of Object.entries(files)) writeFileSync(join(dir, f), JSON.stringify(v));
 
   if (process.argv.includes('--publish')) {

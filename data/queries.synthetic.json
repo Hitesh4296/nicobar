@@ -1,0 +1,246 @@
+{
+ "version": "queries/v1",
+ "synthetic": true,
+ "model": "stub",
+ "prompt_sha256": "9aafe555cac5e41f92273fdc3110eef8fbd2e444041a9ac811d4cfbaf2227a5b",
+ "date": "2026-11-01",
+ "snapshot_id": "2026-11-01-cdda17faae52",
+ "rows": {
+  "c01": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "category": [
+      "Accessories",
+      "Jewellery"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c02": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "category": [
+      "Accessories",
+      "Jewellery"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c03": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "category": [
+      "Accessories",
+      "Jewellery"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c04": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "gift_occasion": [
+      "Birthday"
+     ],
+     "recipient": [
+      "him"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c05": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "gift_occasion": [
+      "Housewarming"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c06": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "category": [
+      "Accessories",
+      "Jewellery"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c07": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "gift_occasion": [
+      "Festive"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c08": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "occasion": [
+      "Evening"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c09": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "gift_occasion": [
+      "Wedding"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c10": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "category": [
+      "Accessories",
+      "Jewellery"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c11": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "category": [
+      "Accessories",
+      "Jewellery"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c12": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "category": [
+      "House & Home"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c13": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "category": [
+      "Accessories",
+      "Jewellery"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c14": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "gift_occasion": [
+      "Festive"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c15": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "category": [
+      "Accessories",
+      "Jewellery"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c16": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "gift_occasion": [
+      "Birthday"
+     ],
+     "recipient": [
+      "her"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c17": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "occasion": [
+      "Evening"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c18": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "category": [
+      "Accessories",
+      "Jewellery"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c19": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "category": [
+      "Accessories",
+      "Jewellery"
+     ]
+    }
+   },
+   "sections": []
+  },
+  "c20": {
+   "primary": {
+    "purpose": "stub: the row key",
+    "all": {
+     "category": [
+      "House & Home"
+     ]
+    }
+   },
+   "sections": []
+  }
+ }
+}

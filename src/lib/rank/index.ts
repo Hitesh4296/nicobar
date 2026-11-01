@@ -1,6 +1,8 @@
 // The ranking engine (R127, R128, R134): filter, then a weighted score, then fixed guards. A stable hash breaks ties.
 // ponytail: hand-set row rules; ceiling = these 20 rows, upgrade = a real recommender writing the same file.
 import { createHash } from 'node:crypto';
+import { gatePlan, type PlanSection, type QueriesFile } from '../search/gate.ts';
+import { buildIndex, search, type SearchIndex } from '../search/index.ts';
 import type { Catalog, MoreKind, MoreSection, Plan, PoolCounts, Product, RankingBy, ReasonCode, RecPick, RecRow, RowKeys, Weights } from '../../contracts/types.ts';
 
 export interface RankCustomer { customer_id: string; occasion: string|null; note: string|null }
@@ -9,31 +11,34 @@ export interface RankConfig {
   version: string; weights: Weights;
   limits: { family_cap: number; family_cap_max: number; rail: number; occasion_rail: number; category_rails: number; category_min: number; min_occasion_in_past_rail: number };
   barred: { class: string[]; subcategory: string[]; handle_words: string[] };
-  gift_keys: string[]; home_rail_keys: string[]; fresh_badge: string; pools: Record<string, string[]>; plurals: Record<string, string>;
+  gift_keys: string[]; home_rail_keys: string[]; fresh_badge: string; pools: Record<string, string[]>; plurals: Record<string, string>; queries?: QueriesFile;
   complements: Record<string, { class: string }[]>; new_user_picks: string[]; rows: Record<string, RankRow>;
 }
 type RankingFile = Omit<RankConfig, 'rows'> & { rows: Record<string, unknown> };
 type Key = (number|string)[];
 
-export const WEIGHTS = ['occasion', 'season', 'bestseller', 'new', 'past', 'push_down'] as const;
+export const WEIGHTS = ['occasion', 'season', 'bestseller', 'new', 'past', 'merchandising', 'push_down'] as const;
+export const MERCH_DEPTH = 250;
+const MAX_RAILS = 6, MAX_MORE_IDS = 60;   // recs.ts holds a file to these
+const BESTSELLER_COLLECTIONS = ['bestseller', 'home-bestsellers'];
 
 /** Refuses weights that could lift a past purchase over the occasion. R128: this holds for any saved weights, a pushed-down occasion product included. */
 export function checkWeights(w: Weights): Weights {
-  const push = w.push_down ?? 0;
-  for (const k of WEIGHTS) { const v = k === 'push_down' ? push : w[k]; if (!Number.isFinite(v) || v < 0) throw new Error(`rank: weight ${k} must be a number, 0 or above`); }
+  const push = w.push_down ?? 0, rest = w.season + w.bestseller + w.new + w.past + (w.merchandising ?? 0);
+  for (const k of WEIGHTS) { const v = k === 'push_down' || k === 'merchandising' ? w[k] ?? 0 : w[k]; if (!Number.isFinite(v) || v < 0) throw new Error(`rank: weight ${k} must be a number, 0 or above`); }
   if (Object.keys(w).some((k) => !(WEIGHTS as readonly string[]).includes(k))) throw new Error('rank: unknown weight');
   if (w.occasion === 0) throw new Error('rank: the occasion weight cannot be 0');
   if (w.past >= w.occasion) throw new Error('rank: past must stay below occasion');
-  if (w.season + w.bestseller + w.new + w.past >= w.occasion) throw new Error('rank: occasion must outweigh the other four together');
-  if (w.season + w.bestseller + w.new + w.past + push >= w.occasion) throw new Error('rank: occasion must still outweigh the other four together after the push down');
+  if (rest >= w.occasion) throw new Error('rank: occasion must outweigh the others together');
+  if (rest + push >= w.occasion) throw new Error('rank: occasion must still outweigh the others together after the push down');
   return w;
 }
 
 /** ranking.json, plus the two data files that stay where they are. */
-export const rankConfig = (f: unknown, keys: RowKeys, hand: Record<string, { picks: string[] }>): RankConfig => {
+export const rankConfig = (f: unknown, keys: RowKeys, hand: Record<string, { picks: string[] }>, queries?: QueriesFile): RankConfig => {
   const file = f as RankingFile;
   checkWeights(file.weights);
-  return { ...file, rows: Object.fromEntries(Object.entries(file.rows).map(([c, r]) => [c, { ...(r as RankRow), key: keys[c]?.key ?? null, ...(hand[c] ? { hand: hand[c].picks } : {}) }])) };
+  return { ...file, ...(queries ? { queries } : {}), rows: Object.fromEntries(Object.entries(file.rows).map(([c, r]) => [c, { ...(r as RankRow), key: keys[c]?.key ?? null, ...(hand[c] ? { hand: hand[c].picks } : {}) }])) };
 };
 
 /** customers/v2, keeping the note the ingest step rightly drops. Blank fields are null. */
@@ -55,6 +60,31 @@ const hash = (c: string, p: Product) => createHash('sha256').update(c + p.id).di
 const gendered = (p: Product) => p.category.includes('Men') || p.category.includes('Women');
 /** Category and gender can disagree (six Men rows are `female`), so neither is read alone. */
 const neutral = (p: Product) => (gendered(p) ? p.gender === 'any' : p.gender !== 'female' && p.gender !== 'male');
+
+/** The best place in any of Nicobar's collections, the bestseller lists apart, or null when it is in none, or past the scale. */
+function merchOf(p: Product): string|null {
+  const best = Object.entries(p.merch_rank ?? {}).filter(([h, at]) => !BESTSELLER_COLLECTIONS.includes(h) && at <= MERCH_DEPTH).sort((a, b) => a[1] - b[1] || (a[0] < b[0] ? -1 : 1))[0];
+  return best ? `merch:${best[0]}:${best[1]}` : null;
+}
+
+/** Who a query row may show: the gender rule of `fits`, with no class or home rule, because the query now says what the row is. */
+function admitted(p: Product, row: RankRow): boolean {
+  if (row.recipient) return !(row.recipient === 'him' ? fem(p) : masc(p));
+  return neutral(p) || (row.note_gender === 'f' && fem(p) && !masc(p));
+}
+/** The saved queries for this customer, through the same gate as at planning. Null falls back to the row rules. */
+const INDEX = new WeakMap<Product[], SearchIndex>();
+function planOf(c: RankCustomer, cat: Pick<Catalog, 'usable'>, cfg: RankConfig, row: RankRow) {
+  const saved = cfg.queries?.rows[c.customer_id];
+  if (!saved) return null;
+  const index = INDEX.get(cat.usable) ?? buildIndex(cat.usable);
+  INDEX.set(cat.usable, index);
+  const admit = (p: Product) => p.available && !barred(p, cfg) && admitted(p, row);
+  const g = gatePlan(saved, { occasion: c.occasion, note_gender: row.note_gender, past: pastWord(c, cfg), admit }, index);
+  if (!g.primary) return null;
+  const hit = (s: PlanSection) => search({ all: s.all, not: s.not }, index).ids.filter((id) => admit(index.products.get(id)!));
+  return { primary: new Set(hit(g.primary)), sections: g.sections.map((s) => ({ s, ids: hit(s) })) };
+}
 
 const barred = (p: Product, cfg: RankConfig) => cfg.barred.class.some((k) => p.class.includes(k)) || cfg.barred.subcategory.some((k) => p.subcategory.includes(k)) || cfg.barred.handle_words.some((w) => p.handle.includes(w));
 
@@ -83,24 +113,28 @@ function pastWord(c: RankCustomer, cfg: RankConfig): string|null {
 }
 
 /** Every signal, in tier order: what ranks the product is what explains it. */
-export function signalsOf(c: RankCustomer, p: Product, row: RankRow, cfg: RankConfig): string[] {
-  const word = pastWord(c, cfg), out: string[] = [];
-  if (row.key && p.occasion_keys.includes(row.key)) out.push(`occasion_tag:${row.key}`);
-  if (row.pool && cfg.pools[row.pool].includes(cl(p))) out.push('fitted_class');
+export function signalsOf(c: RankCustomer, p: Product, row: RankRow, cfg: RankConfig, primary?: Set<string>): string[] {
+  const word = pastWord(c, cfg), merch = merchOf(p), out: string[] = [];
+  if (primary?.has(p.id)) out.push('query_match');
+  if (!primary && row.key && p.occasion_keys.includes(row.key)) out.push(`occasion_tag:${row.key}`);
+  if (!primary && row.pool && cfg.pools[row.pool].includes(cl(p))) out.push('fitted_class');
   if (word && cfg.complements[word].some((x) => p.class.includes(x.class))) out.push(`goes_with:${word}`);
-  // The tag is Best_gift: it says nothing about what to wear to a wedding, so it speaks only on a gift row.
-  if (p.is_bestseller_gift && (row.type === 'gift' || (row.key !== null && cfg.gift_keys.includes(row.key)))) out.push('bestseller');
+  if (merch) out.push(merch);
+  // Best_gift says nothing about what to wear to a wedding, so it speaks only on a gift row.
+  if (BESTSELLER_COLLECTIONS.some((h) => p.merch_rank?.[h]) || (p.is_bestseller_gift && (row.type === 'gift' || (row.key !== null && cfg.gift_keys.includes(row.key))))) out.push('bestseller');
   if (p.prior_tags.length) out.push('prior_tag');
   if (p.badges.includes(cfg.fresh_badge)) out.push('new_arrival');
   if (p.push_down) out.push('push_down');
   return out;
 }
 
-const isTier1 = (s: string[]) => s.some((x) => x.startsWith('occasion_tag') || x === 'fitted_class');
+const isTier1 = (s: string[]) => s.some((x) => x.startsWith('occasion_tag') || x === 'fitted_class' || x === 'query_match');
 const isPast = (s: string[]) => s.some((x) => x.startsWith('goes_with'));
+/** Linear: the full weight at place 1, down to nothing past MERCH_DEPTH, rounded so a score stays a whole number. */
+const merchScore = (s: string[], w: Weights) => { const at = s.find((x) => x.startsWith('merch:'))?.split(':')[2]; return at ? Math.round((w.merchandising ?? 0) * (1 - (Number(at) - 1) / MERCH_DEPTH)) : 0; };
 /** The sum of the matched signals. A product counts for the occasion once, by tag or by fitted class. */
 export function scoreOf(s: string[], w: Weights): number {
-  return (isTier1(s) ? w.occasion : 0) + (s.includes('prior_tag') ? w.season : 0) + (s.includes('bestseller') ? w.bestseller : 0) + (s.includes('new_arrival') ? w.new : 0) + (isPast(s) ? w.past : 0) - (s.includes('push_down') ? w.push_down ?? 0 : 0);
+  return (isTier1(s) ? w.occasion : 0) + (s.includes('prior_tag') ? w.season : 0) + (s.includes('bestseller') ? w.bestseller : 0) + (s.includes('new_arrival') ? w.new : 0) + (isPast(s) ? w.past : 0) + merchScore(s, w) - (s.includes('push_down') ? w.push_down ?? 0 : 0);
 }
 const compare = (a: Key, b: Key) => { for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return a[i] < b[i] ? -1 : 1; return 0; };
 
@@ -117,21 +151,25 @@ function take(cand: Product[], n: number, cap: number): Product[] {
 
 export const RANK_RULE = 'Internal ranking engine, src/lib/rank with config/ranking.json. Filter, then a weighted score, then fixed guards: the first pick fits the occasion and is never past-only, one per class, at most two per family where the pool allows. A stable hash breaks ties. Hand table for c02 c03 c06 c13 c15 c18 (HAND_SET), pinned and resorted so p1 obeys the rule; pinned new-user picks for c20 (NEW_USER_PRIOR). Row rules and the complements table are hand-written and synthetic, no behaviour data. A real recommender can replace this file by contract.';
 
-export interface RowPool { gated: Product[]; tier1: Product[]; past: Product[]; signals: Map<string, string[]>; sorted: (ps: Product[]) => Product[] }
+export interface RowPool { gated: Product[]; tier1: Product[]; past: Product[]; signals: Map<string, string[]>; sorted: (ps: Product[]) => Product[]; plan: ReturnType<typeof planOf> }
 
 /** Everything this row may show, with the comparator that orders it. */
 export function poolOf(c: RankCustomer, cat: Pick<Catalog, 'usable'>, cfg: RankConfig, weights: Weights = cfg.weights): RowPool {
   const row = cfg.rows[c.customer_id];
-  const gated = cat.usable.filter((p) => p.available && !barred(p, cfg) && fits(p, row, cfg));
-  const signals = new Map(cat.usable.map((p) => [p.id, signalsOf(c, p, row, cfg)]));
+  const plan = planOf(c, cat, cfg, row);
+  const queried = plan && new Set([...plan.primary, ...plan.sections.flatMap((x) => x.ids)]);
+  const gated = cat.usable.filter((p) => (queried ? queried.has(p.id) : p.available && !barred(p, cfg) && fits(p, row, cfg)));
+  const signals = new Map(cat.usable.map((p) => [p.id, signalsOf(c, p, row, cfg, plan?.primary)]));
   const key = (p: Product): Key => [-scoreOf(signals.get(p.id)!, weights), hash(c.customer_id, p)];
   const sorted = (ps: Product[]) => ps.map((p) => [key(p), p] as const).sort((a, b) => compare(a[0], b[0])).map((x) => x[1]);
-  return { gated, signals, sorted, tier1: gated.filter((p) => isTier1(signals.get(p.id)!)), past: gated.filter((p) => isPast(signals.get(p.id)!)) };
+  return { gated, signals, sorted, plan, tier1: gated.filter((p) => isTier1(signals.get(p.id)!)), past: gated.filter((p) => isPast(signals.get(p.id)!)) };
 }
 
 function choosePicks(row: RankRow, x: RowPool, cfg: RankConfig): Product[] {
   const fits1 = (p: Product) => isTier1(x.signals.get(p.id)!);
-  const cand = x.sorted(x.gated.filter((p) => row.type !== 'wear' || !home(p)));   // On a wear row, home is for the rails: a wedding email does not sell mugs.
+  // On a wear row, home is for the rails: a wedding email does not sell mugs. A query that found only home is the exception: it said so.
+  const wearOnly = row.type === 'wear' && (!x.plan || [...x.plan.primary].some((id) => x.gated.some((p) => p.id === id && !home(p))));
+  const cand = x.sorted(x.gated.filter((p) => !wearOnly || !home(p)));
   const pastOnly = (p: Product) => !fits1(p) && isPast(x.signals.get(p.id)!);
   // The hero guard: an occasion product when one exists, and never a past-only one.
   const head = cand.some(fits1) ? cand.findIndex(fits1) : cand.findIndex((p) => !pastOnly(p));
@@ -144,7 +182,7 @@ function choosePicks(row: RankRow, x: RowPool, cfg: RankConfig): Product[] {
   return take(ordered, row.picks, cfg.limits.family_cap_max);
 }
 
-const reasonOf = (s: string[]): ReasonCode => (s.some((v) => v.startsWith('occasion_tag')) ? 'OCCASION_MATCH' : s.includes('fitted_class') ? 'TRIP_TAG' : 'FALLBACK_NON_OCCASION');
+const reasonOf = (s: string[]): ReasonCode => (s.some((v) => v.startsWith('occasion_tag') || v === 'query_match') ? 'OCCASION_MATCH' : s.includes('fitted_class') ? 'TRIP_TAG' : 'FALLBACK_NON_OCCASION');
 const pick = (p: Product, s: string[], reason_code: ReasonCode, name: string, w: Weights): RecPick => ({ product_id: p.id, reason_code, why: [...s, ...(name ? [name] : [])], score: scoreOf(s, w) });
 
 function pinned(handles: string[], c: string, cat: Pick<Catalog, 'usable'>): Product[] {
@@ -169,7 +207,31 @@ function roundRobin(ps: Product[], n: number, x: RowPool): Product[] {
 const plural = (k: string, cfg: RankConfig) => cfg.plurals[k] ?? k;
 
 /** The past rail fills first, so it keeps its size on a thin row, and renders last. A product sits in one rail only. */
+/** "Embroidered Kurtas": descriptive values, then the most specific noun a query names. Only filter values reach it. */
+function labelOf(s: PlanSection, cfg: RankConfig): string {
+  const noun = ['class', 'subclass', 'subcategory', 'category', 'gift_occasion', 'collection'].flatMap((f) => s.all[f]?.slice(0, 1) ?? [])[0];
+  const words = [...['pattern', 'colour', 'material', 'occasion'].flatMap((f) => s.all[f]?.slice(0, 1) ?? []), ...(noun ? [plural(noun, cfg)] : [])].join(' ').replace(/[^A-Za-z &-]/g, ' ').replace(/\s+/g, ' ').trim();
+  const label = words.charAt(0).toUpperCase() + words.slice(1, 40).trimEnd();
+  return /^[A-Z]/.test(label) ? label : 'More';
+}
+
+/** Section queries become rails, in the model's order; the rest of the primary closes. A product sits in one rail only. */
+function queryMore(row: RankRow, c: RankCustomer, picks: Product[], x: RowPool, cfg: RankConfig): MoreSection[] {
+  const used = new Set(picks.map((p) => p.id)), more: MoreSection[] = [], by = new Map(x.gated.map((p) => [p.id, p]));
+  const add = (kind: MoreKind, label: string, ids: string[], n: number) => {
+    const ps = roundRobin(ids.filter((id) => !used.has(id)).map((id) => by.get(id)!), n, x);
+    if (!ps.length) return;
+    for (const p of ps) used.add(p.id);
+    more.push({ kind, label, product_ids: ps.map((p) => p.id), why: Object.fromEntries(ps.map((p) => [p.id, x.signals.get(p.id)!.length ? x.signals.get(p.id)! : ['row_fit']])) });
+  };
+  const word = pastWord(c, cfg);
+  for (const { s, ids } of x.plan!.sections.slice(0, MAX_RAILS - 1)) if (s.from_past && word) add('past_purchase', word, ids, cfg.limits.rail); else add('occasion_category', labelOf(s, cfg), ids, cfg.limits.rail);
+  add('occasion', '', [...x.plan!.primary], Math.min(cfg.limits.occasion_rail, MAX_MORE_IDS - more.flatMap((s) => s.product_ids).length));
+  return [...more.filter((s) => s.kind !== 'past_purchase'), ...more.filter((s) => s.kind === 'past_purchase')];
+}
+
 function chooseMore(c: RankCustomer, row: RankRow, picks: Product[], x: RowPool, cfg: RankConfig): MoreSection[] {
+  if (x.plan) return queryMore(row, c, picks, x, cfg);
   const { rail, occasion_rail, category_rails, category_min } = cfg.limits;
   const used = new Set(picks.map((p) => p.id)), more: MoreSection[] = [];
   const section = (kind: MoreKind, label: string, ps: Product[]) => {
@@ -177,7 +239,7 @@ function chooseMore(c: RankCustomer, row: RankRow, picks: Product[], x: RowPool,
     more.push({ kind, label, product_ids: ps.map((p) => p.id), why: Object.fromEntries(ps.map((p) => [p.id, x.signals.get(p.id)!.length ? x.signals.get(p.id)! : ['row_fit']])) });
   };
   const open = (ps: Product[]) => ps.filter((p) => !used.has(p.id));
-  const tagged = row.type === 'new_user' ? x.gated : x.gated.filter((p) => row.key !== null && p.occasion_keys.includes(row.key));
+  const tagged = row.type === 'new_user' ? x.gated : x.gated.filter((p) => x.signals.get(p.id)!.some((s) => s.startsWith('occasion_tag')));
 
   const word = pastWord(c, cfg);
   if (word) {
@@ -212,7 +274,10 @@ export function rankCustomer(c: RankCustomer, cat: Pick<Catalog, 'usable'>, cfg:
   const row = cfg.rows[c.customer_id], x = poolOf(c, cat, cfg, w);
   const signal = (p: Product) => x.signals.get(p.id)!;
   let chosen: Product[], picks: RecPick[];
-  if (row.type === 'new_user') {
+  if (x.plan) {
+    chosen = choosePicks(row, x, cfg);
+    picks = chosen.map((p) => (row.type === 'new_user' ? pick(p, signal(p), 'NEW_USER_PRIOR', 'new_user', w) : pick(p, signal(p), reasonOf(signal(p)), reasonOf(signal(p)) === 'FALLBACK_NON_OCCASION' ? 'fallback' : '', w)));
+  } else if (row.type === 'new_user') {
     chosen = pinned(cfg.new_user_picks, c.customer_id, cat);
     picks = chosen.map((p) => pick(p, signal(p), 'NEW_USER_PRIOR', 'new_user', w));
   } else if (row.hand) {
@@ -231,7 +296,8 @@ export function rankCustomer(c: RankCustomer, cat: Pick<Catalog, 'usable'>, cfg:
 
 /** What wrote this ranking, for `generated_by`. */
 export const rankingBy = (cfg: RankConfig, snapshot_id: string, catalog_version?: string): RankingBy => ({ method: 'weights', version: cfg.version, weights: cfg.weights,
-  rules: ['hero fits the occasion', 'one per class', `${cfg.limits.family_cap} per family`], snapshot_id, cost: 0, ...(catalog_version ? { catalog_version } : {}) });
+  rules: ['hero fits the occasion', 'one per class', `${cfg.limits.family_cap} per family`], snapshot_id, cost: 0, ...(catalog_version ? { catalog_version } : {}),
+  ...(cfg.queries ? { queries: { model: cfg.queries.model, prompt_sha256: cfg.queries.prompt_sha256, date: cfg.queries.date } } : {}) });
 
 export type Change = { kind: 'unchanged' } | { kind: 'sections'; rails: string[] } | { kind: 'picks'; before: string[]; after: string[] };
 

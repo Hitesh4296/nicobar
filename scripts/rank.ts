@@ -18,7 +18,7 @@ const APPLY_DESIGN = `--apply is not built: a new version needs a slot the schem
 What it needs: a migration that rebuilds drafts with CHECK (version >= 1), version stops meaning attempt (jev_events, cost_events, timeline and runReport all read version as attempt), so a new column
   source ('attempt'|'rerank'), and the transition edge that retires the live row first, because one_live allows one in_review row per customer. The new row copies model_json, re-renders catalog and landing, and starts at draft.`;
 
-const cfg0 = () => rankConfig(json('config/ranking.json'), json('data/row_keys.synthetic.json'), json('data/hand_table.synthetic.json').rows);
+const cfg0 = () => rankConfig(json('config/ranking.json'), json('data/row_keys.synthetic.json'), json('data/hand_table.synthetic.json').rows, json('data/queries.synthetic.json'));
 
 async function preview(cfg: RankConfig, run_id: string, only: string, weights: Weights) {
   const { getPlatformProxy } = await import('wrangler');
