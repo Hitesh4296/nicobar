@@ -31,13 +31,13 @@ export const query = <T = Record<string, unknown>>(cfg: string, sql: string): T[
 export interface Selected { f: { id: string; prompt_version: string; jev_config_version: string }; isolation: { id: string } }
 
 /** Latest finished run of each stage, on a real snapshot: fixture rows carry `snapshots.synthetic = 1`. */
-export function selectRuns(cfg: string): Selected {
+export function selectRuns(cfg: string, needIsolation = true): Selected {
   const latest = (stage: string, extra = '') => query<Selected['f']>(cfg, `SELECT r.id, r.prompt_version, r.jev_config_version FROM runs r JOIN snapshots s ON s.id = r.snapshot_id
     WHERE r.stage = '${stage}' AND r.status = 'done' AND s.synthetic = 0 ${extra} ORDER BY r.created_at DESC LIMIT 1`)[0];
   const f = latest('F', "AND r.id NOT LIKE 'stub-%'"), isolation = latest('isolation');
   if (!f) throw new Error('refused: no done stage F run on a real snapshot');
-  if (!isolation) throw new Error('refused: no done isolation run on a real snapshot');
-  return { f, isolation };
+  if (!isolation && needIsolation) throw new Error('refused: no done isolation run on a real snapshot');
+  return { f, isolation: isolation ?? { id: '' } };
 }
 
 export function pinsRefusal(f: Selected['f'], active: { id: string; kind: string }[]): string[] {
@@ -206,7 +206,7 @@ async function main(): Promise<void> {
     // Sits beside the copy, so every wrangler call below reads the copy's state.
     writeFileSync(cfg, JSON.stringify({ ...config, build: undefined, main: join(ROOT, config.main), env: undefined,
       d1_databases: config.d1_databases.map((d: object) => ({ ...d, migrations_dir: join(ROOT, 'migrations') })) }));
-    const runs = selectRuns(cfg);
+    const runs = selectRuns(cfg, !process.argv.includes('--no-isolation'));   // ponytail: for a landing-only seed; reseed once an isolation run exists
     const refusals = pinsRefusal(runs.f, query<{ id: string; kind: string }>(cfg, `SELECT id, kind FROM config_versions WHERE status = 'active'`));
     if (refusals.length) throw new Error(refusals.join('; '));
     const seed = exportFromCopy(cfg, runs, readFileSync(join(ROOT, 'data/customers.nicobar.tsv'), 'utf8'), []);
