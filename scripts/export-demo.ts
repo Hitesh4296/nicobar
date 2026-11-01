@@ -70,7 +70,7 @@ export function pruneSql(fId: string, isolationId: string): string {
     `DELETE FROM draft_events WHERE draft_id NOT IN (SELECT id FROM drafts WHERE run_id = ${f});`,
     ...['plans', 'drafts', 'cost_events', 'jev_events'].map((t) => `DELETE FROM ${t} WHERE run_id <> ${f};`),
     'DELETE FROM snapshots WHERE id NOT IN (SELECT snapshot_id FROM runs);',
-    `DELETE FROM config_versions WHERE id NOT IN (SELECT prompt_version FROM runs UNION SELECT voice_guide_version FROM runs UNION SELECT jev_config_version FROM runs);`,
+    `DELETE FROM config_versions WHERE id NOT IN (SELECT prompt_version FROM runs UNION SELECT voice_guide_version FROM runs UNION SELECT jev_config_version FROM runs UNION SELECT catalog_version FROM runs WHERE catalog_version IS NOT NULL);`,
   ].join('\n');
 }
 

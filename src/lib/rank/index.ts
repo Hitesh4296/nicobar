@@ -182,7 +182,7 @@ function chooseMore(c: RankCustomer, row: RankRow, picks: Product[], x: RowPool,
 
   const left = open(row.pool || row.everyday_pool || row.type === 'new_user' ? x.gated : tagged);
   const depth = new Map<string, Product[]>();
-  for (const p of left) depth.set(cl(p), [...(depth.get(cl(p)) ?? []), p]);
+  for (const p of left) if (cl(p)) depth.set(cl(p), [...(depth.get(cl(p)) ?? []), p]);   // an enabled product with no class has no section of its own
   const order = [...depth].filter(([, v]) => v.length >= category_min).sort((a, b) => b[1].length - a[1].length || (a[0] < b[0] ? -1 : 1));
   const chosen: string[] = [];
   for (const [k, v] of order) if (chosen.length < category_rails && !chosen.some((q) => family(depth.get(q)![0]) === family(v[0]))) chosen.push(k);
@@ -217,8 +217,8 @@ export function rankCustomer(c: RankCustomer, cat: Pick<Catalog, 'usable'>, cfg:
 }
 
 /** What wrote this ranking, for `generated_by`. */
-export const rankingBy = (cfg: RankConfig, snapshot_id: string): RankingBy => ({ method: 'weights', version: cfg.version, weights: cfg.weights,
-  rules: ['hero fits the occasion', 'one per class', `${cfg.limits.family_cap} per family`], snapshot_id, cost: 0 });
+export const rankingBy = (cfg: RankConfig, snapshot_id: string, catalog_version?: string): RankingBy => ({ method: 'weights', version: cfg.version, weights: cfg.weights,
+  rules: ['hero fits the occasion', 'one per class', `${cfg.limits.family_cap} per family`], snapshot_id, cost: 0, ...(catalog_version ? { catalog_version } : {}) });
 
 export type Change = { kind: 'unchanged' } | { kind: 'sections'; rails: string[] } | { kind: 'picks'; before: string[]; after: string[] };
 

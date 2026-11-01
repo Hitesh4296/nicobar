@@ -1,0 +1,116 @@
+{
+ "version": "usable-rules-v1",
+ "rules": [
+  {
+   "id": "NOT_AVAILABLE",
+   "name": "Sold out",
+   "priority": "P0",
+   "why": "No size or colour can be bought, so a customer would be sent to a dead end."
+  },
+  {
+   "id": "NO_IMAGE",
+   "name": "No image",
+   "priority": "P0",
+   "why": "Every card needs a real nicobar.com image, and there is none to show."
+  },
+  {
+   "id": "NO_BODY",
+   "name": "No description",
+   "priority": "P0",
+   "why": "After cleaning there is no site copy left, so the writer would have to invent one."
+  },
+  {
+   "id": "HIDDEN",
+   "name": "Hidden on the site",
+   "priority": "P0",
+   "why": "Nicobar has hidden it from shoppers, and a link would show them what the site does not."
+  },
+  {
+   "id": "GIFT_CARD",
+   "name": "Gift card",
+   "priority": "P0",
+   "why": "A gift card is not a product to write about. These are removed before the snapshot, so they have no row."
+  },
+  {
+   "id": "NOT_RECORDED",
+   "name": "Reasons not recorded",
+   "priority": "P0",
+   "why": "This snapshot was built before every reason was kept. Rebuild it: until then nothing excluded can be overridden."
+  },
+  {
+   "id": "BUNDLE",
+   "name": "Bundle",
+   "priority": "P1",
+   "why": "A shop-bundle row is several products sold as one, not one product to write about.",
+   "if_enabled": "Ranks as one product. The writer sees its title and description only, not its parts."
+  },
+  {
+   "id": "OUT_OF_SEASON",
+   "name": "Out of season",
+   "priority": "P1",
+   "why": "Its subcategory is listed in config/season.json for a festival that is not now. Rakhi only, today.",
+   "if_enabled": "Ranks normally. A draft that names the festival still fails the season check for that customer alone."
+  },
+  {
+   "id": "THIN_COPY",
+   "name": "Thin description",
+   "priority": "P1",
+   "why": "Fewer than 20 words of site copy, so the writer has little to ground a claim on.",
+   "if_enabled": "The word count is a check on the build only, so a run takes the product. The writer has under 20 words to ground on: a claim beyond them fails check C7, and that customer's draft fails alone."
+  },
+  {
+   "id": "NO_CLASS",
+   "name": "No class tag",
+   "priority": "P1",
+   "why": "One-per-kind rows and class sections read this tag. Without it the product can pass only as a plain pick.",
+   "if_enabled": "Ranks as a plain pick, never in a class section or a fitted trip pool, and only one such product per row."
+  },
+  {
+   "id": "NO_CATEGORY",
+   "name": "No category tag",
+   "priority": "P1",
+   "why": "Rows read the category for gender and home. Without it the product reads as neutral wear.",
+   "if_enabled": "Reads as wear, never as home, and as no gender unless its gender tag says so."
+  },
+  {
+   "id": "BAR_ALPHABET",
+   "name": "Alphabet pieces",
+   "priority": "P1",
+   "why": "A ranking bar. An alphabet piece implies an initial, and we do not choose one for a customer.",
+   "bar": {
+    "handle_words": [
+     "alphabet",
+     "akshar"
+    ]
+   },
+   "if_enabled": "Ranks like any other product. Nothing checks the initial against the customer."
+  },
+  {
+   "id": "BAR_GIFT_SETS",
+   "name": "Gift sets",
+   "priority": "P1",
+   "why": "A ranking bar, kept out of every generated row since the wide run. No further reason is on record.",
+   "bar": {
+    "class": [
+     "Gift Sets"
+    ],
+    "handle_words": [
+     "gift-set"
+    ]
+   },
+   "if_enabled": "Ranks like any other product."
+  },
+  {
+   "id": "BAR_PETS",
+   "name": "Pet accessories",
+   "priority": "P1",
+   "why": "A ranking bar, kept out of every generated row since the wide run. No further reason is on record.",
+   "bar": {
+    "subcategory": [
+     "Pet Accessories"
+    ]
+   },
+   "if_enabled": "Ranks like any other product."
+  }
+ ]
+}

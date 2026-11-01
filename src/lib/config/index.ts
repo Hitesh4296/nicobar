@@ -1,11 +1,12 @@
 // Prompt and Jev versions. saveVersion inserts; activateVersion alone updates. Content never changes.
 import type { ErrorCode } from '../../contracts/codes.ts';
-import type { Actor, AppEnv, Catalog, ConfigFailure, ConfigKind, ConfigStatus, ConfigVersion, EvalValidity, FlagView, JevConfig, J3Input, JevQuestion, Plan, PromptFiles,
+import type { Actor, AppEnv, Catalog, CatalogOverride, ConfigFailure, ConfigKind, ConfigStatus, ConfigVersion, EvalValidity, FlagView, JevConfig, J3Input, JevQuestion, Plan, PromptFiles,
   Stage, ValidationResult, Weights } from '../../contracts/types.ts';
 import { assemblePrefix, renderSuffix } from '../gen/index.ts';
 import { canonicalContent } from '../gen/canonical.ts';
 import { flaggedQuestions } from '../jev/index.ts';
 import { checkWeights } from '../rank/index.ts';
+import { RULES } from '../catalog/override.ts';
 import { BUNDLE, FX_CAT, FX_PLAN, PROMPT_MAX_BYTES, PROMPT_MIN_BYTES, sha256Hex } from './bundle.ts';
 
 type Bundle = { schemas: object[]; jevBase: JevConfig };
@@ -30,8 +31,8 @@ function locked(c: JevConfig): unknown {
     return [k, kept];
   })) });
 }
-// ponytail: weights have no bundled base to drift from, so a constant.
-const baseHash = (kind: ConfigKind, b: Bundle) => sha256Hex(kind === 'rank' ? 'rank' : JSON.stringify(kind === 'prompt' ? b.schemas : locked(b.jevBase)));
+// ponytail: weights and overrides have no bundled base to drift from, so a constant.
+const baseHash = (kind: ConfigKind, b: Bundle) => sha256Hex(kind === 'rank' || kind === 'catalog' ? kind : JSON.stringify(kind === 'prompt' ? b.schemas : locked(b.jevBase)));
 
 // ---- reading ----
 interface Row { id: string; kind: ConfigKind; parent_id: string | null; content_json: string; sha256: string; base_sha256: string; voice_guide_version: string | null;
@@ -63,6 +64,11 @@ export async function loadVersion(db: D1Database, id: string, bundle: Bundle): P
 /** Null until seeded, so everything that does not read weights keeps working on an older store. */
 export async function activeRank(db: D1Database): Promise<ConfigVersion | null> {
   const r = await db.prepare(`SELECT id FROM config_versions WHERE kind = 'rank' AND status = 'active'`).first<{ id: string }>();
+  return r ? loadVersion(db, r.id, BUNDLE) : null;
+}
+/** Null until the first override is activated: then the snapshot and ranking.json stand as they are. */
+export async function activeCatalog(db: D1Database): Promise<ConfigVersion | null> {
+  const r = await db.prepare(`SELECT id FROM config_versions WHERE kind = 'catalog' AND status = 'active'`).first<{ id: string }>();
   return r ? loadVersion(db, r.id, BUNDLE) : null;
 }
 const activeId = async (db: D1Database, kind: ConfigKind) =>
@@ -118,7 +124,17 @@ export function validateJev(next: JevConfig, base: JevConfig): ValidationResult 
 export function validateRank(w: Weights): ValidationResult {
   try { checkWeights(w); return { ok: true }; } catch (e) { return { ok: false, failures: [{ rule: 'weights', detail: (e as Error).message.replace('rank: ', '') }] }; }
 }
-export const validateVersion = (v: ConfigVersion): ValidationResult => v.kind === 'rank' ? validateRank(v.content as Weights) : v.kind === 'prompt'
+/** Shape only: which ids are P0 hangs on the snapshot, so `applyCatalog` holds that line wherever a version is read. */
+export function validateCatalog(c: CatalogOverride): ValidationResult {
+  const failures: ConfigFailure[] = [], fail = (detail: string) => failures.push({ rule: 'catalog', detail });
+  const list = (v: unknown): v is string[] => Array.isArray(v) && v.every((x) => typeof x === 'string' && x.length > 0);
+  if (!c || !sameSet(Object.keys(c), ['rules_off', 'enabled', 'disabled']) || !list(c.rules_off) || !list(c.enabled) || !list(c.disabled)) return { ok: false, failures: [{ rule: 'catalog', detail: 'rules_off, enabled and disabled, each a list of strings' }] };
+  for (const id of c.rules_off) if (RULES.find((r) => r.id === id)?.priority !== 'P1') fail(`${id} is not a rule that can be switched off`);
+  for (const id of c.enabled) if (c.disabled.includes(id)) fail(`${id} is both enabled and disabled`);
+  return failures.length ? { ok: false, failures } : { ok: true };
+}
+const sortedOverride = (c: CatalogOverride): CatalogOverride => ({ rules_off: [...new Set(c.rules_off)].sort(), enabled: [...new Set(c.enabled)].sort(), disabled: [...new Set(c.disabled)].sort() });
+export const validateVersion = (v: ConfigVersion): ValidationResult => v.kind === 'catalog' ? validateCatalog(v.content as CatalogOverride) : v.kind === 'rank' ? validateRank(v.content as Weights) : v.kind === 'prompt'
   ? validatePrompt(v.content as PromptFiles, BUNDLE.schemas, FX_PLAN, FX_CAT) : validateJev(v.content as JevConfig, BUNDLE.jevBase);
 
 // ---- writing ----
@@ -131,11 +147,12 @@ function human(actor: Actor): Exclude<Actor, { kind: 'system' }> {
 }
 const hasFiles = (c: object) => sameSet(Object.keys(c), FILES) && FILES.every((f) => typeof (c as PromptFiles)[f] === 'string');
 
-export async function saveVersion(db: D1Database, kind: ConfigKind, parent_id: string | null, content: PromptFiles | JevConfig | Weights, note: string, actor: Actor): Promise<ConfigVersion> {
+export async function saveVersion(db: D1Database, kind: ConfigKind, parent_id: string | null, content: PromptFiles | JevConfig | Weights | CatalogOverride, note: string, actor: Actor): Promise<ConfigVersion> {
   const who = human(actor);
   if (!text(note)) throw new ConfigErr('BAD_INPUT', 'note');
   if (!content || typeof content !== 'object' || (kind === 'prompt' ? !hasFiles(content) : kind === 'jev' && !(content as JevConfig).j3)) throw new ConfigErr('BAD_INPUT', 'content');
   if (kind === 'rank') { const r = validateRank(content as Weights); if (!r.ok) throw new ConfigErr('VALIDATION_FAILED', r.failures); }
+  if (kind === 'catalog') { const r = validateCatalog(content as CatalogOverride); if (!r.ok) throw new ConfigErr('VALIDATION_FAILED', r.failures); content = sortedOverride(content as CatalogOverride); }
   if (await activeId(db, kind) !== parent_id) throw new ConfigErr('STALE_PARENT');
   const parent = parent_id ? await readVersion(db, parent_id) : null;
   const ids = (await db.prepare('SELECT id FROM config_versions WHERE kind = ?').bind(kind).all<{ id: string }>()).results;

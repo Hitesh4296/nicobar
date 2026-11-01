@@ -44,6 +44,7 @@ async function validity(db: D1Database): Promise<EvalValidity[]> {
 /** Weights go live behind the run key, on the Refine page. Only `config seed`'s first row, the shipped defaults, comes through here. */
 async function activate(c: Ctx): Promise<Response> {
   const id = param(c, 'id'), v = await readVersion(c.env.DB, id);
+  if (v?.kind === 'catalog') throw new ConfigErr('FORBIDDEN', 'needs the run key');
   if (v?.kind === 'rank' && (v.parent_id !== null || WEIGHT_KEYS.some((k) => (v.content as Weights)[k] !== BASE_WEIGHTS[k]))) throw new ConfigErr('FORBIDDEN', 'needs the run key');
   return Response.json(await activateVersion(c.env.DB, id, c.actor));
 }
@@ -72,7 +73,7 @@ export const routes: Route[] = [
   { method: 'GET', path: '/review/agents/:id', handler: guarded(async (c) => {
     const v = await readVersion(c.env.DB, param(c, 'id'));
     if (!v) throw new ConfigErr('NOT_FOUND');
-    if (v.kind === 'rank') return new Response(null, { status: 303, headers: { location: '/review/agents/refine' } });
+    if (v.kind === 'rank' || v.kind === 'catalog') return new Response(null, { status: 303, headers: { location: v.kind === 'rank' ? '/review/agents/refine' : '/review/catalog' } });
     const q = new URL(c.req.url).searchParams;
     const baseId = q.get('against') ?? v.parent_id;
     const base = baseId ? await readVersion(c.env.DB, baseId) : null;

@@ -14,7 +14,7 @@ import { countKeys } from '../src/lib/plan.ts';
 import { parseRowKeys } from '../src/lib/recs.ts';
 import type { MapRow, OccasionMap, Product, Rules } from '../src/contracts/types.ts';
 
-interface Raw { id: number; title: string; handle: string; body_html: string | null; product_type: string; tags: string[];
+interface Raw { id: number; title: string; handle: string; body_html: string | null; product_type: string; tags: string[]; published_at?: string | null;
   variants: { id: number; sku: string | null; title: string; option1: string | null; option2: string | null; price: string; available: boolean }[];
   images: { src: string; position: number; variant_ids: number[] }[]; options: { name: string; values: string[] }[] }
 
@@ -33,18 +33,19 @@ function gender(tags: string[]): Product['gender'] {
   return g === 'female' || g === 'male' ? g : g === 'unisex' ? 'any' : null;
 }
 
-/** First failing rule of the usable filter; rule 1 (gift cards) never reaches here. Rule 8 reads season.json. */
-function excluded(p: Raw, subcategory: string[], clean: string | null): string | null {
-  if (!p.variants.some((v) => v.available)) return 'NOT_AVAILABLE';
-  if (!clean) return 'NO_BODY';
-  if (!p.images.length) return 'NO_IMAGE';
-  if (!p.tags.some((t) => t.startsWith('Filtercategory_'))) return 'NO_CATEGORY';
-  if (p.tags.some((t) => t.toLowerCase().startsWith('pfs:hidden'))) return 'HIDDEN';
-  if (p.product_type.startsWith('shop-bundle')) return 'BUNDLE';
-  if (subcategory.some((s) => season.excluded_subcategories.includes(s))) return 'OUT_OF_SEASON';
-  if (!p.tags.some((t) => t.startsWith('Filterclass_'))) return 'NO_CLASS';
-  if (clean.split(/\s+/).length < 20) return 'THIN_COPY';
-  return null;
+/** Every failing rule of the usable filter, in filter order; rule 1 (gift cards) never reaches here. Rule 8 reads season.json. `clean` is the strip, sold out or not. */
+function reasons(p: Raw, subcategory: string[], clean: string): string[] {
+  const out: string[] = [];
+  if (!p.variants.some((v) => v.available)) out.push('NOT_AVAILABLE');
+  if (!clean) out.push('NO_BODY');
+  if (!p.images.length) out.push('NO_IMAGE');
+  if (!p.tags.some((t) => t.startsWith('Filtercategory_'))) out.push('NO_CATEGORY');
+  if (p.tags.some((t) => t.toLowerCase().startsWith('pfs:hidden'))) out.push('HIDDEN');
+  if (p.product_type.startsWith('shop-bundle')) out.push('BUNDLE');
+  if (subcategory.some((s) => season.excluded_subcategories.includes(s))) out.push('OUT_OF_SEASON');
+  if (!p.tags.some((t) => t.startsWith('Filterclass_'))) out.push('NO_CLASS');
+  if (clean && clean.split(/\s+/).length < 20) out.push('THIN_COPY');
+  return out;
 }
 
 function mapped(tags: string[], unknown: Set<string>) {
@@ -60,7 +61,7 @@ function mapped(tags: string[], unknown: Set<string>) {
 function normalise(p: Raw, unknown: Set<string>): Product {
   const available = p.variants.some((v) => v.available);
   const subcategory = vals(p.tags, 'Filtersubcategory_');
-  const body_text_clean = available ? stripBody(p.body_html, p.title) : null;
+  const clean = stripBody(p.body_html, p.title), body_text_clean = available ? clean : null, excluded_reasons = reasons(p, subcategory, clean);
   const m = mapped(p.tags, unknown);
   const cat = m.filter((x) => x.family === 'CATEGORY_');
   return { id: String(p.id), handle: p.handle, title: p.title, url: `https://www.nicobar.com/products/${p.handle}`, body_text_clean,
@@ -75,7 +76,7 @@ function normalise(p: Raw, unknown: Set<string>): Product {
     badges: vals(p.tags, 'badge_'), is_bestseller_gift: p.tags.includes('Best_gift'), available,
     variants: p.variants.map((v) => ({ id: String(v.id), sku: v.sku || null, title: v.title, option1: v.option1, option2: v.option2, price: v.price, available: v.available })),
     images: p.images.map((i) => ({ src: i.src, src_canonical: i.src.split('?')[0], position: i.position, variant_ids: i.variant_ids.map(String) })),
-    excluded_reason: excluded(p, subcategory, body_text_clean),
+    excluded_reason: excluded_reasons[0] ?? null, excluded_reasons, published_at: p.published_at ?? null,
     content_sha256: sha256(JSON.stringify(p, (k, v) => (k === 'updated_at' ? undefined : v))) };
 }
 
@@ -138,7 +139,9 @@ export function buildSnapshot({ products, fetched_at, gift_cards_removed }: Samp
   const catalog: CatalogFile = { snapshot_id, fetched_at, rows };
   const report = { snapshot_id, fetched_at, source: 'https://www.nicobar.com/products.json', product_rows: rows.length, usable_rows: usable, excluded: excl,
     stages: { after_hidden_and_bundle: after_season + (excl.OUT_OF_SEASON ?? 0), after_season, after_class, usable }, unknown_occasion_values: [...unknown].sort() };
-  return { catalog, rules: buildRules(raw, rows), report };
+  // Side file, read only by the product detail: raw tags never reach a prompt, and the catalog stays small enough to parse on every cold start.
+  const detail = Object.fromEntries(raw.map((p) => [String(p.id), { tags: p.tags, text: stripBody(p.body_html, p.title) }]));
+  return { catalog, rules: buildRules(raw, rows), report, detail };
 }
 
 function wrangler(args: string[], persist: string | undefined) {
@@ -148,14 +151,14 @@ function wrangler(args: string[], persist: string | undefined) {
 
 function main() {
   const arg = (name: string) => { const i = process.argv.indexOf(name); return i < 0 ? undefined : process.argv[i + 1]; };
-  const { catalog, rules, report } = buildSnapshot(readSamples(arg('--samples')));
+  const { catalog, rules, report, detail } = buildSnapshot(readSamples(arg('--samples')));
   const ids = ingestTsv(readFileSync('data/customers.with-c20.synthetic.tsv', 'utf8')).map((r) => r.key);
   const full = { ...report, row_keys: countKeys(ids, parseRowKeys(JSON.parse(readFileSync('data/row_keys.synthetic.json', 'utf8')))) };
 
   const id = report.snapshot_id;
   const dir = join('out', 'snapshot', id);
   mkdirSync(dir, { recursive: true });
-  const files = { 'catalog.json': catalog, 'rules.json': rules, 'report.json': full };
+  const files = { 'catalog.json': catalog, 'rules.json': rules, 'report.json': full, 'detail.json': detail };
   for (const [f, v] of Object.entries(files)) writeFileSync(join(dir, f), JSON.stringify(v));
 
   if (process.argv.includes('--publish')) {
