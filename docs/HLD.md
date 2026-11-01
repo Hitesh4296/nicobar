@@ -68,7 +68,7 @@ Not used: Queues, Durable Objects, Agents SDK, Vectorize, KV, the Batches API, a
 | input | treated as | control |
 |---|---|---|
 | Customer TSV, recommendation file | Untrusted | Validated per row. A pick not in the snapshot fails that customer. Occasion text is escaped on render |
-| Past purchase note | Kept away from the model | Stops at ingest. A check fails any draft that echoes a past item |
+| Past purchase note | Kept away from the model | The sentence stops at ingest. A check fails model prose that echoes a past item. Code may head a rail "To go with your shirt", using one word from the note |
 | Last name | Kept away from the model and the deployed link | Stops at ingest |
 | Model output | Untrusted | Schema, then checks. Slot tokens stand in for products. The model emits no id, title, URL, image, price or markup |
 | Rendered HTML | Code's own | Image gate, link gate and alt checks run on the render, with no script in the review frame |

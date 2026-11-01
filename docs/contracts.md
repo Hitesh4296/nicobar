@@ -43,9 +43,9 @@ The code is the authority where it can be. **DDL:** `migrations/0001_core.sql`, 
 | row | id repeats | every occurrence `row:<n>`, `failed{DUPLICATE_CUSTOMER_ID}` |
 | row | occasion blank and not `new_user` | `failed{INVALID_CUSTOMER}` |
 
-`new_user`: the note, trimmed, is blank, `-`, `n/a`, `none`, `null`, or matches `/no (purchase|order|history)/i`. `last_name` stops at ingest. The note stops at ingest once `new_user` is set.
+`new_user`: the note, trimmed, is blank, `-`, `n/a`, `none`, `null`, or matches `/no (purchase|order|history)/i`. `last_name` stops at ingest. The note sentence stops at ingest. `Customer.note_words` (lowercase words) reaches `planCustomer` only to check a past-purchase rail's label, and no plan holds any of it.
 
-**`recommendations/v1`.** `{version, synthetic, as_of, snapshot_id, rule, rows:[{customer_id, picks:[{product_id, reason_code}]}]}`, ranked, 0–6 picks. No copy, title, image, price or format.
+**`recommendations/v1`.** `{version, synthetic, as_of, snapshot_id, rule, rows:[{customer_id, picks:[{product_id, reason_code}]}]}`, ranked, 0–6 picks. No copy, title, image, price or format. Optional `more:[{kind, label, product_ids}]`, up to 6 sections and 60 ids: extra products that code renders on the catalog and landing page under code-set headings. Email stays picks only.
 
 **`row_keys`.** `{"c01": {"key": "wedding"}, …, "c20": {"key": null}}`. `parseRowKeys` refuses any other field.
 
