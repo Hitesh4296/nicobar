@@ -44,7 +44,7 @@ describe('screens', () => {
       const { status, html } = await get(n.href);
       expect(status).toBe(200);
       for (const m of NAV) expect(html).toContain(`href="${m.href}"`);
-      expect(html).toContain(`<a aria-current="page" href="${n.href}">`);
+      expect(html).toContain(`<a href="${n.href}" aria-current="page">`);
     });
   }
   it('spend: every run with its figures, Jev spend, cap actions', async () => {
@@ -67,7 +67,7 @@ describe('screens', () => {
   it('evals: the page shows the committed reports, not a placeholder', async () => {
     const { html } = await get('/review/evals');
     expect(html).not.toContain('not run yet');
-    expect(html).toContain(`<td>${evalReport.totals.cases}</td>`);
+    expect(html).toContain(`cases <code>${evalReport.totals.cases}</code>`);
     for (const l of readiness.lines) expect(html).toMatch(new RegExp(`<td>${l.id}</td>.*?<td>${l.verdict}</td>`));
     for (const n of evalReport.named_failures) expect(html).toContain(n.label);
   });

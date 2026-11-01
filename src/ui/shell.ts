@@ -7,7 +7,7 @@ export const isStub = (id: string) => id.startsWith('stub-');
 const CSS = `${TOKENS}
 body.p{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:100vh;background:var(--color-white);color:var(--color-ink);font:400 15px/22px var(--font-sans);-webkit-font-smoothing:antialiased}
 .p a{color:inherit}
-.rail{background:var(--color-ink);color:var(--color-on-dark-soft);padding:24px 16px}
+.rail{position:sticky;top:0;align-self:start;box-sizing:border-box;height:100vh;overflow-y:auto;background:var(--color-ink);color:var(--color-on-dark-soft);padding:24px 16px}
 .rail b{display:block;margin:0 12px 32px;font:400 24px/32px var(--font-display);color:var(--color-on-dark)}
 .rail a{display:flex;align-items:center;min-height:40px;padding:0 12px;margin-bottom:2px;text-decoration:none}
 .rail a[aria-current]{background:var(--color-indigo);color:var(--color-on-dark);font-weight:500}
@@ -15,6 +15,7 @@ main{padding:32px 40px;min-width:0;animation:in 120ms ease-out}
 @keyframes in{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){main{animation:none}}
 .eyebrow{margin:0 0 4px;font:500 12px/16px var(--font-sans);letter-spacing:.16em;text-transform:uppercase;color:var(--color-ink-soft)}
+main .k{margin:0 0 4px;font:500 12px/16px var(--font-sans);letter-spacing:.14em;text-transform:uppercase;color:var(--color-ink-soft)}.w{overflow-x:auto;margin-top:24px}
 h1{margin:0;font:400 44px/48px var(--font-display);letter-spacing:-.01em}
 h2{margin:32px 0 8px;font:500 12px/16px var(--font-sans);letter-spacing:.16em;text-transform:uppercase;color:var(--color-ink-soft)}
 .top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--color-line)}
@@ -73,7 +74,7 @@ details>summary{cursor:pointer}
 .dialog .buttons{display:flex;justify-content:flex-end;gap:8px;margin-top:24px}
 .dialog form{margin:0}
 @media (max-width:989px){.draft{grid-template-columns:minmax(0,1fr)}}
-@media (max-width:749px){body.p{display:block}main{padding:16px}.rail{display:flex;flex-wrap:wrap;gap:4px;padding:8px 16px}.rail b{width:100%;margin:0}h1{font-size:32px;line-height:38px}}`;
+@media (max-width:749px){body.p{display:block}main{padding:16px}.rail{position:static;height:auto;display:flex;flex-wrap:wrap;gap:4px;padding:8px 16px}.rail b{width:100%;margin:0}h1{font-size:32px;line-height:38px}}`;
 
 export function shell(title: string, active: string, body: string): string {
   const nav = NAV.map((n) => `<a href="${n.href}"${n.href === active ? ' aria-current="page"' : ''}>${esc(n.label)}</a>`).join('');

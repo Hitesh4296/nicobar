@@ -25,7 +25,7 @@ export function diffBlock(lines: { op: '=' | '+' | '-'; text: string }[]): strin
 // ponytail: own shell because page's is unmerged; swap for page's at merge, the body stays.
 const CSS = `:root{--paper:#F6F2ED;--ink:#1A1F28;--soft:#565E6A;--indigo:#263854;--on-dark:#F6F9FA;--on-dark-soft:#BFC8CC;--focus:#427596;--line:#D9D4CB;--pass:#2F6B4F;--fail:#A33A3A;--warn:#8A6210}
 *{box-sizing:border-box}body{margin:0;display:flex;min-height:100vh;background:#fff;color:var(--ink);font:400 16px/26px Jost,system-ui,sans-serif}
-.side{width:220px;flex:none;background:var(--ink);padding:24px 16px}.side b{display:block;padding:0 12px 24px;color:var(--on-dark);font:400 24px 'Bodoni Moda',serif}
+.side{position:sticky;top:0;align-self:flex-start;box-sizing:border-box;height:100vh;overflow-y:auto;width:220px;flex:none;background:var(--ink);padding:24px 16px}.side b{display:block;padding:0 12px 24px;color:var(--on-dark);font:400 24px 'Bodoni Moda',serif}
 .side a{display:block;padding:8px 12px;color:var(--on-dark-soft);text-decoration:none}.side a.on{background:var(--indigo);color:var(--on-dark)}
 main{flex:1;min-width:0;padding:32px 40px}.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
 h1{font:400 40px/48px 'Bodoni Moda',serif;margin:4px 0 16px}h2{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);font-weight:400;margin:32px 0 8px}
@@ -39,7 +39,7 @@ button{padding:10px 18px;border:1px solid var(--ink);background:#fff;font:inheri
 .tag{border:1px solid var(--soft);padding:0 6px;font-size:12px}.tag.active{border-color:var(--pass);color:var(--pass)}.fine{font-size:14px}.flag{border:1px solid var(--warn);padding:12px;margin:8px 0}
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px;margin:16px 0}.steps div{border:1px solid var(--line);padding:6px 10px;font-size:14px;line-height:20px;color:var(--soft)}.steps strong{display:block;color:var(--ink);font-weight:500}
 .q{margin:16px 0;padding-top:8px;border-top:1px solid var(--line)}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{font-size:14px;font-weight:500;display:block;margin-top:8px}#err{color:var(--fail)}
-@media(max-width:750px){body{display:block}.side{width:auto;padding:12px 16px}.side a{display:inline-block}main{padding:24px 16px}.grid,.two{grid-template-columns:1fr}h1{font-size:32px;line-height:40px}table{display:block;overflow-x:auto}}`;
+@media(max-width:750px){body{display:block}.side{position:static;height:auto;width:auto;padding:12px 16px}.side a{display:inline-block}main{padding:24px 16px}.grid,.two{grid-template-columns:1fr}h1{font-size:32px;line-height:40px}table{display:block;overflow-x:auto}}`;
 const shell = (title: string, body: string) => `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda&family=Jost:wght@300;400;500&display=swap"><style>${CSS}</style>
 <nav class="side"><b>Nicobar</b>${NAV.map((n) => `<a href="${n.href}"${n.label === 'Agents' ? ' class="on"' : ''}>${n.label}</a>`).join('')}</nav><main>${body}</main></html>`;
