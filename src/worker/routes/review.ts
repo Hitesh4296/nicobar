@@ -5,6 +5,7 @@ import type { AppEnv, CheckResult, DraftStatus, Edge, Envelope, FlagView, JevCon
 import { BUNDLE } from '../../lib/config/bundle.ts';
 import { loadVersion, reviewFlags } from '../../lib/config/index.ts';
 import { runReport, transition } from '../../lib/state/index.ts';
+import { landingLink } from '../../lib/render/email.ts';
 import { flagRow } from '../../ui/agents/index.ts';
 import { shell } from '../../ui/shell.ts';
 import { draftPage, plansPage, runsPage } from '../../ui/review.ts';
@@ -182,7 +183,8 @@ async function released(c: Ctx): Promise<Response> {
   if (await contentSha256(row.envelope_json, row.model_json, row.rendered_json) !== row.approved_sha256) return fail(409, 'HASH_MISMATCH');
   const body = (JSON.parse(row.rendered_json) as RenderedJson)[part];
   if (body === null) return fail(404, 'NOT_FOUND', part);
-  return new Response(body, { headers: { 'content-type': 'text/html; charset=utf-8', 'content-security-policy': `sandbox; ${CSP}` } });
+  const page = part === 'email' ? landingLink(body, c.env.PUBLIC_ORIGIN || new URL(c.req.url).origin, idOf(c)) : body;   // after the hash: the stored email stays as approved
+  return new Response(page, { headers: { 'content-type': 'text/html; charset=utf-8', 'content-security-policy': `sandbox; ${CSP}` } });
 }
 
 export const routes: Route[] = [

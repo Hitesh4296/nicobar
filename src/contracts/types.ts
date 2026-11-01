@@ -131,4 +131,4 @@ export interface JevOutcome { status: JevStatus; reason: string|null; model: str
 // ---- worker env: vars and secrets ----
 // Env comes from `wrangler types`. DEV_* and secrets are absent from wrangler.jsonc on purpose.
 export type AppEnv = Env & { DEV_MODE?: string; DEV_ACTOR?: string; DEV_FAULT?: string; ACCESS_AUD?: string;
-  ANTHROPIC_API_KEY?: string; ANTHROPIC_BASE_URL?: string; JEV_API_KEY?: string; RUN_KEY?: string };
+  ANTHROPIC_API_KEY?: string; ANTHROPIC_BASE_URL?: string; JEV_API_KEY?: string; RUN_KEY?: string; PUBLIC_ORIGIN?: string };

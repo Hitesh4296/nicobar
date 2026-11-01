@@ -9,7 +9,7 @@ export function renderAll(m: ModelJson, plan: Plan, envelope: Envelope, cat: Cat
   const wantsLanding = plan.format !== 'email';
   // A part missing from model_json (unparsed, C1 fails) stays null: E3 still needs a row to store.
   return {
-    email: wantsEmail && m.email ? renderEmail(expand(m.email, 'email', envelope, cat), cat, envelope) : null,
+    email: wantsEmail && m.email ? renderEmail(expand(m.email, 'email', envelope, cat), cat, envelope, plan, wantsLanding && !!m.landing_page) : null,
     landing_page: wantsLanding && m.landing_page
       ? renderLanding(expand(m.landing_page, 'landing_page', envelope, cat), cat, envelope, plan) : null,
     catalog: renderCatalog(plan, cat),

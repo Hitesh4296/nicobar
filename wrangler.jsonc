@@ -6,14 +6,14 @@
   "compatibility_flags": ["nodejs_compat"],
   "observability": { "enabled": true, "head_sampling_rate": 1 },
   "build": { "command": "npm run check:config" },
-  "vars": { "FRESH_FOR_RELEASE_H": "8760", "GEN_CONCURRENCY": "4", "TEAM_DOMAIN": "", "DEPLOYED": "0" },
+  "vars": { "FRESH_FOR_RELEASE_H": "8760", "GEN_CONCURRENCY": "4", "TEAM_DOMAIN": "", "PUBLIC_ORIGIN": "", "DEPLOYED": "0" },
   "d1_databases": [{ "binding": "DB", "database_name": "nicobar", "database_id": "nicobar-local", "migrations_dir": "migrations" }],
   "r2_buckets": [{ "binding": "BUCKET", "bucket_name": "nicobar" }],
   "workflows": [{ "binding": "RUN_WORKFLOW", "name": "nicobar-run", "class_name": "RunWorkflow" }],
   "env": {
     "demo": {
       "workers_dev": true,
-      "vars": { "FRESH_FOR_RELEASE_H": "8760", "GEN_CONCURRENCY": "4", "TEAM_DOMAIN": "", "DEPLOYED": "1" },
+      "vars": { "FRESH_FOR_RELEASE_H": "8760", "GEN_CONCURRENCY": "4", "TEAM_DOMAIN": "", "PUBLIC_ORIGIN": "", "DEPLOYED": "1" },
       "d1_databases": [{ "binding": "DB", "database_name": "nicobar-demo", "database_id": "", "migrations_dir": "migrations" }],
       "r2_buckets": [{ "binding": "BUCKET", "bucket_name": "nicobar-demo" }]
     }

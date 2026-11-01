@@ -6,6 +6,7 @@ import { imagePaths } from '../../src/lib/render/index.ts';
 import { renderEmail } from '../../src/lib/render/email.ts';
 import { expand } from '../../src/lib/render/expand.ts';
 import { validateRendered } from '../../src/lib/check/index.ts';
+import { LOGO } from '../../src/ui/nb.ts';
 import { fxCatalog } from '../fakes/index.ts';
 import { fxCase, expandLanding } from '../../scripts/seed.ts';
 import type { Plan } from '../../src/contracts/types.ts';
@@ -61,7 +62,7 @@ describe('test 3: alt = title, X4 holds', () => {
     ['catalog', renderCatalog(fxCase('GOOD-c16').plan, cat), fxCase('GOOD-c16').plan]] as const) {
     it(`${name}: each img has alt, width, height, slot, and its pick's title`, () => {
       expect(imgs(html).length).toBeGreaterThan(0);
-      for (const tag of imgs(html)) {
+      for (const tag of imgs(html).filter((t) => !t.includes(LOGO))) {
         const pick = plan.picks.find((p) => p.slot === attr(tag, 'data-slot'))!;
         const p = cat.rows.get(pick.product_id)!;
         expect(attr(tag, 'alt')).toBe(p.title.replaceAll('&', '&amp;').replaceAll("'", '&#39;'));

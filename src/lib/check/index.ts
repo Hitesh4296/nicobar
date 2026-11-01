@@ -1,6 +1,7 @@
 // The offline validator. The model proposes, this decides. No model call, no render call, no I/O.
 // validate reads stored model text; validateRendered reads the pages. Both are pure and run again at E4 and E7.
 // scripts/eval.ts mutates this file by exact string patches (PATCHES): reword a patched line there too.
+import { LANDING_HREF, LOGO, SITE_LINKS } from '../../ui/nb.ts';
 import { Validator } from '@cfworker/json-schema';
 import emailSchema from '../../../config/schemas/draft-email.v2.json' with { type: 'json' };
 import landingSchema from '../../../config/schemas/draft-landing.v3.json' with { type: 'json' };
@@ -398,6 +399,7 @@ export function validate(model_json: string, envelope: Envelope, cat: Catalog, p
 
 // ---- rendered: X1 to X4. A second export because validate has no page, and must run while a renderer is a stub ----
 const HOST = 'cdn.shopify.com';
+const SITE_HREFS = new Set(SITE_LINKS.map(([, href]) => href));
 const STORE_PREFIX = '/s/files/1/0270/5129/4854/';
 
 /** The image gate. Returns null, or the reason the URL is refused. `picks` is the pool: an image of any other product is refused. */
@@ -440,6 +442,7 @@ export function validateRendered(r: RenderedJson, envelope: Envelope, cat: Catal
     const shown = new Set<string>();
     for (const img of tags(html, 'img')) {
       const slot = attr(img, 'data-slot'), src = attr(img, 'src') ?? '', alt = attr(img, 'alt');
+      if (src === LOGO && alt === 'Nicobar' && !slot) continue;   // the one named logo file, exact to the byte
       const reason = imageGate(src, pool);
       if (reason) fail('X2', reason, src);
       if (!alt?.trim()) fail('X4', 'NO_ALT', slot);
@@ -459,6 +462,8 @@ export function validateRendered(r: RenderedJson, envelope: Envelope, cat: Catal
     if (want.some((s) => !shown.has(s))) fail('X1', 'SLOT_NOT_SHOWN', `${[...shown]}`);
     for (const a of tags(html, 'a')) {
       const href = attr(a, 'href') ?? '';
+      if (part === 'email' && href === LANDING_HREF && r.landing_page !== null) continue;
+      if (part !== 'landing_page' && SITE_HREFS.has(href)) continue;
       let u: URL | null = null;
       try { u = new URL(href); } catch { /* refused below */ }
       const handle = u?.protocol === 'https:' && u.host === 'www.nicobar.com' && !u.username && !u.search ? /^\/products\/([^/]+)$/.exec(u.pathname)?.[1] : undefined;

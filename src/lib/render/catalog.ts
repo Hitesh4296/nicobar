@@ -1,13 +1,13 @@
 // Board E2. Pure, no model, no price, no reason code: those stay on the review page.
 import type { Catalog, Plan } from '../../contracts/types.ts';
-import { customerPage, esc, eyebrow, moreSections, pickImg } from '../../ui/nb.ts';
+import { brandFoot, brandHead, customerPage, esc, moreSections, pickImg } from '../../ui/nb.ts';
 
 export function renderCatalog(plan: Plan, cat: Catalog): string {
   const cards = plan.picks.map((pick) => {
     const p = cat.rows.get(pick.product_id);
     return p ? `<a class="nb-card" data-slot="${esc(pick.slot)}" href="${esc(p.url)}">${pickImg(p, pick.slot, 800)}<span class="nb-title">${esc(p.title)}</span></a>` : '';
   }).join('');
-  return customerPage('Nicobar', `<section class="nb-section">${eyebrow(plan)}<div class="nb-grid">${cards}</div></section>${moreSections(plan.more, cat)}`);
+  return customerPage('Nicobar', `<section class="nb-section"><div class="nb-grid">${cards}</div></section>${moreSections(plan.more, cat)}<div style="margin-top:64px"></div>`, { head: brandHead(plan), foot: brandFoot() });
 }
 
 export interface Card { slot: string; href: string; src: string; title: string }

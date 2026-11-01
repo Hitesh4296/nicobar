@@ -1,4 +1,5 @@
 // page lane tests 2, 4, 5, 6, 8, 9, 10 through the Worker's fetch, on real D1 rows from `seed --fixtures`, with `transition` faked until `run` merges.
+import { contentSha256 } from '../../src/contracts/lib.ts';
 import { applyD1Migrations, env } from 'cloudflare:test';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import worker from '../../src/worker/index.ts';
@@ -175,6 +176,17 @@ describe('/released', () => {
     expect(r.status).toBe(409);
     expect(await r.json()).toMatchObject({ code: 'HASH_MISMATCH' });
     await e.DB.prepare('UPDATE drafts SET model_json = ? WHERE id = ?').bind(before!.model_json, id).run();
+  });
+  it('resolves the stored landing link to this draft, from PUBLIC_ORIGIN or the request, with the approved hash intact', async () => {
+    const id = 'fx-run:c02:v1';
+    const before = await e.DB.prepare('SELECT envelope_json, model_json, rendered_json, approved_sha256 FROM drafts WHERE id = ?').bind(id).first<Record<string, string>>();
+    const rendered = JSON.stringify({ ...JSON.parse(before!.rendered_json), email: '<a data-landing href="?part=landing_page">See your edit</a>' });
+    const hash = await contentSha256(before!.envelope_json, before!.model_json, rendered);
+    await e.DB.prepare('UPDATE drafts SET rendered_json = ?, approved_sha256 = ?, content_sha256 = ? WHERE id = ?').bind(rendered, hash, hash, id).run();
+    const path = `/released/${encodeURIComponent(id)}?part=email`;
+    expect(await (await go(path, undefined, { PUBLIC_ORIGIN: 'https://pub.test' })).text()).toContain('href="https://pub.test/released/fx-run%3Ac02%3Av1?part=landing_page"');
+    expect(await (await go(path)).text()).toContain(`href="${ORIGIN}/released/fx-run%3Ac02%3Av1?part=landing_page"`);
+    await e.DB.prepare('UPDATE drafts SET rendered_json = ?, approved_sha256 = ?, content_sha256 = ? WHERE id = ?').bind(before!.rendered_json, before!.approved_sha256, before!.approved_sha256, id).run();
   });
   it('unknown id → 404', async () => expect((await go('/released/nope?part=catalog')).status).toBe(404));
 });

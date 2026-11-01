@@ -5,10 +5,14 @@ const ENTITIES: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;
 export const esc = (s: unknown): string => String(s ?? '').replace(/[&<>"']/g, (c) => ENTITIES[c]);
 
 // Stand-in stacks, no font load: Nicobar's fonts are unlicensed and BRAND_FONT stays off (A2). Hairlines need a display face, so Didot first.
-export const TOKENS = `:root{--color-paper:#F5F2ED;--color-white:#FFFFFF;--color-ink:#1A1F28;--color-ink-soft:#565E6A;--color-indigo:#263B54;--color-line:#D9D4CB;
---color-on-dark:#F6F9FA;--color-on-dark-soft:#BFC8CC;--color-focus:#427596;--color-pass:#2F6B4F;--color-fail:#A33A3A;--color-warn:#8A6210;
---font-display:'Libre Caslon Display',Didot,'Bodoni 72','Playfair Display','Times New Roman',Georgia,serif;
---font-sans:Jost,'Avenir Next',Avenir,Futura,'Helvetica Neue',Arial,sans-serif;--container-page:1200px;--container-text:680px;--gutter:16px;--section:64px}
+// Named as well as tokenised: a mail client reads no custom property.
+export const C = { paper: '#F5F2ED', ink: '#1A1F28', inkSoft: '#565E6A', indigo: '#263B54', onDark: '#F6F9FA', onDarkSoft: '#BFC8CC', line: '#D9D4CB' };
+export const FONT_DISPLAY = `'Libre Caslon Display',Didot,'Bodoni 72','Playfair Display','Times New Roman',Georgia,serif`;
+export const FONT_SANS = `Jost,'Avenir Next',Avenir,Futura,'Helvetica Neue',Arial,sans-serif`;
+export const TOKENS = `:root{--color-paper:${C.paper};--color-white:#FFFFFF;--color-ink:${C.ink};--color-ink-soft:${C.inkSoft};--color-indigo:${C.indigo};--color-line:${C.line};
+--color-on-dark:${C.onDark};--color-on-dark-soft:${C.onDarkSoft};--color-focus:#427596;--color-pass:#2F6B4F;--color-fail:#A33A3A;--color-warn:#8A6210;
+--font-display:${FONT_DISPLAY};
+--font-sans:${FONT_SANS};--container-page:1200px;--container-text:680px;--gutter:16px;--section:64px}
 @media (min-width:750px){:root{--gutter:24px;--section:96px}}
 @media (min-width:1200px){:root{--gutter:64px}}
 *{box-sizing:border-box}
@@ -69,19 +73,50 @@ body.nb{background:var(--color-paper);color:var(--color-ink);font:400 16px/26px 
 
 export const NB_FOOT = `<footer class="nb-foot"><span>Nicobar</span><span>Every title, image and link comes from nicobar.com</span></footer>`;
 
-export function customerPage(title: string, main: string): string {
+// Site sources: samples/site/pages/home.html, fetched 2026-10-31 or later. X2 and X3 accept exactly these and no pattern.
+const FILES = 'https://cdn.shopify.com/s/files/1/0270/5129/4854/files';
+// ponytail: one file, because the site has no light-on-dark logo. Group_1138.svg carries alt="Nicobar" but reads VOYAGER: not this.
+export const LOGO = `${FILES}/nico-logo_f70b88c9-b0f6-435c-8b57-268653b430b3.png?v=1610449126`;
+export const SITE_LINKS: [string, string][] = [['Find a store', 'https://www.nicobar.com/pages/nicobar-store'], ['Our story', 'https://www.nicobar.com/pages/about-us'],
+  ['Contact us', 'https://www.nicobar.com/pages/contact-us'], ['@nicoecodiaries', 'https://www.instagram.com/nicoecodiaries'], ['care@nicobar.com', 'mailto:care@nicobar.com']];
+/** Stored in the approved email; `landingLink` turns it into this draft's address on /released. */
+export const LANDING_HREF = '?part=landing_page';
+
+/** The round mark sits in a 1280 by 628 transparent canvas, so the width is the canvas's and the logo centres itself. */
+const roundLogo = (h: number, style = `color:${C.ink}`) => `<img src="${esc(LOGO)}" alt="Nicobar" width="${Math.round(h * 1280 / 628)}" height="${h}" style="display:block;border:0;${style}">`;
+
+export function customerPage(title: string, main: string, frame?: { head: string; foot: string }): string {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${esc(title)}</title>`
-    + `<style>${NB_CSS}</style></head><body class="nb"><header class="nb-head"><span class="nb-mark">Nicobar</span><span class="nb-note">A note for you, not a public page</span></header>`
-    + `<main>${main}</main>${NB_FOOT}</body></html>`;
+    + `<style>${NB_CSS}</style></head><body class="nb">${frame?.head ?? `<header class="nb-head">${roundLogo(56)}<span class="nb-note">A note for you, not a public page</span></header>`}`
+    + `<main>${main}</main>${frame?.foot ?? NB_FOOT}</body></html>`;
 }
 
+/** Email and catalog header. Tables and inline CSS, because the email has no other kind. */
+export const brandHead = (plan?: Pick<Plan, 'display_name' | 'occasion'>): string => {
+  const text = eyebrowText(plan);
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.paper}"><tr><td align="center" style="padding:24px 16px 20px"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td>${roundLogo(96)}</td></tr></table>`
+    + (text ? `<p class="nb-eyebrow" style="margin:12px 0 0;font:500 12px/16px ${FONT_SANS};letter-spacing:.16em;text-transform:uppercase;color:${C.inkSoft}">${esc(text)}</p>` : '') + `</td></tr></table>`;
+};
+
+/** Every word is from the site's own footer, except the last line, which is ours and true of this demo. ponytail: production swaps it for a sender line and an unsubscribe. */
+export const brandFoot = (): string => {
+  const small = `margin:0 0 12px;font:400 13px/20px ${FONT_SANS};color:${C.onDarkSoft}`;
+  const links = SITE_LINKS.slice(0, 4).map(([label, href]) => `<a href="${esc(href)}" style="color:${C.onDark};text-decoration:none;white-space:nowrap;padding-right:20px;display:inline-block;line-height:28px">${esc(label)}</a>`).join('');
+  const [mailLabel, mail] = SITE_LINKS[4];
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.ink}"><tr><td class="pad" style="padding:40px">${roundLogo(72, `color:${C.onDark};font:500 16px ${FONT_SANS};margin:0 0 24px -37px`)}`
+    + `<p style="margin:0 0 12px;font:400 14px/28px ${FONT_SANS}">${links}</p><p style="${small}"><a href="${esc(mail)}" style="color:${C.onDarkSoft};text-decoration:none">${esc(mailLabel)}</a></p>`
+    + `<p style="${small}">NICOBAR DESIGN STUDIO PRIVATE LIMITED<br>3rd Floor, Select Citywalk, A-3 District Centre, Saket, South Delhi, New Delhi - 110017, India.</p><p style="${small};margin-bottom:0">A note for you. Nothing here was sent.</p></td></tr></table>`;
+};
+
 /** C1: `For Aditi · Mother's birthday`; occasion alone with no name; nothing with neither. */
+export const eyebrowText = (plan?: Pick<Plan, 'display_name' | 'occasion'>): string => [plan?.display_name && `For ${plan.display_name}`, plan?.occasion].filter(Boolean).join(' · ');
+
 export function eyebrow(plan?: Pick<Plan, 'display_name' | 'occasion'>): string {
-  const text = [plan?.display_name && `For ${plan.display_name}`, plan?.occasion].filter(Boolean).join(' · ');
+  const text = eyebrowText(plan);
   return text ? `<p class="nb-eyebrow">${esc(text)}</p>` : '';
 }
 
-const firstImage = (p: Product): Image | undefined => [...p.images].sort((a, b) => a.position - b.position)[0];
+export const firstImage = (p: Product): Image | undefined => [...p.images].sort((a, b) => a.position - b.position)[0];
 
 /**
  * The only image tag on a customer page. `data-slot` is imagePaths' contract; alt is the title (X4).

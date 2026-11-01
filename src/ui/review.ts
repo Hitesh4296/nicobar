@@ -1,4 +1,5 @@
 // Review screens, boards 2.1–2.3, D1–D5. Every value is escaped here; the routes pass plain rows. No script anywhere: forms and links only.
+import { emailPreview } from '../lib/render/email.ts';
 import shapes from '../../config/shapes.json' with { type: 'json' };
 import quotes from '../../config/quotes.json' with { type: 'json' };
 import type { CheckResult, DraftStatus, Envelope, FlagView, ModelJson, Part, Plan, RenderedJson, RunFormat, RunReport, Stage, UnitStatus } from '../contracts/types.ts';
@@ -183,7 +184,7 @@ export function draftPage(d: DraftView, plan: Plan | null, flags: FlagView[] | n
     + (plan?.new_user ? banner('New user', `No purchase history. Signals: ${plan.signals.join(', ') || 'none'}. Copy speaks from the picks' ordinary use.`, 'warn') : '');
 
   const frame = part
-    ? `<div class="scroll"><iframe title="${esc(LABEL[part])}" sandbox="" width="${o.width}" style="width:${o.width}px${o.width > 700 ? ';zoom:.55;height:1380px' : ''}" srcdoc="${esc(d.rendered[part])}"></iframe></div>`
+    ? `<div class="scroll"><iframe title="${esc(LABEL[part])}" sandbox="" width="${o.width}" style="width:${o.width}px${o.width > 700 ? ';zoom:.55;height:1380px' : ''}" srcdoc="${esc(part === 'email' ? emailPreview(d.rendered.email!) : d.rendered[part])}"></iframe></div>`
     : emptyCard('Nothing rendered', 'This draft stored no page.');
   const body = `${banners}<div class="top"><div><p class="eyebrow">${esc(d.run_id)} · ${esc(d.customer_id)} · shape ${esc(plan?.shape ?? 'none')}</p>`
     + `<h1>${esc(name)}${plan?.occasion ? `, ${esc(plan.occasion)}` : ''}</h1></div><div>${o.prev ? `<a class="btn" href="${draftHref(o.prev)}">Previous</a> ` : ''}${o.next ? `<a class="btn" href="${draftHref(o.next)}">Next</a>` : ''}</div></div>`
