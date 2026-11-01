@@ -59,8 +59,8 @@ export async function judgeAll(items: Item[], o: JudgeOpts, d: JudgeDeps): Promi
   for (const item of items.filter((i) => !done.has(i.id))) {
     const req = buildJudgeRequest(item.input, d.cfg);
     let input_tokens: number;
-    try { input_tokens = await countTokens(d.client, req as unknown as AnthropicRequest); } catch {
-      d.log({ key: item.id, step: 'estimate', status: 'skipped', code: 'ESTIMATE_FAILED' });
+    try { input_tokens = await countTokens(d.client, req as unknown as AnthropicRequest); } catch (e) {
+      d.log({ key: item.id, step: 'estimate', status: 'skipped', code: 'ESTIMATE_FAILED', detail: String((e as Error).message).slice(0, 300) });
       continue;
     }
     const est_usd = (input_tokens * price.write_5m + MAX_TOKENS * price.out) / 1e6 + d.cfg.basis_usd;
